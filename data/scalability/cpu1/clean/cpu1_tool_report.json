@@ -1,0 +1,25 @@
+{
+  "top": "cpu1_top",
+  "design_label": "cpu1_top_20260511_215741",
+  "input_dir": "/home/yasir/mint_v1/data/scalability/cpu1/clean",
+  "source_files": [
+    "cpu1_alu.sv",
+    "cpu1_branch.sv",
+    "cpu1_control.sv",
+    "cpu1_core.sv",
+    "cpu1_csr.sv",
+    "cpu1_decode.sv",
+    "cpu1_fetch.sv",
+    "cpu1_io_bridge.sv",
+    "cpu1_irq_sync.sv",
+    "cpu1_lsu.sv",
+    "cpu1_pc.sv",
+    "cpu1_perf.sv",
+    "cpu1_regfile.sv",
+    "cpu1_top.sv",
+    "cpu1_writeback.sv"
+  ],
+  "report_path": "/home/yasir/mint_v1/files/reports/cpu1_top_20260511_215741/cpu1_top_20260511_215741_tool_report.rpt",
+  "violation_count": 0,
+  "violations": []
+}

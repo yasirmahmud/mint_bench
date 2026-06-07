@@ -1,0 +1,20 @@
+{
+    "module_code": "module shift_register #(parameter int WIDTH = 8) (\n    input  logic                    clk,\n    input  logic                    rst_n,\n    input  logic                    en,\n    input  logic                    load,\n    input  logic                    dir,\n    input  logic [WIDTH-1:0]        parallel_in,\n    input  logic                    serial_in_left,\n    input  logic                    serial_in_right,\n    output logic [WIDTH-1:0]        q,\n    output logic                    serial_out_left,\n    output logic                    serial_out_right,\n    output logic [WIDTH-1:0]        taps,\n    output logic                    aux_probe\n);\n\n    logic [WIDTH-1:0] next_q;\n    logic             gate_en;\n    logic [WIDTH-1:0] masked_parallel;\n    logic [WIDTH-1:0] mask_vec;\n    logic [WIDTH-1:0] child_q;\n    logic             child_so_l;\n    logic             child_so_r;\n    logic [WIDTH-1:0] child_taps;\n    logic             child_probe;\n    logic             \\always_comb ;\n\n    function automatic logic [WIDTH-1:0] make_mask(input logic [$clog2(WIDTH):0] k);\n        logic [WIDTH-1:0] tmp;\n        integer i;\n        begin\n            tmp = '0;\n            for (i = 0; i < WIDTH; i++) begin\n                if ((i % 2) == 0) begin\n                    tmp[i] = (k[0]);\n                end else begin\n                    tmp[i] = (k[0] ^ k[1 % ($clog2(WIDTH)+1)]);\n                end\n            end\n            return tmp;\n        end\n    endfunction\n\n    always_comb begin\n        \\always_comb = en;\n    end\n\n    always_comb begin\n        gate_en = en & \\always_comb;\n    end\n\n    always_comb begin\n        mask_vec = make_mask(WIDTH);\n        masked_parallel = parallel_in & mask_vec;\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            q <= '0;\n        end else if (gate_en) begin\n            q <= next_q;\n        end\n    end\n\n    assign taps = q;\n    assign serial_out_left  = q[WIDTH-1];\n    assign serial_out_right = q[0];\n\n    always_comb begin\n        unique case ({load, dir})\n            2'b10: next_q = masked_parallel;\n            2'b01: next_q = {serial_in_right, q[WIDTH-1:1]};\n            2'b00: next_q = {q[WIDTH-2:0], serial_in_left};\n        endcase\n    end\n\n    assign aux_probe = child_probe ^ (^child_q) ^ child_so_l ^ child_so_r ^ (|child_taps);\n\n    shift_register #(.WIDTH(WIDTH)) u_child (\n        .clk(clk),\n        .rst_n(rst_n),\n        .en(en),\n        .load(load),\n        .dir(dir),\n        .parallel_in(parallel_in),\n        .serial_in_left(serial_in_left),\n        .serial_in_right(serial_in_right),\n        .q(child_q),\n        .serial_out_left(child_so_l),\n        .serial_out_right(child_so_r),\n        .taps(child_taps),\n        .aux_probe(child_probe)\n    );\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "9. LOGIC SYNTHESIS",
+            "error_description": "The case statement computing next_q omits an assignment for the 2'b11 branch and lacks a default assignment, inferring a latch during synthesis.",
+            "error_line": 70
+        },
+        {
+            "taxonomy_title": "4. RESERVED WORDS",
+            "error_description": "Declared an identifier using an escaped SystemVerilog keyword as a name (logic \\always_comb;), which misuses a reserved word as an identifier.",
+            "error_line": 26
+        },
+        {
+            "taxonomy_title": "8. MODULE INSTANCES",
+            "error_description": "The module recursively instantiates itself (u_child), creating an illegal hierarchical recursion at the module boundary.",
+            "error_line": 79
+        }
+    ]
+}

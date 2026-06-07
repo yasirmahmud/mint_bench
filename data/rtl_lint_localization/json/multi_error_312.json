@@ -1,0 +1,20 @@
+{
+    "module_code": "module rr_arbiter #(\n    parameter int N = 4,\n) (\n    input  logic                       clk,\n    input  logic                       rst_n,\n    input  logic [N-1:0]               req,\n    output logic [N-1:0]               grant,\n    output logic                       valid,\n    output logic [$clog2(N)-1:0]       grant_idx\n);\n\n    localparam int LGN = (N <= 1) ? 1 : $clog2(N);\n\n    logic [LGN-1:0] rr_ptr;\n    logic [LGN-1:0] rr_ptr_next;\n\n    logic [2*N-1:0] double_req;\n    logic [2*N-1:0] shifted_req;\n    logic [N-1:0]   rotated_req;\n    logic [N-1:0]   mask;\n    logic [N-1:0]   masked_req;\n    logic [N-1:0]   grant_rotated;\n\n    function automatic int unsigned find_first_one(input logic [N-1:0] v);\n        int unsigned k;\n        begin\n            find_first_one = 0;\n            for (k = 0; k < N; k++) begin\n                if (v[k]) begin\n                    find_first_one = k;\n                    break;\n                end\n            end\n        end\n    endfunction\n\n    assign double_req  = {req, req};\n    assign shifted_req = double_req >> rr_ptr;\n    assign rotated_req = shifted_req[N-1:0];\n\n    assign mask = {N{1'b1}};\n    assign masked_req = rotated_req && mask;\n\n    always_comb begin\n        grant_rotated = '0;\n        bit found;\n        found = 0;\n        for (int i = 0; i < N; i++) begin\n            if (!found && masked_req[i]) begin\n                grant_rotated[i] = 1'b1;\n                found = 1;\n            end\n        end\n    end\n\n    always_comb begin\n        grant = (grant_rotated << rr_ptr) | (grant_rotated >> (N - rr_ptr));\n    end\n\n    always_comb begin\n        valid = |grant;\n    end\n\n    always_comb begin\n        rr_ptr_next = rr_ptr;\n        if (valid) begin\n            int unsigned tmp;\n            tmp = find_first_one(grant);\n            tmp = (tmp + 1) % N;\n            rr_ptr_next = tmp[LGN-1:0];\n        end\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            rr_ptr <= '0;\n        end else begin\n            rr_ptr <= rr_ptr_next;\n        end\n    end\n\n    always_comb begin\n        int unsigned idx_tmp;\n        idx_tmp = find_first_one(grant);\n        grant_idx = idx_tmp[LGN-1:0];\n    end\n\n    logic [N-1:0]         aux_grant;\n    logic                 aux_valid;\n    logic [LGN-1:0]       aux_idx;\n\n    rr_arbiter #(.N(N)) u_self (\n        .clk(clk),\n        .rst_n(rst_n),\n        .req(req),\n        .grant(aux_grant),\n        .valid(aux_valid),\n        .grant_idx(aux_idx)\n    );\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "1. SYNTAX STRUCTURE",
+            "error_description": "Trailing comma in the parameter port list after the last parameter, which some linters flag as a structural syntax violation.",
+            "error_line": 2
+        },
+        {
+            "taxonomy_title": "7. OPERATORS",
+            "error_description": "Used logical AND (&&) instead of bitwise AND (&) when combining two vectors, causing a 1-bit result to be replicated into a vector implicitly.",
+            "error_line": 42
+        },
+        {
+            "taxonomy_title": "8. MODULE INSTANCES",
+            "error_description": "The module instantiates itself, creating a recursive module instance which is structurally invalid for elaboration.",
+            "error_line": 99
+        }
+    ]
+}

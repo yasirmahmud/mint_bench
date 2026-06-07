@@ -1,0 +1,20 @@
+{
+    "module_code": "module tiny_encoder (\n    input  logic [1:0] onehot,\n    output logic       valid,\n    output logic [1:0] index\n);\n    always_comb begin\n        valid = |onehot;\n        if (onehot[1]) begin\n            index = 2'd1;\n        end else if (onehot[0]) begin\n            index = 2'd0;\n        end else begin\n            index = 2'd0;\n        end\n    end\nendmodule\n\nmodule arbiter_rr #(\n    parameter int N = 4\n) (\n    input  logic                    clk,\n    input  logic                    rst_n,\n    input  logic [N-1:0]            req,\n    output logic [N-1:0]            grant,\n    output logic                    grant_valid,\n    output logic [$clog2(N)-1:0]    grant_index\n);\n    localparam int W = $clog2(N);\n    localparam int AUX_CONST = 0\n\n    logic [N-1:0] rr_mask;\n    logic [N-1:0] masked_req;\n    logic [N-1:0] next_grant;\n    logic [N-1:0] unmasked_req;\n    logic [W-1:0] ptr;\n\n    function automatic logic [N-1:0] first_onehot(input logic [N-1:0] r);\n        logic [N-1:0] res;\n        res = '0;\n        for (int i = 0; i < N; i++) begin\n            if (r[i] && res == '0) begin\n                res[i] = 1'b1;\n            end\n        end\n        return res;\n    endfunction\n\n    always_comb begin\n        for (int i = 0; i < N; i++) begin\n            rr_mask[i] = (i >= ptr);\n        end\n    end\n\n    always_comb begin\n        unmasked_req = req;\n        masked_req   = req & rr_mask;\n        if (masked_req != '0) begin\n            next_grant = first_onehot(masked_req);\n        end else begin\n            next_grant = first_onehot(unmasked_req);\n        end\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            grant <= '0;\n            ptr   <= '0;\n        end else begin\n            grant <= next_grant;\n            if (grant_valid) begin\n                ptr <= grant_index + 1'b1;\n            end\n            req <= req;\n        end\n    end\n\n    tiny_encoder ge0 (\n        .onehot(grant),\n        .valid(grant_valid),\n        .index(grant_index)\n    );\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "6. PORT TYPE",
+            "error_description": "Assigned to an input port inside an always_ff block by writing to req on the LHS, driving an input from within the module.",
+            "error_line": 73
+        },
+        {
+            "taxonomy_title": "1. SYNTAX STRUCTURE",
+            "error_description": "Omitted a semicolon at the end of a localparam declaration line.",
+            "error_line": 29
+        },
+        {
+            "taxonomy_title": "8. MODULE INSTANCES",
+            "error_description": "Instantiated a submodule with a port width mismatch by connecting a 4-bit signal to a 2-bit input port.",
+            "error_line": 78
+        }
+    ]
+}

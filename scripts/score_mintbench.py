@@ -1,20 +1,8 @@
-#!/usr/bin/env python3
-"""Score MintBench predictions against the generated benchmark manifest.
-
-The predictions JSON is intentionally tolerant:
-
-- top-level keys are instance IDs
-- each instance may contain `violations`, `targets`, or `root_causes`
-- predicted items may use either `rule` or `taxonomy_title`
-- predicted items may use either `line` or `error_line`
-
-For the intended benchmark release, exact match is the primary metric.
-"""
-
 from __future__ import annotations
 
 import argparse
 import json
+import sys
 from pathlib import Path
 from typing import Any
 
@@ -23,7 +11,16 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def read_json(path: Path) -> dict[str, Any]:
-    return json.loads(path.read_text())
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def write_report(path: Path | None, report: dict[str, Any]) -> None:
+    text = json.dumps(report, indent=2, sort_keys=True) + "\n"
+    if path is None:
+        sys.stdout.write(text)
+        return
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(text, encoding="utf-8")
 
 
 def normalize_item(item: dict[str, Any], task: str) -> tuple[Any, ...]:
@@ -71,9 +68,14 @@ def score_instance(gold_row: dict[str, Any], pred_row: Any) -> dict[str, Any]:
     tp = len(gold_norm & pred_norm)
     fp = len(pred_norm - gold_norm)
     fn = len(gold_norm - pred_norm)
-    precision = tp / (tp + fp) if tp + fp else 0.0
-    recall = tp / (tp + fn) if tp + fn else 0.0
-    f1 = (2 * precision * recall / (precision + recall)) if precision + recall else 0.0
+    if not gold_norm and not pred_norm:
+        precision = 1.0
+        recall = 1.0
+        f1 = 1.0
+    else:
+        precision = tp / (tp + fp) if tp + fp else 0.0
+        recall = tp / (tp + fn) if tp + fn else 0.0
+        f1 = (2 * precision * recall / (precision + recall)) if precision + recall else 0.0
 
     return {
         "instance_id": gold_row["instance_id"],
@@ -90,22 +92,7 @@ def score_instance(gold_row: dict[str, Any], pred_row: Any) -> dict[str, Any]:
     }
 
 
-def main() -> None:
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--manifest", required=True)
-    ap.add_argument("--predictions", required=True)
-    args = ap.parse_args()
-
-    manifest = read_json(Path(args.manifest))
-    preds = read_json(Path(args.predictions))
-
-    rows: list[dict[str, Any]] = []
-    for track in manifest["tracks"]:
-        ann_path = ROOT / track["annotation_file"]
-        for gold_row in [json.loads(line) for line in ann_path.read_text().splitlines() if line.strip()]:
-            pred_row = preds.get(gold_row["instance_id"])
-            rows.append(score_instance(gold_row, pred_row))
-
+def summarize(rows: list[dict[str, Any]]) -> dict[str, Any]:
     total_tp = sum(r["tp"] for r in rows)
     total_fp = sum(r["fp"] for r in rows)
     total_fn = sum(r["fn"] for r in rows)
@@ -113,13 +100,15 @@ def main() -> None:
     recall = total_tp / (total_tp + total_fn) if total_tp + total_fn else 0.0
     f1 = (2 * precision * recall / (precision + recall)) if precision + recall else 0.0
     exact = sum(1 for r in rows if r["exact_match"])
+    macro_f1 = sum(r["f1"] for r in rows) / len(rows) if rows else 0.0
 
-    summary = {
+    summary: dict[str, Any] = {
         "instances": len(rows),
         "exact_match_instances": exact,
         "micro_precision": round(precision, 4),
         "micro_recall": round(recall, 4),
         "micro_f1": round(f1, 4),
+        "macro_f1": round(macro_f1, 4),
         "per_task": {},
     }
     for task in sorted({r["task"] for r in rows}):
@@ -136,9 +125,29 @@ def main() -> None:
             "micro_precision": round(p, 4),
             "micro_recall": round(r, 4),
             "micro_f1": round(f, 4),
+            "macro_f1": round(sum(x["f1"] for x in task_rows) / len(task_rows), 4),
         }
+    return summary
 
-    print(json.dumps({"summary": summary, "instances": rows}, indent=2))
+
+def main() -> None:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--manifest", required=True)
+    ap.add_argument("--predictions", required=True)
+    ap.add_argument("--output", help="Optional path for the JSON score report. Defaults to stdout.")
+    args = ap.parse_args()
+
+    manifest = read_json(Path(args.manifest))
+    preds = read_json(Path(args.predictions))
+
+    rows: list[dict[str, Any]] = []
+    for track in manifest["tracks"]:
+        ann_path = ROOT / track["annotation_file"]
+        for gold_row in [json.loads(line) for line in ann_path.read_text(encoding="utf-8").splitlines() if line.strip()]:
+            pred_row = preds.get(gold_row["instance_id"])
+            rows.append(score_instance(gold_row, pred_row))
+
+    write_report(Path(args.output) if args.output else None, {"summary": summarize(rows), "instances": rows})
 
 
 if __name__ == "__main__":

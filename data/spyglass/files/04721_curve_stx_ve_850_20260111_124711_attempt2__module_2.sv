@@ -1,1 +1,0 @@
-function my_partial_function;

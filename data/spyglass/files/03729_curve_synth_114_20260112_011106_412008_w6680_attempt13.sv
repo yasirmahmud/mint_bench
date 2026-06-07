@@ -1,3 +1,0 @@
-module curve_synth_114_20260112_011106_412008_w6680_attempt13;
-  tri0 unsupported_tri0_net;
-endmodule

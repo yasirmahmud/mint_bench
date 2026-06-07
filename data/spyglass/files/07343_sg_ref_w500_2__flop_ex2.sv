@@ -1,3 +1,0 @@
-module flop_ex2 (input clk, input d, output q);
- assign q = d;
- endmodule

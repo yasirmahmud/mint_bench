@@ -1,1 +1,0 @@
-// synopsys translate_off

@@ -1,21 +1,25 @@
 # MintBench
 
-MintBench is a publication-oriented benchmark suite for HDL linting, CDC analysis, and root-cause analysis (RCA).
-The repository keeps the raw source data under `data/` and adds a standardized release layer under `release/` so the
-suite can be described and evaluated like a conventional research benchmark.
+MintBench is a reproducible public benchmark for evaluating HDL lint tools on issue localization, clock-domain crossing (CDC) checks, root-cause analysis (RCA), and scale-oriented regression checks.
 
-## Tracks
+The benchmark separates curated source fixtures under `data/` from canonical release artifacts under `release/`. All release files are rebuilt from repository-local inputs by `scripts/build_mintbench_release.py`.
 
-| Track | Task | Data | Size | Ground truth |
+## Benchmark Tracks
+
+| Track | Task | Data | Size | Gold labels |
 | --- | --- | --- | ---: | --- |
-| RTL lint localization | Predict the planted lint issues in a single-module design | `data/benchmark/json/` | 312 programs | 921 planted errors across 14 taxonomy families |
-| CDC verification | Detect CDC violations in multi-module fixtures | `data/bench_cdc/`, `data/cdc_smoke/` | 2 fixtures | 45 total CDC violations |
-| RCA | Identify the root cause behind cascaded lint noise | `data/rca_dataset/` | 9 scenarios | 15 root-cause annotations, including one composite scenario |
-| Scalability | Measure linter behavior on a larger processor-scale design | `data/big_bench/cpu1/` | 2 variants | 63 violations in the buggy variant, 0 in the clean variant |
+| RTL lint localization | Locate planted HDL lint issues in single-module designs | `data/rtl_lint_localization/json/` | 312 programs | 921 issue labels across 14 taxonomy families |
+| CDC verification | Detect CDC violations in multi-module fixtures | `data/cdc_protocol/`, `data/cdc_minimal/` | 2 fixtures | 45 CDC violations |
+| RCA | Identify the root cause behind cascaded lint reports | `data/root_cause_analysis/` | 9 scenarios | 15 root-cause labels |
+| Scalability | Measure linter behavior on a processor-scale design pair | `data/scalability/cpu1/` | 2 variants | 63 violations in the injected-issue variant, 0 in the clean variant |
 
-## Release Artifacts
+## Rebuild
 
-The release tooling writes machine-readable outputs under `release/`:
+```bash
+python3 scripts/build_mintbench_release.py
+```
+
+This command writes:
 
 - `release/mintbench_manifest.json`
 - `release/mintbench_stats.md`
@@ -24,42 +28,49 @@ The release tooling writes machine-readable outputs under `release/`:
 - `release/annotations/rca.jsonl`
 - `release/annotations/scalability.jsonl`
 
-Generate them with:
+## Deterministic Scoring
 
-```bash
-python3 scripts/build_mintbench_release.py
-```
-
-## Evaluation Framework
-
-The benchmark uses task-specific exact-match scoring:
-
-- `lint_localization`: exact match on planted issue type and line number
-- `cdc_verification`: exact match on CDC rule, file, and line number
-- `rca`: exact match on root-cause file and line number
-- `scalability`: report the observed violation count and runtime; use the clean/bad pair as a regression check
-
-Score a predictions file against the generated release annotations with:
+Score a predictions file with:
 
 ```bash
 python3 scripts/score_mintbench.py \
   --manifest release/mintbench_manifest.json \
-  --predictions my_predictions.json
+  --predictions predictions.json \
+  --output scores.json
 ```
 
-The scorer accepts a tolerant JSON format:
+The scorer reports exact-match instance count, micro precision, micro recall, micro F1, macro F1, and per-task metrics. Exact matching uses task-specific keys:
 
-- top-level keys are instance IDs
-- each value may contain `violations`, `targets`, or `root_causes`
-- each predicted item may use either `rule` or `taxonomy_title`, and either `line` or `error_line`
+- `lint_localization`: taxonomy label and line number
+- `cdc_verification`: CDC rule, file name, and line number
+- `rca`: root-cause file name, line number, and root-cause type
+- `scalability`: reported rule, file name, and line number
 
-## Publication Notes
+Prediction files are JSON objects keyed by `instance_id`. Each value may be a list or an object containing `violations`, `targets`, or `root_causes`.
 
-The raw data already includes per-fixture readmes and tool outputs. The release layer adds:
+## Auxiliary Analysis
 
-- a single canonical naming scheme
-- a reproducible annotation format
-- task-specific evaluation rules
-- summary statistics suitable for a benchmark table in an IEEE-style paper
+MintBench includes an optional auxiliary analysis step for predictions that are close but not exact. The analysis step is separated from the deterministic scorer because it requires an external service and can vary by backend.
 
-The code under `scripts/` is intentionally dependency-free so the benchmark can be rebuilt on a fresh machine.
+Before running it, provide an access token and service target:
+
+```bash
+export MINTBENCH_ANALYSIS_ACCESS_TOKEN="..."
+export MINTBENCH_ANALYSIS_TARGET="..."
+python3 scripts/secondary_analysis_mintbench.py \
+  --manifest release/mintbench_manifest.json \
+  --predictions predictions.json \
+  --output analysis_results.jsonl
+```
+
+Optional settings:
+
+- `MINTBENCH_ANALYSIS_BASE_URL`: external endpoint root, default `https://api.example.com/v1`
+- `MINTBENCH_ANALYSIS_TEMPERATURE`: default `0`
+- `--limit`: evaluate a small number of instances for calibration
+
+Report deterministic scores as the primary result. Report auxiliary analysis scores only as supporting analysis, including service target, endpoint, date, analysis version, and sampling settings.
+
+## Reproducibility
+
+The core release and deterministic scorer use only the Python standard library. See `docs/reproducibility.md` for the prediction schema, scoring definitions, and publication checklist.

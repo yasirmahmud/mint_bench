@@ -1,0 +1,132 @@
+{
+  "top": "cdc_minimal_top",
+  "design_label": "cdc_minimal_top_20260512_223504",
+  "check": "cdc",
+  "goals": [
+    "cdc/cdc_setup_check",
+    "cdc/clock_reset_integrity",
+    "cdc/cdc_verify_struct",
+    "cdc/cdc_verify"
+  ],
+  "input_dir": "/home/yasir/mint_v1/data/cdc_minimal",
+  "source_files": [
+    "cdc_minimal.sv"
+  ],
+  "constraint_files": [
+    "cdc_minimal.sgdc"
+  ],
+  "report_path": "/home/yasir/mint_v1/files/reports/cdc_minimal_top_20260512_223504/cdc_minimal_top_20260512_223504_tool_cdc_violations.rpt",
+  "violation_count": 11,
+  "violations": [
+    {
+      "id": "3B",
+      "rule": "Ac_cdc01a",
+      "severity": "ERROR",
+      "classification": "Error",
+      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cdc_minimal_top_20260512_223504/sources/cdc_minimal.sv",
+      "line": "72",
+      "column": "10",
+      "description": "Fast('cdc_minimal_top.src_clk') to slow('cdc_minimal_top.dst_clk') clock crossing(from 'cdc_minimal_top.src_toggle' to 'cdc_minimal_top.dst_toggle_q') detected. Data hold check:FAILED"
+    },
+    {
+      "id": "1A",
+      "rule": "Ac_unsync01",
+      "severity": "ERROR",
+      "classification": "Error",
+      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cdc_minimal_top_20260512_223504/sources/cdc_minimal.sv",
+      "line": "77",
+      "column": "2",
+      "description": "Unsynchronized Crossing: destination flop cdc_minimal_top.dst_irq_o, clocked by cdc_minimal_top.dst_clk, source flop cdc_minimal_top.u_source.src_toggle_o, clocked by cdc_minimal_top.src_clk. Reason: Sources from different domains converge before being synchronized [Total Sources: 2 (Number of source domains: 2)]"
+    },
+    {
+      "id": "1D",
+      "rule": "Ac_unsync01",
+      "severity": "ERROR",
+      "classification": "Error",
+      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cdc_minimal_top_20260512_223504/sources/cdc_minimal.sv",
+      "line": "122",
+      "column": "2",
+      "description": "Unsynchronized Crossing: destination flop cdc_minimal_top.u_aux.aux_seen_o, clocked by cdc_minimal_top.aux_clk, source flop cdc_minimal_top.u_source.src_toggle_o, clocked by cdc_minimal_top.src_clk. Reason: Qualifier not found [Total Sources: 1 (Number of source domains: 1)]"
+    },
+    {
+      "id": "1C",
+      "rule": "Ac_unsync01",
+      "severity": "ERROR",
+      "classification": "Error",
+      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cdc_minimal_top_20260512_223504/sources/cdc_minimal.sv",
+      "line": "123",
+      "column": "2",
+      "description": "Unsynchronized Crossing: destination flop cdc_minimal_top.u_aux.aux_flag_o, clocked by cdc_minimal_top.aux_clk, source flop cdc_minimal_top.u_source.src_toggle_o, clocked by cdc_minimal_top.src_clk. Reason: Qualifier not found [Total Sources: 1 (Number of source domains: 1)]"
+    },
+    {
+      "id": "17",
+      "rule": "Ac_unsync02",
+      "severity": "ERROR",
+      "classification": "Error",
+      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cdc_minimal_top_20260512_223504/sources/cdc_minimal.sv",
+      "line": "65",
+      "column": "2",
+      "description": "Unsynchronized Crossing: destination flop cdc_minimal_top.dst_shadow_q[7:0], clocked by cdc_minimal_top.dst_clk, source flop cdc_minimal_top.u_source.src_bus_o[7:0], clocked by cdc_minimal_top.src_clk. Reason: Qualifier not found [Total Sources: 2 (Number of source domains: 1)]"
+    },
+    {
+      "id": "1B",
+      "rule": "Ac_unsync02",
+      "severity": "ERROR",
+      "classification": "Error",
+      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cdc_minimal_top_20260512_223504/sources/cdc_minimal.sv",
+      "line": "70",
+      "column": "2",
+      "description": "Unsynchronized Crossing: destination flop cdc_minimal_top.dst_data_o[7:0], clocked by cdc_minimal_top.dst_clk, source flop cdc_minimal_top.u_source.src_bus_o[7:0], clocked by cdc_minimal_top.src_clk. Reason: Qualifier not found [Total Sources: 1 (Number of source domains: 1)]"
+    },
+    {
+      "id": "2A",
+      "rule": "Ar_unsync01",
+      "severity": "ERROR",
+      "classification": "Error",
+      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cdc_minimal_top_20260512_223504/sources/cdc_minimal.sv",
+      "line": "70",
+      "column": "10",
+      "description": "Reset signal 'cdc_minimal_top.dst_async_reset_n' for 'clear' pin of flop 'cdc_minimal_top.dst_data_o[0]', clocked by 'cdc_minimal_top.dst_clk', is unsynchronized by reason: Missing synchronizer"
+    },
+    {
+      "id": "2F",
+      "rule": "Reset_sync02",
+      "severity": "ERROR",
+      "classification": "Error",
+      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cdc_minimal_top_20260512_223504/sources/cdc_minimal.sv",
+      "line": "56",
+      "column": "10",
+      "description": "Reset signal 'cdc_minimal_top.dst_async_reset_n' used to reset signal 'cdc_minimal_top.dst_data_o[0]' (domain 'cdc_minimal_top.dst_clk') is generated from domain 'cdc_minimal_top.src_clk'"
+    },
+    {
+      "id": "2E",
+      "rule": "Reset_sync02",
+      "severity": "ERROR",
+      "classification": "Error",
+      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cdc_minimal_top_20260512_223504/sources/cdc_minimal.sv",
+      "line": "92",
+      "column": "10",
+      "description": "Reset signal 'cdc_minimal_top.src_rst_n' used to reset signal 'cdc_minimal_top.src_pulse' (domain 'cdc_minimal_top.src_clk') is generated from domain 'cdc_minimal_top.dst_clk'"
+    },
+    {
+      "id": "29",
+      "rule": "Clock_sync05a",
+      "severity": "WARNING",
+      "classification": "Warning",
+      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cdc_minimal_top_20260512_223504/sources/cdc_minimal.sv",
+      "line": "13",
+      "column": "2",
+      "description": "Primary input signal 'src_rst_n' is sampled by multiple clock-domains, clock 'cdc_minimal_top.src_clk' (at flop 'cdc_minimal_top.src_pulse') and clock 'cdc_minimal_top.dst_clk' (at flop 'cdc_minimal_top.dst_data_o[0]')"
+    },
+    {
+      "id": "26",
+      "rule": "Propagate_Resets",
+      "severity": "WARNING",
+      "classification": "Warning",
+      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cdc_minimal_top_20260512_223504/sources/cdc_minimal.sv",
+      "line": "14",
+      "column": "2",
+      "description": "For cdc_minimal_top, reset 'cdc_minimal_top.dst_rst_n' not propagated"
+    }
+  ]
+}

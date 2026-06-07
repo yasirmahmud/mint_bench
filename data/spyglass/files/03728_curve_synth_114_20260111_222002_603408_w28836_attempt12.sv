@@ -1,3 +1,0 @@
-module curve_synth_114_20260111_222002_603408_w28836_attempt12;
-  tri0 my_synth_violation_net;
-endmodule

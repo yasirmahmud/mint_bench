@@ -1,5 +1,22 @@
 {
-  "generated_from": "raw data under data/",
+  "generated_from": "curated benchmark data under data/",
+  "reproducibility": {
+    "deterministic_scorer": "scripts/score_mintbench.py",
+    "optional_analysis": "scripts/secondary_analysis_mintbench.py",
+    "python_dependencies": "standard library only for release building and deterministic scoring",
+    "release_builder": "scripts/build_mintbench_release.py"
+  },
+  "scoring": {
+    "auxiliary_analysis": "optional semantic analysis requiring user-provided service credentials",
+    "metrics": [
+      "exact_match_instances",
+      "micro_precision",
+      "micro_recall",
+      "micro_f1",
+      "macro_f1"
+    ],
+    "primary": "deterministic exact-match scoring"
+  },
   "suite_name": "MintBench",
   "tracks": [
     {
@@ -40,8 +57,8 @@
       "annotation_file": "release/annotations/scalability.jsonl",
       "name": "scalability",
       "stats": {
-        "bad_violation_count": 63,
         "clean_violation_count": 0,
+        "injected_violation_count": 63,
         "instances": 2,
         "source_file_count": 15
       },

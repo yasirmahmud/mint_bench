@@ -1,4 +1,0 @@
-module line_length_ex1;
- wire very_long_wire_name_that_exceeds_the_default_line_length_limit_of_one_hundred_and_thirty_two_characters_for_this_example;
- assign very_long_wire_name_that_exceeds_the_default_line_length_limit_of_one_hundred_and_thirty_two_characters_for_this_example = 1'b0;
- endmodule

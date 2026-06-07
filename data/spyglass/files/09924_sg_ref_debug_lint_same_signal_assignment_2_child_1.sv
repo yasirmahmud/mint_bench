@@ -1,5 +1,0 @@
-module same_signal_assign_ex2 (input a, input b, output reg out);
- always @* begin
-  out <= b;
- end
-endmodule
