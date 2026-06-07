@@ -233,7 +233,7 @@
         {
             "file_name": "cpu1_pc.sv",
             "line": 18,
-            "description": "Asynchronous reset signal 'cpu1_top.rst_n' (flop: 'cpu1_top.u_core.pc_q[0]') used as non-reset/synchronous-reset at instance 'cpu1_top.u_core.u_perf.\\branch_count_reg[0] .EN' (File Name: '/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_perf.sv' ,Line no.: '19')"
+            "description": "Asynchronous reset signal 'cpu1_top.rst_n' (flop: 'cpu1_top.u_core.pc_q[0]') used as non-reset/synchronous-reset at instance 'cpu1_top.u_core.u_perf.\\branch_count_reg[0] .EN' (File Name: 'data/scalability/cpu1/injected/cpu1_perf.sv' ,Line no.: '19')"
         },
         {
             "file_name": "cpu1_alu.sv",

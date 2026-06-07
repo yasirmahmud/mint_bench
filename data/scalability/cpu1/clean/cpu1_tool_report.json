@@ -1,7 +1,7 @@
 {
   "top": "cpu1_top",
   "design_label": "cpu1_top_20260511_215741",
-  "input_dir": "/home/yasir/mint_v1/data/scalability/cpu1/clean",
+  "input_dir": "data/scalability/cpu1/clean",
   "source_files": [
     "cpu1_alu.sv",
     "cpu1_branch.sv",
@@ -19,7 +19,7 @@
     "cpu1_top.sv",
     "cpu1_writeback.sv"
   ],
-  "report_path": "/home/yasir/mint_v1/files/reports/cpu1_top_20260511_215741/cpu1_top_20260511_215741_tool_report.rpt",
+  "report_path": "files/reports/cpu1_top_20260511_215741/cpu1_top_20260511_215741_tool_report.rpt",
   "violation_count": 0,
   "violations": []
 }

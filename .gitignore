@@ -1,0 +1,13 @@
+# Python pycache
+**/__pycache__/
+*.py[cod]
+*$py.class
+
+# Output prediction & scores
+predictions.json
+scores.json
+analysis_results.jsonl
+
+# OS files
+.DS_Store
+Thumbs.db

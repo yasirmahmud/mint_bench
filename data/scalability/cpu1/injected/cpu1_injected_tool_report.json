@@ -1,7 +1,7 @@
 {
   "top": "cpu1_top",
   "design_label": "cpu1_top_20260511_220249",
-  "input_dir": "/home/yasir/mint_v1/data/scalability/cpu1/injected",
+  "input_dir": "data/scalability/cpu1/injected",
   "source_files": [
     "cpu1_alu.sv",
     "cpu1_branch.sv",
@@ -19,7 +19,7 @@
     "cpu1_top.sv",
     "cpu1_writeback.sv"
   ],
-  "report_path": "/home/yasir/mint_v1/files/reports/cpu1_top_20260511_220249/cpu1_top_20260511_220249_tool_report.rpt",
+  "report_path": "files/reports/cpu1_top_20260511_220249/cpu1_top_20260511_220249_tool_report.rpt",
   "violation_count": 63,
   "violations": [
     {
@@ -27,7 +27,7 @@
       "rule": "SYNTH_5058",
       "severity": "WARNING",
       "classification": "SynthesisWarning",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_alu.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_alu.sv",
       "line": "75",
       "column": "1000",
       "description": "cpu1_alu -> Operator (===) encountered. Treating as (==) for synthesis"
@@ -37,7 +37,7 @@
       "rule": "SYNTH_5058",
       "severity": "WARNING",
       "classification": "SynthesisWarning",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_branch.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_branch.sv",
       "line": "28",
       "column": "1000",
       "description": "cpu1_branch -> Operator (===) encountered. Treating as (==) for synthesis"
@@ -47,7 +47,7 @@
       "rule": "SYNTH_5058",
       "severity": "WARNING",
       "classification": "SynthesisWarning",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_lsu.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_lsu.sv",
       "line": "31",
       "column": "1000",
       "description": "cpu1_lsu -> Operator (===) encountered. Treating as (==) for synthesis"
@@ -57,7 +57,7 @@
       "rule": "SYNTH_77",
       "severity": "WARNING",
       "classification": "SynthesisWarning",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_irq_sync.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_irq_sync.sv",
       "line": "20",
       "column": "1000",
       "description": "Both blocking & non-blocking assignments are being done on the variable ( irq_meta_q )"
@@ -67,7 +67,7 @@
       "rule": "SYNTH_77",
       "severity": "WARNING",
       "classification": "SynthesisWarning",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_pc.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_pc.sv",
       "line": "22",
       "column": "1000",
       "description": "Both blocking & non-blocking assignments are being done on the variable ( pc_q )"
@@ -77,7 +77,7 @@
       "rule": "SYNTH_77",
       "severity": "WARNING",
       "classification": "SynthesisWarning",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_pc.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_pc.sv",
       "line": "24",
       "column": "1000",
       "description": "Both blocking & non-blocking assignments are being done on the variable ( pc_q )"
@@ -87,7 +87,7 @@
       "rule": "SYNTH_77",
       "severity": "WARNING",
       "classification": "SynthesisWarning",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_pc.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_pc.sv",
       "line": "27",
       "column": "1000",
       "description": "Both blocking & non-blocking assignments are being done on the variable ( pc_q )"
@@ -97,7 +97,7 @@
       "rule": "SYNTH_77",
       "severity": "WARNING",
       "classification": "SynthesisWarning",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_perf.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_perf.sv",
       "line": "21",
       "column": "1000",
       "description": "Both blocking & non-blocking assignments are being done on the variable ( instr_count )"
@@ -107,7 +107,7 @@
       "rule": "InferLatch",
       "severity": "ERROR",
       "classification": "Error",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_alu.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_alu.sv",
       "line": "37",
       "column": "5",
       "description": "Latch inferred for signal 'overflow' in module 'cpu1_alu'"
@@ -117,7 +117,7 @@
       "rule": "InferLatch",
       "severity": "ERROR",
       "classification": "Error",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_control.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_control.sv",
       "line": "86",
       "column": "5",
       "description": "Latch inferred for signal 'mem_write' in module 'cpu1_control'"
@@ -127,7 +127,7 @@
       "rule": "InferLatch",
       "severity": "ERROR",
       "classification": "Error",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_control.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_control.sv",
       "line": "94",
       "column": "5",
       "description": "Latch inferred for signal 'jump' in module 'cpu1_control'"
@@ -137,7 +137,7 @@
       "rule": "InferLatch",
       "severity": "ERROR",
       "classification": "Error",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_control.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_control.sv",
       "line": "126",
       "column": "5",
       "description": "Latch inferred for signal 'illegal_instr' in module 'cpu1_control'"
@@ -147,7 +147,7 @@
       "rule": "InferLatch",
       "severity": "ERROR",
       "classification": "Error",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_fetch.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_fetch.sv",
       "line": "47",
       "column": "5",
       "description": "Latch inferred for signal 'instr[31:0]' in module 'cpu1_fetch'"
@@ -157,7 +157,7 @@
       "rule": "InferLatch",
       "severity": "ERROR",
       "classification": "Error",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_writeback.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_writeback.sv",
       "line": "16",
       "column": "5",
       "description": "Latch inferred for signal 'wb_data[31:0]' in module 'cpu1_writeback'"
@@ -167,7 +167,7 @@
       "rule": "W122",
       "severity": "ERROR",
       "classification": "Error",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_alu.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_alu.sv",
       "line": "30",
       "column": "10",
       "description": "The signal/variable 'add_ext' (or some of its bits) read in the block is not in the sensitivity list[Hierarchy: ':cpu1_top:u_core@cpu1_core:u_alu@cpu1_alu']"
@@ -177,7 +177,7 @@
       "rule": "W122",
       "severity": "ERROR",
       "classification": "Error",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_alu.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_alu.sv",
       "line": "32",
       "column": "10",
       "description": "The signal/variable 'add_overflow' (or some of its bits) read in the block is not in the sensitivity list[Hierarchy: ':cpu1_top:u_core@cpu1_core:u_alu@cpu1_alu']"
@@ -187,7 +187,7 @@
       "rule": "W122",
       "severity": "ERROR",
       "classification": "Error",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_alu.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_alu.sv",
       "line": "35",
       "column": "10",
       "description": "The signal/variable 'sub_ext' (or some of its bits) read in the block is not in the sensitivity list[Hierarchy: ':cpu1_top:u_core@cpu1_core:u_alu@cpu1_alu']"
@@ -197,7 +197,7 @@
       "rule": "W122",
       "severity": "ERROR",
       "classification": "Error",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_alu.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_alu.sv",
       "line": "37",
       "column": "10",
       "description": "The signal/variable 'sub_overflow' (or some of its bits) read in the block is not in the sensitivity list[Hierarchy: ':cpu1_top:u_core@cpu1_core:u_alu@cpu1_alu']"
@@ -207,7 +207,7 @@
       "rule": "W122",
       "severity": "ERROR",
       "classification": "Error",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_alu.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_alu.sv",
       "line": "40",
       "column": "10",
       "description": "The signal/variable 'b' (or some of its bits) read in the block is not in the sensitivity list[Hierarchy: ':cpu1_top:u_core@cpu1_core:u_alu@cpu1_alu']"
@@ -217,7 +217,7 @@
       "rule": "W122",
       "severity": "ERROR",
       "classification": "Error",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_branch.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_branch.sv",
       "line": "28",
       "column": "10",
       "description": "The signal/variable 'rs1_value' (or some of its bits) read in the block is not in the sensitivity list[Hierarchy: ':cpu1_top:u_core@cpu1_core:u_branch@cpu1_branch']"
@@ -227,7 +227,7 @@
       "rule": "W122",
       "severity": "ERROR",
       "classification": "Error",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_branch.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_branch.sv",
       "line": "28",
       "column": "10",
       "description": "The signal/variable 'rs2_value' (or some of its bits) read in the block is not in the sensitivity list[Hierarchy: ':cpu1_top:u_core@cpu1_core:u_branch@cpu1_branch']"
@@ -237,7 +237,7 @@
       "rule": "W122",
       "severity": "ERROR",
       "classification": "Error",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_branch.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_branch.sv",
       "line": "29",
       "column": "10",
       "description": "The signal/variable 'zero' (or some of its bits) read in the block is not in the sensitivity list[Hierarchy: ':cpu1_top:u_core@cpu1_core:u_branch@cpu1_branch']"
@@ -247,7 +247,7 @@
       "rule": "W122",
       "severity": "ERROR",
       "classification": "Error",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_branch.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_branch.sv",
       "line": "30",
       "column": "10",
       "description": "The signal/variable 'negative' (or some of its bits) read in the block is not in the sensitivity list[Hierarchy: ':cpu1_top:u_core@cpu1_core:u_branch@cpu1_branch']"
@@ -257,7 +257,7 @@
       "rule": "W122",
       "severity": "ERROR",
       "classification": "Error",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_branch.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_branch.sv",
       "line": "30",
       "column": "10",
       "description": "The signal/variable 'overflow' (or some of its bits) read in the block is not in the sensitivity list[Hierarchy: ':cpu1_top:u_core@cpu1_core:u_branch@cpu1_branch']"
@@ -267,7 +267,7 @@
       "rule": "W122",
       "severity": "ERROR",
       "classification": "Error",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_branch.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_branch.sv",
       "line": "32",
       "column": "10",
       "description": "The signal/variable 'carry' (or some of its bits) read in the block is not in the sensitivity list[Hierarchy: ':cpu1_top:u_core@cpu1_core:u_branch@cpu1_branch']"
@@ -277,7 +277,7 @@
       "rule": "W122",
       "severity": "ERROR",
       "classification": "Error",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_branch.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_branch.sv",
       "line": "37",
       "column": "10",
       "description": "The signal/variable 'jump' (or some of its bits) read in the block is not in the sensitivity list[Hierarchy: ':cpu1_top:u_core@cpu1_core:u_branch@cpu1_branch']"
@@ -287,7 +287,7 @@
       "rule": "W122",
       "severity": "ERROR",
       "classification": "Error",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_control.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_control.sv",
       "line": "100",
       "column": "10",
       "description": "The signal/variable 'func' (or some of its bits) read in the block is not in the sensitivity list[Hierarchy: ':cpu1_top:u_core@cpu1_core:u_control@cpu1_control']"
@@ -297,7 +297,7 @@
       "rule": "W122",
       "severity": "ERROR",
       "classification": "Error",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_control.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_control.sv",
       "line": "131",
       "column": "10",
       "description": "The signal/variable 'irq_pending' (or some of its bits) read in the block is not in the sensitivity list[Hierarchy: ':cpu1_top:u_core@cpu1_core:u_control@cpu1_control']"
@@ -307,7 +307,7 @@
       "rule": "W122",
       "severity": "ERROR",
       "classification": "Error",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_writeback.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_writeback.sv",
       "line": "15",
       "column": "10",
       "description": "The signal/variable 'load_data' (or some of its bits) read in the block is not in the sensitivity list[Hierarchy: ':cpu1_top:u_core@cpu1_core:u_writeback@cpu1_writeback']"
@@ -317,7 +317,7 @@
       "rule": "W122",
       "severity": "ERROR",
       "classification": "Error",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_writeback.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_writeback.sv",
       "line": "16",
       "column": "10",
       "description": "The signal/variable 'csr_data' (or some of its bits) read in the block is not in the sensitivity list[Hierarchy: ':cpu1_top:u_core@cpu1_core:u_writeback@cpu1_writeback']"
@@ -327,7 +327,7 @@
       "rule": "W336",
       "severity": "ERROR",
       "classification": "Error",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_irq_sync.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_irq_sync.sv",
       "line": "17",
       "column": "10",
       "description": "Blocking assignment 'irq_meta_q = 1'b0;' used inside a 'FlipFlop' inferred sequential block"
@@ -337,7 +337,7 @@
       "rule": "W336",
       "severity": "ERROR",
       "classification": "Error",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_pc.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_pc.sv",
       "line": "19",
       "column": "10",
       "description": "Blocking assignment 'pc_q = RESET_PC;' used inside a 'FlipFlop' inferred sequential block"
@@ -347,7 +347,7 @@
       "rule": "W336",
       "severity": "ERROR",
       "classification": "Error",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_perf.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_perf.sv",
       "line": "27",
       "column": "10",
       "description": "Blocking assignment 'instr_count = (instr_count + 32'd1);' used inside a 'FlipFlop' inferred sequential block"
@@ -357,7 +357,7 @@
       "rule": "W336",
       "severity": "ERROR",
       "classification": "Error",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_regfile.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_regfile.sv",
       "line": "55",
       "column": "10",
       "description": "Blocking assignment 'r2_q = 32'd0;' used inside a 'FlipFlop' inferred sequential block"
@@ -367,7 +367,7 @@
       "rule": "W336",
       "severity": "ERROR",
       "classification": "Error",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_regfile.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_regfile.sv",
       "line": "64",
       "column": "10",
       "description": "Blocking assignment 'r2_q = wdata;' used inside a 'FlipFlop' inferred sequential block"
@@ -377,7 +377,7 @@
       "rule": "W415",
       "severity": "ERROR",
       "classification": "Error",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_irq_sync.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_irq_sync.sv",
       "line": "20",
       "column": "10",
       "description": "Signal 'cpu1_top.u_irq_sync.irq_meta_q' has multiple simultaneous drivers"
@@ -387,7 +387,7 @@
       "rule": "W415",
       "severity": "ERROR",
       "classification": "Error",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_regfile.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_regfile.sv",
       "line": "63",
       "column": "10",
       "description": "Signal 'cpu1_top.u_core.u_regfile.r1_q[31:0]' has multiple simultaneous drivers"
@@ -397,7 +397,7 @@
       "rule": "W415",
       "severity": "ERROR",
       "classification": "Error",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_top.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_top.sv",
       "line": "57",
       "column": "10",
       "description": "Signal 'cpu1_top.trap' has multiple simultaneous drivers"
@@ -407,7 +407,7 @@
       "rule": "W415",
       "severity": "ERROR",
       "classification": "Error",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_top.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_top.sv",
       "line": "70",
       "column": "10",
       "description": "Signal 'cpu1_top.core_io_ready' has multiple simultaneous drivers"
@@ -417,7 +417,7 @@
       "rule": "W505",
       "severity": "ERROR",
       "classification": "Error",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_irq_sync.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_irq_sync.sv",
       "line": "20",
       "column": "5",
       "description": "Variable/Signal 'irq_meta_q' is being assigned in both blocking and non-blocking manner"
@@ -427,7 +427,7 @@
       "rule": "W505",
       "severity": "ERROR",
       "classification": "Error",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_pc.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_pc.sv",
       "line": "22",
       "column": "5",
       "description": "Variable/Signal 'pc_q' is being assigned in both blocking and non-blocking manner"
@@ -437,7 +437,7 @@
       "rule": "W505",
       "severity": "ERROR",
       "classification": "Error",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_pc.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_pc.sv",
       "line": "24",
       "column": "5",
       "description": "Variable/Signal 'pc_q' is being assigned in both blocking and non-blocking manner"
@@ -447,7 +447,7 @@
       "rule": "W505",
       "severity": "ERROR",
       "classification": "Error",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_pc.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_pc.sv",
       "line": "27",
       "column": "5",
       "description": "Variable/Signal 'pc_q' is being assigned in both blocking and non-blocking manner"
@@ -457,7 +457,7 @@
       "rule": "W505",
       "severity": "ERROR",
       "classification": "Error",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_perf.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_perf.sv",
       "line": "27",
       "column": "5",
       "description": "Variable/Signal 'instr_count' is being assigned in both blocking and non-blocking manner"
@@ -467,7 +467,7 @@
       "rule": "W71",
       "severity": "ERROR",
       "classification": "Error",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_fetch.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_fetch.sv",
       "line": "15",
       "column": "5",
       "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block[Hierarchy: ':cpu1_top:u_core@cpu1_core:u_fetch@cpu1_fetch']"
@@ -477,7 +477,7 @@
       "rule": "W71",
       "severity": "ERROR",
       "classification": "Error",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_writeback.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_writeback.sv",
       "line": "13",
       "column": "5",
       "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block[Hierarchy: ':cpu1_top:u_core@cpu1_core:u_writeback@cpu1_writeback']"
@@ -487,17 +487,17 @@
       "rule": "STARC05-1.3.1.3",
       "severity": "WARNING",
       "classification": "Warning",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_pc.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_pc.sv",
       "line": "18",
       "column": "10",
-      "description": "Asynchronous reset signal 'cpu1_top.rst_n' (flop: 'cpu1_top.u_core.pc_q[0]') used as non-reset/synchronous-reset at instance 'cpu1_top.u_core.u_perf.\\branch_count_reg[0] .EN' (File Name: '/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_perf.sv' ,Line no.: '19')"
+      "description": "Asynchronous reset signal 'cpu1_top.rst_n' (flop: 'cpu1_top.u_core.pc_q[0]') used as non-reset/synchronous-reset at instance 'cpu1_top.u_core.u_perf.\\branch_count_reg[0] .EN' (File Name: 'data/scalability/cpu1/injected/cpu1_perf.sv' ,Line no.: '19')"
     },
     {
       "id": "1E",
       "rule": "W116",
       "severity": "WARNING",
       "classification": "Warning",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_alu.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_alu.sv",
       "line": "67",
       "column": "10",
       "description": "For operator (^), left expression: \"(a[15:0] * b[15:0] )\" width 16 should match right expression: \"{a[31:16] ,b[31:16] }\" width 32. [Hierarchy: ':cpu1_top:u_core@cpu1_core:u_alu@cpu1_alu']"
@@ -507,7 +507,7 @@
       "rule": "W116",
       "severity": "WARNING",
       "classification": "Warning",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_lsu.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_lsu.sv",
       "line": "29",
       "column": "10",
       "description": "For operator (^), left expression: \"{8'd0 ,io_rdata}\" width 40 should match right expression: \"{16'd0 ,effective_addr[15:0] }\" width 32. [Hierarchy: ':cpu1_top:u_core@cpu1_core:u_lsu@cpu1_lsu']"
@@ -517,7 +517,7 @@
       "rule": "W240",
       "severity": "WARNING",
       "classification": "Warning",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_writeback.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_writeback.sv",
       "line": "9",
       "column": "10",
       "description": "Input 'pc_next[15:0]' declared but not read.[Hierarchy: ':cpu1_top:u_core@cpu1_core:u_writeback@cpu1_writeback']"
@@ -527,7 +527,7 @@
       "rule": "W339a",
       "severity": "WARNING",
       "classification": "Warning",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_alu.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_alu.sv",
       "line": "75",
       "column": "5",
       "description": "Operator '===' should be avoided in synthesis logic"
@@ -537,7 +537,7 @@
       "rule": "W339a",
       "severity": "WARNING",
       "classification": "Warning",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_branch.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_branch.sv",
       "line": "28",
       "column": "5",
       "description": "Operator '===' should be avoided in synthesis logic"
@@ -547,7 +547,7 @@
       "rule": "W339a",
       "severity": "WARNING",
       "classification": "Warning",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_lsu.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_lsu.sv",
       "line": "31",
       "column": "5",
       "description": "Operator '===' should be avoided in synthesis logic"
@@ -557,7 +557,7 @@
       "rule": "W415a",
       "severity": "WARNING",
       "classification": "Warning",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_csr.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_csr.sv",
       "line": "76",
       "column": "5",
       "description": "Signal status_q[0] is being assigned multiple times ( previous assignment at line 72 ) in same always block [Hierarchy: ':cpu1_top:u_core@cpu1_core:u_csr@cpu1_csr']"
@@ -567,7 +567,7 @@
       "rule": "W528",
       "severity": "WARNING",
       "classification": "Warning",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_branch.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_branch.sv",
       "line": "22",
       "column": "10",
       "description": "Variable 'offset[15:0]' set but not read.[Hierarchy: ':cpu1_top:u_core@cpu1_core:u_branch@cpu1_branch']"
@@ -577,7 +577,7 @@
       "rule": "W528",
       "severity": "WARNING",
       "classification": "Warning",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_decode.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_decode.sv",
       "line": "15",
       "column": "10",
       "description": "Variable 'unused_decode_flag' set but not read.[Hierarchy: ':cpu1_top:u_core@cpu1_core:u_decode@cpu1_decode']"
@@ -587,7 +587,7 @@
       "rule": "W528",
       "severity": "WARNING",
       "classification": "Warning",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_fetch.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_fetch.sv",
       "line": "11",
       "column": "10",
       "description": "Variable 'unused_fetch_page[7:0]' set but not read.[Hierarchy: ':cpu1_top:u_core@cpu1_core:u_fetch@cpu1_fetch']"
@@ -597,7 +597,7 @@
       "rule": "W528",
       "severity": "WARNING",
       "classification": "Warning",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_regfile.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_regfile.sv",
       "line": "24",
       "column": "10",
       "description": "Variable 'unused_regfile_tap[15:0]' set but not read.[Hierarchy: ':cpu1_top:u_core@cpu1_core:u_regfile@cpu1_regfile']"
@@ -607,7 +607,7 @@
       "rule": "W528",
       "severity": "WARNING",
       "classification": "Warning",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_top.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_top.sv",
       "line": "33",
       "column": "10",
       "description": "Variable 'unused_top_tag[7:0]' set but not read.[Hierarchy: ':cpu1_top']"
@@ -617,7 +617,7 @@
       "rule": "sim_race02",
       "severity": "WARNING",
       "classification": "Warning",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_irq_sync.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_irq_sync.sv",
       "line": "27",
       "column": "10",
       "description": "Write-Write Race for signal irq_meta_q (assignments on line 27 and line 20)"
@@ -627,7 +627,7 @@
       "rule": "sim_race02",
       "severity": "WARNING",
       "classification": "Warning",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_regfile.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_regfile.sv",
       "line": "79",
       "column": "10",
       "description": "Write-Write Race for signal r1_q (assignments on line 79 and line 54)"
@@ -637,7 +637,7 @@
       "rule": "sim_race02",
       "severity": "WARNING",
       "classification": "Warning",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_regfile.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_regfile.sv",
       "line": "79",
       "column": "10",
       "description": "Write-Write Race for signal r1_q (assignments on line 79 and line 63)"
@@ -647,7 +647,7 @@
       "rule": "sim_race02",
       "severity": "WARNING",
       "classification": "Warning",
-      "file_path": "/home/UFAD/ymahmud/StaticLens/tool_report_cpu1_top_20260511_220249/sources/cpu1_regfile.sv",
+      "file_path": "data/scalability/cpu1/injected/cpu1_regfile.sv",
       "line": "79",
       "column": "10",
       "description": "Write-Write Race for signal r1_q (assignments on line 79 and line 71)"
