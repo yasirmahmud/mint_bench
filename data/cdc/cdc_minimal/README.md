@@ -1,6 +1,6 @@
 # cdc_minimal
 
-Small tool CDC fixture separate from `data/cdc_protocol`.
+Small tool CDC fixture separate from `data/cdc/cdc_protocol`.
 
 `cdc_minimal.sv` intentionally includes CDC hazards marked with
 `CDC_MINIMAL_001` through `CDC_MINIMAL_005`:
@@ -17,8 +17,10 @@ tool CDC analysis.
 Run:
 
 ```bash
-python3 scripts/run_lint_tool.py data/cdc_minimal \
+python3 scripts/run_lint_tool.py data/cdc/cdc_minimal \
   --top cdc_minimal_top \
   --check cdc \
-  --out data/cdc_minimal/cdc_minimal_tool_report.json
+  --out data/cdc/cdc_minimal/cdc_minimal_tool_report.json
 ```
+
+

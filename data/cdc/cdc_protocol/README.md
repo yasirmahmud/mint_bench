@@ -28,8 +28,9 @@ cross-module provenance loss.
 Run the tool CDC flow against this fixture with:
 
 ```bash
-python3 scripts/run_lint_tool.py data/cdc_protocol \
+python3 scripts/run_lint_tool.py data/cdc/cdc_protocol \
   --top cdc_protocol_top \
   --check cdc \
-  --out data/cdc_protocol/cdc_protocol_tool_report_run.json
+  --out data/cdc/cdc_protocol/cdc_protocol_tool_report_run.json
 ```
+

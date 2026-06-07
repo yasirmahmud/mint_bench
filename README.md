@@ -9,7 +9,7 @@ The benchmark separates curated source fixtures under `data/` from canonical rel
 | Track | Task | Data | Size | Gold labels |
 | --- | --- | --- | ---: | --- |
 | RTL lint localization | Locate planted HDL lint issues in single-module designs | `data/rtl_lint_localization/json/` | 312 programs | 921 issue labels across 14 taxonomy families |
-| CDC verification | Detect CDC violations in multi-module fixtures | `data/cdc_protocol/`, `data/cdc_minimal/` | 2 fixtures | 45 CDC violations |
+| CDC verification | Detect CDC violations in multi-module fixtures | `data/cdc/` | 2 fixtures | 45 CDC violations |
 | RCA | Identify the root cause behind cascaded lint reports | `data/root_cause_analysis/` | 9 scenarios | 15 root-cause labels |
 | Scalability | Measure linter behavior on a processor-scale design pair | `data/scalability/cpu1/` | 2 variants | 63 violations in the injected-issue variant, 0 in the clean variant |
 
@@ -74,3 +74,5 @@ Report deterministic scores as the primary result. Report auxiliary analysis sco
 ## Reproducibility
 
 The core release and deterministic scorer use only the Python standard library. See `docs/reproducibility.md` for the prediction schema, scoring definitions, and publication checklist.
+
+

@@ -126,8 +126,8 @@ def tool_report(path: Path, task: str) -> tuple[list[dict[str, Any]], dict[str, 
 def cdc_annotations() -> tuple[list[dict[str, Any]], dict[str, Any]]:
     rows: list[dict[str, Any]] = []
     for rel in [
-        "data/cdc_minimal/cdc_minimal_tool_report.json",
-        "data/cdc_protocol/cdc_protocol_tool_report.json",
+        "data/cdc/cdc_minimal/cdc_minimal_tool_report.json",
+        "data/cdc/cdc_protocol/cdc_protocol_tool_report.json",
     ]:
         row, _ = tool_report(ROOT / rel, "cdc_verification")
         rows.extend(row)
@@ -492,3 +492,5 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+
