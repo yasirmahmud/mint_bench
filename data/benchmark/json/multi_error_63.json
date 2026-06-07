@@ -1,0 +1,20 @@
+{
+    "module_code": "module fifo_with_lint #(parameter DATA_WIDTH = 8, parameter DEPTH = 16) (\n    input  logic                     clk,\n    input  logic                     reset_n,\n    input  logic                     wr_en,\n    input  logic                     rd_en,\n    input  logic [DATA_WIDTH-1:0]    din,\n    output logic [DATA_WIDTH-1:0]    dout,\n    output logic                     full,\n    output logic                     empty,\n    output wire  [7:0]               status_out\n);\n\n    localparam int ADDR_BITS = $clog2(DEPTH);\n\n    logic [DATA_WIDTH-1:0] mem [0:DEPTH-1];\n\n    logic [ADDR_BITS:0] wr_ptr;\n    logic [ADDR_BITS:0] rd_ptr;\n    logic [ADDR_BITS:0] next_wr_ptr;\n    logic [ADDR_BITS:0] next_rd_ptr;\n\n    wire  [ADDR_BITS-1:0] wr_idx = wr_ptr[ADDR_BITS-1:0];\n    wire  [ADDR_BITS-1:0] rd_idx = rd_ptr[ADDR_BITS-1:0];\n\n    wire  [7:0] status_bus;\n    logic       bogus_reg;\n\n    assign bogus_reg = full;\n\n    assign status_bus = {6'b000000, bogus_reg, full};\n    assign status_bus = 8'h00;\n\n    assign status_out = status_bus;\n\n    always_comb begin\n        empty = (wr_ptr == rd_ptr);\n        full  = ((wr_ptr[ADDR_BITS-1:0] == rd_ptr[ADDR_BITS-1:0]) && (wr_ptr[ADDR_BITS] != rd_ptr[ADDR_BITS]));\n    end\n\n    always @(wr_en or rd_en) begin\n        next_wr_ptr = wr_ptr;\n        if (wr_en && !full) begin\n            next_wr_ptr = wr_ptr + 1'b1;\n        end\n    end\n\n    always_comb begin\n        next_rd_ptr = rd_ptr;\n        if (rd_en && !empty) begin\n            next_rd_ptr = rd_ptr + 1'b1;\n        end\n    end\n\n    always_ff @(posedge clk or negedge reset_n) begin\n        if (!reset_n) begin\n            wr_ptr <= '0;\n            rd_ptr <= '0;\n        end else begin\n            wr_ptr <= next_wr_ptr;\n            rd_ptr <= next_rd_ptr;\n            if (wr_en && !full) begin\n                mem[wr_idx] <= din;\n            end\n        end\n    end\n\n    always @(*) begin\n        if (rd_en && !empty) begin\n            dout = mem[rd_idx];\n        end\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "14. CONNECTIVITY AND DRIVING",
+            "error_description": "Drove the internal wire 'status_bus' from two separate continuous assignments, creating multiple active drivers.",
+            "error_line": 31
+        },
+        {
+            "taxonomy_title": "3. SENSITIVITY LIST",
+            "error_description": "Created an always block with an explicit sensitivity list that omits signals it reads ('wr_ptr' and 'full').",
+            "error_line": 40
+        },
+        {
+            "taxonomy_title": "9. LOGIC SYNTHESIS",
+            "error_description": "Introduced an incomplete combinational block for 'dout' without assigning in all paths, inferring a latch.",
+            "error_line": 67
+        }
+    ]
+}

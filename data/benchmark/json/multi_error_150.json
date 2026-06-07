@@ -1,0 +1,20 @@
+{
+    "module_code": "module child_mux2 #(parameter int W = 8) (\n    input  logic [W-1:0] a,\n    input  logic [W-1:0] b,\n    input  logic         s,\n    output logic [W-1:0] y\n);\n    always_comb begin\n        y = s ? b : a;\n    end\nendmodule\n\nmodule complex_mux8 #(parameter int WIDTH = 16) (\n    input  logic                 enable,\n    input  logic [2:0]           sel,\n    input  logic [WIDTH-1:0]     in0,\n    input  logic [WIDTH-1:0]     in1,\n    input  logic [WIDTH-1:0]     in2,\n    input  logic [WIDTH-1:0]     in3,\n    input  logic [WIDTH-1:0]     in4,\n    input  logic [WIDTH-1:0]     in5,\n    input  logic [WIDTH-1:0]     in6,\n    input  logic [WIDTH-1:0]     in7,\n    output logic [WIDTH-1:0]     y\n);\n    logic [WIDTH-1:0] y_mux_core;\n    logic [7:0]       y_low;\n    logic [WIDTH-1:0] stage1_bus;\n    logic [7:0]       stage2_lower;\n    logic [WIDTH-1:0] gated_upper_concat;\n    logic [WIDTH-1:0] lower_insert_concat;\n    logic [WIDTH-1:0] y_combined;\n\n    always @(sel or in0 or in1) begin\n        y_mux_core = '0;\n        if (sel[2]) begin\n            if (sel[1]) begin\n                if (sel[0]) begin\n                    y_mux_core = in7;\n                end else begin\n                    y_mux_core = in6;\n                end\n            end else begin\n                if (sel[0]) begin\n                    y_mux_core = in5;\n                end else begin\n                    y_mux_core = in4;\n                end\n            end\n        end else begin\n            if (sel[1]) begin\n                if (sel[0]) begin\n                    y_mux_core = in3;\n                end else begin\n                    y_mux_core = in2;\n                end\n            end else begin\n                if (sel[0]) begin\n                    y_mux_core = in1;\n                end else begin\n                    y_mux_core = in0;\n                end\n            end\n        end\n    end\n\n    child_mux2 #(.W(8)) u_low (.a(in3), .b(in5), .s(sel[0]), .y(y_low));\n\n    assign stage1_bus = y_mux_core;\n\n    assign stage2_lower = y_low & {8{enable}};\n\n    assign gated_upper_concat = { (stage1_bus[WIDTH-1:8] & { (WIDTH-8){enable} }), 8'b0 };\n\n    assign lower_insert_concat = { {(WIDTH-8){1'b0}}, stage2_lower };\n\n    assign y_combined = gated_upper_concat | lower_insert_concat;\n\n    assign y = y_combined;\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "13. CODE QUALITY AND SYNTHESIS",
+            "error_description": "Implemented the 8:1 multiplexer as a deeply nested if-else chain, creating long combinational paths instead of using a balanced case or one-hot mux structure.",
+            "error_line": 35
+        },
+        {
+            "taxonomy_title": "3. SENSITIVITY LIST",
+            "error_description": "Used an incomplete sensitivity list in a combinational always block (listed only sel, in0, in1) while reading in2\u2013in7 inside the block.",
+            "error_line": 33
+        },
+        {
+            "taxonomy_title": "8. MODULE INSTANCES",
+            "error_description": "Instantiated a child 2:1 mux with 8-bit ports but connected 16-bit signals to its a and b ports, creating a port width mismatch at the instance boundary.",
+            "error_line": 66
+        }
+    ]
+}

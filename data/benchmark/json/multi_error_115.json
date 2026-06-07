@@ -1,0 +1,18 @@
+{
+    "module_code": "module flag_pad (\n    input  logic in_flag,\n    output logic [1:0] out_vec\n);\n    assign out_vec = {1'b0, in_flag};\nendmodule\n\nmodule fifo_sv #(\n    parameter int DEPTH = 16,\n    parameter int DW    = 8\n) (\n    input  logic                 clk,\n    input  logic                 rst_n,\n    input  logic                 wr_en,\n    input  logic                 rd_en,\n    input  logic [DW-1:0]        wdata,\n    output logic [DW-1:0]        rdata,\n    output logic                 full,\n    output logic                 empty,\n    output logic [$clog2(DEPTH)+0:0] count\n);\n    localparam int ADDR_W  = $clog2(DEPTH);\n    localparam int COUNT_W = ADDR_W + 1;\n\n    logic [DW-1:0]              mem [0:DEPTH-1];\n    logic [ADDR_W:0]            rptr;\n    logic [ADDR_W:0]            wptr;\n    logic [ADDR_W:0]            diff;\n    logic                       full_int;\n    logic                       empty_int;\n    logic                       rd_fire;\n    logic                       wr_fire;\n    logic [DW-1:0]              rdata_reg;\n    integer                     i;\n\n    assign rd_fire = rd_en && !empty_int;\n    assign wr_fire = wr_en && !full_int;\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            rptr <= '0;\n        end else if (rd_fire) begin\n            rptr <= rptr + 1'b1;\n        end\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            for (i = 0; i < DEPTH; i = i + 1) begin\n                mem[i] <= '0;\n            end\n        end else if (wr_fire) begin\n            mem[wptr[ADDR_W-1:0]] <= wdata;\n        end\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            rdata_reg <= '0;\n        end else if (rd_fire) begin\n            rdata_reg <= mem[rptr[ADDR_W-1:0]];\n        end\n    end\n\n    assign rdata = rdata_reg;\n\n    always_comb begin\n        if (wr_fire) wptr = wptr + 1'b1;\n        else wptr = wptr;\n    end\n\n    assign empty_int = (wptr == rptr);\n    assign full_int  = (wptr[ADDR_W-1:0] == rptr[ADDR_W-1:0]) && (wptr[ADDR_W] != rptr[ADDR_W]);\n\n    assign diff  = wptr - rptr;\n    assign count = diff;\n\n    logic [0:0] status_narrow;\n    flag_pad u_flag_pad (\n        .in_flag(full_int),\n        .out_vec(status_narrow)\n    );\n\n    assign full  = status_narrow[0];\n    assign empty = empty_int;\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "10. COMBINATIONAL OR SEQUENTIAL",
+            "error_description": "The FIFO write pointer is updated in an always_comb block with self-feedback (else wptr = wptr), creating a combinational feedback loop instead of proper clocked state.",
+            "error_line": 69,
+            "acceptable_error_lines": [
+                68
+            ]
+        },
+        {
+            "taxonomy_title": "8. MODULE INSTANCES",
+            "error_description": "The submodule instance connects a 2-bit output port to a 1-bit signal, causing a structural port width mismatch at the module boundary.",
+            "error_line": 81
+        }
+    ]
+}

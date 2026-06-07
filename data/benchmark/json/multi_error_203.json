@@ -1,0 +1,25 @@
+{
+    "module_code": "module linty_counter #(\n    parameter int WIDTH = 16\n) (\n    input  logic                  clk,\n    input  logic                  rst_n,\n    input  logic                  enable,\n    input  logic                  up,\n    input  logic                  down,\n    input  logic                  load,\n    input  logic [WIDTH-1:0]      load_value,\n    input  logic [3:0]            cfg,\n    output logic [WIDTH-1:0]      count\n);\n\n    logic [WIDTH-1:0] next_count;\n    logic [7:0]        wide_bus;\n    logic [3:0]        nibble;\n    logic \\always_comb ;\n\n    assign wide_bus = {8{enable}};\n    buf u_buf (nibble, wide_bus);\n\n    logic any_gate;\n    assign any_gate = \\always_comb  & (|cfg);\n\n    logic gate_up;\n    logic gate_down;\n    assign gate_up   = any_gate & up;\n    assign gate_down = any_gate & down;\n\n    logic force_zero;\n    assign force_zero = (nibble == 4'b0000);\n\n    logic [WIDTH-1:0] safe_load_value;\n    assign safe_load_value = load_value ^ {WIDTH{force_zero}};\n\n    always_comb begin\n        next_count = count;\n        if (\\always_comb ) begin\n            if (enable) begin\n                if (load) begin\n                    next_count = safe_load_value;\n                end else begin\n                    if (gate_up && !gate_down) begin\n                        if (cfg[0]) begin\n                            if (cfg[1]) begin\n                                if (cfg[2]) begin\n                                    if (cfg[3]) begin\n                                        if (count == {WIDTH{1'b1}}) begin\n                                            next_count = count;\n                                        end else begin\n                                            next_count = count + 1;\n                                        end\n                                    end else begin\n                                        if (count[0]) begin\n                                            next_count = count + 1;\n                                        end else begin\n                                            next_count = count + 1;\n                                        end\n                                    end\n                                end else begin\n                                    next_count = count + 1;\n                                end\n                            end else begin\n                                next_count = count + 1;\n                            end\n                        end else begin\n                            next_count = count + 1;\n                        end\n                    end else if (gate_down && !gate_up) begin\n                        if (count == '0) begin\n                            next_count = count;\n                        end else begin\n                            next_count = count - 1;\n                        end\n                    end else begin\n                        next_count = count;\n                    end\n                end\n            end else begin\n                next_count = count;\n            end\n        end else begin\n            next_count = count;\n        end\n    end\n\n    always_ff @(posedge clk) begin\n        if (rst_n === 1'b0) begin\n            count <= '0;\n        end else begin\n            count <= next_count;\n        end\n    end\n\n    assign \\always_comb  = (nibble != 4'b0000) & enable;\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "7. OPERATORS",
+            "error_description": "Used case-equality (===) for the active-low reset check in an always_ff block, which is non-synthesizable and a dangerous operator misuse.",
+            "error_line": 89
+        },
+        {
+            "taxonomy_title": "4. RESERVED WORDS",
+            "error_description": "Declared and used an escaped identifier named after a reserved keyword (always_comb) as a logic signal.",
+            "error_line": 18
+        },
+        {
+            "taxonomy_title": "8. MODULE INSTANCES",
+            "error_description": "Instantiated a gate primitive (buf) with port width mismatch by connecting an 8-bit source to a 4-bit destination.",
+            "error_line": 21
+        },
+        {
+            "taxonomy_title": "13. CODE QUALITY AND SYNTHESIS",
+            "error_description": "Introduced a deeply nested if-else chain in combinational logic that creates long combinational paths and poor synthesis quality.",
+            "error_line": 48
+        }
+    ]
+}

@@ -1,0 +1,25 @@
+{
+    "module_code": "module mem_controller #(parameter int ADDR_W = 16, parameter int DATA_W = 32) (\n    input  logic                      clk,\n    input  logic                      rst_n,\n    input  logic                      req_valid,\n    output logic                      req_ready,\n    input  logic                      req_write,\n    input  logic [ADDR_W-1:0]         req_addr,\n    input  logic [DATA_W-1:0]         req_wdata,\n    input  logic [DATA_W/8-1:0]       req_wstrb,\n    output logic                      rsp_valid,\n    output logic [DATA_W-1:0]         rsp_rdata,\n    output wire  [ADDR_W-1:0]         mem_addr,\n    output wire  [DATA_W-1:0]         mem_wdata,\n    output wire                       mem_wen,\n    output wire                       mem_ren,\n    input  wire [DATA_W-1:0]          mem_rdata,\n    input  wire                       mem_ready\n);\n\n    typedef enum logic [1:0] {S_IDLE, S_READ, S_WRITE, S_RESP} state_e;\n    state_e state, state_next;\n\n    logic [ADDR_W-1:0] addr_hold;\n    logic [ADDR_W-1:0] addr_hold_next;\n    logic [DATA_W-1:0] data_buf;;\n\n    logic [DATA_W/8-1:0] byte_enable;\n    assign byte_enable = req_wstrb;\n\n    logic wmask_any;\n    assign wmask_any = (req_wstrb && byte_enable) != 0;\n\n    function automatic [DATA_W-1:0] expand_strobe(input [DATA_W/8-1:0] st);\n        automatic int i;\n        expand_strobe = '0;\n        for (i = 0; i < DATA_W/8; i++) begin\n            if (st[i]) begin\n                expand_strobe[i*8 +: 8] = 8'hFF;\n            end\n        end\n    endfunction\n\n    logic [DATA_W-1:0] write_mask;\n    assign write_mask = expand_strobe(req_wstrb);\n\n    assign mem_addr  = (state == S_IDLE) ? req_addr : addr_hold;\n    assign mem_wdata = req_wdata & write_mask;\n    assign mem_ren   = (state == S_READ);\n    assign mem_wen   = (state == S_WRITE);\n    assign mem_wen   = req_valid & req_write & req_ready;\n\n    always_comb begin\n        state_next  = state;\n        req_ready   = 1'b0;\n        rsp_valid   = 1'b0;\n        unique case (state)\n            S_IDLE: begin\n                req_ready = 1'b1;\n                if (req_valid) begin\n                    if (req_write) begin\n                        if (wmask_any) begin\n                            state_next = S_WRITE;\n                        end else begin\n                            state_next = S_IDLE;\n                        end\n                    end else begin\n                        state_next = S_READ;\n                    end\n                    addr_hold_next = req_addr;\n                end\n            end\n            S_READ: begin\n                if (mem_ready) begin\n                    state_next = S_RESP;\n                end\n            end\n            S_WRITE: begin\n                if (mem_ready) begin\n                    state_next = S_RESP;\n                end\n            end\n            S_RESP: begin\n                rsp_valid = 1'b1;\n                if (req_valid && req_ready) begin\n                    state_next = req_write ? S_WRITE : S_READ;\n                    addr_hold_next = req_addr;\n                end\n            end\n            default: begin\n                state_next = S_IDLE;\n            end\n        endcase\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            state     <= S_IDLE;\n            addr_hold <= '0;\n            data_buf  <= '0;\n            rsp_rdata <= '0;\n        end else begin\n            state     <= state_next;\n            addr_hold <= addr_hold_next;\n            if (state == S_READ && mem_ready) begin\n                data_buf <= mem_rdata;\n            end\n            if (state == S_RESP) begin\n                rsp_rdata <= data_buf;\n            end\n        end\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "14. CONNECTIVITY AND DRIVING",
+            "error_description": "Introduced multiple continuous drivers on the mem_wen net by assigning it in two separate assign statements, creating potential bus contention.",
+            "error_line": 50
+        },
+        {
+            "taxonomy_title": "7. OPERATORS",
+            "error_description": "Used logical AND (&&) between two multi-bit vectors when bitwise AND (&) was intended for mask combination.",
+            "error_line": 31
+        },
+        {
+            "taxonomy_title": "9. LOGIC SYNTHESIS",
+            "error_description": "In always_comb, assigned addr_hold_next only under a condition without providing a default assignment or complete else coverage, inferring a latch.",
+            "error_line": 69
+        },
+        {
+            "taxonomy_title": "1. SYNTAX STRUCTURE",
+            "error_description": "Placed an extra semicolon after a declaration, creating a null statement that many linters flag as a syntax-structure issue.",
+            "error_line": 25
+        }
+    ]
+}

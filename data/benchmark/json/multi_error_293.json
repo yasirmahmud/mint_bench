@@ -1,0 +1,25 @@
+{
+    "module_code": "module counter_with_issues #(parameter int WIDTH = 8) (\n    input  logic                     clk,\n    input  logic                     rst_n,\n    input  logic                     enable,\n    input  logic                     cfg_wrap,\n    input  logic                     cfg_saturate,\n    input  logic [3:0]               cfg_step,\n    input  logic [WIDTH-1:0]         load_value,\n    input  logic                     load,\n    output wire  [WIDTH-1:0]         count,\n    output wire                      tick,\n    output wire  [WIDTH-1:0]         debug_tap\n);\n\nlocalparam int RESERVED_ID = 1\nlocalparam logic [WIDTH-1:0] SAT_MAX = {WIDTH{1'b1}};\n\nlogic [WIDTH-1:0]           count_q;\nlogic [WIDTH-1:0]           next_value;\nlogic [WIDTH-1:0]           step_val;\n\nlogic                       wrap_mode;\nlogic                       saturate_mode;\n\nlogic                       tick_q;\nlogic                       tick_d;\n\nlogic [2*WIDTH+3:0]         slow_path_wide;\n\nlogic [WIDTH:0]             sum;\nlogic [WIDTH:0]             sat_max_ext;\n\nwire  [WIDTH-1:0]           tap;\n\nassign tap = next_value;\nassign tap = {WIDTH{1'b0}};\nassign debug_tap = tap;\n\nalways_comb begin\n    wrap_mode       = cfg_wrap;\n    saturate_mode   = cfg_saturate;\n    step_val        = { {(WIDTH-4){1'b0}}, cfg_step };\n    next_value      = count_q;\n    tick_d          = 1'b0;\n    sum             = {1'b0, count_q} + { {(1){1'b0}}, step_val };\n    sat_max_ext     = {1'b0, SAT_MAX};\n    slow_path_wide  = '0;\n    slow_path_wide  = (((count_q * step_val) * 3) * (wrap_mode ? 5 : 7));\n    if (enable) begin\n        if (load) begin\n            next_value = load_value;\n        end else begin\n            if (wrap_mode) begin\n                if (sum > sat_max_ext) begin\n                    next_value = sum[WIDTH-1:0];\n                end else begin\n                    next_value = sum[WIDTH-1:0];\n                end\n            end else if (saturate_mode) begin\n                if (sum > sat_max_ext) begin\n                    next_value = SAT_MAX[WIDTH-1:0];\n                end else begin\n                    next_value = sum[WIDTH-1:0];\n                end\n            end else begin\n                next_value = sum[WIDTH-1:0];\n            end\n        end\n    end\n    tick_d = (^slow_path_wide) ^ (RESERVED_ID != 0);\nend\n\nalways_ff @(posedge clk or negedge rst_n or posedge enable) begin\n    if (!rst_n) begin\n        count_q <= '0;\n    end else if (load) begin\n        count_q <= load_value;\n    end else if (enable) begin\n        count_q <= next_value;\n    end else begin\n        count_q <= count_q;\n    end\nend\n\nalways_ff @(posedge clk or negedge rst_n) begin\n    if (!rst_n) begin\n        tick_q <= 1'b0;\n    end else begin\n        tick_q <= tick_d;\n    end\nend\n\nassign count = count_q;\nassign tick  = tick_q;\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "1. SYNTAX STRUCTURE",
+            "error_description": "Missing semicolon at the end of a localparam declaration to intentionally violate basic syntax rules.",
+            "error_line": 15
+        },
+        {
+            "taxonomy_title": "10. COMBINATIONAL OR SEQUENTIAL",
+            "error_description": "Sequential always_ff block uses an extra asynchronous event (posedge enable) in the sensitivity list, improperly mixing non-reset async control with the clock.",
+            "error_line": 73
+        },
+        {
+            "taxonomy_title": "13. CODE QUALITY AND SYNTHESIS",
+            "error_description": "Introduced a deeply inefficient arithmetic expression with chained multiplications that would infer large multipliers and long combinational paths.",
+            "error_line": 48
+        },
+        {
+            "taxonomy_title": "14. CONNECTIVITY AND DRIVING",
+            "error_description": "Created two continuous assignments driving the same wire, resulting in multiple drivers on a single net.",
+            "error_line": 36
+        }
+    ]
+}

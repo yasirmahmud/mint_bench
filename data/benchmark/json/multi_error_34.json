@@ -1,0 +1,24 @@
+{
+    "module_code": "module mux8_synth_test #(parameter int WIDTH = 16) (\n    input  logic                    clk,\n    input  logic                    rst_n,\n    input  logic                    async_clear,\n    input  logic                    en,\n    input  logic                    mode_inv,\n    input  logic                    mode_hold,\n    input  logic [2:0]              sel,\n    input  logic [WIDTH-1:0]        in0,\n    input  logic [WIDTH-1:0]        in1,\n    input  logic [WIDTH-1:0]        in2,\n    input  logic [WIDTH-1:0]        in3,\n    input  logic [WIDTH-1:0]        in4,\n    input  logic [WIDTH-1:0]        in5,\n    input  logic [WIDTH-1:0]        in6,\n    input  logic [WIDTH-1:0]        in7,\n    output logic [WIDTH-1:0]        y,\n    output logic [WIDTH-1:0]        dbg_shadow_o\n);\n\n    localparam int N = 8;\n\n    logic [WIDTH-1:0] masked_in [0:N-1];\n    logic [WIDTH-1:0] mux_out_comb;\n    logic [WIDTH-1:0] next_y;\n    logic [WIDTH-1:0] y_reg;\n    logic [WIDTH-1:0] debug_shadow;\n    logic [WIDTH-1:0] spare_decl\n\n    function automatic logic parity_even(input logic [WIDTH-1:0] v);\n        logic p;\n        p = 1'b0;\n        for (int i = 0; i < WIDTH; i++) begin\n            p ^= v[i];\n        end\n        return p;\n    endfunction\n\n    assign masked_in[0] = en ? in0 : '0;\n    assign masked_in[1] = en ? in1 : '0;\n    assign masked_in[2] = en ? in2 : '0;\n    assign masked_in[3] = en ? in3 : '0;\n    assign masked_in[4] = en ? in4 : '0;\n    assign masked_in[5] = en ? in5 : '0;\n    assign masked_in[6] = en ? in6 : '0;\n    assign masked_in[7] = en ? in7 : '0;\n\n    always_comb begin\n        case (sel)\n            3'd0: mux_out_comb = masked_in[0];\n            3'd1: mux_out_comb = masked_in[1];\n            3'd2: mux_out_comb = masked_in[2];\n            3'd3: mux_out_comb = masked_in[3];\n            3'd4: mux_out_comb = masked_in[4];\n            3'd5: mux_out_comb = masked_in[5];\n            3'd6: mux_out_comb = masked_in[6];\n        endcase\n    end\n\n    always_comb begin\n        unique casez ({mode_inv, mode_hold})\n            2'b1?: next_y = ~mux_out_comb;\n            2'b01: next_y = y_reg;\n            default: next_y = mux_out_comb;\n        endcase\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            y_reg <= '0;\n        end else begin\n            if (mode_hold) begin\n                y_reg <= y_reg;\n            end else begin\n                y_reg <= next_y;\n            end\n        end\n    end\n\n    assign y = y_reg;\n\n    logic [WIDTH-1:0] mix_vec;\n    assign mix_vec = mux_out_comb ^ masked_in[7];\n\n    always @(posedge clk or sel) begin\n        if (async_clear) begin\n            debug_shadow <= '0;\n        end else begin\n            debug_shadow <= y_reg ^ {WIDTH{parity_even(mix_vec)}};\n        end\n    end\n\n    assign dbg_shadow_o = debug_shadow;\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "9. LOGIC SYNTHESIS",
+            "error_description": "Incomplete case in a combinational block without a default causes unintended latch inference for mux_out_comb.",
+            "error_line": 49,
+            "acceptable_error_lines": [
+                48,
+                49
+            ]
+        },
+        {
+            "taxonomy_title": "10. COMBINATIONAL OR SEQUENTIAL",
+            "error_description": "Mixed sensitivity list combines posedge clock with level-sensitive signal (sel) in one always block, blending sequential and combinational behavior.",
+            "error_line": 85
+        },
+        {
+            "taxonomy_title": "1. SYNTAX STRUCTURE",
+            "error_description": "Missing semicolon at the end of a logic declaration line.",
+            "error_line": 28
+        }
+    ]
+}

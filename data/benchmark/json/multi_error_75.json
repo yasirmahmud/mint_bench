@@ -1,0 +1,15 @@
+{
+    "module_code": "module ComplexDecoder #(parameter int N = 32, parameter int W = 5) (\n    input  logic                 clk,\n    input  logic                 rst_n,\n    input  logic                 enable,\n    input  logic [W-1:0]        code,\n    input  logic [N-1:0]        mask,\n    output wire  [N-1:0]        decode_out,\n    output logic                valid_o,\n    output logic                parity_error\n);\n\nfunction automatic [N-1:0] rotl(input [N-1:0] x, input int s);\n    int s_mod;\n    begin\n        s_mod = s % N;\n        rotl = (x << s_mod) | (x >> (N - s_mod));\n    end\nendfunction\n\nlogic [N-1:0] decode_comb;\nlogic [N-1:0] gated_decode;\nlogic [N-1:0] extra_path;\nlogic [N-1:0] stage1;\nlogic [N-1:0] stage2;\nlogic          valid_q;\nlogic          valid_q2;\nlogic          code_parity;\nlogic          mask_parity;\nlogic [W:0]    ones_count;\nwire  [N-1:0]  bus_merge;\n\nalways_comb begin\n    decode_comb = '0;\n    if (enable) begin\n        decode_comb[code] = 1'b1;\n    end\nend\n\nalways_comb begin\n    gated_decode = decode_comb & mask;\nend\n\nalways_comb begin\n    code_parity = ^code;\n    mask_parity = ^mask;\nend\n\nalways_comb begin\n    ones_count = '0;\n    for (int i = 0; i < W; i++) begin\n        ones_count = ones_count + code[i];\n    end\nend\n\nalways_comb begin\n    extra_path = '0;\n    if (enable) begin\n        extra_path = decode_comb ^ rotl(mask, code);\n    end\nend\n\nalways @(posedge clk or negedge rst_n) begin\n    if (!rst_n) begin\n        stage1       <= '0;\n        stage2       <= '0;\n        valid_q      <= 1'b0;\n        valid_q2     <= 1'b0;\n        valid_o      <= 1'b0;\n        parity_error <= 1'b0;\n    end else begin\n        stage1 = gated_decode;\n        stage2       <= stage1;\n        valid_q      <= enable;\n        valid_q2     <= valid_q;\n        valid_o      <= valid_q2 & ~ones_count[W];\n        parity_error <= code_parity ^ mask_parity;\n    end\nend\n\nassign bus_merge = stage2 | extra_path;\nassign bus_merge = stage2 & mask;\nassign decode_out = bus_merge;\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "5. RACE OR HAZARD",
+            "error_description": "Injected by mixing a blocking assignment to stage1 with non-blocking assignments in the same clocked always block, creating a race condition.",
+            "error_line": 71
+        },
+        {
+            "taxonomy_title": "14. CONNECTIVITY AND DRIVING",
+            "error_description": "Injected by adding a second continuous driver to the same net bus_merge, creating multiple active drivers and potential bus contention.",
+            "error_line": 81
+        }
+    ]
+}

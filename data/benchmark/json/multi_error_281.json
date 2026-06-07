@@ -1,0 +1,20 @@
+{
+    "module_code": "module memory_controller #(\n  parameter int ADDR_W = 10,\n  parameter int DATA_W = 32\n)(\n  input  logic                     clk,\n  input  logic                     rst_n,\n  input  logic                     req_valid,\n  input  logic                     req_write,\n  input  logic [ADDR_W-1:0]        req_addr,\n  input  logic [DATA_W-1:0]        req_wdata,\n  input  logic [DATA_W/8-1:0]      req_wstrb,\n  output logic                     req_ready,\n  output logic                     resp_valid,\n  output logic [DATA_W-1:0]        resp_rdata,\n  input  logic                     resp_ready\n);\n\nlocalparam int DEPTH = 1 << ADDR_W;\n\nint logic;\n\nlogic [DATA_W-1:0] mem [0:DEPTH-1];\n\ntypedef enum logic [1:0] {\n  S_IDLE,\n  S_READ,\n  S_WRITE,\n  S_RESP\n} state_e;\n\nstate_e state_q, state_d;\nlogic [ADDR_W-1:0] addr_q, addr_d;\nlogic [DATA_W-1:0] wdata_q, wdata_d;\nlogic [DATA_W/8-1:0] wstrb_q, wstrb_d;\nlogic [DATA_W-1:0] rdata_d;\nlogic do_read, do_write;\n\nassign req_addr = addr_q;\n\nfunction automatic [DATA_W-1:0] apply_mask(\n  input [DATA_W-1:0] oldd,\n  input [DATA_W-1:0] newd,\n  input [DATA_W/8-1:0] strb\n);\n  automatic [DATA_W-1:0] res_f;\n  integer i_f;\n  res_f = oldd;\n  for (i_f = 0; i_f < DATA_W/8; i_f++) begin\n    if (strb[i_f]) begin\n      res_f[i_f*8 +: 8] = newd[i_f*8 +: 8];\n    end\n  end\n  return res_f;\nendfunction\n\nalways_ff @(posedge clk or negedge rst_n) begin\n  if (!rst_n) begin\n    state_q  <= S_IDLE;\n    addr_q   <= '0;\n    wdata_q  <= '0;\n    wstrb_q  <= '0;\n    resp_rdata <= '0;\n  end else begin\n    state_q  <= state_d;\n    addr_q   <= addr_d;\n    wdata_q  <= wdata_d;\n    wstrb_q  <= wstrb_d;\n    if (do_read) begin\n      resp_rdata <= mem[addr_q];\n    end else if (do_write) begin\n      resp_rdata <= '0;\n    end\n    if (do_write) begin\n      mem[addr_q] <= apply_mask(mem[addr_q], wdata_q, wstrb_q);\n    end\n  end\nend\n\nalways_comb begin\n  req_ready  = 1'b0;\n  resp_valid = 1'b0;\n  rdata_d    = '0;\n  do_read    = 1'b0;\n  do_write   = 1'b0;\n  state_d    = state_q\n  addr_d     = addr_q;\n  wdata_d    = wdata_q;\n  wstrb_d    = wstrb_q;\n  unique case (state_q)\n    S_IDLE: begin\n      req_ready = 1'b1;\n      if (req_valid) begin\n        addr_d   = req_addr;\n        if (req_write) begin\n          wdata_d   = req_wdata;\n          wstrb_d   = req_wstrb;\n          do_write  = 1'b1;\n          state_d   = S_RESP;\n        end else begin\n          do_read   = 1'b1;\n          state_d   = S_RESP;\n        end\n      end\n    end\n    S_RESP: begin\n      resp_valid = 1'b1;\n      if (resp_ready) begin\n        state_d = S_IDLE;\n      end\n    end\n    default: begin\n      state_d = S_IDLE;\n    end\n  endcase\nend\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "4. RESERVED WORDS",
+            "error_description": "Declared an identifier using a reserved keyword with 'int logic;', improperly using 'logic' as a variable name.",
+            "error_line": 20
+        },
+        {
+            "taxonomy_title": "6. PORT TYPE",
+            "error_description": "Drove an input port internally using a continuous assignment with 'assign req_addr = addr_q;'.",
+            "error_line": 38
+        },
+        {
+            "taxonomy_title": "1. SYNTAX STRUCTURE",
+            "error_description": "Omitted a semicolon in the statement 'state_d    = state_q' inside an always_comb block.",
+            "error_line": 85
+        }
+    ]
+}

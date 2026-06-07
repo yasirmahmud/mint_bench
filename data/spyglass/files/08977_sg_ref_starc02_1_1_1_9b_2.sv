@@ -1,0 +1,2 @@
+module long_port_name_ex2(input this_is_a_very_long_port_name_that_exceeds_16_chars);
+ endmodule

@@ -1,0 +1,25 @@
+{
+    "module_code": "module fifo_qc #(\n    parameter int WIDTH = 8,\n    parameter int DEPTH = 20\n) (\n    input  logic                 clk,\n    input  logic                 rst_n,\n    input  logic                 wr_en,\n    input  logic                 rd_en,\n    input  logic [WIDTH-1:0]     din,\n    output logic [WIDTH-1:0]     dout,\n    output logic                 full,\n    output logic                 empty,\n    output logic                 almost_full,\n    output logic [$clog2(DEPTH):0] count\n);\n\n    localparam int AW = $clog2(DEPTH);\n    localparam int CW = AW + 1;\n\n    logic [WIDTH-1:0] mem [0:DEPTH-1];\n\n    logic [AW-1:0] wr_ptr;\n    logic [AW-1:0] rd_ptr;\n    logic [AW-1:0] wr_ptr_n;\n    logic [AW-1:0] rd_ptr_n;\n\n    logic [CW-1:0] count_n;\n\n    logic wr_fire;\n    logic rd_fire;\n\n    logic [WIDTH-1:0] dout_n;\n\n    logic [WIDTH-1:0] unused_probe;\n\n    assign wr_fire = wr_en & ~full;\n    assign rd_fire = rd_en & ~empty;\n\n    always_comb begin\n        wr_ptr_n = wr_ptr;\n        rd_ptr_n = rd_ptr;\n        count_n  = count;\n\n        if (wr_fire) begin\n            wr_ptr_n = (wr_ptr + AW'(1)) % DEPTH;\n        end\n\n        if (rd_fire) begin\n            rd_ptr_n = (rd_ptr == AW'(DEPTH-1)) ? '0 : (rd_ptr + AW'(1));\n        end\n\n        if (wr_fire & ~rd_fire) begin\n            count_n = count + CW'(1);\n        end else if (~wr_fire & rd_fire) begin\n            count_n = count - CW'(1);\n        end else begin\n            count_n = count;\n        end\n    end\n\n    always_comb begin\n        if (rd_fire) dout_n = mem[rd_ptr];\n    end\n\n    assign empty = (count == '0);\n    assign full  = (count == CW'(DEPTH));\n\n    assign almost_full = (count >= CW'(DEPTH-1))\n\n    always_ff @(posedge clk) begin\n        if (!rst_n) begin\n            wr_ptr <= '0;\n            rd_ptr <= '0;\n            count  <= '0;\n            dout   <= '0;\n        end else begin\n            wr_ptr <= wr_ptr_n;\n            rd_ptr <= rd_ptr_n;\n            count  <= count_n;\n            dout   <= dout_n;\n            if (wr_fire) begin\n                mem[wr_ptr] <= din;\n            end\n        end\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "13. CODE QUALITY AND SYNTHESIS",
+            "error_description": "Write pointer uses a modulus operation with a non-power-of-two DEPTH, inferring costly divider logic instead of simple wrap-around.",
+            "error_line": 45
+        },
+        {
+            "taxonomy_title": "2. SIGNAL USAGE",
+            "error_description": "Declared a signal (unused_probe) that is never read or driven elsewhere, resulting in an unused signal.",
+            "error_line": 34
+        },
+        {
+            "taxonomy_title": "9. LOGIC SYNTHESIS",
+            "error_description": "Incomplete combinational assignment to dout_n inside always_comb causes an unintended latch when rd_fire is false.",
+            "error_line": 62
+        },
+        {
+            "taxonomy_title": "1. SYNTAX STRUCTURE",
+            "error_description": "Missing semicolon at the end of the continuous assignment to almost_full, violating basic syntax rules.",
+            "error_line": 68
+        }
+    ]
+}

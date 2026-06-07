@@ -1,0 +1,20 @@
+{
+    "module_code": "module shift_register_with_faults #(parameter int WIDTH = 8) (\n    input  wire                          clk,\n    input  wire                          rst_n,\n    input  wire                          shift_en,\n    input  logic                         load,\n    input  logic                         serial_in,\n    input  logic [WIDTH-1:0]             parallel_in,\n    input  logic                         capture,\n    output wire                          serial_out,\n    output logic [WIDTH-1:0]             parallel_out,\n    output wire [WIDTH-1:0]              tap_capture,\n    output logic                         msb_out,\n    output logic                         lsb_out,\n    output logic                         parity_even,\n    output logic [7:0]                   shift_count_o,\n    output wire [WIDTH-1:0]              diagnostic_bus\n);\n\n    logic [WIDTH-1:0] state;\n    logic [WIDTH-1:0] next_state;\n    logic [WIDTH-1:0] capture_latch;\n    logic [WIDTH-1:0] rotated_state;\n    logic [WIDTH-1:0] masked_in;\n    logic [WIDTH-1:0] mask;\n    logic [7:0]       shift_count;\n    wire              gate_en;\n\n    always_comb begin\n        mask = {WIDTH{1'b1}};\n        masked_in = parallel_in & mask;\n    end\n\n    always_comb begin\n        next_state = state;\n        if (load) begin\n            next_state = masked_in;\n        end else if (shift_en) begin\n            next_state = {state[WIDTH-2:0], serial_in};\n        end\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            state <= '0;\n        end else begin\n            state <= next_state;\n        end\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            shift_count <= 8'd0;\n        end else if (shift_en) begin\n            shift_count <= shift_count + 8'd1;\n        end\n    end\n\n    always_comb begin\n        parallel_out = state;\n        msb_out = state[WIDTH-1];\n        lsb_out = state[0];\n        parity_even = ^state;\n        shift_count_o = shift_count;\n    end\n\n    assign serial_out = state;\n\n    always_comb begin\n        rotated_state = {state[WIDTH-2:0], state[WIDTH-1]};\n    end\n\n    assign diagnostic_bus = rotated_state ^ masked_in;\n\n    assign tap_capture = capture_latch;\n\n    always_comb begin\n        if (capture) begin\n            capture_latch <= state;\n        end\n    end\n\n    assign gate_en = load & capture;\n\n    assign shift_en = gate_en;\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "11. BIT WIDTH USAGE",
+            "error_description": "Assigned a multi-bit vector (state) to a 1-bit output (serial_out), causing truncation.",
+            "error_line": 66
+        },
+        {
+            "taxonomy_title": "6. PORT TYPE",
+            "error_description": "Used a continuous assign to drive an input port (shift_en) from inside the module.",
+            "error_line": 84
+        },
+        {
+            "taxonomy_title": "10. COMBINATIONAL OR SEQUENTIAL",
+            "error_description": "Used a nonblocking assignment in an always_comb with incomplete assignment, inferring storage without a clock.",
+            "error_line": 78
+        }
+    ]
+}

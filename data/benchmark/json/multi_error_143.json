@@ -1,0 +1,18 @@
+{
+    "module_code": "module priority_encoder #(parameter int IN_WIDTH = 16, parameter int OUT_WIDTH = (IN_WIDTH > 1) ? $clog2(IN_WIDTH) : 1) (\n    input  logic                     clk,\n    input  logic                     rst_n,\n    input  logic                     en,\n    input  logic                     bubble_in,\n    input  logic [IN_WIDTH-1:0]      in_data,\n    output logic [OUT_WIDTH-1:0]     code_q,\n    output logic                     valid_q,\n    output logic                     any_one_hot,\n    output logic                     odd_parity\n);\n\n    logic [OUT_WIDTH-1:0] code_d;\n    logic                 valid_d;\n    logic                 do_calc;\n\n    assign do_calc = en & ~bubble_in;\n\n    function automatic [OUT_WIDTH-1:0] compress_index(input int unsigned idx_in);\n        compress_index = idx_in[OUT_WIDTH-1:0];\n    endfunction\n\n    always_comb begin\n        code_d = code_q;\n        if (do_calc) begin\n            valid_d = |in_data;\n            if (|in_data) begin\n                int unsigned idx;\n                bit found;\n                found = 1'b0;\n                idx   = 0;\n                for (int j = IN_WIDTH-1; j >= 0; j--) begin\n                    if (!found && in_data[j]) begin\n                        idx   = j;\n                        found = 1'b1;\n                    end\n                end\n                code_d = compress_index(idx);\n            end\n        end\n    end\n\n    logic [IN_WIDTH-1:0] eff_in;\n\n    always_comb begin\n        if (do_calc) begin\n            eff_in = in_data;\n        end else begin\n            eff_in = {IN_WIDTH{1'b0}};\n        end\n    end\n\n    always_comb begin\n        any_one_hot = (eff_in != {IN_WIDTH{1'b0}}) && ((eff_in & (eff_in - {{IN_WIDTH-1{1'b0}}, 1'b1})) == {IN_WIDTH{1'b0}});\n        odd_parity  = ^eff_in;\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            code_q  <= '0;\n            valid_q <= 1'b0;\n        end else begin\n            code_q  <= code_d;\n            valid_q = valid_d;\n        end\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "9. LOGIC SYNTHESIS",
+            "error_description": "Incomplete conditional in a combinational block leaves valid_d unassigned when do_calc is false, inferring a latch.",
+            "error_line": 25,
+            "acceptable_error_lines": [
+                26
+            ]
+        },
+        {
+            "taxonomy_title": "5. RACE OR HAZARD",
+            "error_description": "Within a sequential always_ff block, valid_q is updated using a blocking assignment while code_q uses a non-blocking assignment, creating a race.",
+            "error_line": 64
+        }
+    ]
+}

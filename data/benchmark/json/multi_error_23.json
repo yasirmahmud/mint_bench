@@ -1,0 +1,15 @@
+{
+    "module_code": "module rr_arbiter #(\n    parameter int NUM_REQ = 5\n) (\n    input  logic                        clk,\n    input  logic                        rst_n,\n    input  logic [NUM_REQ-1:0]          req,\n    input  logic [NUM_REQ-1:0]          lock,\n    output logic [NUM_REQ-1:0]          grant,\n    output logic                        grant_valid,\n    output logic [$clog2(NUM_REQ)-1:0]  grant_idx\n);\n\nlocalparam int IDX_W = (NUM_REQ > 1) ? $clog2(NUM_REQ) : 1;\n\nfunction automatic logic [IDX_W-1:0] onehot_index(input logic [NUM_REQ-1:0] v);\n    onehot_index = '0;\n    for (int i = 0; i < NUM_REQ; i++) begin\n        if (v[i]) begin\n            onehot_index = i[IDX_W-1:0];\n        end\n    end\nendfunction\n\nlogic [NUM_REQ-1:0] cur_grant;\nlogic [NUM_REQ-1:0] grant_next;\nlogic [NUM_REQ-1:0] grant_pick;\nlogic [IDX_W-1:0]   pointer;\nlogic [IDX_W-1:0]   sel_idx;\nlogic [IDX_W-1:0]   held_idx;\nlogic               lock_hold;\nlogic               found;\nlogic               do_update;\n\nalways_comb begin\n    grant_pick = '0;\n    sel_idx    = '0;\n    found      = 1'b0;\n\n    if (req === '0) begin\n        found   = 1'b0;\n        sel_idx = '0;\n    end else begin\n        for (int k = 0; k < NUM_REQ; k++) begin\n            int idx_t;\n            idx_t = pointer + k;\n            if (idx_t >= NUM_REQ) begin\n                idx_t = idx_t - NUM_REQ;\n            end\n            if (!found && req[idx_t]) begin\n                sel_idx = idx_t[IDX_W-1:0];\n                found   = 1'b1;\n            end\n        end\n        if (found) begin\n            grant_pick[sel_idx] = 1'b1;\n        end\n    end\n\n    held_idx  = onehot_index(cur_grant);\n    lock_hold = |(cur_grant & lock & req);\n\n    if (lock_hold) begin\n        grant_next = cur_grant;\n        sel_idx    = held_idx;\n    end else begin\n        grant_next = grant_pick;\n    end\n\n    do_update = (!lock_hold) && (grant_pick != '0);\nend\n\nalways_ff @(posedge clk or negedge rst_n) begin\n    if (!rst_n) begin\n        cur_grant <= '0;\n        pointer   <= '0;\n    end else begin\n        cur_grant <= grant_next;\n        if (do_update) begin\n            int t;\n            t = sel_idx + 1;\n            if (t >= NUM_REQ) begin\n                t = 0;\n            end\n            pointer <= t[IDX_W-1:0];\n        end\n    end\nend\n\nassign grant       = cur_grant;\nassign grant_valid = |grant;\nassign grant_idx   = {1'b0, sel_idx};\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "7. OPERATORS",
+            "error_description": "Used case equality (===) to compare the request vector to zero in synthesizable combinational logic.",
+            "error_line": 39
+        },
+        {
+            "taxonomy_title": "11. BIT WIDTH USAGE",
+            "error_description": "Assigned a wider concatenation {1'b0, sel_idx} to the narrower grant_idx, causing truncation.",
+            "error_line": 91
+        }
+    ]
+}

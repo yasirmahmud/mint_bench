@@ -1,0 +1,20 @@
+{
+    "module_code": "module rr_arbiter\n#(parameter int N = 8)\n(\n  input  logic clk,\n  input  logic rst_n,\n  input  logic [N-1:0] req,\n  output logic [N-1:0] grant,\n  output logic any_grant\n);\n\nlocalparam int W = (N <= 1) ? 1 : $clog2(N);\n\nlogic [N-1:0] req_q;\nlogic [N-1:0] req_rot;\nlogic [N-1:0] grant_rot;\nlogic [N-1:0] grant_unrot;\nlogic [N-1:0] grant_comb;\nlogic [W-1:0] ptr_q;\nlogic [W-1:0] ptr_n;\nlogic [N-1:0] req_masked;\nint i;\nint j;\nint idx;\nbit found;\nlogic \\always ;\n\nwire grant_shared;\nassign grant_shared = |grant_comb;\nassign grant_shared = req[0];\n\nalways_ff @(posedge clk or negedge rst_n) begin\n  if (!rst_n) begin\n    ptr_q <= '0;\n    req_q <= '0;\n  end else begin\n    ptr_q <= ptr_n;\n    req_q <= req;\n  end\nend\n\nalways_comb begin\n  req_rot = '0;\n  idx = 0;\n  for (i = 0; i < N; i++) begin\n    idx = i + ptr_q;\n    if (idx >= N) idx = idx - N;\n    req_rot[i] = req_q[idx];\n  end\n  found = 0;\n  grant_rot = '0;\n  for (j = 0; j < N; j++) begin\n    if (!found && req_rot[j]) begin\n      grant_rot[j] = 1'b1;\n      found = 1;\n    end\n  end\n  for (i = 0; i < N; i++) begin\n    idx = i - ptr_q;\n    if (idx < 0) idx = idx + N;\n    grant_unrot[i] = grant_rot[idx];\n  end\n  grant_comb = grant_unrot;\n  any_grant = |grant_comb;\n  \\always = any_grant;\n  if (grant_shared) begin\n    any_grant = \\always ;\n  end\n  grant = grant_comb;\nend\n\nalways_comb begin\n  ptr_n = ptr_q;\n  int gidx;\n  gidx = -1;\n  for (i = 0; i < N; i++) begin\n    if (grant_unrot[i]) gidx = i;\n  end\n  if (gidx >= 0) begin\n    int tmp;\n    tmp = gidx + 1;\n    if (tmp >= N) tmp = 0;\n    ptr_n = tmp[W-1:0];\n  end\nend\n\nalways_comb begin\n  req_masked = req_q;\nend\n\nassign req = req_masked;\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "4. RESERVED WORDS",
+            "error_description": "Declared an escaped identifier using a reserved keyword as a signal name (logic \\always ;), which misuses a language keyword as an identifier.",
+            "error_line": 25
+        },
+        {
+            "taxonomy_title": "14. CONNECTIVITY AND DRIVING",
+            "error_description": "Created multiple active drivers on the same net by adding a second continuous assignment to the wire 'grant_shared'.",
+            "error_line": 29
+        },
+        {
+            "taxonomy_title": "6. PORT TYPE",
+            "error_description": "Drove an input port from within the module using a continuous assignment (assign req = req_masked;).",
+            "error_line": 90
+        }
+    ]
+}

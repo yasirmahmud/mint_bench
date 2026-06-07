@@ -1,0 +1,36 @@
+module sky130_fd_sc_hd__o2111a (
+    X   ,
+    A1  ,
+    A2  ,
+    B1  ,
+    C1  ,
+    D1  ,
+    VPWR,
+    VGND,
+    VPB ,
+    VNB
+);
+
+    output X   ;
+    input  A1  ;
+    input  A2  ;
+    input  B1  ;
+    input  C1  ;
+    input  D1  ;
+    input  VPWR;
+    input  VGND;
+    input  VPB ;
+    input  VNB ;
+
+    // Functional model for the OAI2111 gate: X = ~((A1 & A2) | B1 | C1 | D1)
+    // This resolves the 'empty definition' warning and 'input not read' for data inputs.
+    assign X = ~((A1 & A2) | B1 | C1 | D1);
+
+    // Dummy assignments for power pins to resolve 'input not read' linting warnings.
+    // These assignments do not affect the functional behavior of the data path.
+    wire _dummy_vpwr = VPWR;
+    wire _dummy_vgnd = VGND;
+    wire _dummy_vpb  = VPB;
+    wire _dummy_vnb  = VNB;
+
+endmodule

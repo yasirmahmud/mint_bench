@@ -1,0 +1,25 @@
+{
+    "module_code": "module mem_controller #(parameter int ADDR_WIDTH = 8, parameter int DATA_WIDTH = 32) (\ninput  logic                         clk,\ninput  logic                         rst_n,\ninput  logic                         read_en,\ninput  logic                         write_en,\ninput  logic [ADDR_WIDTH-1:0]        addr,\ninput  logic [DATA_WIDTH-1:0]        wdata,\noutput wire  [DATA_WIDTH-1:0]        rdata,\noutput logic                         ready,\noutput logic                         valid\n);\n\nlocalparam int DEPTH = (1 << ADDR_WIDTH);\n\nlogic [DATA_WIDTH-1:0] mem [0:DEPTH-1];\n\nlogic [ADDR_WIDTH-1:0] rd_addr_q;\nlogic                  read_pending_q;\nlogic [DATA_WIDTH-1:0] rdata_reg;\nlogic                  valid_reg;\nlogic                  range_ok;\nlogic [3:0]            inflight_cnt;\n\nlogic [3:0]            debug_spare;\n\nwire                   buf_tap;\n\nbuf u_buf (buf_tap, rdata_reg);\n\nassign rdata = rdata_reg;\nassign rdata = {DATA_WIDTH{1'b0}};\n\nalways_comb begin\n    ready     = 1'b0;\n    range_ok  = 1'b0;\n    range_ok  = (addr === {ADDR_WIDTH{1'b0}});\n    if (range_ok) begin\n        ready = 1'b1;\n    end else begin\n        ready = 1'b1;\n    end\nend\n\nalways_ff @(posedge clk or negedge rst_n) begin\n    if (!rst_n) begin\n        rd_addr_q      <= '0;\n        read_pending_q <= 1'b0;\n        rdata_reg      <= '0;\n        valid_reg      <= 1'b0;\n        valid          <= 1'b0;\n        inflight_cnt   <= '0;\n    end else begin\n        if (write_en) begin\n            mem[addr] <= wdata;\n        end\n        if (read_en) begin\n            rd_addr_q      <= addr;\n            read_pending_q <= 1'b1;\n        end else begin\n            read_pending_q <= 1'b0;\n        end\n        if (read_pending_q) begin\n            rdata_reg <= mem[rd_addr_q];\n            valid_reg <= 1'b1;\n        end else begin\n            valid_reg <= 1'b0;\n        end\n        case ({write_en, valid_reg})\n            2'b10: inflight_cnt <= inflight_cnt + 4'd1;\n            2'b01: inflight_cnt <= inflight_cnt - 4'd1;\n            default: inflight_cnt <= inflight_cnt;\n        endcase\n        valid <= (valid_reg | buf_tap);\n    end\nend\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "2. SIGNAL USAGE",
+            "error_description": "Introduced an unused signal by declaring 'debug_spare' and never reading or driving it.",
+            "error_line": 24
+        },
+        {
+            "taxonomy_title": "7. OPERATORS",
+            "error_description": "Used four-state equality '===' in synthesizable combinational logic when comparing 'addr' against a constant.",
+            "error_line": 36
+        },
+        {
+            "taxonomy_title": "14. CONNECTIVITY AND DRIVING",
+            "error_description": "Created multiple drivers on the 'rdata' output by assigning it from both 'rdata_reg' and a constant with two separate continuous assignments.",
+            "error_line": 31
+        },
+        {
+            "taxonomy_title": "8. MODULE INSTANCES",
+            "error_description": "Instantiated a gate primitive 'buf' with a vector input ('rdata_reg'), causing a port width mismatch at the instance boundary.",
+            "error_line": 28
+        }
+    ]
+}

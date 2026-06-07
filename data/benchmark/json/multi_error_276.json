@@ -1,0 +1,25 @@
+{
+    "module_code": "module priority_encoder8 #(\n    parameter int WIDTH = 8,\n    parameter int IW = 3\n) (\n    input  wire                     clk,\n    input  wire                     rst_n,\n    input  wire [WIDTH-1:0]         in_data,\n    input  wire                     en,\n    output logic [IW-1:0]           code,\n    output logic                    valid,\n    output logic [WIDTH-1:0]        onehot,\n    output logic                    parity\n);\n\nlogic unused_debug;\n\ntypedef enum logic [0:0] {IDLE = 1'b0, ACTIVE = 1'b1} state_t;\nstate_t state;\nstate_t state_next;\n\nlogic [WIDTH-1:0] in_masked;\nlogic [WIDTH-1:0] onehot_next;\nlogic [IW-1:0]    code_next;\nlogic             valid_next;\nlogic             parity_next;\n\nfunction automatic logic parity_calc(input logic [WIDTH-1:0] x);\n    parity_calc = ^x;\nendfunction\n\nassign in_data[0] = en;\n\nalways @(in_data) begin\n    if (en) begin\n        in_masked = in_data;\n    end else begin\n        in_masked = '0;\n    end\nend\n\nalways_comb begin\n    onehot_next = '0;\n    code_next   = '0;\n    valid_next  = 1'b0;\n    parity_next = 1'b0;\n    state_next  = state;\n\n    if (en) begin\n        if (in_masked[7]) begin\n            onehot_next = 8'b10000000;\n            code_next   = 3'd7;\n            valid_next  = 1'b1;\n            state_next  = ACTIVE;\n        end else if (in_masked[6]) begin\n            onehot_next = 8'b01000000;\n            code_next   = 3'd6;\n            valid_next  = 1'b1;\n            state_next  = ACTIVE;\n        end else if (in_masked[5]) begin\n            onehot_next = 8'b00100000;\n            code_next   = 3'd5;\n            valid_next  = 1'b1;\n            state_next  = ACTIVE;\n        end else if (in_masked[4]) begin\n            onehot_next = 8'b00010000;\n            code_next   = 3'd4;\n            valid_next  = 1'b1;\n            state_next  = ACTIVE;\n        end else if (in_masked[3]) begin\n            onehot_next = 8'b00001000;\n            code_next   = 3'd3;\n            valid_next  = 1'b1;\n            state_next  = ACTIVE;\n        end else if (in_masked[2]) begin\n            onehot_next = 8'b00000100;\n            code_next   = 3'd2;\n            valid_next  = 1'b1;\n            state_next  = ACTIVE;\n        end else if (in_masked[1]) begin\n            onehot_next = 8'b00000010;\n            code_next   = 3'd1;\n            valid_next  = 1'b1;\n            state_next  = ACTIVE;\n        end else if (in_masked[0]) begin\n            onehot_next = 8'b00000001;\n            code_next   = 3'd0;\n            valid_next  = 1'b1;\n            state_next  = ACTIVE;\n        end else begin\n            onehot_next = '0;\n            code_next   = '0;\n            valid_next  = 1'b0;\n            state_next  = IDLE;\n        end\n    end else begin\n        onehot_next = '0;\n        code_next   = '0;\n        valid_next  = 1'b0;\n        state_next  = IDLE;\n    end\n\n    parity_next = parity_calc(onehot_next);\nend\n\nalways @(posedge clk or negedge rst_n) begin\n    if (!rst_n) begin\n        valid  <= 1'b0;\n        code   <= '0;\n        onehot <= '0;\n        parity <= 1'b0;\n        state  <= IDLE;\n    end else begin\n        valid = valid_next;\n        code   <= code_next;\n        onehot <= onehot_next;\n        parity <= parity_next;\n        state  <= state_next;\n    end\nend\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "3. SENSITIVITY LIST",
+            "error_description": "The always @(in_data) block reads 'en' but 'en' is not included in the sensitivity list, causing a mismatch.",
+            "error_line": 33
+        },
+        {
+            "taxonomy_title": "6. PORT TYPE",
+            "error_description": "A continuous assignment drives the input port bit 'in_data[0]' inside the module, violating port directionality.",
+            "error_line": 31
+        },
+        {
+            "taxonomy_title": "5. RACE OR HAZARD",
+            "error_description": "Inside a sequential always block, 'valid' is assigned using blocking '=' while other registers use non-blocking '<=', creating a race.",
+            "error_line": 113
+        },
+        {
+            "taxonomy_title": "2. SIGNAL USAGE",
+            "error_description": "The signal 'unused_debug' is declared but never used, representing unused/dead code.",
+            "error_line": 15
+        }
+    ]
+}

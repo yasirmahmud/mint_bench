@@ -1,0 +1,25 @@
+{
+    "module_code": "module alu_mixed_quality #(parameter WIDTH = 16) (\n    input  logic [WIDTH-1:0] a,\n    input  logic [WIDTH-1:0] b,\n    input  logic [3:0]        op,\n    output logic [WIDTH-1:0]  y,\n    output logic              carry,\n    output logic              zero\n);\n\n    wire  [WIDTH:0]           add_ext;\n    wire  [WIDTH:0]           sub_ext;\n    wire  [WIDTH-1:0]         add;\n    wire  [WIDTH-1:0]         sub;\n    wire                      carry_add;\n    wire                      carry_sub;\n\n    wire  [WIDTH-1:0]         andv;\n    wire  [WIDTH-1:0]         orv;\n    wire  [WIDTH-1:0]         xorv;\n    wire  [WIDTH-1:0]         notv;\n    wire  [WIDTH-1:0]         shl1;\n    wire  [WIDTH-1:0]         shr1;\n\n    wire  [2*WIDTH-1:0]       mul_ext;\n\n    wire  [WIDTH-1:0]         result_mux;\n    logic [WIDTH-1:0]         mask_sel;\n\n    wire  [7:0]               \\always ;\n    wire  [7:0]               narrow;\n    wire                      parity_bit;\n\n    assign add_ext   = {1'b0, a} + {1'b0, b};\n    assign add       = add_ext[WIDTH-1:0];\n    assign carry_add = add_ext[WIDTH];\n\n    assign sub_ext   = {1'b0, a} + {1'b0, ~b} + 1'b1;\n    assign sub       = sub_ext[WIDTH-1:0];\n    assign carry_sub = sub_ext[WIDTH];\n\n    assign andv      = a & b;\n    assign orv       = a | b;\n    assign xorv      = a ^ b;\n    assign notv      = ~a;\n    assign shl1      = a << 1;\n    assign shr1      = a >> 1;\n\n    assign mul_ext   = a * b;\n\n    assign narrow    = add;\n    assign \\always  = narrow;\n    assign parity_bit = ^\\always ;\n\n    always_comb begin\n        mask_sel = {WIDTH{1'b0}};\n        if (a && b) begin\n            mask_sel = {WIDTH{1'b1}};\n        end else if (|a) begin\n            mask_sel = {WIDTH{1'b0}};\n        end else begin\n            mask_sel = {WIDTH{1'b0}};\n        end\n    end\n\n    assign result_mux = (op == 4'd0) ? add :\n                        (op == 4'd1) ? sub :\n                        (op == 4'd2) ? andv :\n                        (op == 4'd3) ? orv :\n                        (op == 4'd4) ? xorv :\n                        (op == 4'd5) ? shl1 :\n                        (op == 4'd6) ? shr1 :\n                        (op == 4'd7) ? notv :\n                        (op == 4'd8) ? mul_ext[WIDTH-1:0] :\n                                       {WIDTH{1'b0}};\n\n    always_comb begin\n        y = result_mux & mask_sel;\n        unique case (op)\n            4'd0: carry = carry_add;\n            4'd1: carry = carry_sub;\n            4'd2: carry = 1'b0;\n            4'd3: carry = 1'b0;\n            4'd4: carry = 1'b0;\n            4'd5: carry = 1'b0;\n            4'd6: carry = 1'b0;\n            4'd7: carry = 1'b0;\n            4'd8: carry = 1'b0;\n            default: carry = 1'b0;\n        endcase\n        zero = ((y == {WIDTH{1'b0}}) & ~parity_bit);\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "11. BIT WIDTH USAGE",
+            "error_description": "Assigned a 16-bit add result to an 8-bit signal, causing truncation on the line 'assign narrow = add;'.",
+            "error_line": 50
+        },
+        {
+            "taxonomy_title": "13. CODE QUALITY AND SYNTHESIS",
+            "error_description": "Implemented a long, deeply nested conditional (chained ternary) for result selection on the 'assign result_mux = ...' line, creating a long combinational path.",
+            "error_line": 65
+        },
+        {
+            "taxonomy_title": "4. RESERVED WORDS",
+            "error_description": "Declared an escaped identifier using a SystemVerilog keyword as a name (wire [7:0] \\always), which is legal syntax but poor practice and flagged by lint.",
+            "error_line": 29
+        },
+        {
+            "taxonomy_title": "7. OPERATORS",
+            "error_description": "Used logical AND (&&) between vector operands in an if-condition instead of a bitwise operation, potentially causing unintended reduction semantics.",
+            "error_line": 56
+        }
+    ]
+}

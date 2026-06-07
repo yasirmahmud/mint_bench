@@ -1,0 +1,24 @@
+{
+    "module_code": "module instruction_decoder (\n    input  logic         clk,\n    input  logic         rst_n,\n    input  logic [15:0]  instr_in,\n    input  logic         valid_in,\n    input  logic         stall_in,\n    output wire          dec_valid,\n    output logic [3:0]   opcode,\n    output logic [3:0]   rd,\n    output logic [3:0]   rs1,\n    output logic [3:0]   rs2,\n    output logic [7:0]   imm,\n    output logic         is_alu,\n    output logic         is_load,\n    output logic         is_store,\n    output logic         is_branch,\n    output logic [2:0]   alu_op,\n    output logic [15:0]  branch_target\n);\n\nparameter int OPCODE_W = 4\n\ntypedef enum logic [1:0] {\n    IDLE   = 2'b00,\n    DECODE = 2'b01,\n    ISSUE  = 2'b10\n} state_e;\n\nstate_e state, next_state;\n\nalways_comb begin\n    opcode = instr_in[15:12];\n    rd     = instr_in[11:8];\n    rs1    = instr_in[7:4];\n    rs2    = instr_in[3:0];\n    imm    = instr_in[7:0];\nend\n\nalways_comb begin\n    is_alu    = 1'b0;\n    is_load   = 1'b0;\n    is_store  = 1'b0;\n    is_branch = 1'b0;\n    alu_op    = 3'b000;\n    unique case (opcode)\n        4'h0: begin\n            is_alu = 1'b1;\n            alu_op = 3'b000;\n        end\n        4'h1: begin\n            is_alu = 1'b1;\n            alu_op = 3'b001;\n        end\n        4'h2: begin\n            is_load = 1'b1;\n            alu_op = 3'b010;\n        end\n        4'h3: begin\n            is_store = 1'b1;\n            alu_op = 3'b011;\n        end\n        4'h4: begin\n            is_branch = 1'b1;\n            alu_op = 3'b100;\n        end\n        default: begin\n            is_alu = 1'b0;\n            alu_op = 3'b000;\n        end\n    endcase\nend\n\nalways_ff @(posedge clk or negedge rst_n) begin\n    if (!rst_n) begin\n        state <= IDLE;\n    end else begin\n        state <= next_state;\n    end\nend\n\nalways_comb begin\n    next_state = state;\n    unique case (state)\n        IDLE: begin\n            if (valid_in) begin\n                next_state = DECODE;\n            end\n        end\n        DECODE: begin\n            if (!stall_in) begin\n                next_state = ISSUE;\n            end\n        end\n    endcase\nend\n\nwire [OPCODE_W-1:0] opcode_shadow;\nassign opcode_shadow = opcode;\n\nwire dec_from_state;\nassign dec_from_state = (state == ISSUE) && !stall_in;\n\nwire dec_from_opcode;\nassign dec_from_opcode = |opcode_shadow;\n\nassign dec_valid = dec_from_state;\nassign dec_valid = dec_from_opcode;\n\nalways_comb begin\n    branch_target = 16'h0000;\n    if (is_branch) begin\n        branch_target = {8'h00, imm};\n    end\nend\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "1. SYNTAX STRUCTURE",
+            "error_description": "Missing semicolon at the end of the parameter declaration line.",
+            "error_line": 21
+        },
+        {
+            "taxonomy_title": "14. CONNECTIVITY AND DRIVING",
+            "error_description": "The output net dec_valid is driven by two separate continuous assignments, creating multiple active drivers.",
+            "error_line": 107,
+            "acceptable_error_lines": [
+                107,
+                108
+            ]
+        },
+        {
+            "taxonomy_title": "12. STATE MACHINE (FSM) DEFECTS",
+            "error_description": "The FSM next_state case statement omits a default branch and does not handle the ISSUE state, leaving an unhandled transition scenario.",
+            "error_line": 83
+        }
+    ]
+}

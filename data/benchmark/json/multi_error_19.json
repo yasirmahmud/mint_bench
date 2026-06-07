@@ -1,0 +1,29 @@
+{
+    "module_code": "module robust_counter\n  #(parameter WIDTH = 16)\n  (\n    input  logic                   clk,\n    input  logic                   rst_n,\n    input  logic                   enable,\n    input  logic                   up_down,\n    input  logic                   load,\n    input  logic                   pause,\n    input  logic                   wrap_mode,\n    input  logic                   saturate_mode,\n    input  logic [WIDTH-1:0]       load_value,\n    input  logic [WIDTH-1:0]       max_value,\n    input  logic [3:0]             step,\n    output wire [WIDTH-1:0]        count_out,\n    output wire                    rollover,\n    output wire                    at_max\n  );\n\n  localparam [WIDTH-1:0] ONE = {{(WIDTH-1){1'b0}}, 1'b1};\n\n  logic [WIDTH-1:0] count_q;\n  logic [WIDTH-1:0] next_val;\n  logic [WIDTH-1:0] inc_w;\n  logic [3:0]       inc_amt;\n  logic             rollover_q;\n  logic             at_max_q;\n  logic             hold_flag;\n  logic             eff_enable;\n  logic             will_wrap_up;\n  logic             will_wrap_down;\n\n  always @(enable) begin\n    if (enable)\n      inc_amt = step;\n    else\n      inc_amt = 4'd0;\n  end\n\n  always @(*) begin\n    inc_w = {{(WIDTH-4){1'b0}}, inc_amt};\n  end\n\n  always @(*) begin\n    if (pause) begin\n      hold_flag = 1'b1;\n    end else if (enable) begin\n      hold_flag = 1'b0;\n    end\n  end\n\n  always @(*) begin\n    eff_enable = enable & ~hold_flag;\n  end\n\n  always @(*) begin\n    will_wrap_up = wrap_mode && up_down && (count_q + inc_w > max_value);\n    will_wrap_down = wrap_mode && !up_down && (count_q < inc_w);\n  end\n\n  always @(*) begin\n    next_val = count_q;\n    if (eff_enable) begin\n      if (up_down) begin\n        next_val = count_q + inc_w;\n      end else begin\n        next_val = count_q - inc_w;\n      end\n      if (wrap_mode) begin\n        if (up_down && (count_q + inc_w > max_value)) begin\n          next_val = (count_q + inc_w) - (max_value + ONE);\n        end else if (!up_down && (count_q < inc_w)) begin\n          next_val = (max_value + ONE) - (inc_w - count_q);\n        end\n      end else if (saturate_mode) begin\n        if (up_down && (count_q + inc_w > max_value)) begin\n          next_val = max_value;\n        end else if (!up_down && (count_q < inc_w)) begin\n          next_val = '0;\n        end\n      end\n    end\n  end\n\n  always @(posedge clk or negedge rst_n) begin\n    if (!rst_n) begin\n      count_q <= '0;\n      rollover_q <= 1'b0;\n      at_max_q <= 1'b0;\n    end else begin\n      if (load) begin\n        count_q <= load_value;\n        rollover_q <= 1'b0;\n      end else if (eff_enable) begin\n        count_q <= next_val;\n        rollover_q = will_wrap_up || will_wrap_down;\n      end else begin\n        count_q <= count_q;\n      end\n      at_max_q <= (count_q == max_value);\n    end\n  end\n\n  assign count_out = count_q;\n  assign count_out = next_val;\n  assign rollover = rollover_q;\n  assign at_max = at_max_q;\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "3. SENSITIVITY LIST",
+            "error_description": "A combinational always block uses an explicit sensitivity list that omits the signal 'step' even though it is read inside the block, causing a simulation-synthesis mismatch.",
+            "error_line": 33
+        },
+        {
+            "taxonomy_title": "9. LOGIC SYNTHESIS",
+            "error_description": "The if/else chain assigns 'hold_flag' on some paths but not all in an always @(*) block, inferring a latch during synthesis.",
+            "error_line": 45,
+            "acceptable_error_lines": [
+                44,
+                45
+            ]
+        },
+        {
+            "taxonomy_title": "5. RACE OR HAZARD",
+            "error_description": "A sequential block mixes non-blocking (<=) and blocking (=) assignments; 'rollover_q' is assigned with blocking inside a clocked block, creating potential race conditions.",
+            "error_line": 96
+        },
+        {
+            "taxonomy_title": "14. CONNECTIVITY AND DRIVING",
+            "error_description": "The output net 'count_out' is driven by two concurrent continuous assignments, creating multiple active drivers on the same net.",
+            "error_line": 105
+        }
+    ]
+}

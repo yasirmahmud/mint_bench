@@ -1,0 +1,15 @@
+{
+    "module_code": "module mux8_complex #(parameter WIDTH = 16) (\n    input  logic                   clk,\n    input  logic                   rst_n,\n    input  logic [2:0]             sel,\n    input  logic [WIDTH-1:0]       in0,\n    input  logic [WIDTH-1:0]       in1,\n    input  logic [WIDTH-1:0]       in2,\n    input  logic [WIDTH-1:0]       in3,\n    input  logic [WIDTH-1:0]       in4,\n    input  logic [WIDTH-1:0]       in5,\n    input  logic [WIDTH-1:0]       in6,\n    input  logic [WIDTH-1:0]       in7,\n    output logic [WIDTH-1:0]       y,\n    output logic                   valid\n);\n\n    logic [WIDTH-1:0] in_bus [0:7];\n    logic [WIDTH-1:0] y_main;\n    logic [WIDTH-1:0] y_post;\n    logic [WIDTH-1:0] y_masked;\n    logic [WIDTH-1:0] mask;\n    logic             flip;\n    logic             even_sel;\n    logic             valid_next;\n    logic [WIDTH-1:0] debug_shadow;\n\n    always_comb begin\n        in_bus[0] = in0;\n        in_bus[1] = in1;\n        in_bus[2] = in2;\n        in_bus[3] = in3;\n        in_bus[4] = in4;\n        in_bus[5] = in5;\n        in_bus[6] = in6;\n        in_bus[7] = in7;\n    end\n\n    always_comb begin\n        if (sel == 3'd0) y_main = in_bus[0];\n        else if (sel == 3'd1) y_main = in_bus[1];\n        else if (sel == 3'd2) y_main = in_bus[2];\n        else if (sel == 3'd3) y_main = in_bus[3];\n        else if (sel == 3'd4) y_main = in_bus[4];\n        else if (sel == 3'd5) y_main = in_bus[5];\n        else if (sel == 3'd6) y_main = in_bus[6];\n    end\n\n    assign flip = sel[0] ^ sel[1] ^ sel[2];\n\n    assign even_sel = ~sel[0];\n\n    always_comb begin\n        if (flip) mask = {WIDTH{1'b1}};\n        else      mask = {WIDTH{1'b0}};\n    end\n\n    always_comb begin\n        y_post = y_main ^ mask;\n    end\n\n    always_comb begin\n        if (even_sel) y_masked = y_post;\n        else          y_masked = y_post;\n    end\n\n    assign y = y_masked;\n\n    always_comb begin\n        valid_next = (sel != 3'd7);\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            valid <= 1'b0;\n        end else begin\n            valid <= valid_next;\n        end\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "10. COMBINATIONAL OR SEQUENTIAL",
+            "error_description": "Introduced latch inference by not assigning y_main for sel == 3'd7 within an always_comb block, causing state-holding behavior in what should be pure combinational logic.",
+            "error_line": 38
+        },
+        {
+            "taxonomy_title": "2. SIGNAL USAGE",
+            "error_description": "Declared internal signal 'debug_shadow' that is never used anywhere in the module.",
+            "error_line": 25
+        }
+    ]
+}

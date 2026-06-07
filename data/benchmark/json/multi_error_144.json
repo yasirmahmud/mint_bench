@@ -1,0 +1,20 @@
+{
+    "module_code": "module flexible_shift_register #(parameter int WIDTH = 16, parameter int DEPTH = 4) (\n    input  logic                 clk,\n    input  logic                 rst_n,\n    input  logic                 en,\n    input  logic                 load,\n    input  logic                 shift_left,\n    input  logic [WIDTH-1:0]     data_in,\n    input  logic                 serial_in,\n    output logic [WIDTH-1:0]     data_out,\n    output logic                 serial_out,\n    output logic                 parity_out,\n    output logic [7:0]           debug_tap_narrow\n);\n\ntypedef enum logic [0:0] {MODE_A = 1'b0, MODE_B = 1'b1} mode_t\n\nmode_t mode_q;\nlogic [WIDTH-1:0] sr [0:DEPTH-1];\nlogic [7:0] tap_narrow;\nlogic [7:0] unused_dbg_counter;\nlogic [WIDTH-1:0] stage_tail;\nlogic do_shift;\n\nfunction automatic logic parity_reduce(input logic [WIDTH-1:0] v);\n    parity_reduce = ^v;\nendfunction\n\nalways_comb begin\n    stage_tail = sr[DEPTH-1];\nend\n\nalways_comb begin\n    do_shift = en && !load;\nend\n\nalways_ff @(posedge clk or negedge rst_n) begin\n    if (!rst_n) begin\n        mode_q <= MODE_A;\n    end else if (load) begin\n        mode_q <= shift_left ? MODE_B : MODE_A;\n    end\nend\n\nalways_ff @(posedge clk or negedge rst_n) begin\n    if (!rst_n) begin\n        for (int i = 0; i < DEPTH; i++) begin\n            sr[i] <= '0;\n        end\n    end else begin\n        if (load) begin\n            sr[0] <= data_in;\n        end else if (do_shift) begin\n            if (shift_left) begin\n                sr[0] <= {sr[0][WIDTH-2:0], serial_in};\n            end else begin\n                sr[0] <= {serial_in, sr[0][WIDTH-1:1]};\n            end\n        end\n        for (int j = 1; j < DEPTH; j++) begin\n            if (load || do_shift) begin\n                sr[j] <= sr[j-1];\n            end\n        end\n    end\nend\n\nassign data_out   = stage_tail;\nassign serial_out = (mode_q == MODE_B) ? stage_tail[WIDTH-1] : stage_tail[0];\nassign tap_narrow = sr[0];\nassign debug_tap_narrow = tap_narrow;\nassign parity_out = parity_reduce(stage_tail);\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "1. SYNTAX STRUCTURE",
+            "error_description": "Missing semicolon at the end of a typedef declaration line introduces a syntax structure violation.",
+            "error_line": 15
+        },
+        {
+            "taxonomy_title": "2. SIGNAL USAGE",
+            "error_description": "Declared a logic vector 'unused_dbg_counter' that is never read or driven anywhere else.",
+            "error_line": 20
+        },
+        {
+            "taxonomy_title": "11. BIT WIDTH USAGE",
+            "error_description": "Assigned a WIDTH-bit vector 'sr[0]' to an 8-bit signal 'tap_narrow', causing truncation due to width mismatch.",
+            "error_line": 69
+        }
+    ]
+}

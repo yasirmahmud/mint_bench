@@ -1,0 +1,25 @@
+{
+    "module_code": "module fsm_misclean (\n  input  logic        clk,\n  input  logic        rst_n,\n  input  logic        start,\n  input  logic        load_valid,\n  input  logic [15:0] data_in,\n  output logic        done,\n  output logic [7:0]  sum,\n  output logic        parity,\n  output logic [3:0]  dbg\n);\n\n  typedef enum logic [2:0] {\n    S_IDLE,\n    S_LOAD,\n    S_ACCUM,\n    S_CHECK,\n    S_DONE\n  } state_t;\n\n  state_t state;\n  state_t next_state;\n  logic [15:0] acc;\n  logic [3:0]  count;\n  logic [7:0]  shadow_sum;\n\n  assign sum  = shadow_sum;\n  assign done = (state == S_DONE);\n  assign dbg  = acc;\n\n  always @(clk or negedge rst_n) begin\n    if (!rst_n) begin\n      state <= S_IDLE;\n    end else begin\n      state <= next_state;\n    end\n  end\n\n  always_comb begin\n    next_state = state;\n    case (state)\n      S_IDLE: begin\n        if (start) next_state = S_LOAD;\n        else next_state = S_IDLE;\n      end\n      S_LOAD: begin\n        if (load_valid) next_state = S_ACCUM;\n        else next_state = S_LOAD;\n      end\n      S_ACCUM: begin\n        if (count == 4'd7) next_state = S_CHECK;\n        else next_state = S_ACCUM;\n      end\n      S_CHECK: begin\n        next_state = S_DONE;\n      end\n      S_DONE: begin\n        if (!start) next_state = S_IDLE;\n        else next_state = S_DONE;\n      end\n      default: next_state = S_IDLE;\n    endcase\n  end\n\n  always @(posedge clk) begin\n    if (!rst_n) begin\n      acc        <= 16'd0;\n      count      <= 4'd0;\n      shadow_sum = 8'd0;\n    end else begin\n      if (state == S_LOAD && load_valid) begin\n        acc   <= data_in;\n        count <= 4'd0;\n      end else if (state == S_ACCUM) begin\n        acc   <= acc + data_in;\n        count <= count + 4'd1;\n      end\n      shadow_sum = acc[7:0];\n    end\n  end\n\n  always_comb begin\n    case (state)\n      S_IDLE:  parity = 1'b0;\n      S_LOAD:  parity = ^data_in;\n      S_ACCUM: parity = ^acc;\n      S_CHECK: parity = ^(acc[7:0]);\n      S_DONE:  ;\n    endcase\n  end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "10. COMBINATIONAL OR SEQUENTIAL",
+            "error_description": "State register uses a level-sensitive clock in the sensitivity list (always @(clk or negedge rst_n)) instead of an edge-specific clock, mixing asynchronous reset with improper sequential coding.",
+            "error_line": 31
+        },
+        {
+            "taxonomy_title": "5. RACE OR HAZARD",
+            "error_description": "Within a clocked sequential block, a blocking assignment (shadow_sum = acc[7:0];) is used alongside non-blocking assignments, creating potential race conditions.",
+            "error_line": 78
+        },
+        {
+            "taxonomy_title": "9. LOGIC SYNTHESIS",
+            "error_description": "Combinational parity logic omits assignment in one case branch (S_DONE) without a default, inferring a latch.",
+            "error_line": 82
+        },
+        {
+            "taxonomy_title": "11. BIT WIDTH USAGE",
+            "error_description": "A 16-bit value is assigned to a 4-bit output (assign dbg = acc;), causing truncation of the upper bits.",
+            "error_line": 29
+        }
+    ]
+}

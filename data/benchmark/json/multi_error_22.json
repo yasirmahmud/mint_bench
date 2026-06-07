@@ -1,0 +1,25 @@
+{
+    "module_code": "module smart_mux #(parameter int WIDTH = 8, parameter int N_INPUTS = 4) (\n    input  logic clk,\n    input  logic rst,\n    input  logic [N_INPUTS*WIDTH-1:0] in_bus,\n    input  logic [$clog2(N_INPUTS)-1:0] sel,\n    output logic [WIDTH-1:0] y\n);\n\n    localparam int SSEL = $clog2(N_INPUTS);\n\n    logic [WIDTH-1:0] inputs [N_INPUTS];\n    logic [WIDTH-1:0] stage0;\n    logic [WIDTH-1:0] stage1;\n    logic [WIDTH-1:0] stage2;\n    logic [SSEL-1:0] sel_q;\n    logic lock;\n    logic use_odd;\n    logic [WIDTH-1:0] masked0;\n    logic [WIDTH-1:0] masked1;\n    logic [WIDTH-1:0] default_value;\n    logic [WIDTH-1:0] y_internal;\n    logic tap;\n    logic bit;\n\n    genvar i;\n    generate\n        for (i = 0; i < N_INPUTS; i++) begin : UNPACK\n            always_comb begin\n                inputs[i] = in_bus[i*WIDTH +: WIDTH];\n            end\n        end\n    endgenerate\n\n    always_comb begin\n        unique case (sel)\n            0: stage0 = inputs[0];\n            1: stage0 = inputs[1];\n            2: stage0 = inputs[2];\n            3: stage0 = inputs[3];\n            default: stage0 = '0;\n        endcase\n    end\n\n    always_comb begin\n        use_odd = ^sel;\n    end\n\n    always_ff @(posedge clk or posedge rst) begin\n        if (rst) begin\n            sel_q  <= '0;\n            stage1 <= '0;\n        end else begin\n            sel_q  <= sel;\n            stage1 <= stage0;\n            lock = use_odd;\n        end\n    end\n\n    always_comb begin\n        masked0 = stage1 & {WIDTH{~lock}};\n        masked1 = stage1 | {WIDTH{lock}};\n    end\n\n    always_comb begin\n        if (use_odd) begin\n            stage2 = masked1 ^ default_value;\n        end else begin\n            stage2 = masked0 | default_value;\n        end\n    end\n\n    always_comb begin\n        default_value = {WIDTH{tap}};\n    end\n\n    always_comb begin\n        tap = |y_internal;\n    end\n\n    smart_mux u_rec (.clk(clk), .rst(rst), .in_bus(in_bus), .sel(sel), .y(y_internal));\n\n    assign y = stage2\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "8. MODULE INSTANCES",
+            "error_description": "Illegal recursive instantiation of the enclosing module, creating a structural boundary error at elaboration.",
+            "error_line": 80
+        },
+        {
+            "taxonomy_title": "5. RACE OR HAZARD",
+            "error_description": "Mixed blocking and non-blocking assignments within the same sequential always_ff block by using a blocking assignment to 'lock'.",
+            "error_line": 55
+        },
+        {
+            "taxonomy_title": "4. RESERVED WORDS",
+            "error_description": "Used a SystemVerilog reserved keyword as an identifier by declaring 'logic bit;'.",
+            "error_line": 23
+        },
+        {
+            "taxonomy_title": "1. SYNTAX STRUCTURE",
+            "error_description": "Omitted a semicolon at the end of a continuous assignment statement 'assign y = stage2'.",
+            "error_line": 82
+        }
+    ]
+}

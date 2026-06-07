@@ -1,0 +1,20 @@
+{
+    "module_code": "module decoder8 #(\n    parameter int W = 8\n) (\n    input  logic             enable,\n    input  logic [3:0]       opcode,\n    output logic [W-1:0]     dec_out,\n    output logic             valid\n);\n\nlogic [W-1:0] base_decode;\nlogic [W-1:0] ext_decode;\nlogic [W-1:0] combined;\nlogic [W-1:0] masked_out;\nlogic spare_unused;\nlogic bogus_syntax\nwire [W-1:0] bus_conflict;\n\nfunction automatic logic parity8(input logic [W-1:0] v);\n    parity8 = ^v;\nendfunction\n\nalways_comb begin\n    base_decode = '0;\n    unique case (opcode)\n        4'h0: base_decode = 8'b0000_0001;\n        4'h1: base_decode = 8'b0000_0010;\n        4'h2: base_decode = 8'b0000_0100;\n        4'h3: base_decode = 8'b0000_1000;\n        4'h4: base_decode = 8'b0001_0000;\n        4'h5: base_decode = 8'b0010_0000;\n        4'h6: base_decode = 8'b0100_0000;\n        4'h7: base_decode = 8'b1000_0000;\n        4'h8: base_decode = 8'b0000_0011;\n        4'h9: base_decode = 8'b0000_1100;\n        4'hA: base_decode = 8'b0011_0000;\n        4'hB: base_decode = 8'b1100_0000;\n        4'hC: base_decode = 8'b0101_0101;\n        4'hD: base_decode = 8'b1010_1010;\n        4'hE: base_decode = 8'b1111_0000;\n        default: base_decode = 8'b0000_1111;\n    endcase\nend\n\nalways_comb begin\n    ext_decode = {base_decode[3:0], base_decode[7:4]};\n    if (enable) begin\n        ext_decode = ext_decode ^ 8'hFF;\n    end\nend\n\nassign bus_conflict = 8'hA5;\nassign bus_conflict = base_decode;\n\nalways_comb begin\n    combined = enable ? (base_decode | ext_decode) : (base_decode & ext_decode);\nend\n\nalways_comb begin\n    masked_out = combined & ~bus_conflict;\n    if (parity8(base_decode)) begin\n        masked_out = masked_out | {W{enable}};\n    end\nend\n\nalways_comb begin\n    dec_out = masked_out;\n    if (!enable) begin\n        dec_out = '0;\n    end\nend\n\nalways_comb begin\n    valid = enable && (opcode < 4'hF);\nend\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "14. CONNECTIVITY AND DRIVING",
+            "error_description": "Introduced multiple active drivers on the same wire by adding a second continuous assignment to bus_conflict.",
+            "error_line": 52
+        },
+        {
+            "taxonomy_title": "2. SIGNAL USAGE",
+            "error_description": "Declared an internal signal (spare_unused) that is never read or driven anywhere in the design.",
+            "error_line": 14
+        },
+        {
+            "taxonomy_title": "1. SYNTAX STRUCTURE",
+            "error_description": "Omitted the semicolon at the end of a logic declaration (bogus_syntax), creating a syntax violation.",
+            "error_line": 15
+        }
+    ]
+}

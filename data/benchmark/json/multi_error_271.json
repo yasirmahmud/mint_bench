@@ -1,0 +1,25 @@
+{
+    "module_code": "module decoder16 (\n    input  logic        enable,\n    input  logic        mode,\n    input  logic [3:0]  opcode,\n    output logic [15:0] decode_out,\n    output logic        valid\n);\n\n    localparam int W = 16;\n\n    logic [W-1:0] one_hot;\n    logic [W-1:0] gated_one_hot;\n    wire  [W-1:0] contended_bus;\n    logic         cell_y;\n    logic         gated_enable;\n    logic         \\always_comb;\n\n    function automatic [W-1:0] saturate(input [W-1:0] v);\n        saturate = v;\n    endfunction\n\n    assign \\always_comb = ^opcode;\n    assign gated_enable = enable & ~\\always_comb;\n\n    logic [W-1:0] mask_a;\n    logic [W-1:0] mask_b;\n\n    assign mask_a = one_hot ^ {one_hot[W-2:0], one_hot[W-1]};\n    assign mask_b = {W{enable}} & ~mask_a;\n\n    decode_cell u_dc (.sel(opcode[3:0]), .en(enable), .y(cell_y));\n\n    always @(opcode or enable) begin\n        one_hot = '0;\n        unique case (opcode)\n            4'h0: one_hot = 16'h0001;\n            4'h1: one_hot = 16'h0002;\n            4'h2: one_hot = 16'h0004;\n            4'h3: one_hot = 16'h0008;\n            4'h4: one_hot = 16'h0010;\n            4'h5: one_hot = 16'h0020;\n            4'h6: one_hot = 16'h0040;\n            4'h7: one_hot = 16'h0080;\n            4'h8: one_hot = 16'h0100;\n            4'h9: one_hot = 16'h0200;\n            4'hA: one_hot = 16'h0400;\n            4'hB: one_hot = 16'h0800;\n            4'hC: one_hot = 16'h1000;\n            4'hD: one_hot = 16'h2000;\n            4'hE: one_hot = 16'h4000;\n            4'hF: one_hot = 16'h8000;\n        endcase\n        if (mode) begin\n            one_hot[0] = ~one_hot[0];\n        end\n        one_hot[1] = one_hot[1] | cell_y;\n        gated_one_hot = one_hot & {W{gated_enable}};\n    end\n\n    assign contended_bus = gated_one_hot;\n    assign contended_bus = {W{\\always_comb}};\n\n    logic [W-1:0] merged;\n    assign merged = contended_bus | mask_b;\n\n    assign decode_out = saturate(merged);\n    assign valid = enable & (|decode_out);\n\nendmodule\n\nmodule decode_cell (\n    input  logic sel,\n    input  logic en,\n    output logic y\n);\n    assign y = en & sel;\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "3. SENSITIVITY LIST",
+            "error_description": "The combinational always block reads 'mode' and 'cell_y' but only 'opcode' and 'enable' are listed in the sensitivity list.",
+            "error_line": 33
+        },
+        {
+            "taxonomy_title": "14. CONNECTIVITY AND DRIVING",
+            "error_description": "The net 'contended_bus' is driven by two continuous assignments, creating multiple active drivers.",
+            "error_line": 61
+        },
+        {
+            "taxonomy_title": "4. RESERVED WORDS",
+            "error_description": "Declared an escaped identifier named '\\always_comb', which uses a reserved keyword as a signal name.",
+            "error_line": 16
+        },
+        {
+            "taxonomy_title": "8. MODULE INSTANCES",
+            "error_description": "Instantiated 'decode_cell' with a 4-bit vector connected to 1-bit input port 'sel', creating a port width mismatch.",
+            "error_line": 31
+        }
+    ]
+}

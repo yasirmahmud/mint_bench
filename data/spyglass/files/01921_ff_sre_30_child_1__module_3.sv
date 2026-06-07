@@ -1,0 +1,32 @@
+ff_sre    ff_sre_0(.q(out[0]), .d(din[0]), .en(enable), .rst_l(reset_l), .clk(clk));
+    ff_sre    ff_sre_1(.q(out[1]), .d(din[1]), .en(enable), .rst_l(reset_l), .clk(clk));
+    ff_sre    ff_sre_2(.q(out[2]), .d(din[2]), .en(enable), .rst_l(reset_l), .clk(clk));
+    ff_sre    ff_sre_3(.q(out[3]), .d(din[3]), .en(enable), .rst_l(reset_l), .clk(clk));
+    ff_sre    ff_sre_4(.q(out[4]), .d(din[4]), .en(enable), .rst_l(reset_l), .clk(clk));
+    ff_sre    ff_sre_5(.q(out[5]), .d(din[5]), .en(enable), .rst_l(reset_l), .clk(clk));
+    ff_sre    ff_sre_6(.q(out[6]), .d(din[6]), .en(enable), .rst_l(reset_l), .clk(clk));
+    ff_sre    ff_sre_7(.q(out[7]), .d(din[7]), .en(enable), .rst_l(reset_l), .clk(clk));
+    ff_sre    ff_sre_8(.q(out[8]), .d(din[8]), .en(enable), .rst_l(reset_l), .clk(clk));
+    ff_sre    ff_sre_9(.q(out[9]), .d(din[9]), .en(enable), .rst_l(reset_l), .clk(clk));
+    ff_sre    ff_sre_10(.q(out[10]), .d(din[10]), .en(enable), .rst_l(reset_l), .clk(clk));
+    ff_sre    ff_sre_11(.q(out[11]), .d(din[11]), .en(enable), .rst_l(reset_l), .clk(clk));
+    ff_sre    ff_sre_12(.q(out[12]), .d(din[12]), .en(enable), .rst_l(reset_l), .clk(clk));
+    ff_sre    ff_sre_13(.q(out[13]), .d(din[13]), .en(enable), .rst_l(reset_l), .clk(clk));
+    ff_sre    ff_sre_14(.q(out[14]), .d(din[14]), .en(enable), .rst_l(reset_l), .clk(clk));
+    ff_sre    ff_sre_15(.q(out[15]), .d(din[15]), .en(enable), .rst_l(reset_l), .clk(clk));
+    ff_sre    ff_sre_16(.q(out[16]), .d(din[16]), .en(enable), .rst_l(reset_l), .clk(clk));
+    ff_sre    ff_sre_17(.q(out[17]), .d(din[17]), .en(enable), .rst_l(reset_l), .clk(clk));
+    ff_sre    ff_sre_18(.q(out[18]), .d(din[18]), .en(enable), .rst_l(reset_l), .clk(clk));
+    ff_sre    ff_sre_19(.q(out[19]), .d(din[19]), .en(enable), .rst_l(reset_l), .clk(clk));
+    ff_sre    ff_sre_20(.q(out[20]), .d(din[20]), .en(enable), .rst_l(reset_l), .clk(clk));
+    ff_sre    ff_sre_21(.q(out[21]), .d(din[21]), .en(enable), .rst_l(reset_l), .clk(clk));
+    ff_sre    ff_sre_22(.q(out[22]), .d(din[22]), .en(enable), .rst_l(reset_l), .clk(clk));
+    ff_sre    ff_sre_23(.q(out[23]), .d(din[23]), .en(enable), .rst_l(reset_l), .clk(clk));
+    ff_sre    ff_sre_24(.q(out[24]), .d(din[24]), .en(enable), .rst_l(reset_l), .clk(clk));
+    ff_sre    ff_sre_25(.q(out[25]), .d(din[25]), .en(enable), .rst_l(reset_l), .clk(clk));
+    ff_sre    ff_sre_26(.q(out[26]), .d(din[26]), .en(enable), .rst_l(reset_l), .clk(clk));
+    ff_sre    ff_sre_27(.q(out[27]), .d(din[27]), .en(enable), .rst_l(reset_l), .clk(clk));
+    ff_sre    ff_sre_28(.q(out[28]), .d(din[28]), .en(enable), .rst_l(reset_l), .clk(clk));
+    ff_sre    ff_sre_29(.q(out[29]), .d(din[29]), .en(enable), .rst_l(reset_l), .clk(clk));
+
+endmodule

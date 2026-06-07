@@ -1,0 +1,25 @@
+{
+    "module_code": "module fifo_strict #(\n    parameter int WIDTH = 8,\n    parameter int DEPTH = 16,\n    parameter int ADDR_BITS = $clog2(DEPTH)\n) (\n    input  logic                   clk,\n    input  logic                   rst_n,\n    input  logic                   wr_en,\n    input  logic                   rd_en,\n    input  logic [WIDTH-1:0]       din,\n    output logic [WIDTH-1:0]       dout,\n    output logic                   full,\n    output logic                   empty,\n    output logic [ADDR_BITS-1:0]   level\n);\n\n    logic [WIDTH-1:0]              mem [DEPTH-1:0];\n    logic [ADDR_BITS-1:0]          wr_ptr;\n    logic [ADDR_BITS-1:0]          rd_ptr;\n    logic [ADDR_BITS:0]            count;\n\n    logic [ADDR_BITS-1:0]          wr_ptr_next;\n    logic [ADDR_BITS-1:0]          rd_ptr_next;\n    logic [ADDR_BITS:0]            count_next;\n\n    logic                          wr_allow;\n    logic                          rd_allow;\n\n    logic                          full_next;\n    logic                          empty_next;\n\n    logic [WIDTH-1:0]              dout_reg;\n\n    logic                          unused_flag;\n\n    assign dout = dout_reg;\n    assign level = count;\n\n    always_comb begin\n        wr_allow   = wr_en && !full;\n        rd_allow   = rd_en && !empty;\n\n        wr_ptr_next = wr_ptr;\n        rd_ptr_next = rd_ptr;\n        count_next  = count;\n\n        if (wr_allow && !rd_allow) begin\n            if (count != DEPTH) begin\n                wr_ptr_next = wr_ptr + 1'b1;\n                count_next  = count + 1'b1;\n            end\n        end\n\n        if (rd_allow && !wr_allow) begin\n            if (count != 0) begin\n                rd_ptr_next = rd_ptr + 1'b1;\n                count_next  = count - 1'b1;\n            end\n        end\n\n        if (rd_allow && wr_allow) begin\n            wr_ptr_next = wr_ptr + 1'b1;\n            rd_ptr_next = rd_ptr + 1'b1;\n            count_next  = count;\n        end\n\n        full_next  = (count_next == DEPTH);\n        empty_next = (count_next == 0);\n    end\n\n    always_comb begin\n        dout_reg = '0;\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin : state_proc\n        if (!rst_n) begin\n            wr_ptr   <= '0;\n            rd_ptr   <= '0;\n            count    <= '0;\n            full     <= 1'b0;\n            empty    <= 1'b1;\n            dout_reg <= '0;\n        end else begin\n            begin : ptr_update\n                wr_ptr <= wr_ptr_next;\n                rd_ptr <= rd_ptr_next;\n            end : ptr_update_wrong\n            count <= count_next;\n            full  <= full_next;\n            empty <= empty_next;\n\n            if (rd_allow) begin\n                dout_reg <= mem[rd_ptr];\n            end\n\n            if (wr_allow) begin\n                mem[wr_ptr] <= din;\n            end\n        end\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "11. BIT WIDTH USAGE",
+            "error_description": "Assigned a wider vector (count with ADDR_BITS+1 bits) to a narrower output (level with ADDR_BITS bits), causing truncation.",
+            "error_line": 37
+        },
+        {
+            "taxonomy_title": "2. SIGNAL USAGE",
+            "error_description": "Declared an internal signal (unused_flag) that is never read or driven anywhere in the module.",
+            "error_line": 34
+        },
+        {
+            "taxonomy_title": "10. COMBINATIONAL OR SEQUENTIAL",
+            "error_description": "Assigned to a sequentially-updated register (dout_reg) inside an always_comb block, mixing combinational and sequential domains.",
+            "error_line": 72
+        },
+        {
+            "taxonomy_title": "1. SYNTAX STRUCTURE",
+            "error_description": "Used a mismatched named block end label (end : ptr_update_wrong) for a begin block labeled ptr_update.",
+            "error_line": 87
+        }
+    ]
+}

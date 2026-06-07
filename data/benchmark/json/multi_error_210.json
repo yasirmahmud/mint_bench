@@ -1,0 +1,15 @@
+{
+    "module_code": "module priority_encoder8 (\n    input  logic        clk,\n    input  logic        rst_n,\n    input  logic        en,\n    input  logic [7:0]  data_in,\n    output logic [2:0]  code,\n    output logic        valid,\n    output logic [7:0]  one_hot\n);\n\n    logic [7:0] masked_in;\n    logic [2:0] code_comb;\n    logic [7:0] one_hot_comb;\n    logic       valid_comb;\n    logic [3:0] bit_count;\n    logic       has_multi;\n    logic [7:0] priority_mask;\n    logic [7:0] gated_in;\n\n    function automatic logic [2:0] encode8(input logic [7:0] v);\n        int i;\n        encode8 = 3'd0;\n        for (i = 7; i >= 0; i--) begin\n            if (v[i]) begin\n                encode8 = logic'(i[2:0]);\n                break;\n            end\n        end\n    endfunction\n\n    function automatic logic [7:0] isolate_first(input logic [7:0] v);\n        int i;\n        isolate_first = 8'b0;\n        for (i = 7; i >= 0; i--) begin\n            if (v[i]) begin\n                isolate_first[i] = 1'b1;\n                break;\n            end\n        end\n    endfunction\n\n    function automatic logic [3:0] popcount8(input logic [7:0] v);\n        int i;\n        popcount8 = 4'd0;\n        for (i = 0; i < 8; i++) begin\n            popcount8 = popcount8 + logic'(v[i]);\n        end\n    endfunction\n\n    always_comb begin\n        gated_in    = data_in & {8{en}};\n        masked_in   = gated_in;\n        valid_comb  = (masked_in === 8'b0) ? 1'b0 : 1'b1;\n        bit_count   = popcount8(masked_in);\n        has_multi   = (bit_count > 4'd1);\n        one_hot_comb = isolate_first(masked_in);\n        code_comb    = encode8(masked_in);\n        priority_mask = 8'b0;\n        if (valid_comb) begin\n            priority_mask = one_hot_comb;\n        end else begin\n            priority_mask = 8'b0;\n        end\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            code    <= 3'd0;\n            valid   <= 1'b0;\n            one_hot <= 8'd0;\n        end else begin\n            code    <= code_comb;\n            valid   <= valid_comb;\n            one_hot <= one_hot_comb;\n            if (has_multi) begin\n                code <= code; \n            end\n            en <= en;\n        end\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "7. OPERATORS",
+            "error_description": "Used case equality (===) in synthesizable combinational logic to determine valid, which is a misuse of operators for RTL and can cause non-synthesizable or unintended behavior.",
+            "error_line": 53
+        },
+        {
+            "taxonomy_title": "6. PORT TYPE",
+            "error_description": "Procedurally drives an input port 'en' inside an always_ff block, violating port direction rules.",
+            "error_line": 78
+        }
+    ]
+}

@@ -1,0 +1,20 @@
+{
+    "module_code": "module mem_controller (\n    input  logic        clk,\n    input  logic        rst_n,\n    input  logic        req,\n    input  logic        write_en,\n    input  logic [15:0] addr,\n    input  logic [31:0] wdata,\n    output logic [31:0] rdata,\n    output logic        ready,\n    output logic        rvalid\n);\n\n    parameter int DEPTH = 256;\n\n    typedef enum logic [1:0] {\n        IDLE  = 2'd0,\n        READ  = 2'd1,\n        WRITE = 2'd2,\n        RESP  = 2'd3\n    } state_t;\n\n    state_t state;\n    state_t next_state;\n\n    logic [31:0] mem [0:DEPTH-1];\n\n    logic [7:0]  addr_r;\n    logic [31:0] wdata_r;\n\n    logic ready_next;\n    logic rvalid_next;\n\n    always @(state or req or write_en) begin\n        next_state  = state;\n        ready_next  = 1'b0;\n        rvalid_next = 1'b0;\n\n        unique case (state)\n            IDLE: begin\n                ready_next = 1'b1;\n                if (req) begin\n                    if (write_en) begin\n                        next_state = WRITE;\n                    end else begin\n                        next_state = READ;\n                    end\n                end\n            end\n            READ: begin\n                next_state = RESP;\n            end\n            WRITE: begin\n                next_state = RESP;\n            end\n            RESP: begin\n                rvalid_next = 1'b1;\n                if (!req) begin\n                    next_state = IDLE;\n                end\n            end\n        endcase\n\n        if (!write_en && req && addr[0]) begin\n            rvalid_next = 1'b1;\n        end\n    end\n\n    always @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            state   <= IDLE;\n            ready   <= 1'b1;\n            rvalid  <= 1'b0;\n            rdata   <= 32'h0000_0000;\n            addr_r  <= 8'h00;\n            wdata_r <= 32'h0000_0000;\n        end else begin\n            state  <= next_state;\n            ready  <= ready_next;\n            rvalid <= rvalid_next;\n\n            if (state == IDLE && req) begin\n                addr_r <= addr;\n                if (write_en) begin\n                    wdata_r <= wdata;\n                end\n            end\n\n            if (state == WRITE) begin\n                mem[addr_r] <= wdata_r;\n            end\n\n            if (state == READ) begin\n                rdata = mem[addr_r];\n            end\n        end\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "5. RACE OR HAZARD",
+            "error_description": "Within the clocked always block, a blocking assignment is used for rdata while other registers use non-blocking assignments, creating mixed assignment types in the same sequential block.",
+            "error_line": 93
+        },
+        {
+            "taxonomy_title": "11. BIT WIDTH USAGE",
+            "error_description": "A 16-bit address input is assigned directly to an 8-bit register (addr_r <= addr), causing silent truncation of upper address bits.",
+            "error_line": 82
+        },
+        {
+            "taxonomy_title": "3. SENSITIVITY LIST",
+            "error_description": "The combinational always block reads 'addr' but the sensitivity list only includes state, req, and write_en, omitting 'addr'.",
+            "error_line": 33
+        }
+    ]
+}

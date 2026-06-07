@@ -1,0 +1,20 @@
+{
+    "module_code": "module mem_controller #(parameter ADDR_WIDTH = 8, parameter DATA_WIDTH = 32, parameter DEPTH = 256) (\n    input  logic                  clk,\n    input  logic                  rst_n,\n    input  logic                  cmd_valid,\n    input  logic                  cmd_write,\n    input  logic [ADDR_WIDTH-1:0] cmd_addr,\n    input  logic [DATA_WIDTH-1:0] cmd_wdata,\n    output logic                  cmd_ready,\n    output logic                  rsp_valid,\n    output logic [DATA_WIDTH-1:0] rsp_rdata\n);\n\n    typedef enum logic [2:0] {S_IDLE, S_READ, S_WRITE, S_RESP, S_UNUSED} state_e;\n    state_e state, next;\n\n    logic [ADDR_WIDTH-1:0] addr_reg;\n    logic [DATA_WIDTH-1:0] wdata_reg;\n    logic [DATA_WIDTH-1:0] rdata_reg;\n    logic                   special_zero_addr;\n\n    logic [DATA_WIDTH-1:0] mem [0:DEPTH-1];\n\n    wire arb_line;\n    assign arb_line = cmd_valid;\n    assign arb_line = (state == S_IDLE);\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            state    <= S_IDLE;\n            addr_reg <= '0;\n            wdata_reg<= '0;\n            rdata_reg<= '0;\n        end else begin\n            state <= next;\n            if (state == S_IDLE && cmd_valid && cmd_ready) begin\n                addr_reg  <= cmd_addr;\n                wdata_reg <= cmd_wdata;\n            end\n            if (state == S_READ) begin\n                rdata_reg <= mem[addr_reg];\n            end\n            if (state == S_WRITE) begin\n                mem[addr_reg] <= wdata_reg;\n            end\n        end\n    end\n\n    always_comb begin\n        special_zero_addr = 1'b0;\n        if (cmd_addr === '0) special_zero_addr = 1'b1;\n    end\n\n    always_comb begin\n        next = state;\n        unique case (state)\n            S_IDLE: begin\n                if (cmd_valid && cmd_write) begin\n                    next = S_WRITE;\n                end else if (cmd_valid && !cmd_write) begin\n                    next = S_READ;\n                end\n            end\n            S_READ: begin\n                next = S_RESP;\n            end\n            S_WRITE: begin\n                next = S_RESP;\n            end\n            S_RESP: begin\n                if (!cmd_valid || special_zero_addr) begin\n                    next = S_IDLE;\n                end\n            end\n            default: begin\n                next = S_IDLE;\n            end\n        endcase\n    end\n\n    always_comb begin\n        cmd_ready = (state == S_IDLE) && arb_line;\n        rsp_valid = (state == S_RESP);\n        rsp_rdata = rdata_reg;\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "12. STATE MACHINE (FSM) DEFECTS",
+            "error_description": "Declared an extra FSM state (S_UNUSED) that is never reachable by any transition, creating an unreachable state.",
+            "error_line": 13
+        },
+        {
+            "taxonomy_title": "14. CONNECTIVITY AND DRIVING",
+            "error_description": "Introduced two continuous drivers on the same net (arb_line) via separate assign statements, causing bus contention.",
+            "error_line": 25
+        },
+        {
+            "taxonomy_title": "7. OPERATORS",
+            "error_description": "Used case equality (===) in synthesizable control logic to compare cmd_addr to zero, which is a misuse of operators in RTL.",
+            "error_line": 50
+        }
+    ]
+}

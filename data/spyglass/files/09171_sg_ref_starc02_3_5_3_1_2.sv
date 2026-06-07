@@ -1,0 +1,1 @@
+////////////////////////////////////////////////////\n// FILE NAME : my_module_ex2.v\n// FUNCTION : Example for STARC02-3.5.3.1\n// CREATION DATE : 2023-10-27\n// MODIFICATION HISTORY : Initial version\n/////////////////////////////////////////////////////\nmodule my_module_ex2;\nendmodule

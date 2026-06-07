@@ -1,0 +1,25 @@
+{
+    "module_code": "module adder16(\n    input  logic [15:0] a,\n    input  logic [15:0] b,\n    input  logic        cin,\n    output logic [15:0] sum,\n    output logic        cout\n);\n    always_comb begin\n        {cout, sum} = a + b + cin;\n    end\nendmodule\n\nmodule alu32(\n    input  logic [31:0] a,\n    input  logic [31:0] b,\n    input  logic [3:0]  op,\n    input  logic        cin,\n    output logic [31:0] y,\n    output logic        zero,\n    output logic        negative,\n    output logic        carry,\n    output logic        overflow\n);\n    logic [31:0] add_res;\n    logic [31:0] sub_res;\n    logic [31:0] and_res;\n    logic [31:0] or_res;\n    logic [31:0] xor_res;\n    logic [31:0] sll_res;\n    logic [31:0] srl_res;\n    logic [31:0] sra_res;\n    logic [31:0] shifter_out\n    logic [15:0] sum16;\n    logic        cout16;\n\n    assign cin = 1'b0;\n\n    assign add_res = a + b;\n    assign sub_res = a - b;\n    assign and_res = a & b;\n    assign or_res  = a | b;\n    assign xor_res = a ^ b;\n    assign sll_res = a << b[4:0];\n    assign srl_res = a >> b[4:0];\n    assign sra_res = $signed(a) >>> b[4:0];\n\n    assign shifter_out = {a[15:0], a[31:16]};\n\n    adder16 u_low_adder(\n        .a(a),\n        .b(b[15:0]),\n        .cin(cin),\n        .sum(sum16),\n        .cout(cout16)\n    );\n\n    always_comb begin\n        case (op)\n            4'b0000: begin\n                y = add_res;\n                carry = cout16;\n                overflow = (a[31] & b[31] & ~y[31]) | (~a[31] & ~b[31] & y[31]);\n                negative = y[31];\n            end\n            4'b0001: begin\n                y = sub_res;\n                carry = 1'b0;\n                overflow = (a[31] & ~b[31] & ~y[31]) | (~a[31] & b[31] & y[31]);\n                negative = y[31];\n            end\n            4'b0010: begin\n                y = and_res;\n                carry = 1'b0;\n                overflow = 1'b0;\n                negative = y[31];\n            end\n            4'b0011: begin\n                y = or_res;\n                carry = 1'b0;\n                overflow = 1'b0;\n                negative = y[31];\n            end\n            4'b0100: begin\n                y = xor_res;\n                carry = 1'b0;\n                overflow = 1'b0;\n                negative = y[31];\n            end\n            4'b0101: begin\n                y = sll_res;\n                carry = 1'b0;\n                overflow = 1'b0;\n                negative = y[31];\n            end\n            4'b0110: begin\n                y = srl_res;\n                carry = 1'b0;\n                overflow = 1'b0;\n                negative = y[31];\n            end\n            4'b0111: begin\n                y = sra_res;\n                carry = 1'b0;\n                negative = y[31];\n            end\n            4'b1000: begin\n                y = ($signed(a) < $signed(b)) ? 32'h1 : 32'h0;\n                carry = 1'b0;\n                overflow = 1'b0;\n                negative = y[31];\n            end\n            4'b1001: begin\n                y = (a < b) ? 32'h1 : 32'h0;\n                carry = 1'b0;\n                overflow = 1'b0;\n                negative = y[31];\n            end\n            4'b1110: begin\n                y = {16'h0000, sum16};\n                carry = cout16;\n                overflow = 1'b0;\n                negative = y[31];\n            end\n        endcase\n    end\n\n    assign zero = (y == 32'h0000_0000);\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "1. SYNTAX STRUCTURE",
+            "error_description": "Missing semicolon at the end of a logic declaration line to violate basic syntax structure rules.",
+            "error_line": 32
+        },
+        {
+            "taxonomy_title": "9. LOGIC SYNTHESIS",
+            "error_description": "Incomplete case statement without a default, causing potential latch inference for y and flags in uncovered op values.",
+            "error_line": 58
+        },
+        {
+            "taxonomy_title": "8. MODULE INSTANCES",
+            "error_description": "Port width mismatch by connecting a 32-bit signal to a 16-bit input port in a submodule instantiation.",
+            "error_line": 55
+        },
+        {
+            "taxonomy_title": "6. PORT TYPE",
+            "error_description": "Driving an input port with a continuous assignment inside the module.",
+            "error_line": 36
+        }
+    ]
+}

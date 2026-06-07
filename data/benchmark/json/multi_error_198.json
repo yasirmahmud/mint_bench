@@ -1,0 +1,25 @@
+{
+    "module_code": "module shift_register #(parameter int WIDTH = 16) (\n    input  logic                     clk,\n    input  logic                     rst_n,\n    input  logic                     shift_en,\n    input  logic                     dir,\n    input  logic                     load,\n    input  logic                     serial_in,\n    input  logic [WIDTH-1:0]         parallel_in,\n    output logic [WIDTH-1:0]         parallel_out,\n    output logic                     serial_out\n);\n\n    localparam int NIBBLES = WIDTH/4;\n\n    logic [WIDTH-1:0] shift_reg;\n    logic             serial_in_mux;\n    logic             parity_bit;\n    logic [NIBBLES-1:0] nibble_parity;\n    logic debug_unused;\n\n    function automatic logic calc_parity(input logic [WIDTH-1:0] x);\n        calc_parity = ^x;\n    endfunction\n\n    assign parallel_out = shift_reg;\n    assign parity_bit = calc_parity(shift_reg);\n\n    genvar gi;\n    generate\n        for (gi = 0; gi < NIBBLES; gi++) begin : gen_par\n            assign nibble_parity[gi] = ^shift_reg[gi*4 +: 4];\n        end\n    endgenerate\n\n    always @(shift_en) begin\n        serial_in_mux = dir ? (serial_in ^ parity_bit) : (~serial_in ^ nibble_parity[0]);\n    end\n\n    logic [3:0] tap_q;\n    tap_slice #(.W(4)) u_tap (\n        .d({serial_in, shift_reg[3:0]}),\n        .en(shift_en),\n        .q(tap_q)\n    );\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            shift_reg  <= '0;\n            serial_out <= 1'b0;\n        end else begin\n            if (load === 1'b1) begin\n                shift_reg  <= parallel_in;\n                serial_out <= tap_q[0];\n            end else if (shift_en) begin\n                if (dir) begin\n                    shift_reg  <= {serial_in_mux, shift_reg[WIDTH-1:1]};\n                    serial_out <= shift_reg[0];\n                end else begin\n                    shift_reg  <= {shift_reg[WIDTH-2:0], serial_in_mux};\n                    serial_out <= shift_reg[WIDTH-1];\n                end\n            end else begin\n                serial_out <= tap_q[1];\n            end\n        end\n    end\n\nendmodule\n\nmodule tap_slice #(parameter int W = 4) (\n    input  logic [W-1:0] d,\n    input  logic         en,\n    output logic [W-1:0] q\n);\n    always_comb begin\n        q = en ? ~d : d;\n    end\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "3. SENSITIVITY LIST",
+            "error_description": "The combinational block updating serial_in_mux is sensitive only to shift_en but reads dir, serial_in, and parity signals, causing a sensitivity list mismatch.",
+            "error_line": 35
+        },
+        {
+            "taxonomy_title": "8. MODULE INSTANCES",
+            "error_description": "The sub-module tap_slice port .d expects a 4-bit vector but is connected to a 5-bit concatenation, creating a port width mismatch at instantiation.",
+            "error_line": 41
+        },
+        {
+            "taxonomy_title": "7. OPERATORS",
+            "error_description": "The sequential control uses case-equality (===) to test the load signal, which is a misuse of operators in synthesizable RTL.",
+            "error_line": 51
+        },
+        {
+            "taxonomy_title": "2. SIGNAL USAGE",
+            "error_description": "The internal signal debug_unused is declared but never driven or read, resulting in an unused signal.",
+            "error_line": 19
+        }
+    ]
+}

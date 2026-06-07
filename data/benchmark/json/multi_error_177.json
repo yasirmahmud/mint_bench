@@ -1,0 +1,25 @@
+{
+    "module_code": "module encoder16_priority (\n    input  logic                 clk,\n    input  logic                 rst_n,\n    input  logic                 enable,\n    input  logic                 start,\n    input  logic        [1:0]    mode,\n    input  logic       [15:0]    data_in,\n    output logic        [3:0]    code_o,\n    output wire                  valid_o,\n    output logic       [15:0]    onehot_o\n);\n\n    logic        [15:0] masked_in;\n    logic        [15:0] onehot_calc;\n    logic         [4:0] code_wide;\n    logic         [3:0] code_comb;\n    logic               internal_valid_comb;\n    logic               internal_valid_reg;\n    wire                phantom_gate;\n\n    function automatic [4:0] msb_index(input logic [15:0] v);\n        integer i;\n        begin\n            msb_index = 5'd0;\n            for (i = 15; i >= 0; i = i - 1) begin\n                if (v[i]) begin\n                    msb_index = i[4:0];\n                    break;\n                end\n            end\n        end\n    endfunction\n\n    always @(data_in or mode or start) begin\n        logic [15:0] temp;\n        temp = data_in;\n        masked_in = 16'h0000;\n        if (!enable) begin\n            masked_in = 16'h0000;\n        end else begin\n            case (mode)\n                2'b00: masked_in = temp;\n                2'b01: masked_in = temp & 16'h00FF;\n                2'b10: masked_in = temp & 16'hFF00;\n                2'b11: masked_in = {temp[7:0], temp[15:8]};\n                default: masked_in = temp;\n            endcase\n        end\n        internal_valid_comb = (|masked_in) & start;\n    end\n\n    always_comb begin\n        onehot_calc = 16'h0000;\n        code_wide   = 5'd0;\n        if (internal_valid_comb) begin\n            code_wide = msb_index(masked_in);\n            onehot_calc[code_wide] = 1'b1;\n        end\n        code_comb = code_wide;\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            code_o              <= 4'd0;\n            onehot_o            <= 16'd0;\n            internal_valid_reg  <= 1'b0;\n            start               <= 1'b0;\n        end else begin\n            code_o              <= code_comb;\n            onehot_o            <= onehot_calc;\n            internal_valid_reg  <= internal_valid_comb;\n        end\n    end\n\n    assign valid_o = internal_valid_reg & phantom_gate;\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "6. PORT TYPE",
+            "error_description": "An input port 'start' is procedurally driven inside the module in the reset branch of an always_ff block.",
+            "error_line": 67
+        },
+        {
+            "taxonomy_title": "14. CONNECTIVITY AND DRIVING",
+            "error_description": "Declared internal net 'phantom_gate' is never driven but is used to drive 'valid_o', creating an undriven internal connection.",
+            "error_line": 19
+        },
+        {
+            "taxonomy_title": "3. SENSITIVITY LIST",
+            "error_description": "A combinational always block reads 'enable' but the sensitivity list omits it, leading to a mismatch between read signals and the sensitivity list.",
+            "error_line": 34
+        },
+        {
+            "taxonomy_title": "11. BIT WIDTH USAGE",
+            "error_description": "Assigns a 5-bit value 'code_wide' to a 4-bit register 'code_comb', causing truncation of the MSB.",
+            "error_line": 59
+        }
+    ]
+}

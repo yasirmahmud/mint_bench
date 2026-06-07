@@ -1,0 +1,20 @@
+{
+    "module_code": "module decoder16_with_errors(\n    input  logic         clk,\n    input  logic         rst_n,\n    input  logic         en,\n    input  logic  [3:0]  in,\n    input  logic [15:0]  mask,\n    output logic [15:0]  out,\n    output logic         valid\n);\n\n    localparam int WIDTH = 16;\n    localparam int INW   = 4;\n\n    logic [WIDTH-1:0] decoded;\n    logic [WIDTH-1:0] gated;\n    logic [WIDTH-1:0] out_r;\n    logic             valid_r;\n    logic             parity_bit;\n    logic             unused_toggle;\n\n    always_comb begin\n        decoded = '0;\n        unique case (in)\n            4'd0:  decoded = 16'h0001;\n            4'd1:  decoded = 16'h0002;\n            4'd2:  decoded = 16'h0004;\n            4'd3:  decoded = 16'h0008;\n            4'd4:  decoded = 16'h0010;\n            4'd5:  decoded = 16'h0020;\n            4'd6:  decoded = 16'h0040;\n            4'd7:  decoded = 16'h0080;\n            4'd8:  decoded = 16'h0100;\n            4'd9:  decoded = 16'h0200;\n            4'd10: decoded = 16'h0400;\n            4'd11: decoded = 16'h0800;\n            4'd12: decoded = 16'h1000;\n            4'd13: decoded = 16'h2000;\n            4'd14: decoded = 16'h4000;\n            4'd15: decoded = 16'h8000;\n            default: decoded = '0;\n        endcase\n    end\n\n    logic [INW-1:0] onehot_index;\n    always_comb begin\n        if      (decoded[0])  onehot_index = 4'd0;\n        else if (decoded[1])  onehot_index = 4'd1;\n        else if (decoded[2])  onehot_index = 4'd2;\n        else if (decoded[3])  onehot_index = 4'd3;\n        else if (decoded[4])  onehot_index = 4'd4;\n        else if (decoded[5])  onehot_index = 4'd5;\n        else if (decoded[6])  onehot_index = 4'd6;\n        else if (decoded[7])  onehot_index = 4'd7;\n        else if (decoded[8])  onehot_index = 4'd8;\n        else if (decoded[9])  onehot_index = 4'd9;\n        else if (decoded[10]) onehot_index = 4'd10;\n        else if (decoded[11]) onehot_index = 4'd11;\n        else if (decoded[12]) onehot_index = 4'd12;\n        else if (decoded[13]) onehot_index = 4'd13;\n        else if (decoded[14]) onehot_index = 4'd14;\n        else                   onehot_index = 4'd15;\n    end\n\n    always_comb begin\n        if (en) gated = decoded & mask;\n    end\n\n    always_comb begin\n        parity_bit = ^gated;\n    end\n\n    always @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            out_r   <= '0;\n            valid_r <= 1'b0;\n        end else begin\n            out_r   <= gated;\n            valid_r = en & ~parity_bit;\n        end\n    end\n\n    assign out   = out_r;\n    assign valid = valid_r;\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "9. LOGIC SYNTHESIS",
+            "error_description": "In an always_comb block, 'gated' is conditionally assigned only when 'en' is true without a default or else branch, inferring a latch.",
+            "error_line": 65
+        },
+        {
+            "taxonomy_title": "2. SIGNAL USAGE",
+            "error_description": "Declared signal 'unused_toggle' is never used anywhere in the module, creating an unused declaration.",
+            "error_line": 19
+        },
+        {
+            "taxonomy_title": "5. RACE OR HAZARD",
+            "error_description": "Inside a clocked always block, a blocking assignment is used for 'valid_r' alongside non-blocking assignments, mixing assignment types in the same sequential block.",
+            "error_line": 78
+        }
+    ]
+}

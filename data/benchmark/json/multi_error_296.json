@@ -1,0 +1,25 @@
+{
+    "module_code": "module fsm_controller(\n    input  logic        clk,\n    input  logic        rst_n,\n    input  logic        start,\n    input  logic        stop,\n    input  logic        ack,\n    input  logic [15:0] data_in,\n    output logic        done,\n    output logic        busy,\n    output logic        alert,\n    output logic [7:0]  data_out\n);\n\n    typedef enum logic [1:0] {S_IDLE, S_LOAD, S_RUN, S_WAIT} state_t;\n\n    state_t state;\n    state_t next_state;\n\n    logic [7:0] small_reg;\n    assign small_reg = data_in;\n\n    logic [7:0] accum;\n    logic [3:0] wait_cnt;\n    logic       gate;\n    logic       threshold_met;\n    logic       reserved_flag;\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            state    <= S_IDLE;\n        end else begin\n            state    <= next_state;\n        end\n    end\n\n    always @(start or stop) begin\n        if (stop) begin\n            gate = 1'b0;\n        end else begin\n            gate = start & ack;\n        end\n    end\n\n    always_comb begin\n        threshold_met = 1'b0;\n        if (accum > small_reg) begin\n            threshold_met = 1'b1;\n        end\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            accum    <= 8'h00;\n            wait_cnt <= 4'h0;\n            data_out <= 8'h00;\n        end else begin\n            case (state)\n                S_IDLE: begin\n                    wait_cnt <= 4'h0;\n                end\n                S_LOAD: begin\n                    accum    <= small_reg;\n                    data_out <= small_reg;\n                end\n                S_RUN: begin\n                    accum    <= accum + small_reg;\n                    data_out <= accum;\n                end\n                S_WAIT: begin\n                    wait_cnt <= wait_cnt + 1'b1;\n                end\n                default: begin\n                    accum    <= accum;\n                    wait_cnt <= wait_cnt;\n                    data_out <= data_out;\n                end\n            endcase\n        end\n    end\n\n    always_comb begin\n        next_state = state;\n        done       = 1'b0;\n        busy       = 1'b0;\n        case (state)\n            S_IDLE: begin\n                if (start || gate) begin\n                    next_state = S_LOAD;\n                    alert = 1'b1;\n                end\n            end\n            S_LOAD: begin\n                busy = 1'b1;\n                if (ack) begin\n                    next_state = S_RUN;\n                end\n            end\n            S_RUN: begin\n                busy = 1'b1;\n                if (stop) begin\n                    next_state = S_WAIT;\n                end else if (threshold_met) begin\n                    next_state = S_WAIT;\n                end\n            end\n            S_WAIT: begin\n                if (ack) begin\n                    done       = 1'b1;\n                    next_state = S_IDLE;\n                end\n            end\n            default: begin\n                next_state = S_IDLE;\n            end\n        endcase\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "11. BIT WIDTH USAGE",
+            "error_description": "Assigned a 16-bit input bus directly to an 8-bit signal, causing silent truncation.",
+            "error_line": 20
+        },
+        {
+            "taxonomy_title": "9. LOGIC SYNTHESIS",
+            "error_description": "In a combinational block, the 'alert' signal is conditionally assigned without a default or else path, inferring a latch.",
+            "error_line": 89
+        },
+        {
+            "taxonomy_title": "2. SIGNAL USAGE",
+            "error_description": "Declared a logic signal that is never used anywhere in the design.",
+            "error_line": 26
+        },
+        {
+            "taxonomy_title": "3. SENSITIVITY LIST",
+            "error_description": "An always block uses 'ack' in its logic but omits it from the explicit sensitivity list.",
+            "error_line": 36
+        }
+    ]
+}

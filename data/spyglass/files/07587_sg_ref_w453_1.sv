@@ -1,0 +1,23 @@
+module W453_ex1(input [16:0] sel, output reg out);
+ always @(*) begin case(sel) 17'd0: out=1'b0;
+ 17'd1: out=1'b0;
+ 17'd2: out=1'b0;
+ 17'd3: out=1'b0;
+ 17'd4: out=1'b0;
+ 17'd5: out=1'b0;
+ 17'd6: out=1'b0;
+ 17'd7: out=1'b0;
+ 17'd8: out=1'b0;
+ 17'd9: out=1'b0;
+ 17'd10: out=1'b0;
+ 17'd11: out=1'b0;
+ 17'd12: out=1'b0;
+ 17'd13: out=1'b0;
+ 17'd14: out=1'b0;
+ 17'd15: out=1'b0;
+ 17'd16: out=1'b0;
+ 17'd17: out=1'b0;
+ 17'd18: out=1'b0;
+ 17'd19: out=1'b0;
+ 17'd20: out=1'b0;
+ endcase end endmodule

@@ -1,0 +1,25 @@
+{
+    "module_code": "module complex_decoder #(parameter int ADDR_W = 4) (\n    input  logic                  clk,\n    input  logic                  rst_n,\n    input  logic [ADDR_W-1:0]     addr,\n    input  logic                  en,\n    output logic [((1<<ADDR_W))-1:0] dec,\n    output logic                  valid\n);\n\n    localparam int OUT_W = (1 << ADDR_W);\n    localparam int THRESH = 3\n\n    logic [ADDR_W-1:0]           addr_q;\n    logic                        en_q;\n    logic [OUT_W-1:0]            dec_q;\n    logic                        valid_q;\n\n    logic [OUT_W-1:0]            dec_next;\n    logic                        valid_next;\n\n    logic [OUT_W-1:0]            masked_onehot;\n    logic [OUT_W-1:0]            gated_onehot;\n\n    logic [OUT_W-1:0]            saturate_mask;\n    logic                        saturate_hit;\n\n    logic [OUT_W-1:0]            pipeline_stage0;\n    logic [OUT_W-1:0]            pipeline_stage1;\n    logic [OUT_W-1:0]            pipeline_stage2;\n\n    logic                        edge_detect_q;\n    logic                        edge_detect_d;\n\n    logic                        gate_in_bus;\n    logic [3:0]                  gate_out_bus;\n\n    logic                        unused_flag;\n\n    function automatic logic [OUT_W-1:0] onehot_decode(input logic [ADDR_W-1:0] a);\n        logic [OUT_W-1:0] result;\n        result = '0;\n        result[a] = 1'b1;\n        return result;\n    endfunction\n\n    function automatic logic [OUT_W-1:0] mask_threshold(input logic [OUT_W-1:0] v);\n        logic [OUT_W-1:0] m;\n        integer i;\n        m = '0;\n        for (i = 0; i < OUT_W; i++) begin\n            if (i < THRESH) m[i] = v[i];\n            else m[i] = 1'b0;\n        end\n        return m;\n    endfunction\n\n    always_comb begin\n        saturate_mask   = '0;\n        saturate_hit    = 1'b0;\n        dec_next        = '0;\n        valid_next      = 1'b0;\n        masked_onehot   = onehot_decode(addr_q);\n        gated_onehot    = mask_threshold(masked_onehot);\n        pipeline_stage0 = gated_onehot & {OUT_W{en_q}};\n        pipeline_stage1 = pipeline_stage0 | dec_q;\n        pipeline_stage2 = pipeline_stage1 ^ dec_q;\n        if (en_q) begin\n            dec_next   = pipeline_stage2;\n            valid_next = |pipeline_stage2;\n        end else begin\n            dec_next   = dec_q;\n            valid_next = 1'b0;\n        end\n        saturate_mask = {OUT_W{1'b1}};\n        if (dec_next == saturate_mask) begin\n            saturate_hit = 1'b1;\n        end\n        edge_detect_d = en ^ en_q;\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            addr_q     <= '0;\n            en_q       <= 1'b0;\n            dec_q      <= '0;\n            valid_q    <= 1'b0;\n            edge_detect_q <= 1'b0;\n        end else begin\n            addr_q     <= addr;\n            en_q       <= en;\n            dec_q      <= dec_next;\n            valid_q    <= valid_next;\n            edge_detect_q <= edge_detect_d;\n        end\n    end\n\n    always @ (clk or rst_n) begin\n        if (!rst_n) begin\n            dec <= '0;\n            valid <= 1'b0;\n        end else if (clk) begin\n            dec <= dec_q;\n            valid <= valid_q;\n        end\n    end\n\n    assign gate_in_bus = edge_detect_q;\n    buf buf_i (gate_out_bus, gate_in_bus);\n\n    assign dec   = dec;\n    assign valid = valid;\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "1. SYNTAX STRUCTURE",
+            "error_description": "A localparam declaration is missing a terminating semicolon, violating basic SystemVerilog syntax structure rules.",
+            "error_line": 11
+        },
+        {
+            "taxonomy_title": "8. MODULE INSTANCES",
+            "error_description": "A primitive buffer is instantiated with a 4-bit output driven by a 1-bit input, causing a port width mismatch at the instance boundary.",
+            "error_line": 108
+        },
+        {
+            "taxonomy_title": "10. COMBINATIONAL OR SEQUENTIAL",
+            "error_description": "State-holding outputs are assigned in an always block triggered by level-sensitive signals (clk and rst_n) instead of a proper edge-sensitive clock, improperly mixing sequential behavior.",
+            "error_line": 97
+        },
+        {
+            "taxonomy_title": "2. SIGNAL USAGE",
+            "error_description": "A signal is declared but never used, representing dead code and potential optimization stripping.",
+            "error_line": 37
+        }
+    ]
+}

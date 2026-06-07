@@ -1,0 +1,15 @@
+{
+    "module_code": "module fancy_fifo\n#(\n  parameter int WIDTH = 8,\n  parameter int DEPTH = 16\n)\n(\n  input  logic                    clk,\n  input  logic                    rst_n,\n  input  logic                    wr_i,\n  input  logic                    rd_i,\n  input  logic                    flush_i,\n  input  logic [WIDTH-1:0]        din_i,\n  output logic [WIDTH-1:0]        dout_o,\n  output logic                    full_o,\n  output logic                    empty_o,\n  output logic                    almost_full_o,\n  output logic                    almost_empty_o,\n  output logic [$clog2(DEPTH):0]  count_o\n);\n\nlocalparam int PTR_W = $clog2(DEPTH)\n\nlogic [WIDTH-1:0] mem [0:DEPTH-1];\nlogic [PTR_W-1:0] wptr, rptr;\nlogic [PTR_W:0] count;\nlogic [WIDTH-1:0] dout_r;\nlogic do_write;\nlogic do_read;\nlogic [PTR_W:0] af_threshold;\nlogic [PTR_W:0] ae_threshold;\n\nalways_comb begin\n  af_threshold = DEPTH - 1;\n  ae_threshold = 1;\nend\n\nalways @(wr_i or full_o or empty_o) begin\n  do_write = wr_i & ~full_o;\n  do_read  = rd_i & ~empty_o;\nend\n\nassign dout_o = dout_r;\nassign count_o = count;\nassign full_o = (count == DEPTH);\nassign empty_o = (count == 0);\nassign almost_full_o = (count >= af_threshold);\nassign almost_empty_o = (count <= ae_threshold);\n\nalways_ff @(posedge clk or negedge rst_n) begin\n  if (!rst_n) begin\n    wptr <= '0;\n    rptr <= '0;\n    count <= '0;\n    dout_r <= '0;\n  end else if (flush_i) begin\n    wptr <= '0;\n    rptr <= '0;\n    count <= '0;\n    dout_r <= '0;\n  end else begin\n    unique case ({do_write, do_read})\n      2'b10: begin\n        mem[wptr] <= din_i;\n        wptr <= wptr + 1'b1;\n        count <= count + 1'b1;\n      end\n      2'b01: begin\n        dout_r <= mem[rptr];\n        rptr <= rptr + 1'b1;\n        count <= count - 1'b1;\n      end\n      2'b11: begin\n        mem[wptr] <= din_i;\n        wptr <= wptr + 1'b1;\n        dout_r <= mem[rptr];\n        rptr <= rptr + 1'b1;\n      end\n      default: begin\n        wptr <= wptr;\n        rptr <= rptr;\n        count <= count;\n        dout_r <= dout_r;\n      end\n    endcase\n  end\nend\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "1. SYNTAX STRUCTURE",
+            "error_description": "Removed the semicolon at the end of the localparam declaration for PTR_W.",
+            "error_line": 21
+        },
+        {
+            "taxonomy_title": "3. SENSITIVITY LIST",
+            "error_description": "In the combinational always block that computes do_write/do_read, the signal rd_i is read but omitted from the explicit sensitivity list.",
+            "error_line": 37
+        }
+    ]
+}

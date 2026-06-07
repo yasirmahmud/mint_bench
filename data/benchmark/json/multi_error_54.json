@@ -1,0 +1,25 @@
+{
+    "module_code": "module smart_fifo #(\n    parameter int unsigned DEPTH = 16,\n    parameter int unsigned WIDTH = 8\n) (\n    input  logic                       clk,\n    input  logic                       rst_n,\n    input  logic                       wr_en,\n    input  logic                       rd_en,\n    input  logic [WIDTH-1:0]           wdata,\n    output logic [WIDTH-1:0]           rdata,\n    output logic                       full,\n    output logic                       empty,\n    output logic                       almost_full\n);\n\n    localparam int ADDR_W = (DEPTH <= 1) ? 1 : $clog2(DEPTH);\n    localparam int unsigned DEPTH_U = DEPTH;\n    localparam logic [ADDR_W:0] DEPTH_VAL = DEPTH_U;\n\n    logic [WIDTH-1:0]                  mem [0:DEPTH-1];\n    logic [ADDR_W-1:0]                 wr_ptr;\n    logic [ADDR_W-1:0]                 rd_ptr;\n    logic [ADDR_W:0]                   level;\n\n    logic [WIDTH-1:0]                  rdata_r;\n    assign rdata = rdata_r;\n\n    logic                              write_fire;\n    logic                              read_fire;\n\n    logic                              almost_full_r;\n    assign almost_full = almost_full_r;\n\n    logic                              hold_reg;\n    logic \\always_comb ;\n    logic                              unused_debug;\n\n    assign full  = (level == DEPTH_VAL);\n    assign empty = (level == '0);\n\n    assign write_fire = wr_en & ~full;\n    assign read_fire  = rd_en & ~empty;\n\n    always_comb begin\n        if (wr_en & ~rd_en) begin\n            hold_reg = 1'b1;\n        end\n    end\n\n    assign almost_full_r = (level >= (DEPTH_VAL - 1)) | hold_reg;\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            wr_ptr   <= '0;\n            rd_ptr   <= '0;\n            level    <= '0;\n            rdata_r  <= '0;\n            \\always_comb  <= 1'b0;\n        end else begin\n            if (write_fire) begin\n                mem[wr_ptr] <= wdata;\n                wr_ptr      <= wr_ptr + 1'b1;\n            end\n            if (read_fire) begin\n                rdata_r     <= mem[rd_ptr];\n                rd_ptr      <= rd_ptr + 1'b1;\n            end\n            unique case ({write_fire, read_fire})\n                2'b10: level <= level + 1'b1;\n                2'b01: level <= level - 1'b1;\n                default: level <= level;\n            endcase\n            \\always_comb  <= wr_en & rd_en;\n            rd_en <= 1'b0;\n        end\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "4. RESERVED WORDS",
+            "error_description": "Declared a signal using an escaped identifier that matches a SystemVerilog keyword (logic \\always_comb ;), constituting improper use of a reserved word as an identifier.",
+            "error_line": 35
+        },
+        {
+            "taxonomy_title": "6. PORT TYPE",
+            "error_description": "Procedurally drove an input port inside the module (rd_en <= 1'b0;) violating port direction rules.",
+            "error_line": 74
+        },
+        {
+            "taxonomy_title": "2. SIGNAL USAGE",
+            "error_description": "Declared an internal signal (unused_debug) that is never read or driven, resulting in a declared-but-unused signal.",
+            "error_line": 36
+        },
+        {
+            "taxonomy_title": "10. COMBINATIONAL OR SEQUENTIAL",
+            "error_description": "Created an always_comb block that conditionally assigns hold_reg without providing a complete assignment on all paths, inferring a latch.",
+            "error_line": 44
+        }
+    ]
+}

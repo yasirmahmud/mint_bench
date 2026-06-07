@@ -1,0 +1,25 @@
+{
+    "module_code": "module shift_register_faulty #(\n    parameter int WIDTH = 16\n) (\n    input  logic                   clk,\n    input  logic                   rst_n,\n    input  logic                   load,\n    input  logic                   shift_en,\n    input  logic [WIDTH-1:0]       din,\n    input  logic                   serial_in,\n    input  logic [WIDTH-1:0]       mask,\n    output logic [WIDTH-1:0]       dout,\n    output logic                   serial_out,\n    output logic                   valid\n);\n\n    localparam int ZERO = 0\n\n    logic [WIDTH-1:0] shift_reg;\n    logic [WIDTH-1:0] next_shift;\n    logic [WIDTH-1:0] aux_reg;\n    wire  [WIDTH-1:0] merge_bus;\n    logic             all_zero;\n    logic             any_one;\n    logic [WIDTH-1:0] masked_in;\n    logic             msb_before;\n    logic             msb_after;\n    logic [3:0]       load_count;\n    logic             guard_is_zero;\n\n    assign masked_in   = din & mask;\n    assign any_one     = |shift_reg;\n    assign all_zero    = (shift_reg === '0);\n    assign guard_is_zero = (ZERO == 0);\n\n    assign merge_bus   = shift_reg;\n    assign merge_bus   = aux_reg;\n\n    assign serial_out  = merge_bus[WIDTH-1];\n\n    always_comb begin\n        if (load) begin\n            next_shift = masked_in;\n        end else if (shift_en) begin\n            next_shift = {shift_reg[WIDTH-2:0], serial_in};\n        end\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            shift_reg   <= '0;\n            aux_reg     <= '0;\n            msb_before  <= 1'b0;\n            msb_after   <= 1'b0;\n            load_count  <= '0;\n            dout        <= '0;\n            valid       <= 1'b0;\n        end else begin\n            msb_before  <= shift_reg[WIDTH-1];\n            shift_reg   <= next_shift;\n            aux_reg     <= shift_reg ^ {WIDTH{serial_in}};\n            msb_after   <= next_shift[WIDTH-1];\n            dout        <= shift_reg;\n            if (load) begin\n                load_count <= load_count + 4'd1;\n            end else if (shift_en) begin\n                load_count <= load_count;\n            end else begin\n                load_count <= '0;\n            end\n            valid <= (all_zero ? 1'b0 : any_one) & (msb_before | msb_after | guard_is_zero) & load_count[0];\n        end\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "7. OPERATORS",
+            "error_description": "Used 4-state case-equality (===) in synthesizable RTL for a data comparison: assign all_zero = (shift_reg === '0);",
+            "error_line": 32
+        },
+        {
+            "taxonomy_title": "9. LOGIC SYNTHESIS",
+            "error_description": "Incomplete combinational specification infers a latch for next_shift: the always_comb block lacks a default/else assignment.",
+            "error_line": 40
+        },
+        {
+            "taxonomy_title": "1. SYNTAX STRUCTURE",
+            "error_description": "Missing semicolon after a localparam declaration: localparam int ZERO = 0",
+            "error_line": 16
+        },
+        {
+            "taxonomy_title": "14. CONNECTIVITY AND DRIVING",
+            "error_description": "Multiple continuous drivers on the same net cause bus contention: merge_bus is driven by both shift_reg and aux_reg.",
+            "error_line": 36
+        }
+    ]
+}

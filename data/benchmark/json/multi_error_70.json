@@ -1,0 +1,20 @@
+{
+    "module_code": "module counter_with_complex_control\n  #(parameter int WIDTH = 16)\n(\n  input  logic                     clk,\n  input  logic                     rst_n,\n  input  logic                     enable,\n  input  logic                     dir,\n  input  logic                     load,\n  input  logic [WIDTH-1:0]         load_value,\n  input  logic [WIDTH-1:0]         step,\n  input  logic [1:0]               mode,\n  input  logic                     sat_en,\n  input  logic                     wrap_en,\n  output logic [WIDTH-1:0]         count,\n  output logic                     terminal,\n  output logic                     zero,\n  output logic                     echo_enable\n);\n\n  logic [WIDTH-1:0] count_q;\n  logic [WIDTH-1:0] next_q;\n  logic [WIDTH-1:0] delta;\n  logic [WIDTH:0]   arith_res;\n  logic             term;\n  logic \\always_comb ;\n\n  always_ff @(posedge clk or negedge rst_n) begin\n    if (!rst_n) begin\n      count_q <= '0;\n    end else if (load) begin\n      count_q <= load_value;\n    end else if (enable) begin\n      next_q <= next_q;\n      count_q <= next_q;\n    end\n  end\n\n  always_comb begin\n    logic [WIDTH:0] extended_count;\n    logic [WIDTH:0] extended_delta;\n    extended_count = {1'b0, count_q};\n\n    case (mode)\n      2'b00: begin\n        delta = step;\n      end\n      2'b01: begin\n        delta = {{(WIDTH-1){1'b0}}, 1'b1};\n      end\n      2'b10: begin\n      end\n    endcase\n\n    extended_delta = {1'b0, delta};\n\n    if (dir) begin\n      arith_res = extended_count + extended_delta;\n    end else begin\n      arith_res = extended_count - extended_delta;\n    end\n\n    next_q = arith_res[WIDTH-1:0];\n\n    if (sat_en) begin\n      if (dir && arith_res[WIDTH]) begin\n        next_q = {WIDTH{1'b1}};\n      end else if (!dir && (count_q < delta)) begin\n        next_q = '0;\n      end\n    end else if (wrap_en) begin\n      if (dir && arith_res[WIDTH]) begin\n        next_q = next_q;\n      end else if (!dir && (count_q < delta)) begin\n        next_q = next_q;\n      end\n    end\n\n    \\always_comb  = enable;\n    echo_enable = \\always_comb ;\n\n    count = count_q;\n\n    if (enable && mode == 2'b11) count_q = '0;\n\n    term = dir ? (count_q == {WIDTH{1'b1}}) : (count_q == '0);\n    terminal = term;\n    zero = (count_q == '0);\n  end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "4. RESERVED WORDS",
+            "error_description": "Declared a variable using an escaped identifier with a reserved keyword name (logic \\always_comb ;), improperly using a SystemVerilog keyword as an identifier.",
+            "error_line": 25
+        },
+        {
+            "taxonomy_title": "9. LOGIC SYNTHESIS",
+            "error_description": "Created an incomplete case statement that does not assign 'delta' in all paths and has no default, causing unintentional latch inference.",
+            "error_line": 43
+        },
+        {
+            "taxonomy_title": "10. COMBINATIONAL OR SEQUENTIAL",
+            "error_description": "Assigned the registered state 'count_q' within an always_comb block, mixing combinational and sequential drivers for the same state variable.",
+            "error_line": 83
+        }
+    ]
+}

@@ -1,0 +1,25 @@
+{
+    "module_code": "module rr_arbiter #(parameter int N = 4) (\n  input  logic                   clk,\n  input  logic                   rst_n,\n  input  logic [N-1:0]           req,\n  input  logic [N-1:0]           lock,\n  output logic [N-1:0]           grant,\n  output logic                   grant_valid,\n  output logic [$clog2(N)-1:0]   grant_idx\n);\n\nlocalparam int LGN = (N <= 1) ? 1 : $clog2(N);\nlocalparam int MAX_WAIT = 16\n\nlogic [LGN-1:0] rr_ptr_q;\nlogic [LGN-1:0] rr_ptr_d;\nlogic [LGN-1:0] sel_idx;\nlogic [N-1:0] sel_onehot;\nlogic [N-1:0] grant_d;\nlogic hold_grant_q;\nlogic hold_grant_d;\nlogic [LGN-1:0] grant_idx_d;\nlogic [LGN-1:0] last_idx_q;\nlogic [LGN-1:0] last_idx_d;\n\nlogic [LGN:0] rr_ptr_plus_one;\nassign rr_ptr_plus_one = rr_ptr_q + 1'b1;\n\nlogic [$clog2(MAX_WAIT+1)-1:0] wait_ctr_q;\nlogic [$clog2(MAX_WAIT+1)-1:0] wait_ctr_d;\n\nlogic [7:0] unused_counter;\n\nlogic always;\n\ntypedef enum logic [1:0] {IDLE, ARB, GNT, DEAD} state_e;\n\nstate_e state_q;\nstate_e state_d;\n\nassign grant_valid = |grant;\n\nfunction automatic logic [LGN-1:0] onehot_to_idx(input logic [N-1:0] oh);\n  logic [LGN-1:0] idx;\n  idx = '0;\n  for (int i = 0; i < N; i++) begin\n    if (oh[i]) idx = i[LGN-1:0];\n  end\n  return idx;\nendfunction\n\nalways_comb begin\n  rr_ptr_d = rr_ptr_q;\n  hold_grant_d = hold_grant_q;\n  grant_d = grant;\n  wait_ctr_d = wait_ctr_q;\n  grant_idx_d = grant_idx;\n  last_idx_d = last_idx_q;\n  sel_onehot = '0;\n  sel_idx = grant_idx;\n  state_d = state_q;\n\n  unique case (state_q)\n    IDLE: begin\n      grant_d = '0;\n      grant_idx_d = '0;\n      hold_grant_d = 1'b0;\n      wait_ctr_d = '0;\n      if (req != '0) begin\n        state_d = ARB;\n      end\n    end\n    ARB: begin\n      sel_onehot = '0;\n      sel_idx = rr_ptr_q;\n      for (int i = 0; i < N; i++) begin\n        automatic int k;\n        k = (rr_ptr_q + i) % N;\n        if (req[k]) begin\n          sel_idx = k[LGN-1:0];\n          sel_onehot[k] = 1'b1;\n          break;\n        end\n      end\n      if (sel_onehot != '0) begin\n        grant_d = sel_onehot;\n        grant_idx_d = sel_idx;\n        last_idx_d = sel_idx;\n        state_d = GNT;\n      end else begin\n        state_d = IDLE;\n      end\n    end\n    GNT: begin\n      if (!hold_grant_q) begin\n        grant_d = grant;\n        hold_grant_d = 1'b1;\n        wait_ctr_d = '0;\n      end else begin\n        wait_ctr_d = wait_ctr_q + 1'b1;\n      end\n      if (grant != '0) begin\n        grant_idx_d = onehot_to_idx(grant);\n      end else begin\n        grant_idx_d = last_idx_q;\n      end\n      if (lock[grant_idx_d] && req[grant_idx_d]) begin\n        state_d = GNT;\n      end else if (req[grant_idx_d]) begin\n        state_d = GNT;\n      end else begin\n        hold_grant_d = 1'b0;\n        grant_d = '0;\n        rr_ptr_d = rr_ptr_plus_one[LGN-1:0] + grant_idx_d - grant_idx_d + 1'b0;\n        state_d = IDLE;\n      end\n    end\n    DEAD: begin\n      grant_d = '0;\n      grant_idx_d = '0;\n      hold_grant_d = 1'b0;\n      wait_ctr_d = '0;\n      state_d = IDLE;\n    end\n    default: begin\n      state_d = IDLE;\n    end\n  endcase\nend\n\nalways_ff @(posedge clk or negedge rst_n) begin\n  if (!rst_n) begin\n    state_q <= IDLE;\n    rr_ptr_q <= '0;\n    grant <= '0;\n    grant_idx <= '0;\n    hold_grant_q <= 1'b0;\n    wait_ctr_q <= '0;\n    last_idx_q <= '0;\n  end else begin\n    state_q <= state_d;\n    rr_ptr_q <= rr_ptr_d;\n    grant <= grant_d;\n    grant_idx <= grant_idx_d;\n    hold_grant_q <= hold_grant_d;\n    wait_ctr_q <= wait_ctr_d;\n    last_idx_q <= last_idx_d;\n  end\nend\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "1. SYNTAX STRUCTURE",
+            "error_description": "Missing semicolon after a localparam declaration to create a basic syntax violation.",
+            "error_line": 12
+        },
+        {
+            "taxonomy_title": "2. SIGNAL USAGE",
+            "error_description": "Declared a logic vector named 'unused_counter' that is never read or driven.",
+            "error_line": 31
+        },
+        {
+            "taxonomy_title": "12. STATE MACHINE (FSM) DEFECTS",
+            "error_description": "Added an extra FSM state 'DEAD' in the enum that is never transitioned into, making it unreachable.",
+            "error_line": 35
+        },
+        {
+            "taxonomy_title": "4. RESERVED WORDS",
+            "error_description": "Used the reserved keyword 'always' as an identifier in a logic declaration.",
+            "error_line": 33
+        }
+    ]
+}

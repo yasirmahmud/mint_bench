@@ -1,0 +1,20 @@
+{
+    "module_code": "module alu_with_fsm #(parameter int WIDTH = 32) (\n  input  logic                   clk,\n  input  logic                   rst_n,\n  input  logic                   start,\n  input  logic [3:0]             op,\n  input  logic [WIDTH-1:0]       a,\n  input  logic [WIDTH-1:0]       b,\n  output logic                   done,\n  output logic [WIDTH-1:0]       result,\n  output logic                   zero,\n  output logic                   carry,\n  output logic                   overflow\n);\n\ntypedef enum logic [1:0] {S_IDLE, S_EXEC, S_DONE, S_FAULT} state_t;\n\nstate_t state, next;\n\nlogic [WIDTH-1:0] result_d;\nlogic [WIDTH:0]   add_ext, sub_ext;\nlogic [4:0]       shamt;\nlogic             carry_d;\nlogic             overflow_d;\n\nwire \\always_comb;\n\nalways_ff @(posedge clk or negedge rst_n) begin\n  if (!rst_n) begin\n    state  <= S_IDLE;\n    result <= '0;\n    done   <= 1'b0;\n  end else begin\n    state  <= next;\n    if (state == S_EXEC) begin\n      result <= result_d;\n    end\n    done <= (next == S_DONE);\n  end\nend\n\nalways_comb begin\n  next = state;\n  unique case (state)\n    S_IDLE: begin\n      if (start) begin\n        next = S_EXEC;\n      end\n    end\n    S_EXEC: begin\n      next = S_DONE;\n    end\n    S_DONE: begin\n      if (start) begin\n        next = S_EXEC;\n      end else begin\n        next = S_IDLE;\n      end\n    end\n    S_FAULT: begin\n      next = S_IDLE;\n    end\n  endcase\nend\n\nalways @ (a or b) begin\n  result_d   = '0;\n  carry_d    = 1'b0;\n  overflow_d = 1'b0;\n  shamt      = b[4:0];\n  unique case (op)\n    4'h0: begin\n      add_ext    = {1'b0, a} + {1'b0, b};\n      result_d   = add_ext[WIDTH-1:0];\n      carry_d    = add_ext[WIDTH];\n      overflow_d = (a[WIDTH-1] == b[WIDTH-1]) && (result_d[WIDTH-1] != a[WIDTH-1]);\n    end\n    4'h1: begin\n      sub_ext    = {1'b0, a} - {1'b0, b};\n      result_d   = sub_ext[WIDTH-1:0];\n      carry_d    = ~sub_ext[WIDTH];\n      overflow_d = (a[WIDTH-1] != b[WIDTH-1]) && (result_d[WIDTH-1] != a[WIDTH-1]);\n    end\n    4'h2: begin\n      result_d = a & b;\n    end\n    4'h3: begin\n      result_d = a | b;\n    end\n    4'h4: begin\n      result_d = a ^ b;\n    end\n    4'h5: begin\n      result_d = a << shamt;\n    end\n    4'h6: begin\n      result_d = a >> shamt;\n    end\n    4'h7: begin\n      result_d = $signed(a) >>> shamt;\n    end\n    4'h8: begin\n      result_d = a * b;\n    end\n    4'h9: begin\n      result_d = (b != '0) ? a / b : '0;\n    end\n    4'hA: begin\n      result_d = (a < b) ? {{(WIDTH-1){1'b0}}, 1'b1} : '0;\n    end\n    4'hB: begin\n      result_d = (a == b) ? {{(WIDTH-1){1'b0}}, 1'b1} : '0;\n    end\n    4'hC: begin\n      result_d = ~(a | b);\n    end\n    4'hD: begin\n      result_d = ~(a ^ b);\n    end\n    4'hE: begin\n      result_d = (a & ~b) | (~a & b);\n    end\n    default: begin\n      result_d = '0;\n    end\n  endcase\nend\n\nalways_comb begin\n  zero     = (result == '0);\n  carry    = carry_d;\n  overflow = overflow_d;\nend\n\nassign \\always_comb = done;\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "12. STATE MACHINE (FSM) DEFECTS",
+            "error_description": "Introduced an unreachable FSM state by adding S_FAULT to the enum without any transition assigning next = S_FAULT.",
+            "error_line": 15
+        },
+        {
+            "taxonomy_title": "4. RESERVED WORDS",
+            "error_description": "Declared a signal using an escaped identifier named after a keyword: wire \\always_comb; using a reserved word as an identifier.",
+            "error_line": 25
+        },
+        {
+            "taxonomy_title": "3. SENSITIVITY LIST",
+            "error_description": "Used op inside a combinational always block but omitted it from the sensitivity list: always @ (a or b).",
+            "error_line": 65
+        }
+    ]
+}

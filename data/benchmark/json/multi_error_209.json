@@ -1,0 +1,25 @@
+{
+    "module_code": "module shift_register\n#(\n  parameter int WIDTH = 16,\n  parameter bit RESET_TO_ALL_ONES = 1'b0\n)\n(\n  input  logic                   clk,\n  input  logic                   rst_n,\n  input  logic                   en,\n  input  logic                   dir,\n  input  logic                   load,\n  input  logic                   serial_in,\n  input  logic [WIDTH-1:0]       data_in,\n  output logic                   serial_out,\n  output logic [WIDTH-1:0]       data_out,\n  output logic                   done,\n  output logic                   tap_xor_out\n);\n\nlocalparam int SHIFT_MAX = WIDTH\n\nlogic [WIDTH-1:0] shift_reg;\nlogic [WIDTH-1:0] next_shift;\nlogic [$clog2(WIDTH+1)-1:0] shift_count;\nwire  [WIDTH-1:0] left_mult;\nlogic              tap_xor;\n\nassign left_mult = shift_reg * 2;\n\nalways @(en or dir or shift_reg) begin\n  next_shift = shift_reg;\n  if (en) begin\n    if (load) begin\n      next_shift = data_in;\n    end else begin\n      if (dir) begin\n        next_shift = {serial_in, shift_reg[WIDTH-1:1]};\n      end else begin\n        next_shift = {left_mult[WIDTH-1:1], serial_in};\n      end\n    end\n  end\nend\n\nalways_comb begin\n  tap_xor = ^shift_reg;\nend\n\nalways_comb begin\n  done = (shift_count == SHIFT_MAX-1);\nend\n\nalways @(posedge clk or negedge rst_n) begin\n  if (!rst_n) begin\n    if (RESET_TO_ALL_ONES) begin\n      shift_reg   <= {WIDTH{1'b1}};\n    end else begin\n      shift_reg   <= '0;\n    end\n    shift_count <= '0;\n    data_out    <= '0;\n    serial_out  <= 1'b0;\n    tap_xor_out <= 1'b0;\n  end else begin\n    shift_reg   <= next_shift;\n    data_out    <= shift_reg;\n    tap_xor_out <= tap_xor;\n    if (en) begin\n      if (load) begin\n        shift_count <= '0;\n      end else begin\n        if (shift_count == SHIFT_MAX-1) begin\n          shift_count <= '0;\n        end else begin\n          shift_count <= shift_count + 1'b1;\n        end\n      end\n    end\n    serial_out = dir ? shift_reg[0] : shift_reg[WIDTH-1];\n  end\nend\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "3. SENSITIVITY LIST",
+            "error_description": "The combinational next-state block uses load, data_in, and serial_in but the always @(...) sensitivity list omits them, creating a sensitivity mismatch.",
+            "error_line": 30
+        },
+        {
+            "taxonomy_title": "1. SYNTAX STRUCTURE",
+            "error_description": "The localparam declaration for SHIFT_MAX intentionally omits the terminating semicolon.",
+            "error_line": 20
+        },
+        {
+            "taxonomy_title": "13. CODE QUALITY AND SYNTHESIS",
+            "error_description": "The left shift path is derived from a signal computed as shift_reg * 2, inferring a multiplier instead of using a simple shift, which is highly suboptimal.",
+            "error_line": 28
+        },
+        {
+            "taxonomy_title": "5. RACE OR HAZARD",
+            "error_description": "Within the clocked sequential block, a blocking assignment is used for serial_out while other registers use non-blocking assignments, mixing assignment types in a single sequential block.",
+            "error_line": 79
+        }
+    ]
+}

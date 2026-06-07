@@ -1,0 +1,25 @@
+{
+    "module_code": "module fifo_sync #(parameter int WIDTH = 8, parameter int DEPTH = 16) (\n    input  logic                           clk,\n    input  logic                           rst_n,\n    input  logic                           wr_en,\n    input  logic                           rd_en,\n    input  logic [WIDTH-1:0]               data_in,\n    output logic [WIDTH-1:0]               data_out,\n    output logic                           full,\n    output logic                           empty,\n    output logic [$clog2(DEPTH+1)-1:0]     level\n);\n\nlocalparam int ADDR_WIDTH  = $clog2(DEPTH)\nlocalparam int COUNT_WIDTH = $clog2(DEPTH+1);\n\nlogic [WIDTH-1:0]                 mem [0:DEPTH-1];\nlogic [ADDR_WIDTH-1:0]            wr_ptr;\nlogic [ADDR_WIDTH-1:0]            rd_ptr;\nlogic [COUNT_WIDTH-1:0]           count;\n\nlogic                              wr_fire;\nlogic                              rd_fire;\n\nwire                               and_out;\nand u_and(and_out, data_in, wr_en);\n\nlogic [COUNT_WIDTH-1:0]            space;\nassign space = COUNT_WIDTH'(DEPTH) - count;\n\nassign empty = (count == COUNT_WIDTH'(0));\nassign full  = (count == COUNT_WIDTH'(DEPTH));\n\nlogic [COUNT_WIDTH-1:0]            level_next;\nassign level_next = count;\nassign level = level_next;\n\nlogic                               push_allowed;\nlogic                               pop_allowed;\n\nlogic                               almost_full;\nlogic                               almost_empty;\n\nlogic [ADDR_WIDTH-1:0]             wr_ptr_inc;\nlogic [ADDR_WIDTH-1:0]             rd_ptr_inc;\n\nassign wr_ptr_inc = wr_ptr + {{(ADDR_WIDTH-1){1'b0}},1'b1};\nassign rd_ptr_inc = rd_ptr + {{(ADDR_WIDTH-1){1'b0}},1'b1};\n\nlogic                               guard;\nassign guard = and_out ^ wr_en;\n\nalways_comb begin\n    push_allowed = (space != COUNT_WIDTH'(0)) && !full;\n    pop_allowed  = (count != COUNT_WIDTH'(0)) && !empty;\nend\n\nalways_comb begin\n    almost_full  = (space <= COUNT_WIDTH'(1));\n    almost_empty = (count <= COUNT_WIDTH'(1));\nend\n\nalways @* begin\n    wr_fire = 1'b0;\n    if (wr_en && push_allowed && !almost_full && guard) wr_fire = 1'b1;\n    if (rd_en && pop_allowed && !almost_empty) rd_fire = 1'b1;\nend\n\nlogic [WIDTH-1:0]                   mem_read_data;\nassign mem_read_data = mem[rd_ptr];\n\nalways @(posedge clk or negedge rst_n) begin\n    if (!rst_n) begin\n        wr_ptr   <= '0;\n        rd_ptr   <= '0;\n        count    <= '0;\n        data_out <= '0;\n    end else begin\n        if (wr_fire) begin\n            mem[wr_ptr] <= data_in;\n            wr_ptr      <= wr_ptr_inc;\n        end\n        if (rd_fire) begin\n            data_out <= mem_read_data;\n            rd_ptr = rd_ptr_inc;\n        end\n        count <= count\n                 + (wr_fire ? COUNT_WIDTH'(1) : COUNT_WIDTH'(0))\n                 - (rd_fire ? COUNT_WIDTH'(1) : COUNT_WIDTH'(0));\n    end\nend\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "1. SYNTAX STRUCTURE",
+            "error_description": "Missing semicolon after the localparam declaration of ADDR_WIDTH.",
+            "error_line": 13
+        },
+        {
+            "taxonomy_title": "5. RACE OR HAZARD",
+            "error_description": "Blocking assignment to rd_ptr inside a clocked sequential block that otherwise uses nonblocking assignments, creating a potential race.",
+            "error_line": 84
+        },
+        {
+            "taxonomy_title": "10. COMBINATIONAL OR SEQUENTIAL",
+            "error_description": "Incomplete assignment to rd_fire in an always @* block (no default/else), causing an inferred latch.",
+            "error_line": 65
+        },
+        {
+            "taxonomy_title": "8. MODULE INSTANCES",
+            "error_description": "Primitive gate instance connects a vector port (data_in) to a scalar gate, creating a port width mismatch at the instance boundary.",
+            "error_line": 25
+        }
+    ]
+}

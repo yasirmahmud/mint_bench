@@ -1,0 +1,20 @@
+{
+    "module_code": "module fifo_with_three_lints #(\n    parameter int DATA_WIDTH = 8,\n    parameter int DEPTH = 16\n) (\n    input  logic                      clk,\n    input  logic                      rst_n,\n    input  logic                      wr_en,\n    input  logic                      rd_en,\n    input  logic [DATA_WIDTH-1:0]     wr_data,\n    output logic [DATA_WIDTH-1:0]     rd_data,\n    output logic                      full,\n    output logic                      empty,\n    output logic                      valid,\n    output logic [$clog2(DEPTH)-1:0]  level_out\n);\n\n    localparam int AW = $clog2(DEPTH);\n    localparam int CW = AW + 1;\n\n    logic [DATA_WIDTH-1:0] mem [0:DEPTH-1];\n    logic [AW-1:0] wptr;\n    logic [AW-1:0] rptr;\n    logic [CW-1:0] count;\n\n    localparam logic [AW-1:0] ONE_AW = 'd1;\n    localparam logic [CW-1:0] ONE_CW = 'd1;\n    localparam logic [CW-1:0] ZERO_CW = 'd0;\n    localparam logic [CW-1:0] COUNT_MAX_CONST = DEPTH;\n    localparam logic [AW-1:0] PTR_MAX = DEPTH - 1;\n\n    typedef enum logic [1:0] {S_IDLE, S_ACTIVE, S_PAUSE} state_t;\n    state_t state;\n    state_t next_state;\n\n    logic wr_fire;\n    logic rd_fire;\n\n    assign full = (count == COUNT_MAX_CONST);\n    assign empty = (count === ZERO_CW);\n\n    assign wr_fire = wr_en & ~full;\n    assign rd_fire = rd_en & ~empty;\n\n    assign level_out = count;\n\n    always_comb begin\n        next_state = state;\n        unique case (state)\n            S_IDLE: begin\n                if (wr_en) begin\n                    next_state = S_ACTIVE;\n                end\n            end\n            S_ACTIVE: begin\n                if (!wr_en && !rd_en) begin\n                    next_state = S_IDLE;\n                end\n            end\n        endcase\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            wptr    <= '0;\n            rptr    <= '0;\n            rd_data <= '0;\n            valid   <= 1'b0;\n            state   <= S_IDLE;\n            count   <= '0;\n        end else begin\n            state <= next_state;\n\n            if (wr_fire) begin\n                mem[wptr] <= wr_data;\n                if (wptr == PTR_MAX) begin\n                    wptr <= '0;\n                end else begin\n                    wptr <= logic [AW-1:0]'(wptr + ONE_AW);\n                end\n            end\n\n            if (rd_fire) begin\n                rd_data <= mem[rptr];\n                if (rptr == PTR_MAX) begin\n                    rptr <= '0;\n                end else begin\n                    rptr <= logic [AW-1:0]'(rptr + ONE_AW);\n                end\n                valid <= 1'b1;\n            end else begin\n                valid <= 1'b0;\n            end\n\n            unique case ({wr_fire, rd_fire})\n                2'b10: count <= logic [CW-1:0]'(count + ONE_CW);\n                2'b01: count <= logic [CW-1:0]'(count - ONE_CW);\n                default: count <= count;\n            endcase\n        end\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "7. OPERATORS",
+            "error_description": "Used 4-state equality (===) in synthesizable RTL to compute empty, which is a misuse of operators in hardware design.",
+            "error_line": 39
+        },
+        {
+            "taxonomy_title": "11. BIT WIDTH USAGE",
+            "error_description": "Assigned a wider signal (count, CW bits) to a narrower receiver (level_out, AW bits), causing truncation.",
+            "error_line": 44
+        },
+        {
+            "taxonomy_title": "12. STATE MACHINE (FSM) DEFECTS",
+            "error_description": "Case statement over the FSM state lacks a default and does not handle the S_PAUSE state, creating unhandled transitions.",
+            "error_line": 48
+        }
+    ]
+}

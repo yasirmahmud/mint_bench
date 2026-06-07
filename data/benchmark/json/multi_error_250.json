@@ -1,0 +1,20 @@
+{
+    "module_code": "module priority_encoder16 #(\n    parameter int WIDTH = 16,\n    parameter int CODE_W = $clog2(WIDTH)\n) (\n    input  logic                     clk,\n    input  logic                     rst_n,\n    input  logic [WIDTH-1:0]         in,\n    input  logic                     enable,\n    input  logic                     accept,\n    output logic [CODE_W-1:0]        code,\n    output logic                     valid\n);\n\nlogic [WIDTH-1:0] masked_in;\nlogic [CODE_W-1:0] code_next;\nlogic [CODE_W-1:0] code_r;\nlogic               valid_next;\nlogic               valid_r;\nlogic               ready;\nlogic [7:0]         debug_accum;\nlogic [7:0]         activity;\nlogic [CODE_W-1:0]  \\always_comb;\nlogic               unused_flag;\n\nfunction automatic [CODE_W-1:0] pri_enc(input logic [WIDTH-1:0] v);\n    automatic logic [CODE_W-1:0] res;\n    automatic int i;\n    res = '0;\n    for (i = WIDTH-1; i >= 0; i--) begin\n        if (v[i]) begin\n            res = i[CODE_W-1:0];\n        end\n    end\n    pri_enc = res;\nendfunction\n\nfunction automatic [7:0] popcount(input logic [WIDTH-1:0] v);\n    automatic int j;\n    automatic logic [7:0] sum;\n    sum = 8'd0;\n    for (j = 0; j < WIDTH; j++) begin\n        sum = sum + {7'd0, v[j]};\n    end\n    popcount = sum;\nendfunction\n\nassign ready = accept | ~valid_r;\n\nalways_comb begin\n    masked_in = enable ? in : '0;\n    code_next = pri_enc(masked_in);\n    if (masked_in != '0) begin\n        valid_next = 1'b1;\n    end\n    \\always_comb = code_next ^ code_r;\nend\n\nalways_ff @(posedge clk or negedge rst_n) begin\n    if (!rst_n) begin\n        code_r <= '0;\n        valid_r <= 1'b0;\n        debug_accum <= 8'd0;\n        activity <= 8'd0;\n    end else begin\n        activity <= popcount(masked_in);\n        if (ready) begin\n            code_r <= code_next;\n            valid_r <= valid_next;\n        end\n        debug_accum <= debug_accum + activity + {4'b0000, \\always_comb};\n    end\nend\n\nassign code = code_r;\nassign valid = valid_r;\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "4. RESERVED WORDS",
+            "error_description": "Declared an identifier using an escaped SystemVerilog keyword (\\\\always_comb) as a signal name.",
+            "error_line": 22
+        },
+        {
+            "taxonomy_title": "2. SIGNAL USAGE",
+            "error_description": "Declared a signal (unused_flag) that is never read or driven anywhere in the design.",
+            "error_line": 23
+        },
+        {
+            "taxonomy_title": "10. COMBINATIONAL OR SEQUENTIAL",
+            "error_description": "Incomplete assignment in an always_comb block for valid_next (no default or else path), inferring a latch.",
+            "error_line": 49
+        }
+    ]
+}

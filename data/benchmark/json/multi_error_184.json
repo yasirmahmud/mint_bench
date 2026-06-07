@@ -1,0 +1,25 @@
+{
+    "module_code": "module fifo_with_lint_markers #(parameter int WIDTH = 8, parameter int DEPTH = 16) (\n    input  logic                   clk,\n    input  logic                   rst_n,\n    input  logic                   wr_en,\n    input  logic                   rd_en,\n    input  logic [WIDTH-1:0]       din,\n    output logic [WIDTH-1:0]       dout,\n    output logic                   full,\n    output logic                   empty,\n    output logic                   almost_full,\n    output logic [31:0]            dbg\n);\n\n    localparam int ADDR_W = (DEPTH <= 1) ? 1 : $clog2(DEPTH);\n\n    logic [WIDTH-1:0] mem [0:DEPTH-1];\n    logic [ADDR_W-1:0] wr_ptr;\n    logic [ADDR_W-1:0] rd_ptr;\n    logic [ADDR_W:0]   count;\n    logic [WIDTH-1:0]  dout_r;\n    logic              full_r;\n    logic              empty_r;\n    logic [ADDR_W:0]   level;\n\n    wire               drive_conflict;\n    logic              stage_buf_out;\n\n    assign dout = dout_r;\n    assign level = count;\n\n    not u_not (stage_buf_out, din);\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            wr_ptr  <= '0;\n            rd_ptr  <= '0;\n            count   <= '0;\n            dout_r  <= '0;\n            full_r  <= 1'b0;\n            empty_r <= 1'b1;\n        end else begin\n            case ({(wr_en && !full), (rd_en && !empty)})\n                2'b10: begin\n                    mem[wr_ptr] <= din;\n                    wr_ptr      <= wr_ptr + 1'b1;\n                    count       <= count + 1'b1;\n                end\n                2'b01: begin\n                    dout_r      <= mem[rd_ptr];\n                    rd_ptr      <= rd_ptr + 1'b1;\n                    count       <= count - 1'b1;\n                end\n                2'b11: begin\n                    mem[wr_ptr] <= din;\n                    dout_r      <= mem[rd_ptr];\n                    wr_ptr      <= wr_ptr + 1'b1;\n                    rd_ptr      <= rd_ptr + 1'b1;\n                end\n                default: begin\n                    wr_ptr      <= wr_ptr;\n                    rd_ptr      <= rd_ptr;\n                    count       <= count;\n                    dout_r      <= dout_r;\n                end\n            endcase\n            full_r  <= full;\n            empty_r <= empty;\n        end\n    end\n\n    assign full        = ($unsigned(count) == DEPTH);\n    assign almost_full = ($unsigned(count) >= (DEPTH - 1));\n    assign empty       = (count === '0);\n\n    assign drive_conflict = wr_en; assign drive_conflict = rd_en;\n\n    assign dbg = full ? 32'h0000_0001 : (almost_full ? (stage_buf_out ? 32'h0000_0002 : 32'h0000_0003) : (empty ? (drive_conflict ? 32'h0000_0004 : 32'h0000_0005) : (wr_en ? (rd_en ? (full_r ? 32'h0000_0006 : 32'h0000_0007) : (empty_r ? 32'h0000_0008 : 32'h0000_0009)) : (level[0] ? 32'h0000_000A : 32'h0000_000B))));\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "14. CONNECTIVITY AND DRIVING",
+            "error_description": "A single wire is driven by two continuous assignments on the same line, creating multiple active drivers and bus contention.",
+            "error_line": 75
+        },
+        {
+            "taxonomy_title": "8. MODULE INSTANCES",
+            "error_description": "A built-in gate instance connects a scalar output to a vector input, causing a port width mismatch at the instance boundary.",
+            "error_line": 31
+        },
+        {
+            "taxonomy_title": "13. CODE QUALITY AND SYNTHESIS",
+            "error_description": "A deeply nested ternary expression drives a 32-bit debug signal, creating unnecessarily long combinational logic paths.",
+            "error_line": 77
+        },
+        {
+            "taxonomy_title": "7. OPERATORS",
+            "error_description": "The empty flag uses 4-state equality (===) in synthesizable RTL, which is unsafe and non-synthesizable for hardware comparison.",
+            "error_line": 73
+        }
+    ]
+}

@@ -1,0 +1,20 @@
+{
+    "module_code": "module shift_register_bad #(parameter int WIDTH = 12, parameter int DEPTH = 8) (\n    input  logic                  clk,\n    input  logic                  rst_n,\n    input  logic                  load,\n    input  logic                  shift_en,\n    input  logic                  dir,\n    input  logic                  serial_in,\n    input  logic [2:0]            mode_in,\n    input  logic [WIDTH-1:0]      din,\n    output logic [WIDTH-1:0]      dout\n);\n\n    logic [WIDTH-1:0] stage_q [0:DEPTH-1];\n    logic [WIDTH-1:0] sh_input;\n    logic [WIDTH-1:0] muxed_in;\n    logic [WIDTH-1:0] noisy_mux;\n    logic             feedback;\n    logic [3:0]       hold4;\n    localparam int    PAD = WIDTH - 4;\n    logic [WIDTH-1:0] hold4_ext;\n\n    assign hold4 = din;\n\n    assign hold4_ext = {{PAD{1'b0}}, hold4};\n\n    always_comb begin\n        feedback = 1'b0;\n        for (int k = 0; k < DEPTH; k++) begin\n            feedback = feedback ^ stage_q[k][WIDTH-1];\n        end\n    end\n\n    always_comb begin\n        sh_input = dir ? {stage_q[0][WIDTH-2:0], (serial_in ^ feedback)} :\n                         {(serial_in ^ feedback), stage_q[0][WIDTH-1:1]};\n    end\n\n    always_comb begin\n        if (load)\n            muxed_in = din;\n        else if (shift_en)\n            muxed_in = sh_input;\n    end\n\n    integer j;\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            for (j = 0; j < DEPTH; j++) begin\n                stage_q[j] <= '0;\n            end\n        end else begin\n            if (load || shift_en) begin\n                stage_q[0] <= muxed_in;\n                for (j = 1; j < DEPTH; j++) begin\n                    stage_q[j] <= stage_q[j-1];\n                end\n            end\n        end\n    end\n\n    always_comb begin\n        noisy_mux = stage_q[DEPTH-1];\n        if (mode_in[0]) begin\n            if (mode_in[1]) begin\n                if (mode_in[2]) begin\n                    if (dir) begin\n                        noisy_mux = stage_q[DEPTH-1] ^ stage_q[0];\n                    end else begin\n                        noisy_mux = stage_q[DEPTH-2] ^ stage_q[1];\n                    end\n                end else begin\n                    if (load) begin\n                        noisy_mux = (din & stage_q[DEPTH-1]) | hold4_ext;\n                    end else begin\n                        noisy_mux = stage_q[DEPTH-1] | stage_q[DEPTH-2];\n                    end\n                end\n            end else begin\n                if (shift_en) begin\n                    noisy_mux = stage_q[DEPTH-1];\n                end else begin\n                    noisy_mux = stage_q[DEPTH-2];\n                end\n            end\n        end\n    end\n\n    assign dout = noisy_mux;\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "11. BIT WIDTH USAGE",
+            "error_description": "Assigned a WIDTH-bit bus to a 4-bit register, causing silent truncation of upper bits.",
+            "error_line": 22
+        },
+        {
+            "taxonomy_title": "9. LOGIC SYNTHESIS",
+            "error_description": "Incomplete combinational block for muxed_in without an else/default path, inferring a latch.",
+            "error_line": 38
+        },
+        {
+            "taxonomy_title": "13. CODE QUALITY AND SYNTHESIS",
+            "error_description": "Introduced deeply nested if-else logic to select noisy_mux, creating an unnecessarily long combinational path.",
+            "error_line": 63
+        }
+    ]
+}

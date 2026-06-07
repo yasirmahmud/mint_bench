@@ -1,0 +1,29 @@
+{
+    "module_code": "module alu_core #(parameter WIDTH = 32) (\n    input  logic                 clk,\n    input  logic                 rst,\n    input  logic                 start,\n    input  logic [2:0]           op_sel,\n    input  logic [WIDTH-1:0]     a,\n    input  logic [WIDTH-1:0]     b,\n    output logic [WIDTH-1:0]     result,\n    output logic                 valid,\n    output logic                 busy\n);\n\n    typedef enum logic [1:0] { IDLE = 2'd0, BUSY = 2'd1, DONE = 2'd2, ERR = 2'd3 } state_t;\n    state_t state;\n    state_t next_state;\n\n    localparam logic [2:0]\n        OP_ADD = 3'd0,\n        OP_SUB = 3'd1,\n        OP_AND = 3'd2,\n        OP_OR  = 3'd3,\n        OP_XOR = 3'd4,\n        OP_MUL = 3'd5,\n        OP_SLT = 3'd6;\n\n    logic [WIDTH-1:0] a_lat;\n    logic [WIDTH-1:0] b_lat;\n    logic [2:0]       op_lat;\n    logic [WIDTH-1:0] alu_res;\n    logic             op_done;\n    logic [WIDTH:0]   add_ext;\n    logic [WIDTH:0]   sub_ext;\n\n    assign busy = (state == BUSY);\n\n    always_ff @(posedge clk) begin\n        if (rst) begin\n            state <= IDLE;\n        end else begin\n            state <= next_state;\n        end\n    end\n\n    always_comb begin\n        unique case (state)\n            IDLE: if (start) next_state = BUSY;\n            BUSY: if (op_done) next_state = DONE; else next_state = BUSY;\n            DONE: next_state = IDLE;\n            ERR:  next_state = ERR;\n        endcase\n    end\n\n    always_ff @(posedge clk) begin\n        if (rst) begin\n            a_lat  <= '0;\n            b_lat  <= '0;\n            op_lat <= OP_ADD;\n        end else if (state == IDLE && start) begin\n            a_lat  <= a;\n            b_lat  <= b;\n            op_lat <= op_sel;\n        end\n    end\n\n    always_comb begin\n        add_ext = {1'b0, a_lat} + {1'b0, b_lat};\n        sub_ext = {1'b0, a_lat} - {1'b0, b_lat};\n    end\n\n    always_comb begin\n        alu_res = '0;\n        unique case (op_lat)\n            OP_ADD: alu_res = add_ext[WIDTH-1:0];\n            OP_SUB: alu_res = sub_ext[WIDTH-1:0];\n            OP_AND: alu_res = a_lat && b_lat;\n            OP_OR:  alu_res = a_lat | b_lat;\n            OP_XOR: alu_res = a_lat ^ b_lat;\n            OP_MUL: alu_res = a_lat * b_lat;\n            OP_SLT: alu_res = ($signed(a_lat) < $signed(b_lat)) ? {{(WIDTH-1){1'b0}}, 1'b1} : '0;\n            default: alu_res = '0;\n        endcase\n    end\n\n    assign op_done = 1'b1;\n\n    always_ff @(posedge clk) begin\n        if (rst) begin\n            result <= '0;\n            valid  <= 1'b0;\n        end else begin\n            if (state == BUSY) begin\n                result <= alu_res;\n            end\n            if (state == DONE) begin\n                valid <= 1'b1;\n            end else if (state == IDLE) begin\n                valid <= 1'b0;\n            end\n        end\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "7. OPERATORS",
+            "error_description": "Used logical AND (&&) instead of bitwise AND (&) for a vector operation, producing a 1-bit result expanded to WIDTH.",
+            "error_line": 75
+        },
+        {
+            "taxonomy_title": "10. COMBINATIONAL OR SEQUENTIAL",
+            "error_description": "In next-state combinational logic, an if branch assigns next_state without an else or default path, inferring a latch.",
+            "error_line": 46,
+            "acceptable_error_lines": [
+                44,
+                45
+            ]
+        },
+        {
+            "taxonomy_title": "13. CODE QUALITY AND SYNTHESIS",
+            "error_description": "Included a full-width combinational multiplication for the ALU result, potentially inferring a large multiplier with poor area/timing.",
+            "error_line": 78
+        },
+        {
+            "taxonomy_title": "12. STATE MACHINE (FSM) DEFECTS",
+            "error_description": "Declared an FSM state (ERR) that is never reachable by any transition, making it an unreachable state.",
+            "error_line": 13
+        }
+    ]
+}

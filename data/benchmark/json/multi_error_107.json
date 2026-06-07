@@ -1,0 +1,28 @@
+{
+    "module_code": "module fsm_controller #(parameter int WIDTH = 8, parameter int STEPS = 5) (\n    input  logic                   clk,\n    input  logic                   rst_n,\n    input  logic                   start,\n    input  logic [WIDTH-1:0]       data_in,\n    output logic                   done,\n    output logic                   busy,\n    output logic [WIDTH-1:0]       data_out,\n    output logic                   heartbeat\n);\n\n    typedef enum logic [2:0] {S_RESET, S_IDLE, S_LOAD, S_EXEC, S_WAIT, S_DONE} state_t;\n\n    state_t state, nxt_state;\n\n    logic [WIDTH-1:0] acc, acc_next;\n    logic [3:0]       step, step_next;\n    logic [WIDTH-1:0] temp_calc;\n    logic             toggle;\n\n    logic \\always_comb ;\n    logic [7:0] debug_shadow;\n\n    assign heartbeat = toggle;\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            state    <= S_RESET;\n            acc      <= '0;\n            step     <= '0;\n            data_out <= '0;\n            toggle   <= 1'b0;\n            \\always_comb <= 1'b0;\n        end else begin\n            state    <= nxt_state;\n            acc      <= acc_next;\n            step     <= step_next;\n            data_out <= acc_next;\n            \\always_comb <= start;\n            toggle = ~toggle;\n        end\n    end\n\n    always_comb begin\n        nxt_state = state;\n        acc_next  = acc;\n        step_next = step;\n        done      = 1'b0;\n        temp_calc = (\\always_comb ) ? (data_in ^ acc) : (data_in + acc);\n        case (state)\n            S_RESET: begin\n                nxt_state = S_IDLE;\n                acc_next  = '0;\n                step_next = '0;\n                done      = 1'b0;\n                busy      = 1'b0;\n            end\n            S_IDLE: begin\n                acc_next  = acc;\n                step_next = '0;\n                if (start) begin\n                    nxt_state = S_LOAD;\n                    busy      = 1'b1;\n                    done      = 1'b0;\n                end else begin\n                    nxt_state = S_IDLE;\n                    done      = 1'b0;\n                end\n            end\n            S_LOAD: begin\n                acc_next  = data_in;\n                if (data_in[0]) begin\n                    nxt_state = S_EXEC;\n                end else begin\n                    nxt_state = S_WAIT;\n                end\n                busy      = 1'b1;\n            end\n            S_EXEC: begin\n                acc_next = temp_calc + step;\n                if (step == STEPS[3:0]) begin\n                    nxt_state = S_DONE;\n                    step_next = '0;\n                    busy      = 1'b1;\n                end else begin\n                    step_next = step + 1;\n                    nxt_state = S_EXEC;\n                    busy      = 1'b1;\n                end\n            end\n            S_WAIT: begin\n                nxt_state = S_DONE;\n                busy      = 1'b1;\n            end\n            S_DONE: begin\n                done      = 1'b1;\n                busy      = 1'b0;\n                nxt_state = S_IDLE;\n            end\n            default: begin\n                nxt_state = S_RESET;\n                busy      = 1'b0;\n                done      = 1'b0;\n            end\n        endcase\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "9. LOGIC SYNTHESIS",
+            "error_description": "In the always_comb next-state/output logic, the signal 'busy' is not assigned on all paths (e.g., S_IDLE else path), causing unintended latch inference.",
+            "error_line": 50,
+            "acceptable_error_lines": [
+                44
+            ]
+        },
+        {
+            "taxonomy_title": "4. RESERVED WORDS",
+            "error_description": "Declared a signal using an escaped identifier that matches a reserved keyword: logic \\always_comb ; using a keyword as an identifier via escape.",
+            "error_line": 21
+        },
+        {
+            "taxonomy_title": "5. RACE OR HAZARD",
+            "error_description": "Mixed blocking and non-blocking assignments within the same sequential always_ff block by using blocking assignment to 'toggle' alongside non-blocking updates.",
+            "error_line": 40
+        },
+        {
+            "taxonomy_title": "2. SIGNAL USAGE",
+            "error_description": "Declared 'debug_shadow' but never used or driven anywhere, creating an unused signal.",
+            "error_line": 22
+        }
+    ]
+}

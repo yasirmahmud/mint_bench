@@ -1,0 +1,24 @@
+{
+    "module_code": "module shift_register_mislint #(\n    parameter int WIDTH = 16\n) (\n    input  logic                 clk,\n    input  logic                 rst_n,\n    input  logic                 load,\n    input  logic                 shift_en,\n    input  logic                 dir,\n    input  logic [WIDTH-1:0]     data_in,\n    input  logic                 serial_in,\n    output logic [WIDTH-1:0]     data_out,\n    output logic                 serial_out,\n    output logic                 parity\n);\n\nlocalparam int COUNT_WIDTH = 16;\n\nlogic [WIDTH-1:0] shift_reg_q;\nlogic [WIDTH-1:0] shift_reg_d;\nlogic              parity_q;\nlogic              parity_d;\nlogic              tap_data;\nlogic [COUNT_WIDTH-1:0] shift_count_q;\nlogic [COUNT_WIDTH-1:0] shift_count_d;\nlogic              msb_bit;\nlogic              lsb_bit;\nlogic              limit_reached;\nlogic [7:0]        spare_debug;\n\nassign msb_bit = shift_reg_q[WIDTH-1];\nassign lsb_bit = shift_reg_q[0];\n\nalways_comb begin\n    shift_reg_d = shift_reg_q;\n    if (load && (data_in === {WIDTH{1'b0}})) begin\n        shift_reg_d = '0;\n    end else if (load) begin\n        shift_reg_d = data_in;\n    end else if (shift_en) begin\n        if (dir) begin\n            shift_reg_d = {serial_in, shift_reg_q[WIDTH-1:1]};\n        end else begin\n            shift_reg_d = {shift_reg_q[WIDTH-2:0], serial_in};\n        end\n    end\nend\n\nalways_comb begin\n    if (load) begin\n        parity_d = ^data_in;\n    end else begin\n        parity_d = parity_q;\n        if (shift_en) begin\n            parity_d = parity_q ^ tap_data;\n        end\n    end\nend\n\nalways_comb begin\n    if (shift_en) begin\n        tap_data = dir ? lsb_bit : msb_bit;\n    end\nend\n\nalways_comb begin\n    shift_count_d = shift_count_q;\n    if (load) begin\n        shift_count_d = '0;\n    end else if (shift_en) begin\n        shift_count_d = shift_count_q + 1'b1;\n    end\n    limit_reached = (shift_count_q >= WIDTH);\nend\n\nalways_ff @(posedge clk or negedge rst_n) begin\n    if (!rst_n) begin\n        shift_reg_q <= '0;\n        parity_q    <= 1'b0;\n        shift_count_q <= '0;\n    end else begin\n        shift_reg_q <= shift_reg_d;\n        parity_q    <= parity_d;\n        shift_count_q <= shift_count_d;\n    end\nend\n\nassign data_out   = shift_reg_q;\nassign serial_out = limit_reached ? 1'b0 : (dir ? lsb_bit : msb_bit);\nassign parity     = parity_q;\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "2. SIGNAL USAGE",
+            "error_description": "Declared a logic vector 'spare_debug' that is never read or driven anywhere else, making it an unused signal.",
+            "error_line": 28
+        },
+        {
+            "taxonomy_title": "7. OPERATORS",
+            "error_description": "Used case equality (===) to compare 'data_in' against zero in RTL, which is non-synthesizable/unsafe for hardware and constitutes operator misuse.",
+            "error_line": 35
+        },
+        {
+            "taxonomy_title": "9. LOGIC SYNTHESIS",
+            "error_description": "In an always_comb block, 'tap_data' is conditionally assigned only when shift_en is high with no else/default assignment, causing an unintended latch.",
+            "error_line": 61,
+            "acceptable_error_lines": [
+                59,
+                60
+            ]
+        }
+    ]
+}

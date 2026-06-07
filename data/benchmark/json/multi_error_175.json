@@ -1,0 +1,25 @@
+{
+    "module_code": "module rr_arbiter4(\n    input  logic        clk,\n    input  logic        rst_n,\n    input  logic [3:0]  req,\n    input  logic        lock_i,\n    output logic [3:0]  grant,\n    output logic        grant_valid,\n    output logic [1:0]  grant_idx\n);\n\n    logic [1:0] rr_ptr;\n    logic [1:0] rr_ptr_next;\n    logic [3:0] req_rot;\n    logic [3:0] grant_rot;\n    logic [3:0] grant_unrotated;\n    logic [3:0] next_grant;\n    logic        next_valid;\n    logic [1:0]  next_idx;\n    logic        grant_en;\n    logic [3:0]  grant_bypass;\n    logic        lock_hold;\n\n    assign grant_en = |req;\n\n    always_comb begin\n        case (rr_ptr)\n            2'd0: req_rot = {req[3], req[2], req[1], req[0]};\n            2'd1: req_rot = {req[2], req[1], req[0], req[3]};\n            2'd2: req_rot = {req[1], req[0], req[3], req[2]};\n            2'd3: req_rot = {req[0], req[3], req[2], req[1]};\n            default: req_rot = req;\n        endcase\n    end\n\n    always_comb begin\n        grant_rot = 4'b0000;\n        if (req_rot[3]) begin grant_rot = 4'b1000; end\n        else if (req_rot[2]) begin grant_rot = 4'b0100; end\n        else if (req_rot[1]) begin grant_rot = 4'b0010; end\n        else if (req_rot[0]) begin grant_rot = 4'b0001; end\n        else begin grant_rot = 4'b0000; end\n    end\n\n    always_comb begin\n        case (rr_ptr)\n            2'd0: grant_unrotated = grant_rot;\n            2'd1: grant_unrotated = {grant_rot[2:0], grant_rot[3]};\n            2'd2: grant_unrotated = {grant_rot[1:0], grant_rot[3:2]};\n            2'd3: grant_unrotated = {grant_rot[0], grant_rot[3:1]};\n            default: grant_unrotated = grant_rot;\n        endcase\n    end\n\n    always_comb begin\n        if (grant_en) next_grant = grant_unrotated;\n    end\n\n    always_comb begin\n        next_valid = |next_grant;\n    end\n\n    always_comb begin\n        unique casez (next_grant)\n            4'b1???: next_idx = 2'd3;\n            4'b01??: next_idx = 2'd2;\n            4'b001?: next_idx = 2'd1;\n            4'b0001: next_idx = 2'd0;\n            default: next_idx = 2'd0;\n        endcase\n    end\n\n    always_comb begin\n        rr_ptr_next = rr_ptr;\n        if (!lock_hold && next_valid) begin\n            rr_ptr_next = next_idx + 2'd1;\n        end\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            rr_ptr <= 2'd0;\n        end else begin\n            rr_ptr <= rr_ptr_next;\n        end\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            grant <= 4'b0000;\n        end else if (!lock_hold) begin\n            grant <= next_grant;\n        end\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            grant_valid <= 1'b0;\n            grant_idx   <= 2'd0;\n        end else begin\n            grant_valid <= next_valid;\n            grant_idx   <= next_idx;\n        end\n    end\n\n    always_comb begin\n        unique casez (req)\n            4'b1???: grant_bypass = 4'b1000;\n            4'b01??: grant_bypass = 4'b0100;\n            4'b001?: grant_bypass = 4'b0010;\n            4'b0001: grant_bypass = 4'b0001;\n            default: grant_bypass = 4'b0000;\n        endcase\n    end\n\n    assign grant = grant_bypass;\n\n    always @(posedge clk or posedge req[0]) begin\n        if (!rst_n) begin\n            lock_hold <= 1'b0;\n        end else if (lock_i) begin\n            lock_hold <= 1'b1;\n        end else if (!|req) begin\n            lock_hold <= 1'b0;\n        end\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "10. COMBINATIONAL OR SEQUENTIAL",
+            "error_description": "Created a sequential always block sensitive to posedge clk and posedge req[0], mixing data input with clock edge and omitting reset from the event list, causing improper asynchronous behavior.",
+            "error_line": 117
+        },
+        {
+            "taxonomy_title": "9. LOGIC SYNTHESIS",
+            "error_description": "Incomplete combinational assignment to next_grant by providing only an if branch without an else branch, inferring a latch in synthesis.",
+            "error_line": 55
+        },
+        {
+            "taxonomy_title": "13. CODE QUALITY AND SYNTHESIS",
+            "error_description": "Implemented grant selection using a deeply nested priority if-else chain instead of structured logic, creating a long combinational path and suboptimal hardware.",
+            "error_line": 37
+        },
+        {
+            "taxonomy_title": "14. CONNECTIVITY AND DRIVING",
+            "error_description": "Introduced a second continuous driver on the procedural signal 'grant' via a conflicting assign statement, causing multiple active drivers on the net.",
+            "error_line": 115
+        }
+    ]
+}

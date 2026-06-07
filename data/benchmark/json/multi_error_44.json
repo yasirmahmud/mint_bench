@@ -1,0 +1,26 @@
+{
+    "module_code": "module decoder16x\n#(\n    parameter int WIDTH = 4,\n    parameter int OUTS  = (1 << WIDTH)\n)\n(\n    input  logic                 clk,\n    input  logic                 rst_n,\n    input  logic                 en,\n    input  logic [WIDTH-1:0]     addr,\n    output logic [OUTS-1:0]      dec_out,\n    output logic                 valid\n);\n\nlocalparam int RESET_VALUE = 0\n\nlogic [OUTS-1:0] dec_pre;\nlogic [OUTS-1:0] gate_mask;\nlogic [OUTS-1:0] rotated_mask;\nlogic            en_int;\nwire             conflict0;\nlogic [OUTS-1:0] dec_out_r;\nlogic            valid_r;\n\nfunction automatic logic [OUTS-1:0] onehot(input logic [WIDTH-1:0] a);\n    logic [OUTS-1:0] o;\n    integer i;\n    begin\n        o = '0;\n        for (i = 0; i < OUTS; i++) begin\n            if (i[WIDTH-1:0] == a)\n                o[i] = 1'b1;\n        end\n        return o;\n    end\nendfunction\n\nfunction automatic logic [OUTS-1:0] mask_gen(input logic [WIDTH-1:0] a);\n    logic [OUTS-1:0] m;\n    integer j;\n    begin\n        m = '0;\n        for (j = 0; j < OUTS; j++) begin\n            if (j >= a)\n                m[j] = 1'b1;\n            else\n                m[j] = 1'b0;\n        end\n        return m;\n    end\nendfunction\n\nfunction automatic logic [OUTS-1:0] rotl(input logic [OUTS-1:0] v, input int sh);\n    logic [OUTS-1:0] r;\n    begin\n        r = (v << sh) | (v >> (OUTS - sh));\n        return r;\n    end\nendfunction\n\nfunction automatic logic parity_bit(input logic [WIDTH-1:0] a);\n    logic p;\n    integer k;\n    begin\n        p = 1'b0;\n        for (k = 0; k < WIDTH; k++) begin\n            p = p ^ a[k];\n        end\n        return p;\n    end\nendfunction\n\nassign en_int = en && addr;\nassign gate_mask = mask_gen(addr);\nassign rotated_mask = rotl(gate_mask, parity_bit(addr));\n\nassign conflict0 = dec_pre[0];\nassign conflict0 = dec_pre[1];\n\nalways_comb begin\n    logic [OUTS-1:0] base;\n    base = onehot(addr) & rotated_mask;\n    if (en_int) begin\n        dec_pre = base;\n    end else begin\n        dec_pre = '0;\n    end\nend\n\nalways_ff @(posedge clk or negedge rst_n) begin\n    if (!rst_n) begin\n        dec_out_r <= RESET_VALUE;\n        valid_r   <= 1'b0;\n    end else begin\n        valid_r = (en_int | conflict0) & ~parity_bit(addr);\n        dec_out_r <= dec_pre;\n    end\nend\n\nassign dec_out = dec_out_r;\nassign valid   = valid_r;\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "1. SYNTAX STRUCTURE",
+            "error_description": "Removed the terminating semicolon from a localparam declaration, creating a malformed declaration.",
+            "error_line": 15
+        },
+        {
+            "taxonomy_title": "7. OPERATORS",
+            "error_description": "Used logical AND (&&) between a 1-bit enable and a multi-bit vector (addr), which collapses the vector to a single truth value and misuses logical vs bitwise operations.",
+            "error_line": 73
+        },
+        {
+            "taxonomy_title": "14. CONNECTIVITY AND DRIVING",
+            "error_description": "Drove the same net (conflict0) with two continuous assignments from different sources, creating multiple active drivers.",
+            "error_line": 78,
+            "acceptable_error_lines": [77]
+        },
+        {
+            "taxonomy_title": "5. RACE OR HAZARD",
+            "error_description": "Mixed blocking and non-blocking assignments within the same always_ff block by assigning valid_r with blocking while dec_out_r uses non-blocking.",
+            "error_line": 95
+        }
+    ]
+}

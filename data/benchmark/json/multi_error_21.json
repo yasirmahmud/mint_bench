@@ -1,0 +1,25 @@
+{
+    "module_code": "module shift_register #(parameter int WIDTH = 8) (\n    input  logic                     clk,\n    input  logic                     rst_n,\n    input  logic                     shift_en,\n    input  logic                     load_en,\n    input  logic                     dir,\n    input  logic                     serial_in,\n    input  logic [WIDTH-1:0]         parallel_in,\n    output logic [WIDTH-1:0]         parallel_out,\n    output logic                     serial_out\n);\n\n    localparam int DEPTH = WIDTH\n\n    logic [WIDTH-1:0] sr;\n    logic [WIDTH-1:0] next_sr;\n    logic [WIDTH-1:0] load_data;\n    logic             serial_tap_left;\n    logic             serial_tap_right;\n    logic [WIDTH-1:0] limit_mask;\n    logic [WIDTH-1:0] masked_sr;\n    logic             parity;\n    logic             gate_en;\n    logic [3:0]       shift_count;\n\n    function automatic logic [WIDTH-1:0] mask_upper(input int k);\n        logic [WIDTH-1:0] m;\n        int i;\n        begin\n            for (i = 0; i < WIDTH; i++) begin\n                if (i >= k) m[i] = 1'b1; else m[i] = 1'b0;\n            end\n            return m;\n        end\n    endfunction\n\n    assign limit_mask = mask_upper(2);\n    assign masked_sr  = sr & limit_mask;\n    assign parity     = ^masked_sr;\n\n    assign serial_tap_left  = sr[WIDTH-1];\n    assign serial_tap_right = sr[0];\n\n    always @(shift_en or load_en) begin\n        load_data = parallel_in;\n        if (load_en) begin\n            next_sr = load_data;\n        end else if (shift_en) begin\n            if (dir) begin\n                next_sr = {serial_in, sr[WIDTH-1:1]};\n            end else begin\n                next_sr = {sr[WIDTH-2:0], serial_in};\n            end\n        end else begin\n            next_sr = sr;\n        end\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            sr <= '0;\n        end else begin\n            sr <= next_sr;\n        end\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            shift_count <= '0;\n        end else if (shift_en) begin\n            shift_count <= shift_count + 1'b1;\n        end else begin\n            shift_count <= shift_count;\n        end\n    end\n\n    always_comb begin\n        gate_en = shift_en & ~load_en & rst_n;\n    end\n\n    always_ff @(posedge clk) begin\n        if (shift_count == 4'd0) begin\n            load_en <= 1'b0;\n        end\n    end\n\n    assign parallel_out = sr;\n    assign serial_out   = dir ? serial_tap_right : serial_tap_left;\n\n    generate\n        if (WIDTH > 4) begin : gen_inst\n            shift_register #(.WIDTH(4)) u_sub (\n                .clk        (clk),\n                .rst_n      (rst_n),\n                .shift_en   (shift_en),\n                .load_en    (load_en),\n                .dir        (dir),\n                .serial_in  (serial_in),\n                .parallel_in(parallel_in),\n                .parallel_out(),\n                .serial_out ()\n            );\n        end\n    endgenerate\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "1. SYNTAX STRUCTURE",
+            "error_description": "Missing semicolon at the end of a localparam declaration to violate basic syntax rules.",
+            "error_line": 13
+        },
+        {
+            "taxonomy_title": "3. SENSITIVITY LIST",
+            "error_description": "Combinational always block reads dir, serial_in, sr, and parallel_in but the sensitivity list only includes shift_en and load_en.",
+            "error_line": 44
+        },
+        {
+            "taxonomy_title": "6. PORT TYPE",
+            "error_description": "Procedural assignment drives an input port (load_en) from within the module.",
+            "error_line": 83
+        },
+        {
+            "taxonomy_title": "8. MODULE INSTANCES",
+            "error_description": "Instance port connection drives a 4-bit child port (parallel_in) with a wider parent signal (WIDTH bits), causing a port width mismatch.",
+            "error_line": 99
+        }
+    ]
+}

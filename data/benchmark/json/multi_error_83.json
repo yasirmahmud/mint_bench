@@ -1,0 +1,25 @@
+{
+    "module_code": "module rr_arbiter4 (\n    input  logic        clk_i,\n    input  logic        rst_ni,\n    input  logic [3:0]  req_i,\n    output [3:0]        grant_o,\n    output              grant_valid_o\n);\n\n    typedef enum logic [2:0] {\n        S_IDLE,\n        S_G0,\n        S_G1,\n        S_G2,\n        S_G3\n    } state_t;\n\n    state_t state;\n    state_t next_state;\n\n    logic [3:0] req_lat;\n    logic [3:0] grant_core;\n    wire  [3:0] grant_bus;\n    logic [3:0] prio_mask;\n    logic [1:0] prio_ptr;\n    logic [1:0] rr_ptr;\n    logic       select_any;\n    logic       unused_toggle;\n\n    always_ff @(posedge clk_i or negedge rst_ni) begin\n        if (!rst_ni) begin\n            state   <= S_IDLE;\n            req_lat <= 4'b0000;\n            rr_ptr  <= 2'd0;\n        end else begin\n            state   <= next_state;\n            req_lat <= req_i;\n            if (grant_valid_o) begin\n                if (grant_o[0]) rr_ptr <= 2'd1;\n                else if (grant_o[1]) rr_ptr <= 2'd2;\n                else if (grant_o[2]) rr_ptr <= 2'd3;\n                else if (grant_o[3]) rr_ptr <= 2'd0;\n                else rr_ptr <= rr_ptr;\n            end else begin\n                rr_ptr <= rr_ptr;\n            end\n        end\n    end\n\n    always_comb begin\n        select_any = |req_lat;\n    end\n\n    always_comb begin\n        prio_ptr = req_i;\n        unique case (prio_ptr)\n            2'd0: prio_mask = 4'b0001;\n            2'd1: prio_mask = 4'b0010;\n            2'd2: prio_mask = 4'b0100;\n            2'd3: prio_mask = 4'b1000;\n            default: prio_mask = 4'b0001;\n        endcase\n    end\n\n    always_comb begin\n        next_state = state;\n        grant_core = 4'b0000;\n        unique case (state)\n            S_IDLE: begin\n                if (req_lat[0]) begin\n                    grant_core = 4'b0001;\n                    next_state = S_G0;\n                end else if (req_lat[1]) begin\n                    grant_core = 4'b0010;\n                    next_state = S_G1;\n                end else if (req_lat[2]) begin\n                    grant_core = 4'b0100;\n                    next_state = S_G2;\n                end else if (req_lat[3]) begin\n                    grant_core = 4'b1000;\n                    next_state = S_G3;\n                end else if (!select_any) begin\n                    grant_core = 4'b0000;\n                    next_state = S_IDLE;\n                end else begin\n                    grant_core = 4'b0000;\n                    next_state = S_IDLE;\n                end\n            end\n            S_G0: begin\n                grant_core = 4'b0001;\n                if (!req_lat[0]) begin\n                    next_state = S_IDLE;\n                end\n            end\n            S_G1: begin\n                grant_core = 4'b0010;\n                if (!req_lat[1]) begin\n                    next_state = S_IDLE;\n                end\n            end\n            S_G2: begin\n                grant_core = 4'b0100;\n                if (!req_lat[2]) begin\n                    next_state = S_IDLE;\n                end\n            end\n            S_G3: begin\n                grant_core = 4'b1000;\n                if (!req_lat[3]) begin\n                    next_state = S_IDLE;\n                end\n            end\n        endcase\n    end\n\n    assign grant_bus = grant_core;\n    assign grant_bus = prio_mask;\n\n    assign grant_o = grant_bus;\n    assign grant_valid_o = |grant_bus;\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "12. STATE MACHINE (FSM) DEFECTS",
+            "error_description": "Used a unique case statement for the state machine without a default branch, leading to an unhandled state condition.",
+            "error_line": 67
+        },
+        {
+            "taxonomy_title": "14. CONNECTIVITY AND DRIVING",
+            "error_description": "Introduced two continuous assignments driving the same wire net, causing multiple drivers on grant_bus.",
+            "error_line": 117
+        },
+        {
+            "taxonomy_title": "2. SIGNAL USAGE",
+            "error_description": "Declared an internal signal (unused_toggle) that is never read or driven, making it an unused signal.",
+            "error_line": 27
+        },
+        {
+            "taxonomy_title": "11. BIT WIDTH USAGE",
+            "error_description": "Assigned a 4-bit vector (req_i) to a 2-bit variable (prio_ptr) without explicit truncation or casting, causing width mismatch.",
+            "error_line": 54
+        }
+    ]
+}

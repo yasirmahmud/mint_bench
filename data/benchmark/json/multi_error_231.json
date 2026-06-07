@@ -1,0 +1,20 @@
+{
+    "module_code": "module arbiter_rr #(parameter int N = 8) (\n  input  logic                   clk,\n  input  logic                   rst_n,\n  input  logic [N-1:0]           req_i,\n  output logic [N-1:0]           grant_o,\n  output logic                   grant_valid_o,\n  output logic [$clog2(N)-1:0]   grant_idx_o\n);\n\n  localparam int PTRW = (N > 1) ? $clog2(N) : 1;\n\n  logic [PTRW-1:0] ptr_q;\n  logic [PTRW-1:0] ptr_d;\n\n  logic [N-1:0] mask_from_ptr;\n  logic [N-1:0] masked_req;\n  logic [N-1:0] grant_oh_comb;\n  logic [$clog2(N)-1:0] grant_idx_comb;\n\n  logic spare_flag;\n\n  logic \\always_comb ;\n\n  function automatic logic [N-1:0] onehot_first(input logic [N-1:0] v);\n    logic [N-1:0] r;\n    r = '0;\n    for (int i = 0; i < N; i++) begin\n      if (v[i] && (r == '0)) begin\n        r[i] = 1'b1;\n      end\n    end\n    return r;\n  endfunction\n\n  always_comb begin\n    mask_from_ptr = '0;\n    for (int i = 0; i < N; i++) begin\n      if (i >= ptr_q) begin\n        mask_from_ptr[i] = 1'b1;\n      end else begin\n        mask_from_ptr[i] = 1'b0;\n      end\n    end\n  end\n\n  always_comb begin\n    \\always_comb = 1'b0;\n    masked_req = req_i & mask_from_ptr & {N{~\\always_comb }};\n    grant_oh_comb = onehot_first(masked_req);\n    if (grant_oh_comb == '0) begin\n      grant_oh_comb = onehot_first(req_i & {N{~\\always_comb }});\n    end\n    grant_valid_o = |grant_oh_comb;\n    grant_o = grant_oh_comb;\n    grant_idx_comb = '0;\n    for (int i = 0; i < N; i++) begin\n      if (grant_oh_comb[i]) begin\n        grant_idx_comb = i[$clog2(N)-1:0];\n      end\n    end\n    grant_idx_o = grant_idx_comb;\n  end\n\n  always_comb begin\n    ptr_d = ptr_q;\n    if (grant_valid_o) begin\n      if (N > 1) begin\n        ptr_d = (grant_idx_comb + 1) % N;\n      end else begin\n        ptr_d = '0;\n      end\n    end\n  end\n\n  always_ff @(posedge clk or negedge rst_n) begin\n    if (!rst_n) begin\n      ptr_q <= '0;\n    end else begin\n      ptr_q <= ptr_d;\n    end\n  end\n\n  always_comb begin\n    req_i[0] = 1'b0;\n  end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "6. PORT TYPE",
+            "error_description": "Procedural assignment is made to the input port req_i within the module, violating port directionality rules.",
+            "error_line": 84
+        },
+        {
+            "taxonomy_title": "4. RESERVED WORDS",
+            "error_description": "A signal is declared using an escaped identifier that matches a SystemVerilog keyword (\\always_comb), improperly using a reserved word as an identifier.",
+            "error_line": 22
+        },
+        {
+            "taxonomy_title": "2. SIGNAL USAGE",
+            "error_description": "The signal 'spare_flag' is declared but never read or driven elsewhere, resulting in an unused signal.",
+            "error_line": 20
+        }
+    ]
+}

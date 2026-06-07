@@ -1,0 +1,25 @@
+{
+    "module_code": "module decoder_fsm #(parameter int WIDTH = 16, parameter int OUTW = 8) (\n    input  logic                     clk,\n    input  logic                     rst_n,\n    input  logic                     enable,\n    input  logic [2:0]               sel,\n    input  logic [WIDTH-1:0]         data_in,\n    output logic [OUTW-1:0]          decode_out,\n    output logic                     valid\n);\n\n    typedef enum logic [1:0] { S_IDLE, S_LOAD, S_DECODE } state_t;\n    state_t state;\n    state_t next_state;\n\n    logic [OUTW-1:0] temp_code;\n    logic [3:0] nib0;\n    logic [3:0] nib1;\n    logic [3:0] nib2;\n    logic [3:0] nib3;\n    logic [7:0] onehot_sel;\n\n    logic unused_debug;\n\n    localparam int LEVEL_DIV = 3\n\n    function automatic [7:0] onehot(input logic [2:0] s);\n        case (s)\n            3'd0: onehot = 8'b00000001;\n            3'd1: onehot = 8'b00000010;\n            3'd2: onehot = 8'b00000100;\n            3'd3: onehot = 8'b00001000;\n            3'd4: onehot = 8'b00010000;\n            3'd5: onehot = 8'b00100000;\n            3'd6: onehot = 8'b01000000;\n            3'd7: onehot = 8'b10000000;\n            default: onehot = 8'b00000000;\n        endcase\n    endfunction\n\n    function automatic [3:0] sel_nibble(input logic [2:0] s, input logic [15:0] di);\n        case (s)\n            3'd0: sel_nibble = di[3:0];\n            3'd1: sel_nibble = di[7:4];\n            3'd2: sel_nibble = di[11:8];\n            3'd3: sel_nibble = di[15:12];\n            3'd4: sel_nibble = di[3:0] ^ di[7:4];\n            3'd5: sel_nibble = di[11:8] ^ di[15:12];\n            3'd6: sel_nibble = di[7:4] & di[3:0];\n            3'd7: sel_nibble = di[15:12] | di[11:8];\n            default: sel_nibble = 4'h0;\n        endcase\n    endfunction\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            state <= S_IDLE;\n            valid <= 1'b0;\n        end else begin\n            state <= next_state;\n            if (next_state == S_DECODE) begin\n                valid <= 1'b1;\n            end else begin\n                valid <= 1'b0;\n            end\n        end\n    end\n\n    always_comb begin\n        next_state = state;\n        unique case (state)\n            S_IDLE: begin\n                if (enable) next_state = S_LOAD;\n            end\n            S_LOAD: begin\n                next_state = S_DECODE;\n            end\n            S_DECODE: begin\n                if (!enable) next_state = S_IDLE;\n            end\n        endcase\n    end\n\n    always_comb begin\n        onehot_sel = onehot(sel);\n        nib0 = data_in[3:0];\n        nib1 = data_in[7:4];\n        nib2 = data_in[11:8];\n        nib3 = data_in[15:12];\n    end\n\n    always @(sel or enable) begin\n        temp_code = 8'h00;\n        unique case (sel)\n            3'd0: temp_code = {4'h0, nib0};\n            3'd1: temp_code = {4'h0, nib1};\n            3'd2: temp_code = {4'h0, nib2};\n            3'd3: temp_code = {4'h0, nib3};\n            3'd4: temp_code = {nib0, nib1};\n            3'd5: temp_code = {nib2, nib3};\n            3'd6: temp_code = {nib1, nib0};\n            3'd7: temp_code = {nib3, nib2};\n            default: temp_code = 8'h00;\n        endcase\n    end\n\n    always_comb begin\n        case (state)\n            S_IDLE:   decode_out = 8'h00;\n            S_LOAD:   decode_out = temp_code ^ onehot_sel;\n            S_DECODE: decode_out = temp_code;\n            default:  decode_out = 8'h00;\n        endcase\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "12. STATE MACHINE (FSM) DEFECTS",
+            "error_description": "Missing default branch in the FSM transition case, which can leave unhandled states or x-propagation if an unexpected state occurs.",
+            "error_line": 70
+        },
+        {
+            "taxonomy_title": "1. SYNTAX STRUCTURE",
+            "error_description": "Missing semicolon at the end of a localparam declaration, violating basic SystemVerilog syntax rules.",
+            "error_line": 24
+        },
+        {
+            "taxonomy_title": "2. SIGNAL USAGE",
+            "error_description": "Declaration of an internal signal that is never used anywhere in the module.",
+            "error_line": 22
+        },
+        {
+            "taxonomy_title": "3. SENSITIVITY LIST",
+            "error_description": "Combinational always block reads nibble and data-derived signals but does not include them in its sensitivity list.",
+            "error_line": 91
+        }
+    ]
+}

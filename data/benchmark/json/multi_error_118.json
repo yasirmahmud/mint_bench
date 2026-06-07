@@ -1,0 +1,25 @@
+{
+    "module_code": "module smart_decoder #(parameter int W = 4, parameter int N = 16) (\n    input  logic                 clk,\n    input  logic                 rst_n,\n    input  logic [W-1:0]        addr,\n    input  logic                 en,\n    output logic [N-1:0]        dec,\n    output logic                 valid\n);\n\n    logic [W-1:0] addr_shadow;\n    logic         latch_flag;\n    logic \\always_comb ;\n\n    wire          md;\n    logic         temp_calc;\n    logic         even_parity;\n    logic         odd_parity;\n    logic [N-1:0] dec_int;\n    logic [N-1:0] dec_gated;\n\n    assign md = en & rst_n;\n    assign md = en ^ (^addr);\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            addr_shadow <= '0;\n        end else begin\n            addr_shadow <= addr;\n        end\n    end\n\n    always_ff @(posedge clk) begin\n        if (en) begin\n            addr <= addr_shadow;\n        end\n    end\n\n    always_comb begin\n        dec_int = '0;\n        unique case (addr)\n            4'd0:  dec_int[0]  = en;\n            4'd1:  dec_int[1]  = en;\n            4'd2:  dec_int[2]  = en;\n            4'd3:  dec_int[3]  = en;\n            4'd4:  dec_int[4]  = en;\n            4'd5:  dec_int[5]  = en;\n            4'd6:  dec_int[6]  = en;\n            4'd7:  dec_int[7]  = en;\n            4'd8:  dec_int[8]  = en;\n            4'd9:  dec_int[9]  = en;\n            4'd10: dec_int[10] = en;\n            4'd11: dec_int[11] = en;\n            4'd12: dec_int[12] = en;\n            4'd13: dec_int[13] = en;\n            4'd14: dec_int[14] = en;\n            4'd15: dec_int[15] = en;\n        endcase\n        for (int i = 0; i < N; i++) begin\n            dec_gated[i] = dec_int[i] & md;\n        end\n        temp_calc   = |dec_gated;\n        even_parity = ~^addr;\n        odd_parity  =  ^addr;\n        \\always_comb  = temp_calc & (even_parity | odd_parity);\n    end\n\n    always_comb begin\n        if (en) latch_flag = 1'b1;\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            dec   <= '0;\n            valid <= 1'b0;\n        end else begin\n            dec   <= dec_int;\n            valid <= \\always_comb | latch_flag;\n        end\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "4. RESERVED WORDS",
+            "error_description": "Declared a variable using an escaped identifier named \\always_comb, which misuses a reserved SystemVerilog keyword as an identifier.",
+            "error_line": 12
+        },
+        {
+            "taxonomy_title": "9. LOGIC SYNTHESIS",
+            "error_description": "Created a latch by assigning latch_flag only when en is true in an always_comb block, without covering the else path.",
+            "error_line": 68
+        },
+        {
+            "taxonomy_title": "6. PORT TYPE",
+            "error_description": "Drove the input port addr from inside the module using a procedural assignment.",
+            "error_line": 34
+        },
+        {
+            "taxonomy_title": "14. CONNECTIVITY AND DRIVING",
+            "error_description": "Drove the same wire md from two separate continuous assignments, causing multiple active drivers on one net.",
+            "error_line": 22
+        }
+    ]
+}

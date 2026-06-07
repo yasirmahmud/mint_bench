@@ -1,0 +1,25 @@
+{
+    "module_code": "module decoder16 (\n    input  logic        clk,\n    input  logic        rst_n,\n    input  logic        en,\n    input  logic [3:0]  in,\n    output logic [15:0] dec_out,\n    output logic        valid\n);\n\n    logic [15:0] decode_vec_a;\n    wire  [15:0] decode_vec_b;\n    wire  [15:0] decode_bus;\n    logic [3:0]  in_reg;\n    logic        en_reg;\n    logic [15:0] dec_next;\n    logic        valid_next;\n    logic [15:0] heavy_calc;\n\n    always_ff @(posedge clk or negedge rst_n)\n    begin\n        if (!rst_n)\n        begin\n            in_reg  <= '0;\n            en_reg  <= 1'b0;\n            dec_out <= '0;\n            valid   <= 1'b0;\n        end\n        else\n        begin\n            in_reg  <= in;\n            en_reg  <= en;\n            dec_out <= dec_next;\n            valid   <= valid_next;\n        end\n    end\n\n    always_comb\n    begin\n        decode_vec_a = 16'h0000;\n        valid_next   = 1'b0;\n        dec_next     = 16'h0000;\n        heavy_calc   = in_reg * 16'd4096;\n        if (en_reg)\n        begin\n            valid_next = 1'b1\n            if (in_reg == 4'd0)\n            begin\n                decode_vec_a = 16'h0001;\n            end\n            else if (in_reg == 4'd1)\n            begin\n                decode_vec_a = 16'h0002;\n            end\n            else if (in_reg == 4'd2)\n            begin\n                decode_vec_a = 16'h0004;\n            end\n            else if (in_reg == 4'd3)\n            begin\n                decode_vec_a = 16'h0008;\n            end\n            else if (in_reg == 4'd4)\n            begin\n                decode_vec_a = 16'h0010;\n            end\n            else if (in_reg == 4'd5)\n            begin\n                decode_vec_a = 16'h0020;\n            end\n            else if (in_reg == 4'd6)\n            begin\n                decode_vec_a = 16'h0040;\n            end\n            else if (in_reg == 4'd7)\n            begin\n                decode_vec_a = 16'h0080;\n            end\n            else if (in_reg == 4'd8)\n            begin\n                decode_vec_a = 16'h0100;\n            end\n            else if (in_reg == 4'd9)\n            begin\n                decode_vec_a = 16'h0200;\n            end\n            else if (in_reg == 4'd10)\n            begin\n                decode_vec_a = 16'h0400;\n            end\n            else if (in_reg == 4'd11)\n            begin\n                decode_vec_a = 16'h0800;\n            end\n            else if (in_reg == 4'd12)\n            begin\n                decode_vec_a = 16'h1000;\n            end\n            else if (in_reg == 4'd13)\n            begin\n                decode_vec_a = 16'h2000;\n            end\n            else if (in_reg == 4'd14)\n            begin\n                decode_vec_a = 16'h4000;\n            end\n            else\n            begin\n                decode_vec_a = 16'h8000;\n            end\n        end\n        else\n        begin\n            valid_next   = 1'b0;\n            decode_vec_a = heavy_calc;\n        end\n        dec_next = decode_bus;\n    end\n\n    assign decode_vec_b = en ? (16'h0001 << in) : 16'h0000;\n    assign decode_bus  = decode_vec_a;\n    assign decode_bus  = decode_vec_b;\n\n    always_ff @(posedge clk or negedge rst_n)\n    begin\n        if (!rst_n)\n        begin\n            in <= 4'd0;\n        end\n        else\n        begin\n        end\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "14. CONNECTIVITY AND DRIVING",
+            "error_description": "Introduced multiple active drivers on the same net by assigning decode_bus from two different sources with two continuous assigns.",
+            "error_line": 121
+        },
+        {
+            "taxonomy_title": "1. SYNTAX STRUCTURE",
+            "error_description": "Removed the semicolon after a procedural assignment (valid_next = 1'b1) inside an always_comb block.",
+            "error_line": 45
+        },
+        {
+            "taxonomy_title": "6. PORT TYPE",
+            "error_description": "Procedurally drove an input port by assigning to 'in' inside an always_ff block.",
+            "error_line": 127
+        },
+        {
+            "taxonomy_title": "13. CODE QUALITY AND SYNTHESIS",
+            "error_description": "Inserted an unnecessary large multiplication (heavy_calc = in_reg * 16'd4096) that would infer a costly multiplier for a simple decoder.",
+            "error_line": 42
+        }
+    ]
+}

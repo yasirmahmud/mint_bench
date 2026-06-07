@@ -1,0 +1,25 @@
+{
+    "module_code": "module decoder #(\n    parameter INSTR_W = 16,\n    parameter OPC_W   = 5\n) (\n    input  logic                     clk,\n    input  logic                     rst_n,\n    input  wire                      enable,\n    input  logic [INSTR_W-1:0]       instr,\n    input  logic                     mode,\n    output logic [3:0]               op_class,\n    output logic [7:0]               ctrl,\n    output logic                     valid\n);\n\n    logic [OPC_W-1:0] opcode;\n    logic [2:0]       func3;\n    logic             cond_match;\n    logic [7:0]       ctrl_r;\n    logic [7:0]       ctrl_next;\n    logic [3:0]       op_class_r;\n    logic [3:0]       op_class_next;\n    logic             valid_r;\n    logic             valid_next;\n    logic             internal_enable;\n    logic \\always_comb ;\n\n    always_comb begin\n        opcode  = instr[INSTR_W-1 -: OPC_W];\n        func3   = instr[14:12];\n        cond_match = (func3[2] ^ func3[1]) & mode;\n        \\always_comb = enable & mode;\n        internal_enable = \\always_comb;\n    end\n\n    assign enable = internal_enable;\n\n    always @(opcode or enable) begin\n        ctrl_next      = 8'h00;\n        op_class_next  = 4'h0;\n        valid_next     = 1'b0;\n        if (enable) begin\n            unique case (opcode)\n                5'b11000: begin\n                    op_class_next = 4'hB;\n                    ctrl_next     = {4'b1000, 3'b000, cond_match};\n                    valid_next    = cond_match;\n                end\n                5'b00000: begin\n                    op_class_next = 4'h2;\n                    ctrl_next     = 8'hA4;\n                    valid_next    = 1'b1;\n                end\n                5'b01000: begin\n                    op_class_next = 4'h3;\n                    ctrl_next     = 8'h58;\n                    valid_next    = 1'b1;\n                end\n                5'b01100: begin\n                    op_class_next = 4'h4;\n                    ctrl_next     = 8'hC3;\n                    valid_next    = 1'b1;\n                end\n                5'b00100: begin\n                    op_class_next = 4'h5;\n                    ctrl_next     = 8'h33;\n                    valid_next    = 1'b1;\n                end\n                5'b11100: begin\n                    op_class_next = 4'h6;\n                    ctrl_next     = 8'h21;\n                    valid_next    = 1'b1;\n                end\n                5'b10100: begin\n                    op_class_next = 4'h7;\n                    ctrl_next     = 8'h12;\n                    valid_next    = 1'b1;\n                end\n                5'b10011: begin\n                    op_class_next = 4'h8;\n                    ctrl_next     = 8'h87;\n                    valid_next    = 1'b1;\n                end\n                default: begin\n                    op_class_next = 4'h0;\n                    ctrl_next     = 8'h00;\n                    valid_next    = 1'b0;\n                end\n            endcase\n        end else begin\n            op_class_next = 4'h0;\n            ctrl_next     = 8'h00;\n            valid_next    = 1'b0;\n        end\n    end\n\n    always @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            ctrl_r      <= 8'h00;\n            op_class_r  <= 4'h0;\n            valid_r     <= 1'b0;\n        end else begin\n            ctrl_r      <= ctrl_next;\n            op_class_r  <= op_class_next;\n            valid_r     = valid_next;\n        end\n    end\n\n    always_comb begin\n        ctrl     = ctrl_r;\n        op_class = op_class_r;\n        valid    = valid_r;\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "4. RESERVED WORDS",
+            "error_description": "Introduced an escaped identifier using a reserved keyword as a signal name: logic \\always_comb ; to misuse a language keyword as an identifier.",
+            "error_line": 25
+        },
+        {
+            "taxonomy_title": "3. SENSITIVITY LIST",
+            "error_description": "Created a combinational always block sensitive to (opcode or enable) but reading cond_match inside, omitting it from the sensitivity list.",
+            "error_line": 37
+        },
+        {
+            "taxonomy_title": "6. PORT TYPE",
+            "error_description": "Drove an input port from within the module using a continuous assignment: assign enable = internal_enable;.",
+            "error_line": 35
+        },
+        {
+            "taxonomy_title": "5. RACE OR HAZARD",
+            "error_description": "Mixed blocking and non-blocking assignments in the same sequential block by using a blocking assignment to valid_r alongside non-blocking assignments.",
+            "error_line": 104
+        }
+    ]
+}

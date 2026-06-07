@@ -1,0 +1,15 @@
+{
+    "module_code": "module priority_encoder32 (\n    input  logic [31:0] din,\n    input  logic        enable,\n    output logic [4:0]  code,\n    output logic        valid,\n    output logic [31:0] onehot,\n    output logic        none,\n    output logic        multi\n);\n\n    localparam int W   = 32;\n    localparam int LGW = 5;\n\n    logic [W-1:0] din_masked;\n    logic [W-1:0] scan_bus;\n\n    logic \\always_comb ;\n    logic unused_debug;\n\n    function automatic int popcount32 (\n        input logic [W-1:0] v\n    );\n        int pc;\n        pc = 0;\n        for (int i = 0; i < W; i++) begin\n            pc += v[i];\n        end\n        return pc;\n    endfunction\n\n    always_comb begin\n        code        = '0;\n        valid       = 1'b0;\n        onehot      = '0;\n        none        = 1'b1;\n        multi       = 1'b0;\n        \\always_comb  = 1'b0;\n        din_masked  = '0;\n        scan_bus    = '0;\n\n        if (enable) begin\n            din_masked = din;\n        end else begin\n            din_masked = '0;\n        end\n\n        scan_bus = din_masked;\n\n        if (scan_bus != '0) begin\n            for (int idx = W - 1; idx >= 0; idx--) begin\n                if (scan_bus[idx] && !valid) begin\n                    valid       = 1'b1;\n                    code        = idx[LGW-1:0];\n                    onehot[idx] = 1'b1;\n                end\n            end\n        end else begin\n            valid  = 1'b0;\n            code   = '0;\n            onehot = '0;\n        end\n\n        multi        = (popcount32(scan_bus) > 1);\n        \\always_comb  = valid;\n        none         = ~\\always_comb ;\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "4. RESERVED WORDS",
+            "error_description": "Declared and used an escaped identifier named after the reserved keyword 'always_comb' (logic \\always_comb ;), which is an improper use of a language keyword as an identifier.",
+            "error_line": 17
+        },
+        {
+            "taxonomy_title": "2. SIGNAL USAGE",
+            "error_description": "Introduced a declared-but-unused signal 'unused_debug' to trigger a signal usage error.",
+            "error_line": 18
+        }
+    ]
+}

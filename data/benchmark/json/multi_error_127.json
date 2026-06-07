@@ -1,0 +1,20 @@
+{
+    "module_code": "module arbiter_rr #(\n    parameter int WIDTH = 4,\n    parameter int IDXW  = $clog2(WIDTH)\n) (\n    input  logic                   clk,\n    input  logic                   rst,\n    input  logic [WIDTH-1:0]       req,\n    input  logic                   lock,\n    output logic [WIDTH-1:0]       grant,\n    output logic                   grant_valid,\n    output logic [IDXW-1:0]        grant_idx\n);\n\n    logic [WIDTH-1:0] pre_req;\n    logic [WIDTH-1:0] arb_vec;\n    logic [WIDTH-1:0] grant_candidate;\n    logic [IDXW-1:0]  grant_idx_d;\n    logic             grant_issue;\n    logic             grant_valid_d;\n    logic [WIDTH-1:0] grant_next;\n    logic [WIDTH-1:0] prev_grant;\n    logic [WIDTH-1:0] mask_reg;\n    logic [WIDTH-1:0] hold_vec;\n\n    always @(req or lock) begin\n        if (lock) begin\n            pre_req = req;\n        end else begin\n            pre_req = req & mask_reg;\n        end\n    end\n\n    always_comb begin\n        int unsigned i;\n        arb_vec = '0;\n        grant_candidate = '0;\n        grant_idx_d = '0;\n        if (lock) begin\n            hold_vec = prev_grant;\n            arb_vec = hold_vec & req;\n        end else begin\n            if (pre_req != '0) begin\n                arb_vec = pre_req;\n            end else begin\n                arb_vec = req;\n            end\n        end\n        for (i = 0; i < WIDTH; i = i + 1) begin\n            if (arb_vec[i]) begin\n                grant_candidate = '0;\n                grant_candidate[i] = 1'b1;\n                grant_idx_d = i[IDXW-1:0];\n                break;\n            end\n        end\n        grant_issue   = (arb_vec != '0);\n        grant_next    = grant_candidate;\n        grant_valid_d = grant_issue;\n    end\n\n    always @(clk or rst) begin\n        if (rst) begin\n            prev_grant  <= '0;\n            mask_reg    <= '1;\n            grant       <= '0;\n            grant_valid <= 1'b0;\n            grant_idx   <= '0;\n        end else if (clk) begin\n            if (grant_valid_d) begin\n                prev_grant  <= grant_next;\n                grant       <= grant_next;\n                grant_valid <= 1'b1;\n                grant_idx   <= grant_idx_d;\n                if (grant_next != '0) begin\n                    mask_reg <= {grant_next[WIDTH-2:0], grant_next[WIDTH-1]};\n                end else begin\n                    mask_reg <= mask_reg;\n                end\n            end else begin\n                grant       <= '0;\n                grant_valid <= 1'b0;\n            end\n        end\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "3. SENSITIVITY LIST",
+            "error_description": "The combinational always block omits mask_reg from its sensitivity list while reading it, causing a sensitivity list mismatch.",
+            "error_line": 25
+        },
+        {
+            "taxonomy_title": "9. LOGIC SYNTHESIS",
+            "error_description": "In the always_comb block, hold_vec is assigned only in the lock branch without an else/default assignment, inferring a latch.",
+            "error_line": 38
+        },
+        {
+            "taxonomy_title": "10. COMBINATIONAL OR SEQUENTIAL",
+            "error_description": "The sequential block uses always @(clk or rst) with an internal if (clk) gating, mixing level-sensitive behavior with edge-triggered intent.",
+            "error_line": 61
+        }
+    ]
+}

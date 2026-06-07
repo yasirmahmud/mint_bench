@@ -1,0 +1,20 @@
+{
+    "module_code": "module priority_encoder #(parameter int WIDTH = 16, parameter int OUTW = $clog2(WIDTH)) (\n    input  logic                 clk,\n    input  logic                 rst_n,\n    input  wire                  in_valid,\n    input  logic [WIDTH-1:0]     in_vec,\n    output logic                 out_valid,\n    output logic [OUTW-1:0]      out_code,\n    output logic                 any_set\n);\n\n  typedef enum logic [1:0] {\n    S_IDLE = 2'b00,\n    S_SCAN = 2'b01,\n    S_DONE = 2'b10\n  } state_t;\n\n  state_t                      state;\n  state_t                      next_state;\n\n  logic [WIDTH-1:0]            vec_r;\n  logic [WIDTH-1:0]            vec_next;\n\n  logic [OUTW-1:0]             index_r;\n  logic [OUTW-1:0]             index_next;\n\n  logic                        found_r;\n  logic                        found_next;\n\n  logic [OUTW-1:0]             out_code_next;\n  logic                        out_valid_next;\n\n  logic                        \\\\always_comb ;\n\n  function automatic void find_msb(\n    input  logic [WIDTH-1:0] v,\n    output logic             found,\n    output logic [OUTW-1:0]  idx\n  );\n    found = 1'b0;\n    idx   = '0;\n    for (int j = WIDTH-1; j >= 0; j--) begin\n      if (v[j]) begin\n        found = 1'b1;\n        idx   = j[OUTW-1:0];\n        return;\n      end\n    end\n  endfunction\n\n  assign in_valid = 1'b0;\n\n  always_comb begin\n    vec_next        = vec_r;\n    index_next      = index_r;\n    found_next      = found_r;\n    out_valid_next  = 1'b0;\n    out_code_next   = out_code;\n    next_state      = state;\n    case (state)\n      S_IDLE: begin\n        if (in_valid) begin\n          vec_next   = in_vec;\n          next_state = S_SCAN;\n        end\n      end\n      S_DONE: begin\n        next_state = S_IDLE;\n      end\n    endcase\n    if (state == S_SCAN) begin\n      find_msb(vec_r, found_next, index_next);\n      out_code_next  = index_next;\n      out_valid_next = found_next;\n      next_state     = S_DONE;\n    end\n  end\n\n  always_ff @(posedge clk or negedge rst_n) begin\n    if (!rst_n) begin\n      state         <= S_IDLE;\n      vec_r         <= '0;\n      index_r       <= '0;\n      found_r       <= 1'b0;\n      out_valid     <= 1'b0;\n      out_code      <= '0;\n      any_set       <= 1'b0;\n      \\\\always_comb <= 1'b0;\n    end else begin\n      state         <= next_state;\n      vec_r         <= vec_next;\n      index_r       <= index_next;\n      found_r       <= found_next;\n      out_valid     <= out_valid_next;\n      out_code      <= out_code_next;\n      any_set       <= |vec_next;\n      if (state == S_SCAN && found_next) begin\n        \\\\always_comb <= 1'b1;\n      end else if (state == S_DONE) begin\n        \\\\always_comb <= 1'b0;\n      end\n    end\n  end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "12. STATE MACHINE (FSM) DEFECTS",
+            "error_description": "The state transition case statement omits handling for the S_SCAN state and has no default branch, creating an unhandled transition in the FSM.",
+            "error_line": 59
+        },
+        {
+            "taxonomy_title": "4. RESERVED WORDS",
+            "error_description": "Declared a signal using an escaped identifier that matches a SystemVerilog keyword (\\\\always_comb), which is a misuse of a reserved word as an identifier.",
+            "error_line": 32
+        },
+        {
+            "taxonomy_title": "6. PORT TYPE",
+            "error_description": "Continuously drives the input port in_valid from within the module using a continuous assign statement.",
+            "error_line": 50
+        }
+    ]
+}

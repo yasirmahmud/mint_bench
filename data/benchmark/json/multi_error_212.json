@@ -1,0 +1,15 @@
+{
+    "module_code": "module sync_fifo #(parameter int WIDTH = 8, parameter int DEPTH = 16) (\n    input  logic                    clk,\n    input  logic                    rst_n,\n    input  logic                    wr_en,\n    input  logic [WIDTH-1:0]        wr_data,\n    input  logic                    rd_en,\n    output logic [WIDTH-1:0]        rd_data,\n    output logic                    rd_valid,\n    output logic                    full,\n    output logic                    empty,\n    output logic                    almost_full,\n    output logic                    almost_empty,\n    output logic [$clog2(DEPTH):0]  data_count\n);\n\n    localparam int ADDR_W = $clog2(DEPTH);\n    localparam logic [ADDR_W:0] DEPTH_VAL = DEPTH;\n    localparam logic [ADDR_W:0] ONE_VAL   = 'd1;\n\n    logic [WIDTH-1:0] mem [0:DEPTH-1];\n\n    logic [ADDR_W-1:0] wr_ptr;\n    logic [ADDR_W-1:0] rd_ptr;\n\n    logic [ADDR_W:0]   count;\n    logic [ADDR_W:0]   count_next;\n\n    logic               wr_fire;\n    logic               rd_fire;\n\n    assign full = (count == DEPTH_VAL);\n    assign empty = (wr_ptr === rd_ptr);\n\n    assign wr_fire = wr_en && !full;\n    assign rd_fire = rd_en && !empty;\n\n    logic [ADDR_W-1:0] wr_ptr_inc;\n    logic [ADDR_W-1:0] rd_ptr_inc;\n\n    assign wr_ptr_inc = wr_ptr + 1'b1;\n    assign rd_ptr_inc = rd_ptr + 1'b1;\n\n    logic [ADDR_W:0] afull_thresh;\n    assign afull_thresh = DEPTH_VAL - ONE_VAL;\n\n    assign almost_full  = (count >= afull_thresh);\n    assign almost_empty = (count <= ONE_VAL);\n\n    assign data_count = count;\n\n    always_comb begin\n        if (wr_fire && !rd_fire)\n            count_next = count + ONE_VAL;\n        else if (rd_fire && !wr_fire)\n            count_next = count - ONE_VAL;\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            wr_ptr   <= '0;\n            rd_ptr   <= '0;\n            count    <= '0;\n            rd_data  <= '0;\n            rd_valid <= 1'b0;\n        end else begin\n            if (wr_fire) begin\n                mem[wr_ptr] <= wr_data;\n                wr_ptr      <= wr_ptr_inc;\n            end\n            if (rd_fire) begin\n                rd_data  <= mem[rd_ptr];\n                rd_valid <= 1'b1;\n                rd_ptr   <= rd_ptr_inc;\n            end else begin\n                rd_valid <= 1'b0;\n            end\n            count <= count_next;\n        end\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "10. COMBINATIONAL OR SEQUENTIAL",
+            "error_description": "In the always_comb block, count_next is assigned only in specific branches without a default or final else, causing latch inference (state in a combinational process).",
+            "error_line": 53
+        },
+        {
+            "taxonomy_title": "7. OPERATORS",
+            "error_description": "Used case-equality (===) to compare pointers for the empty flag, which is inappropriate in synthesizable RTL and can yield unintended behavior.",
+            "error_line": 32
+        }
+    ]
+}

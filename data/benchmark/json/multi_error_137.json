@@ -1,0 +1,20 @@
+{
+    "module_code": "module fsm_controller #(\n    parameter int WIDTH = 16\n) (\n    input  logic                  clk,\n    input  logic                  rst_n,\n    input  logic                  start,\n    input  logic                  thresh_en,\n    input  logic [3:0]            wait_threshold,\n    input  logic [WIDTH-1:0]      data_in,\n    output logic                  valid,\n    output logic                  busy,\n    output logic [WIDTH-1:0]      result\n);\n\ntypedef enum logic [2:0] {S_IDLE, S_LOAD, S_WAIT, S_EXEC, S_DONE, S_ERROR, S_RECOVER} state_e;\nstate_e state;\nstate_e next_state;\n\nlogic [WIDTH-1:0] acc;\nlogic [WIDTH-1:0] next_acc;\nlogic [WIDTH-1:0] data_q;\nlogic [3:0]       wait_cnt;\nlogic [3:0]       next_wait_cnt;\n\nlogic dbg_unused_flag;\n\nalways_ff @(posedge clk or negedge rst_n) begin\n    if (!rst_n) begin\n        state      <= S_IDLE;\n        acc        <= '0;\n        data_q     <= '0;\n        wait_cnt   <= '0;\n    end else begin\n        state      <= next_state;\n        acc        <= next_acc;\n        wait_cnt   <= next_wait_cnt;\n        if (start && state == S_IDLE) begin\n            data_q <= data_in;\n        end\n    end\nend\n\nalways_comb begin\n    next_state     = state;\n    next_acc       = acc;\n    next_wait_cnt  = wait_cnt;\n\n    case (state)\n        S_IDLE: begin\n            if (start) begin\n                next_state    = S_LOAD;\n                next_acc      = '0;\n                next_wait_cnt = '0;\n            end\n        end\n        S_LOAD: begin\n            next_state    = S_WAIT;\n            next_acc      = data_q;\n            next_wait_cnt = '0;\n        end\n        S_WAIT: begin\n            if (thresh_en) begin\n                if (wait_cnt >= wait_threshold) begin\n                    next_state = S_EXEC;\n                end else begin\n                    next_wait_cnt = wait_cnt + 4'd1;\n                end\n            end else begin\n                next_state = S_EXEC;\n            end\n        end\n        S_EXEC: begin\n            next_acc   = acc + data_q;\n            next_state = S_DONE;\n        end\n        S_DONE: begin\n            next_state = S_IDLE;\n        end\n        S_ERROR: begin\n            next_state = S_IDLE;\n        end\n        S_RECOVER: begin\n            next_state = S_IDLE;\n        end\n        default: begin\n            next_state = S_IDLE;\n        end\n    endcase\nend\n\nalways_comb begin\n    valid  = 1'b0;\n    result = '0;\n    if (state == S_DONE) begin\n        valid  = 1'b1;\n        result = acc;\n    end\n    if (state == S_EXEC) busy = 1'b1;\nend\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "12. STATE MACHINE (FSM) DEFECTS",
+            "error_description": "Introduced an unreachable FSM state by defining S_RECOVER in the enum without any transition into it.",
+            "error_line": 15
+        },
+        {
+            "taxonomy_title": "2. SIGNAL USAGE",
+            "error_description": "Declared dbg_unused_flag and did not use it anywhere in the design.",
+            "error_line": 25
+        },
+        {
+            "taxonomy_title": "9. LOGIC SYNTHESIS",
+            "error_description": "Caused an unintended latch by assigning busy only when state == S_EXEC without a default or else assignment in the combinational block.",
+            "error_line": 98
+        }
+    ]
+}

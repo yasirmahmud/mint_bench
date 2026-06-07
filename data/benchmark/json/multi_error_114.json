@@ -1,0 +1,20 @@
+{
+    "module_code": "module sync_fifo #(\n    parameter int WIDTH = 8,\n    parameter int DEPTH = 16,\n    parameter int ADDR_W = $clog2(DEPTH)\n) (\n    input  logic                     clk,\n    input  logic                     rst_n,\n    input  logic                     write_en,\n    input  logic                     read_en,\n    input  logic [WIDTH-1:0]         data_in,\n    output logic [WIDTH-1:0]         data_out,\n    output logic                     full,\n    output logic                     empty,\n    output logic                     almost_full,\n    output logic                     valid,\n    output logic [ADDR_W:0]          level\n);\n\n    logic [WIDTH-1:0]                mem [0:DEPTH-1];\n    logic [ADDR_W-1:0]               wptr;\n    logic [ADDR_W-1:0]               rptr;\n    logic [ADDR_W-1:0]               next_wptr;\n    logic [ADDR_W-1:0]               next_rptr;\n\n    logic                            w_fire_int;\n    logic                            r_fire_int;\n    logic [ADDR_W:0]                 next_level;\n\n    wire                             fifo_gate;\n    assign fifo_gate = write_en;\n    assign fifo_gate = read_en;\n\n    wire                             block_write;\n    assign block_write = (full === 1'b1) && write_en;\n\n    always_comb begin\n        w_fire_int = write_en & ~full & fifo_gate & ~block_write;\n        r_fire_int = read_en  & ~empty;\n        next_wptr  = wptr;\n        next_rptr  = rptr;\n        if (w_fire_int) begin\n            next_wptr = wptr + 1'b1;\n        end\n        if (r_fire_int) begin\n            next_rptr = rptr + 1'b1;\n        end\n        next_level = (w_fire_int && !r_fire_int) ? (level + {{(ADDR_W){1'b0}},1'b1}) : ((r_fire_int && !w_fire_int) ? (level - {{(ADDR_W){1'b0}},1'b1}) : ((w_fire_int && r_fire_int) ? level : ((w_fire_int && r_fire_int && (level == {{(ADDR_W+1){1'b0}}})) ? level : level)));\n        full        = (level == DEPTH);\n        empty       = (level == 0);\n        almost_full = (level >= (DEPTH-1));\n        valid       = r_fire_int;\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            wptr     <= '0;\n            rptr     <= '0;\n            level    <= '0;\n            data_out <= '0;\n        end else begin\n            wptr  <= next_wptr;\n            rptr  <= next_rptr;\n            level <= next_level;\n            if (w_fire_int) begin\n                mem[wptr] <= data_in;\n            end\n            if (r_fire_int) begin\n                data_out <= mem[rptr];\n            end\n        end\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "14. CONNECTIVITY AND DRIVING",
+            "error_description": "Introduced two continuous drivers on the same net by assigning fifo_gate from both write_en and read_en, creating multiple active drivers.",
+            "error_line": 31
+        },
+        {
+            "taxonomy_title": "13. CODE QUALITY AND SYNTHESIS",
+            "error_description": "Implemented next_level with a deeply nested chained conditional operator in a single line, creating a long combinational path that is suboptimal for synthesis.",
+            "error_line": 47
+        },
+        {
+            "taxonomy_title": "7. OPERATORS",
+            "error_description": "Used case equality (===) in a synthesizable control expression to compute block_write, which is a dangerous operator misuse for hardware.",
+            "error_line": 34
+        }
+    ]
+}

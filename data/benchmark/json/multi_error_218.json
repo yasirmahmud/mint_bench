@@ -1,0 +1,25 @@
+{
+    "module_code": "module complex_encoder #(\n  parameter int WIDTH = 16,\n  parameter int OUTW = $clog2(WIDTH)\n) (\n  input  logic                 clk,\n  input  logic                 rst_n,\n  input  logic                 enable,\n  input  logic [WIDTH-1:0]     in_data,\n  output logic [OUTW-1:0]      code,\n  output logic                 valid,\n  output logic [WIDTH-1:0]     onehot\n);\n\n  localparam int INTERNAL_GUARD = 1;\n  localparam int PIPELINE_STAGES = 2\n\n  logic [WIDTH-1:0]            mask_reg;\n  logic [WIDTH-1:0]            masked_in;\n  logic [WIDTH-1:0]            onehot_comb;\n  logic [WIDTH-1:0]            onehot_reg;\n  logic [OUTW-1:0]             code_next;\n  logic [OUTW-1:0]             code_reg;\n  logic                        valid_next;\n  logic                        valid_reg;\n\n  assign masked_in = in_data & mask_reg;\n\n  enc_stage #(.N(8)) u_enc_stage (\n    .clk   (clk),\n    .data  (in_data[7:0]),\n    .code  (),\n    .valid ()\n  );\n\n  always @(in_data) begin\n    logic found_flag;\n    found_flag = 1'b0;\n    onehot_comb = '0;\n    for (int j = WIDTH-1; j >= 0; j--) begin\n      if (!found_flag && masked_in[j]) begin\n        onehot_comb[j] = 1'b1;\n        found_flag = 1'b1;\n      end\n    end\n  end\n\n  function automatic int unsigned first_one_idx(input logic [WIDTH-1:0] v);\n    int unsigned idx_local;\n    idx_local = 0;\n    for (int i = 0; i < WIDTH; i++) begin\n      if (v[i]) idx_local = i;\n    end\n    return idx_local;\n  endfunction\n\n  always_comb begin\n    code_next = '0;\n    valid_next = 1'b0;\n    if (onehot_comb != '0) begin\n      valid_next = 1'b1;\n      code_next = first_one_idx(onehot_comb)[OUTW-1:0];\n    end\n  end\n\n  always_ff @(posedge clk or posedge enable) begin\n    if (!rst_n) begin\n      mask_reg <= '1;\n    end else begin\n      if (enable) begin\n        mask_reg <= '1;\n      end else begin\n        mask_reg <= mask_reg;\n      end\n    end\n  end\n\n  always_ff @(posedge clk) begin\n    if (!rst_n) begin\n      onehot_reg <= '0;\n      code_reg   <= '0;\n      valid_reg  <= 1'b0;\n    end else begin\n      onehot_reg <= onehot_comb;\n      code_reg   <= code_next;\n      valid_reg  <= valid_next;\n    end\n  end\n\n  assign onehot = onehot_reg;\n  assign code   = code_reg;\n  assign valid  = valid_reg;\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "1. SYNTAX STRUCTURE",
+            "error_description": "Missing semicolon at the end of a localparam declaration, violating basic syntax rules.",
+            "error_line": 15
+        },
+        {
+            "taxonomy_title": "8. MODULE INSTANCES",
+            "error_description": "Instantiates an undefined submodule 'enc_stage' using a named port map, creating a structural module instance error.",
+            "error_line": 28
+        },
+        {
+            "taxonomy_title": "3. SENSITIVITY LIST",
+            "error_description": "An always block is sensitive only to 'in_data' but reads 'masked_in' (which changes with 'mask_reg'), causing a sensitivity list mismatch.",
+            "error_line": 35
+        },
+        {
+            "taxonomy_title": "10. COMBINATIONAL OR SEQUENTIAL",
+            "error_description": "Sequential block uses always_ff with 'posedge clk or posedge enable', incorrectly treating an enable as an asynchronous event.",
+            "error_line": 65
+        }
+    ]
+}

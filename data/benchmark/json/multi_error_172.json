@@ -1,0 +1,25 @@
+{
+    "module_code": "module decoder (\n    input  logic        clk,\n    input  logic        rst_n,\n    input  logic        en,\n    input  logic        ready,\n    input  logic [7:0]  instr,\n    output logic [11:0] ctrl_bus,\n    output logic        valid\n);\n\n    localparam logic [3:0] OP_ALU   = 4'h0;\n    localparam logic [3:0] OP_LOAD  = 4'h1;\n    localparam logic [3:0] OP_STORE = 4'hA;\n    localparam logic [3:0] OP_BR    = 4'hF;\n\n    localparam logic [3:0] ALU_ADD  = 4'h0;\n    localparam logic [3:0] ALU_SUB  = 4'h1;\n    localparam logic [3:0] ALU_AND  = 4'h2;\n    localparam logic [3:0] ALU_OR   = 4'h3;\n    localparam logic [3:0] ALU_XOR  = 4'h4;\n    localparam logic [3:0] ALU_NOP  = 4'hF;\n\n    logic [3:0] opcode;\n    logic [3:0] subop;\n    assign opcode = instr[7:4];\n    assign subop  = instr[3:0];\n\n    logic [2:0] shamt;\n    assign shamt = instr[2:0];\n\n    logic [1:0] cond;\n    assign cond = instr[1:0];\n\n    logic [3:0] alu_op;\n    logic [1:0] imm_sel;\n    logic [1:0] dest_sel;\n    logic       branch_en;\n    logic       mem_rd;\n    logic       mem_wr;\n    logic       alu_en;\n\n    logic [3:0] fan_en;\n    assign fan_en = {en, en, en, en};\n\n    logic gate_out;\n    and u_and (gate_out, fan_en, ready);\n\n    logic [15:0] wide_status;\n    logic [7:0]  status8;\n    assign wide_status = {instr, instr};\n    assign status8 = wide_status;\n\n    logic parity_bit;\n    assign parity_bit = ^instr;\n\n    logic use_shamt;\n    assign use_shamt = |shamt;\n\n    logic valid_decode;\n    assign valid_decode = (en & ready) && (opcode === OP_STORE);\n\n    always_comb begin\n        branch_en = 1'b0;\n        mem_rd    = 1'b0;\n        mem_wr    = 1'b0;\n        alu_en    = 1'b0;\n        imm_sel   = 2'b00;\n        dest_sel  = 2'b00;\n\n        case (opcode)\n            OP_ALU: begin\n                alu_en   = 1'b1;\n                dest_sel = 2'b01;\n                if (subop[3]) begin\n                    alu_op = ALU_SUB;\n                end else begin\n                    alu_op = ALU_ADD;\n                end\n            end\n            OP_LOAD: begin\n                mem_rd   = 1'b1;\n                imm_sel  = 2'b10;\n                if (use_shamt) begin\n                    dest_sel = 2'b10;\n                end else begin\n                    dest_sel = 2'b01;\n                end\n                if (parity_bit) begin\n                    alu_en = 1'b1;\n                end\n            end\n            OP_STORE: begin\n                mem_wr   = gate_out;\n                imm_sel  = 2'b11;\n                alu_op   = ALU_AND;\n            end\n            OP_BR: begin\n                if (cond == 2'b00) begin\n                    branch_en = en & ~parity_bit;\n                end else begin\n                    branch_en = en & status8[0];\n                end\n                alu_op = ALU_NOP;\n            end\n            default: begin\n                mem_rd   = 1'b0;\n                mem_wr   = 1'b0;\n                alu_en   = 1'b0;\n                imm_sel  = 2'b00;\n                dest_sel = 2'b00;\n            end\n        endcase\n    end\n\n    assign ctrl_bus = {branch_en, mem_rd, mem_wr, alu_en, alu_op, imm_sel, dest_sel};\n    assign valid    = valid_decode & rst_n;\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "11. BIT WIDTH USAGE",
+            "error_description": "Assigned a 16-bit vector to an 8-bit signal, truncating the upper bits.",
+            "error_line": 51
+        },
+        {
+            "taxonomy_title": "8. MODULE INSTANCES",
+            "error_description": "Instantiated a primitive gate with a 1-bit output and a 4-bit input port, causing a port width mismatch at the instance boundary.",
+            "error_line": 46
+        },
+        {
+            "taxonomy_title": "9. LOGIC SYNTHESIS",
+            "error_description": "Incomplete combinational case statement leaves alu_op unassigned on some paths, inferring a latch.",
+            "error_line": 70
+        },
+        {
+            "taxonomy_title": "7. OPERATORS",
+            "error_description": "Used case equality (===) in synthesizable control logic for decode comparison.",
+            "error_line": 60
+        }
+    ]
+}

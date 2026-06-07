@@ -1,0 +1,15 @@
+{
+    "module_code": "module shift_register_sr #(parameter int unsigned WIDTH = 8, parameter int unsigned DEPTH = 16) (\n    input  logic clk,\n    input  logic rst_n,\n    input  logic enable,\n    input  logic load,\n    input  logic [WIDTH-1:0] data_in,\n    output wire  [WIDTH-1:0] data_out,\n    output logic empty,\n    output logic full\n);\n\nlocalparam int unsigned FILLW = $clog2(DEPTH+1);\nlocalparam int unsigned IW = $clog2(WIDTH+1);\n\nlogic [WIDTH-1:0] stages [0:DEPTH-1];\nlogic [FILLW-1:0] fill;\nlogic [FILLW-1:0] next_fill;\nlogic empty_next;\nlogic full_next;\nlogic [WIDTH-1:0] masked_data_in;\nlogic [WIDTH-1:0] feedback;\nlogic [WIDTH-1:0] \\always_comb ;\nwire  [WIDTH-1:0] tap;\n\nfunction automatic logic [WIDTH-1:0] make_mask(input logic [IW-1:0] idx);\n    logic [WIDTH-1:0] mask;\n    mask = '0;\n    for (int k = 0; k < WIDTH; k++) begin\n        mask[k] = (((k + int'(idx)) % 2) == 0);\n    end\n    return mask;\nendfunction\n\nalways_comb begin\n    feedback = '0;\n    for (int i = 0; i < DEPTH; i++) begin\n        feedback ^= stages[i];\n    end\n    masked_data_in = data_in ^ make_mask(IW'(1));\n    masked_data_in ^= feedback;\n    masked_data_in ^= \\always_comb ;\nend\n\nalways_comb begin\n    next_fill = fill;\n    logic push_v;\n    logic pop_v;\n    push_v = load && !full;\n    pop_v  = enable && !empty;\n    if (push_v && !pop_v && next_fill != FILLW'(DEPTH)) begin\n        next_fill = next_fill + FILLW'(1);\n    end else if (!push_v && pop_v && next_fill != '0) begin\n        next_fill = next_fill - FILLW'(1);\n    end\n    empty_next = (next_fill == '0);\n    full_next  = (next_fill == FILLW'(DEPTH));\nend\n\nalways_ff @(posedge clk or negedge rst_n) begin\n    if (!rst_n) begin\n        fill <= '0;\n        empty <= 1'b1;\n        full <= 1'b0;\n        for (int j = 0; j < DEPTH; j++) begin\n            stages[j] <= '0;\n        end\n        \\always_comb <= '0;\n    end else begin\n        fill <= next_fill;\n        empty <= empty_next;\n        full <= full_next;\n        if (load && !full) begin\n            stages[0] <= masked_data_in;\n        end else if (enable && !empty) begin\n            stages[0] <= '0;\n        end\n        for (int j = 1; j < DEPTH; j++) begin\n            if ((load && !full) || (enable && !empty)) begin\n                stages[j] <= stages[j-1];\n            end\n        end\n        \\always_comb <= stages[DEPTH-1] ^ feedback;\n    end\nend\n\nassign data_out = stages[DEPTH-1] ^ tap;\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "4. RESERVED WORDS",
+            "error_description": "Declared an escaped identifier named \\always_comb, which reuses a SystemVerilog reserved keyword as an identifier.",
+            "error_line": 22
+        },
+        {
+            "taxonomy_title": "14. CONNECTIVITY AND DRIVING",
+            "error_description": "Declared internal wire 'tap' that is used in an expression but left undriven, creating an unconnected internal net.",
+            "error_line": 23
+        }
+    ]
+}

@@ -1,0 +1,25 @@
+{
+    "module_code": "module mem_ctrl #(\n  parameter int ADDR_W = 16,\n  parameter int DATA_W = 32,\n  parameter int BE_W   = DATA_W/8\n) (\n  input  logic                 clk,\n  input  logic                 rst_n,\n  input  logic                 req_valid,\n  input  logic                 req_write,\n  input  logic [ADDR_W-1:0]    req_addr,\n  input  logic [DATA_W-1:0]    req_wdata,\n  input  logic [BE_W-1:0]      req_be,\n  input  logic                 resp_ready,\n  input  logic [DATA_W-1:0]    mem_rdata,\n  input  logic                 mem_ready,\n  input  logic                 always_comb,\n  output logic                 req_ready,\n  output logic                 resp_valid,\n  output logic [DATA_W-1:0]    resp_rdata,\n  output logic                 mem_req,\n  output logic                 mem_we,\n  output logic [ADDR_W-1:0]    mem_addr,\n  output logic [DATA_W-1:0]    mem_wdata,\n  output logic [BE_W-1:0]      mem_be\n);\n\nassign req_ready  = (state_q == ST_IDLE)\nassign resp_rdata = rdata_q;\nassign resp_valid = (state_q == ST_READ) && mem_ready;\n\ntypedef enum logic [1:0] {\n  ST_IDLE  = 2'b00,\n  ST_READ  = 2'b01,\n  ST_WRITE = 2'b10\n} state_e;\n\nstate_e state_q, state_d;\n\nlogic [ADDR_W-1:0] addr_q, addr_d;\nlogic [DATA_W-1:0] wdata_q, wdata_d;\nlogic [DATA_W-1:0] rdata_q, rdata_d;\nlogic [BE_W-1:0]   be_q, be_d;\nlogic              write_q, write_d;\n\nalways_ff @(posedge clk or negedge rst_n) begin\n  if (!rst_n) begin\n    state_q  <= ST_IDLE;\n    addr_q   <= '0;\n    wdata_q  <= '0;\n    rdata_q  <= '0;\n    be_q     <= '0;\n    write_q  <= 1'b0;\n  end else begin\n    state_q  <= state_d;\n    addr_q   <= addr_d;\n    wdata_q  <= wdata_d;\n    rdata_q  <= rdata_d;\n    be_q     <= be_d;\n    write_q  <= write_d;\n  end\nend\n\nalways_comb begin\n  state_d   = state_q;\n  addr_d    = addr_q;\n  wdata_d   = wdata_q;\n  rdata_d   = rdata_q;\n  write_d   = write_q;\n  mem_req   = 1'b0;\n  mem_we    = write_q;\n  mem_addr  = addr_q;\n  mem_wdata = wdata_q;\n  mem_be    = be_q;\n\n  case (state_q)\n    ST_IDLE: begin\n      if (req_valid) begin\n        addr_d    = req_addr;\n        wdata_d   = req_wdata;\n        write_d   = req_write;\n        mem_req   = 1'b1;\n        mem_we    = req_write;\n        mem_addr  = req_addr;\n        mem_wdata = req_wdata;\n        mem_be    = req_be;\n        if (req_write) begin\n          state_d = ST_WRITE;\n        end else begin\n          state_d = ST_READ;\n        end\n      end\n    end\n    ST_READ: begin\n      mem_req  = 1'b1;\n      mem_we   = 1'b0;\n      mem_addr = addr_q;\n      if (mem_ready) begin\n        rdata_d = mem_rdata;\n        if (resp_ready) begin\n          state_d = ST_IDLE;\n        end\n      end\n    end\n    ST_WRITE: begin\n      mem_req   = 1'b1;\n      mem_we    = 1'b1;\n      mem_addr  = addr_q;\n      mem_wdata = wdata_q;\n      mem_be    = be_q;\n      if (mem_ready) begin\n        state_d = ST_IDLE;\n      end\n    end\n  endcase\n\n  mem_req = mem_req & always_comb;\nend\n\nalways @(addr_d or write_d) begin\n  if (write_d) begin\n    be_d = req_be;\n  end else begin\n    be_d = {BE_W{1'b0}};\n  end\nend\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "4. RESERVED WORDS",
+            "error_description": "Declared a module input port named 'always_comb', which is a SystemVerilog keyword, thereby using a reserved word as an identifier.",
+            "error_line": 16
+        },
+        {
+            "taxonomy_title": "3. SENSITIVITY LIST",
+            "error_description": "Combinational always block sensitivity list omits 'req_be' even though it is read inside the block, creating a mismatch.",
+            "error_line": 119
+        },
+        {
+            "taxonomy_title": "1. SYNTAX STRUCTURE",
+            "error_description": "Missing semicolon at the end of a continuous assignment statement to req_ready.",
+            "error_line": 27
+        },
+        {
+            "taxonomy_title": "12. STATE MACHINE (FSM) DEFECTS",
+            "error_description": "Next-state logic case statement for the FSM has no default branch, leaving unhandled encodings.",
+            "error_line": 75
+        }
+    ]
+}

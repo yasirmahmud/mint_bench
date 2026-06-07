@@ -1,0 +1,21 @@
+{
+    "module_code": "module arbiter_rr #(parameter int N = 4) (\n    input  logic               clk,\n    input  logic               rst_n,\n    input  logic [N-1:0]       req,\n    input  logic               ack,\n    output logic [N-1:0]       grant,\n    output logic               valid\n);\n\n    logic [N-1:0] grant_q;\n    logic [N-1:0] grant_d;\n    logic [N-1:0] mask;\n    logic [N-1:0] ptr_oh_q;\n    logic         lock;\n\n    function automatic [N-1:0] prio(input logic [N-1:0] r);\n        logic [N-1:0] g;\n        g = '0;\n        for (int i = 0; i < N; i++) begin\n            if (r[i] && (g == '0)) g[i] = 1'b1;\n        end\n        return g;\n    endfunction\n\n    function automatic [N-1:0] gen_mask_oh(input logic [N-1:0] p_oh);\n        logic [N-1:0] m;\n        int start;\n        m = '0;\n        start = 0;\n        for (int i = 0; i < N; i++) begin\n            if (p_oh[i]) start = i;\n        end\n        for (int j = 0; j < N; j++) begin\n            if (j >= start) m[j] = 1'b1;\n        end\n        return m;\n    endfunction\n\n    function automatic [N-1:0] next_ptr_oh(input logic [N-1:0] g);\n        logic [N-1:0] n;\n        n = '0;\n        for (int i = 0; i < N; i++) begin\n            if (g[i]) begin\n                if (i == N-1) n[0] = 1'b1;\n                else n[i+1] = 1'b1;\n            end\n        end\n        return n;\n    endfunction\n\n    always_comb begin\n        mask = gen_mask_oh(ptr_oh_q);\n    end\n\n    always @(req or mask) begin\n        logic [N-1:0] masked;\n        masked = req & mask;\n        grant_d = prio(masked);\n        if (grant_d == '0) grant_d = prio(req);\n        if (ptr_oh_q[0]) begin\n            grant_d = grant_d | '0;\n        end\n    end\n\n    always_comb begin\n        if (ack) lock = 1'b0;\n        else if (grant_q != '0) lock = 1'b1;\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            logic [N-1:0] reset_vec;\n            reset_vec = '0;\n            reset_vec[0] = 1'b1;\n            grant_q   <= '0;\n            ptr_oh_q  <= reset_vec;\n        end else begin\n            if (!lock) begin\n                grant_q <= grant_d;\n            end\n            if (ack && (grant_q != '0)) begin\n                ptr_oh_q <= next_ptr_oh(grant_q);\n            end\n        end\n    end\n\n    always_comb begin\n        valid = |grant_q;\n    end\n\n    assign grant = grant_q;\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "10. COMBINATIONAL OR SEQUENTIAL",
+            "error_description": "Introduced a latch by assigning to the state-like signal 'lock' inside an always_comb block without a default assignment, inferring sequential storage in combinational logic.",
+            "error_line": 67,
+            "acceptable_error_lines": [
+                65,
+                66,
+                67
+            ]
+        },
+        {
+            "taxonomy_title": "3. SENSITIVITY LIST",
+            "error_description": "Used an always @(req or mask) block that also reads 'ptr_oh_q' inside, which is not included in the sensitivity list, causing a simulation-synthesis mismatch risk.",
+            "error_line": 55,
+            "acceptable_error_lines": [60]
+        }
+    ]
+}

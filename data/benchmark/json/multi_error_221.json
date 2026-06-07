@@ -1,0 +1,25 @@
+{
+    "module_code": "module nibble_inverter #(parameter N = 4) (\n    input  logic [N-1:0] in,\n    output logic [N-1:0] out\n);\n    assign out = ~in;\nendmodule\n\nmodule complex_mux #(parameter WIDTH = 8) (\n    input  logic [WIDTH-1:0] in0,\n    input  logic [WIDTH-1:0] in1,\n    input  logic [WIDTH-1:0] in2,\n    input  logic [WIDTH-1:0] in3,\n    input  logic [1:0]       sel,\n    input  logic             en,\n    output logic [WIDTH-1:0] y,\n    output logic             valid\n);\n    logic [WIDTH-1:0] stage0;\n    logic [WIDTH-1:0] masked0;\n    logic [WIDTH-1:0] alt0;\n    logic [3:0]       inv_nibble;\n    logic             sel_parity;\n\n    function automatic [WIDTH-1:0] mask_enable;\n        input logic [WIDTH-1:0] data;\n        input logic en_i;\n        begin\n            mask_enable = en_i ? data : {WIDTH{1'b0}};\n        end\n    endfunction\n\n    function automatic logic parity2;\n        input logic [1:0] v;\n        begin\n            parity2 = v[0] ^ v[1];\n        end\n    endfunction\n\n    nibble_inverter u_inv ( .in(in0), .out(inv_nibble) );\n\n    assign sel = {en, en};\n\n    always @(sel or en) begin\n        stage0 = '0;\n        if (sel === 2'b00) begin\n            stage0 = in0;\n        end else if (sel == 2'b01) begin\n            stage0 = in1;\n        end else if (sel == 2'b10) begin\n            stage0 = in2;\n        end else begin\n            stage0 = in3;\n        end\n        if (!en) begin\n            stage0 = '0;\n        end\n    end\n\n    always_comb begin\n        masked0 = mask_enable(stage0, en);\n    end\n\n    always_comb begin\n        int i;\n        for (i = 0; i < WIDTH; i++) begin\n            alt0[i] = masked0[i] ^ (i % 2);\n        end\n    end\n\n    always_comb begin\n        y = masked0 | {{(WIDTH-4){1'b0}}, inv_nibble};\n    end\n\n    always_comb begin\n        sel_parity = parity2(sel);\n    end\n\n    always_comb begin\n        valid = en & (|masked0) & sel_parity;\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "7. OPERATORS",
+            "error_description": "Used non-synthesizable case equality operator (===) in RTL when comparing sel to a constant.",
+            "error_line": 45
+        },
+        {
+            "taxonomy_title": "8. MODULE INSTANCES",
+            "error_description": "Instantiated a sub-module with a port width mismatch by connecting an 8-bit signal to a 4-bit input port.",
+            "error_line": 39
+        },
+        {
+            "taxonomy_title": "6. PORT TYPE",
+            "error_description": "Drove an input port internally using a continuous assign statement.",
+            "error_line": 41
+        },
+        {
+            "taxonomy_title": "3. SENSITIVITY LIST",
+            "error_description": "Created a combinational always block with an incomplete sensitivity list that omits data inputs used within the block.",
+            "error_line": 43
+        }
+    ]
+}

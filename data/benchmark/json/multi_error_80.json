@@ -1,0 +1,30 @@
+{
+    "module_code": "module shift_register_faulty #(parameter int WIDTH = 16) (\n    input  logic clk,\n    input  logic rst_n,\n    input  logic load_en,\n    input  logic shift_en,\n    input  logic serial_in,\n    input  logic [WIDTH-1:0] parallel_in,\n    input  logic capture,\n    input  logic [1:0] mode_sel,\n    input  logic [1:0] out_sel,\n    output logic [WIDTH-1:0] parallel_out,\n    output logic serial_out\n);\n\n    logic [WIDTH-1:0] shift_reg;\n    logic [WIDTH-1:0] next_word;\n    logic [WIDTH-1:0] snapshot;\n    logic [WIDTH-1:0] reversed;\n\n    typedef enum logic [2:0] {S_IDLE, S_LOAD, S_SHIFT, S_HOLD, S_UNUSED} state_e;\n\n    state_e state;\n    state_e next_state;\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            state <= S_IDLE;\n        end else begin\n            state <= next_state;\n        end\n    end\n\n    always_comb begin\n        next_state = state;\n        unique case (state)\n            S_IDLE: begin\n                if (load_en) begin\n                    next_state = S_LOAD;\n                end else if (shift_en) begin\n                    next_state = S_SHIFT;\n                end else begin\n                    next_state = S_HOLD;\n                end\n            end\n            S_LOAD: begin\n                if (shift_en) begin\n                    next_state = S_SHIFT;\n                end else begin\n                    next_state = S_HOLD;\n                end\n            end\n            S_SHIFT: begin\n                if (!shift_en) begin\n                    next_state = S_HOLD;\n                end else begin\n                    next_state = S_SHIFT;\n                end\n            end\n            S_HOLD: begin\n                if (load_en) begin\n                    next_state = S_LOAD;\n                end else if (shift_en) begin\n                    next_state = S_SHIFT;\n                end else begin\n                    next_state = S_HOLD;\n                end\n            end\n            default: begin\n                next_state = S_IDLE;\n            end\n        endcase\n    end\n\n    always_comb begin\n        if (load_en) begin\n            next_word = parallel_in;\n        end else if (shift_en) begin\n            case (mode_sel)\n                2'b00: next_word = {shift_reg[WIDTH-2:0], serial_in};\n                2'b01: next_word = {serial_in, shift_reg[WIDTH-1:1]};\n                2'b10: next_word = shift_reg;\n            endcase\n        end else begin\n            next_word = shift_reg;\n        end\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            shift_reg <= '0;\n        end else begin\n            shift_reg <= next_word;\n        end\n    end\n\n    always_comb begin\n        for (int i = 0; i < WIDTH; i++) begin\n            reversed[i] = shift_reg[WIDTH-1-i];\n        end\n    end\n\n    always_ff @(posedge capture) begin\n        snapshot <= shift_reg;\n    end\n\n    logic parity_even;\n\n    always_comb begin\n        parity_even = ^shift_reg;\n    end\n\n    assign serial_out = (out_sel == 2'b00) ? shift_reg[0] :\n                        (out_sel == 2'b01) ? shift_reg[WIDTH-1] :\n                        (out_sel == 2'b10) ? (state == S_SHIFT ? shift_reg[1] : parity_even) :\n                                             (mode_sel == 2'b01 ? reversed[0] : snapshot[0]);\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            parallel_out <= '0;\n        end else if (state == S_LOAD) begin\n            parallel_out <= parallel_in;\n        end else if (state == S_SHIFT) begin\n            parallel_out <= next_word;\n        end else begin\n            parallel_out <= shift_reg;\n        end\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "10. COMBINATIONAL OR SEQUENTIAL",
+            "error_description": "Introduced a state-holding register clocked by a non-clock control signal using always_ff @(posedge capture), creating a flop without a proper clock edge.",
+            "error_line": 102
+        },
+        {
+            "taxonomy_title": "9. LOGIC SYNTHESIS",
+            "error_description": "Created an incomplete case statement for next_word generation missing a branch, causing latch inference during synthesis.",
+            "error_line": 78
+        },
+        {
+            "taxonomy_title": "12. STATE MACHINE (FSM) DEFECTS",
+            "error_description": "Added an extra enumerated FSM state that is never transitioned into, making it unreachable.",
+            "error_line": 20
+        },
+        {
+            "taxonomy_title": "13. CODE QUALITY AND SYNTHESIS",
+            "error_description": "Used a deeply nested conditional operator chain to drive serial_out, leading to suboptimal combinational logic.",
+            "error_line": 115,
+            "acceptable_error_lines": [
+                112,
+                113,
+                114
+            ]
+        }
+    ]
+}

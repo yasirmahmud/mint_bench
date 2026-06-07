@@ -1,0 +1,20 @@
+{
+    "module_code": "module decoder_with_lint (\n    input  logic         clk,\n    input  logic         rst_n,\n    input  logic         en,\n    input  logic [3:0]   opcode,\n    input  logic [1:0]   mode,\n    input  logic [7:0]   data_in,\n    output logic [15:0]  decode_out,\n    output logic         valid,\n    output logic [3:0]   sel_index,\n    output logic         parity\n);\n\n    function automatic logic parity16 (input logic [15:0] v);\n        parity16 = ^v;\n    endfunction\n\n    logic [15:0] decode_raw;\n    logic [15:0] gate_mask;\n    logic [15:0] decode_masked;\n    logic [15:0] decode_stage;\n    logic        en_q;\n    logic \\always_comb ;\n\n    always_comb begin\n        decode_raw = 16'h0000;\n        unique case (opcode)\n            4'h0: decode_raw = 16'h0001;\n            4'h1: decode_raw = 16'h0002;\n            4'h2: decode_raw = 16'h0004;\n            4'h3: decode_raw = 16'h0008;\n            4'h4: decode_raw = 16'h0010;\n            4'h5: decode_raw = 16'h0020;\n            4'h6: decode_raw = 16'h0040;\n            4'h7: decode_raw = 16'h0080;\n            4'h8: decode_raw = 16'h0100;\n            4'h9: decode_raw = 16'h0200;\n            4'hA: decode_raw = 16'h0400;\n            4'hB: decode_raw = 16'h0800;\n            4'hC: decode_raw = 16'h1000;\n            4'hD: decode_raw = 16'h2000;\n            4'hE: decode_raw = 16'h4000;\n            4'hF: decode_raw = 16'h8000;\n        endcase\n    end\n\n    always @(en or opcode) begin\n        gate_mask = 16'hFFFF;\n        case (mode)\n            2'b00: gate_mask = 16'hFFFF;\n            2'b01: gate_mask = 16'h0FFF;\n            2'b10: gate_mask = 16'h00FF;\n            default: gate_mask = 16'hF0FF;\n        endcase\n        if (!en) begin\n            gate_mask = 16'h0000;\n        end\n        if (opcode[3]) begin\n            gate_mask = gate_mask & 16'hFF0F;\n        end\n        if (data_in[0]) begin\n            gate_mask = gate_mask ^ 16'h00F0;\n        end\n    end\n\n    assign decode_masked = decode_raw & gate_mask;\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            decode_stage <= 16'h0000;\n            en_q         <= 1'b0;\n        end else begin\n            decode_stage <= decode_masked;\n            en_q         <= en;\n        end\n    end\n\n    assign decode_out = decode_stage;\n\n    assign \\always_comb = en;\n\n    assign valid = (\\always_comb | en_q) & (|decode_out);\n\n    assign parity = parity16(decode_out);\n\n    assign sel_index = decode_out;\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "4. RESERVED WORDS",
+            "error_description": "Declared an escaped identifier named \\always_comb, misusing a language keyword as an identifier.",
+            "error_line": 23
+        },
+        {
+            "taxonomy_title": "3. SENSITIVITY LIST",
+            "error_description": "Created a combinational always block with an explicit sensitivity list missing signals (mode and data_in) that are read within the block.",
+            "error_line": 47
+        },
+        {
+            "taxonomy_title": "11. BIT WIDTH USAGE",
+            "error_description": "Assigned a 16-bit vector (decode_out) to a 4-bit signal (sel_index), causing truncation.",
+            "error_line": 86
+        }
+    ]
+}

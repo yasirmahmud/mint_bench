@@ -1,0 +1,20 @@
+{
+    "module_code": "module byte_inverter(\n    input  logic [7:0] a,\n    output logic [7:0] y\n);\n    assign y = ~a;\nendmodule\n\nmodule fifo_with_errors #(\n    parameter int DATA_W = 16,\n    parameter int DEPTH  = 16\n) (\n    input  logic                   clk,\n    input  logic                   rst_n,\n    input  logic                   push,\n    input  logic                   pop,\n    input  logic [DATA_W-1:0]      din,\n    output logic [DATA_W-1:0]      dout,\n    output logic                   full,\n    output logic                   empty,\n    output logic [$clog2(DEPTH):0] level,\n    output logic                   debug_flag\n);\n    localparam int ADDR_W = $clog2(DEPTH);\n    localparam logic [ADDR_W:0] DEPTH_VAL = DEPTH;\n\n    logic [DATA_W-1:0] mem [0:DEPTH-1];\n    logic [ADDR_W-1:0] wr_ptr;\n    logic [ADDR_W-1:0] rd_ptr;\n    logic [ADDR_W:0]   count;\n\n    logic [ADDR_W-1:0] wr_ptr_n;\n    logic [ADDR_W-1:0] rd_ptr_n;\n    logic [ADDR_W:0]   count_n;\n\n    logic               wr_en;\n    logic               rd_en;\n\n    logic [8:0]         status_bus;\n    logic [7:0]         inv_status;\n    logic \\always_comb ;\n\n    always_comb begin\n        wr_en   = push && (count != DEPTH_VAL);\n        rd_en   = pop  && (count != '0);\n        wr_ptr_n = wr_ptr;\n        rd_ptr_n = rd_ptr;\n        count_n  = count;\n        if (wr_en && !rd_en) begin\n            wr_ptr_n = wr_ptr + 1'b1;\n            count_n  = count  + 1'b1;\n        end else if (!wr_en && rd_en) begin\n            rd_ptr_n = rd_ptr + 1'b1;\n            count_n  = count  - 1'b1;\n        end else if (wr_en && rd_en) begin\n            wr_ptr_n = wr_ptr + 1'b1;\n            rd_ptr_n = rd_ptr + 1'b1;\n        end\n    end\n\n    always @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            wr_ptr <= '0;\n            rd_ptr <= '0;\n            count  <= '0;\n            dout   <= '0;\n        end else begin\n            if (wr_en) begin\n                mem[wr_ptr] <= din;\n            end\n            if (rd_en) begin\n                dout <= mem[rd_ptr];\n            end\n            wr_ptr <= wr_ptr_n;\n            rd_ptr <= rd_ptr_n;\n            count  = count_n;\n        end\n    end\n\n    assign full  = (count == DEPTH_VAL);\n    assign empty = (count == '0);\n    assign level = count;\n\n    assign status_bus = {full, 2'b00, count, empty};\n\n    byte_inverter u_inv(.a(status_bus), .y(inv_status));\n\n    assign \\always_comb  = ^inv_status;\n    assign debug_flag = \\always_comb ;\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "4. RESERVED WORDS",
+            "error_description": "Declared and used an escaped identifier named after a language keyword (\\always_comb) as a signal, which misuses a reserved word as an identifier.",
+            "error_line": 40
+        },
+        {
+            "taxonomy_title": "5. RACE OR HAZARD",
+            "error_description": "Mixed blocking and non-blocking assignments in the same clocked sequential block by assigning 'count' with a blocking '=' while other registers use non-blocking '<='.",
+            "error_line": 75
+        },
+        {
+            "taxonomy_title": "8. MODULE INSTANCES",
+            "error_description": "Instantiated a sub-module with a port width mismatch by connecting a 9-bit vector 'status_bus' to an 8-bit input port.",
+            "error_line": 85
+        }
+    ]
+}

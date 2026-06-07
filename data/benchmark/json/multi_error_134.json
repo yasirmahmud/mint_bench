@@ -1,0 +1,25 @@
+{
+    "module_code": "module complex_mux #(parameter WIDTH = 8) (\n    input  logic              clk,\n    input  logic              rst_n,\n    input  logic              enable,\n    input  logic              lock,\n    input  logic [2:0]        sel,\n    input  logic [WIDTH-1:0]  d0,\n    input  logic [WIDTH-1:0]  d1,\n    input  logic [WIDTH-1:0]  d2,\n    input  logic [WIDTH-1:0]  d3,\n    input  logic [WIDTH-1:0]  d4,\n    input  logic [WIDTH-1:0]  d5,\n    input  logic [WIDTH-1:0]  d6,\n    input  logic [WIDTH-1:0]  d7,\n    input  logic [WIDTH-1:0]  override_data,\n    output logic [WIDTH-1:0]  y\n);\n\ntypedef enum logic [1:0] {\n    S_IDLE   = 2'b00,\n    S_ROUTE  = 2'b01,\n    S_HOLD   = 2'b10,\n    S_UNUSED = 2'b11\n} state_e;\n\nstate_e state;\nstate_e next_state;\n\nlogic [WIDTH-1:0] comb_mux_out;\nlogic [WIDTH-1:0] y_int;\nlogic [15:0]      wide_source;\nlogic [WIDTH-1:0] latched_override;\nlogic             hold_en;\n\nassign hold_en = (state == S_HOLD);\n\nalways_ff @(posedge clk or negedge rst_n) begin\n    if (!rst_n) begin\n        state <= S_IDLE;\n    end else begin\n        state <= next_state;\n    end\nend\n\nalways_comb begin\n    next_state = state;\n    unique case (state)\n        S_IDLE: begin\n            if (enable) begin\n                next_state = S_ROUTE;\n            end\n        end\n        S_ROUTE: begin\n            if (lock) begin\n                next_state = S_HOLD;\n            end else begin\n                next_state = S_ROUTE;\n            end\n        end\n        S_HOLD: begin\n            if (!lock) begin\n                next_state = S_ROUTE;\n            end\n        end\n    endcase\nend\n\nalways @(*) begin\n    if (hold_en) latched_override = override_data;\nend\n\nalways_comb begin\n    comb_mux_out = '0;\n    if (sel[2]) begin\n        if (sel[1]) begin\n            if (sel[0]) begin\n                comb_mux_out = d7;\n            end else begin\n                comb_mux_out = d6;\n            end\n        end else begin\n            if (sel[0]) begin\n                comb_mux_out = d5;\n            end else begin\n                comb_mux_out = d4;\n            end\n        end\n    end else begin\n        if (sel[1]) begin\n            if (sel[0]) begin\n                comb_mux_out = d3;\n            end else begin\n                comb_mux_out = d2;\n            end\n        end else begin\n            if (sel[0]) begin\n                comb_mux_out = d1;\n            end else begin\n                comb_mux_out = d0;\n            end\n        end\n    end\nend\n\nassign wide_source = {d7, d6};\n\nassign y_int = wide_source;\n\nalways_comb begin\n    logic [WIDTH-1:0] routed;\n    routed = comb_mux_out;\n    if (state == S_ROUTE) begin\n        y = routed;\n    end else if (state == S_HOLD) begin\n        y = latched_override;\n    end else begin\n        y = y_int;\n    end\nend\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "12. STATE MACHINE (FSM) DEFECTS",
+            "error_description": "Next-state case statement omits a default and does not handle the S_UNUSED enumerated state, leaving an unhandled transition.",
+            "error_line": 47
+        },
+        {
+            "taxonomy_title": "13. CODE QUALITY AND SYNTHESIS",
+            "error_description": "Implements the 8:1 multiplexer with a deeply nested if-else chain, creating long combinational paths instead of using a balanced case or mux.",
+            "error_line": 74
+        },
+        {
+            "taxonomy_title": "11. BIT WIDTH USAGE",
+            "error_description": "Assigns a 16-bit wide_source to an 8-bit y_int without explicit truncation or casting, causing silent data truncation.",
+            "error_line": 107
+        },
+        {
+            "taxonomy_title": "10. COMBINATIONAL OR SEQUENTIAL",
+            "error_description": "Infers a latch by using an always @(*) block with an incomplete assignment to latched_override, blending combinational logic with unintended state.",
+            "error_line": 69
+        }
+    ]
+}

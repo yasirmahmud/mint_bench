@@ -1,0 +1,15 @@
+{
+    "module_code": "module arbiter_sv #(parameter int N = 4) (\n    input  logic                   clk,\n    input  logic                   rst_n,\n    input  logic       [N-1:0]     req,\n    input  logic       [N-1:0]     lock,\n    input  logic       [N-1:0]     priority,\n    output logic       [N-1:0]     grant,\n    output logic                   valid,\n    output logic [$clog2(N)-1:0]   grant_idx\n);\n\n  localparam int IDX_W = $clog2(N);\n\n  function automatic logic [N-1:0] rotate_left(\n      input logic [N-1:0] v,\n      input logic [IDX_W-1:0] s\n  );\n    logic [N-1:0] r;\n    int i;\n    int j;\n    begin\n      r = '0;\n      for (i = 0; i < N; i++) begin\n        j = i - s;\n        if (j < 0) j = j + N;\n        r[i] = v[j];\n      end\n      return r;\n    end\n  endfunction\n\n  function automatic logic [N-1:0] rotate_right(\n      input logic [N-1:0] v,\n      input logic [IDX_W-1:0] s\n  );\n    logic [N-1:0] r;\n    int i;\n    int j;\n    begin\n      r = '0;\n      for (i = 0; i < N; i++) begin\n        j = i + s;\n        if (j >= N) j = j - N;\n        r[i] = v[j];\n      end\n      return r;\n    end\n  endfunction\n\n  function automatic logic [N-1:0] pick_first_one(\n      input logic [N-1:0] v\n  );\n    logic [N-1:0] r;\n    int i;\n    begin\n      r = '0;\n      for (i = 0; i < N; i++) begin\n        if (v[i] && r == '0) r[i] = 1'b1;\n      end\n      return r;\n    end\n  endfunction\n\n  logic [IDX_W-1:0] rr_pointer;\n  logic [IDX_W-1:0] next_rr_pointer;\n  logic [N-1:0]     rot_req;\n  logic [N-1:0]     sel_rot;\n  logic [N-1:0]     sel_unrot;\n\n  always_comb begin\n    rot_req = rotate_left(req & ~lock, rr_pointer);\n  end\n\n  always @(priority) begin\n    logic [N-1:0] cand_pri;\n    logic [N-1:0] cand_any;\n    cand_pri = rot_req & priority;\n    cand_any = rot_req;\n    if (cand_pri != '0) begin\n      sel_rot = pick_first_one(cand_pri);\n    end else begin\n      sel_rot = pick_first_one(cand_any);\n    end\n  end\n\n  always_comb begin\n    sel_unrot = rotate_right(sel_rot, rr_pointer);\n    grant = sel_unrot;\n  end\n\n  assign valid = |grant;\n\n  assign grant_idx = grant;\n\n  always_comb begin\n    next_rr_pointer = rr_pointer;\n    if (valid) begin\n      next_rr_pointer = rr_pointer + 1'b1;\n    end\n  end\n\n  always_ff @(posedge clk or negedge rst_n) begin\n    if (!rst_n) begin\n      rr_pointer <= '0;\n    end else begin\n      rr_pointer <= next_rr_pointer;\n    end\n  end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "3. SENSITIVITY LIST",
+            "error_description": "The always block is sensitive only to 'priority' but reads 'rot_req' inside. This omits a read signal from the sensitivity list, causing a simulation-synthesis mismatch.",
+            "error_line": 74
+        },
+        {
+            "taxonomy_title": "11. BIT WIDTH USAGE",
+            "error_description": "A 4-bit vector 'grant' is assigned to the 2-bit output 'grant_idx' without explicit resizing, causing truncation.",
+            "error_line": 93
+        }
+    ]
+}

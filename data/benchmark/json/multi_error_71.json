@@ -1,0 +1,23 @@
+{
+    "module_code": "module counter_with_intentional_lint #(parameter int WIDTH = 16) (\n    input  logic                     clk,\n    input  logic                     rst_n,\n    input  logic                     enable,\n    input  logic                     dir_up,\n    input  logic                     load,\n    input  logic                     saturate,\n    input  logic [WIDTH-1:0]         load_value,\n    input  logic [WIDTH-1:0]         step,\n    input  logic [WIDTH-1:0]         max_value,\n    input  logic [WIDTH-1:0]         min_value,\n    input  logic [WIDTH-1:0]         hold_mask,\n    output logic [WIDTH-1:0]         count,\n    output logic                     carry_out,\n    output logic                     borrow_out,\n    output logic                     at_max,\n    output logic                     at_min\n);\n\n    logic [WIDTH-1:0] cnt;\n    logic [WIDTH-1:0] next_cnt;\n    logic              carry_next;\n    logic              borrow_next;\n    logic              gate_enable;\n\n    logic [WIDTH+8-1:0] scaled_step;\n    logic [WIDTH-1:0]   step_eff;\n\n    assign scaled_step = step * 8'd256;\n    assign step_eff    = scaled_step[WIDTH+7:8];\n\n    logic [WIDTH:0] add_ext;\n    logic [WIDTH:0] sub_ext;\n\n    assign add_ext = {1'b0, cnt} + {1'b0, step_eff};\n    assign sub_ext = {1'b0, cnt} - {1'b0, step_eff};\n\n    logic [WIDTH-1:0] candidate_up;\n    logic [WIDTH-1:0] candidate_down;\n\n    always_comb begin\n        candidate_up   = add_ext[WIDTH-1:0];\n        candidate_down = sub_ext[WIDTH-1:0];\n        if (saturate) begin\n            if (add_ext[WIDTH] || (add_ext[WIDTH-1:0] > max_value)) begin\n                candidate_up = max_value;\n            end\n            if (sub_ext[WIDTH] || (sub_ext[WIDTH-1:0] < min_value)) begin\n                candidate_down = min_value;\n            end\n        end\n    end\n\n    logic [WIDTH-1:0] next_raw;\n\n    always_comb begin\n        next_raw = cnt;\n        if (load) begin\n            next_raw = load_value;\n        end else if (dir_up) begin\n            next_raw = candidate_up;\n        end else begin\n            next_raw = candidate_down;\n        end\n    end\n\n    logic [WIDTH-1:0] next_masked;\n\n    always_comb begin\n        for (int i = 0; i < WIDTH; i++) begin\n            if (hold_mask[i]) begin\n                next_masked[i] = cnt[i];\n            end else begin\n                next_masked[i] = next_raw[i];\n            end\n        end\n    end\n\n    always @(enable or load) begin\n        if (load) begin\n            gate_enable = 1'b1;\n        end else begin\n            gate_enable = enable & dir_up;\n        end\n    end\n\n    always_comb begin\n        carry_next  = 1'b0;\n        borrow_next = 1'b0;\n        if (gate_enable) begin\n            next_cnt    = next_masked;\n            carry_next  = dir_up  & add_ext[WIDTH];\n            borrow_next = (~dir_up) & sub_ext[WIDTH];\n        end\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            cnt        <= '0;\n            carry_out  <= 1'b0;\n            borrow_out <= 1'b0;\n        end else begin\n            cnt        <= next_cnt;\n            carry_out  <= carry_next;\n            borrow_out <= borrow_next;\n        end\n    end\n\n    assign count  = cnt;\n    assign at_max = (cnt == max_value);\n    assign at_min = (cnt == min_value);\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "13. CODE QUALITY AND SYNTHESIS",
+            "error_description": "Used a multiplication by a power-of-two constant to scale the step (step * 256) instead of a shift, creating inefficient hardware.",
+            "error_line": 29
+        },
+        {
+            "taxonomy_title": "3. SENSITIVITY LIST",
+            "error_description": "Combinational always block sensitivity list excludes dir_up while it is read inside, causing simulation-synthesis mismatch.",
+            "error_line": 79
+        },
+        {
+            "taxonomy_title": "9. LOGIC SYNTHESIS",
+            "error_description": "Incomplete assignment to next_cnt in a combinational block (no else/default when gate_enable is false) infers an unintended latch.",
+            "error_line": 90,
+            "acceptable_error_lines": [
+                91
+            ]
+        }
+    ]
+}

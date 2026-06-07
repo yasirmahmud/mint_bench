@@ -1,0 +1,25 @@
+{
+    "module_code": "module adder8(\n    input  logic [7:0] a,\n    input  logic [7:0] b,\n    output logic [7:0] sum\n);\n    assign sum = a + b;\nendmodule\n\nmodule alu_core(\n    input  logic        clk,\n    input  logic        rst_n,\n    input  wire [15:0]  op_a,\n    input  logic [15:0] op_b,\n    input  logic [3:0]  opcode,\n    output logic [15:0] result,\n    output logic        flag_z,\n    output logic        flag_c,\n    output logic        flag_n,\n    output logic        flag_v\n);\n    logic [15:0] add_res16;\n    logic [15:0] sub_res16;\n    logic [15:0] and_res;\n    logic [15:0] or_res;\n    logic [15:0] xor_res;\n    logic [15:0] shl_res;\n    logic [15:0] shr_res;\n    logic [15:0] pass_a;\n    logic [15:0] pass_b;\n    logic [16:0] add_ext;\n    logic [16:0] sub_ext;\n    logic        carry_add;\n    logic        carry_sub;\n    logic [7:0]  adder_sum8;\n    logic [15:0] wide_bus;\n    logic [7:0]  narrow;\n    logic        flag_v_sel;\n    logic [15:0] alt_a;\n    logic [15:0] res_q;\n\n    always_comb begin\n        alt_a = op_b ^ {opcode, opcode, opcode, opcode};\n    end\n\n    assign op_a = alt_a;\n\n    adder8 u_add(.a(op_a), .b(op_b), .sum(adder_sum8));\n\n    assign add_ext   = {1'b0, op_a} + {1'b0, op_b};\n    assign sub_ext   = {1'b0, op_a} - {1'b0, op_b};\n    assign add_res16 = add_ext[15:0];\n    assign sub_res16 = sub_ext[15:0];\n    assign carry_add = add_ext[16];\n    assign carry_sub = sub_ext[16];\n\n    assign and_res = op_a & op_b;\n    assign or_res  = op_a | op_b;\n    assign xor_res = op_a ^ op_b;\n\n    assign shl_res = op_a << op_b[3:0];\n    assign shr_res = op_a >> op_b[3:0];\n\n    assign pass_a = op_a;\n    assign pass_b = op_b;\n\n    assign wide_bus = add_res16 | {8'h00, adder_sum8};\n    assign narrow   = wide_bus;\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            res_q <= 16'h0000;\n        end else begin\n            res_q <= result;\n        end\n    end\n\n    always_comb begin\n        unique case (opcode)\n            4'h0: result = add_res16;\n            4'h1: result = sub_res16;\n            4'h2: result = and_res;\n            4'h3: result = or_res;\n            4'h4: result = xor_res;\n            4'h5: result = shl_res;\n            4'h6: result = shr_res;\n            4'h7: result = {8'h00, adder_sum8};\n            4'h8: result = pass_a;\n            4'h9: result = pass_b;\n            4'hA: result = add_res16 ^ shl_res;\n            4'hB: result = sub_res16 ^ shr_res;\n            4'hC: result = and_res | xor_res;\n            4'hD: result = or_res & xor_res;\n            4'hE: result = {res_q[14:0], res_q[15]};\n            4'hF: result = {8'h00, narrow};\n            default: result = 16'h0000;\n        endcase\n    end\n\n    assign flag_z = (result == 16'h0000);\n    assign flag_n = result[15];\n\n    always_comb begin\n        unique case (opcode)\n            4'h0: flag_c = carry_add;\n            4'h1: flag_c = ~carry_sub;\n            4'h5: flag_c = op_a[15];\n            4'h6: flag_c = op_a[0];\n            default: flag_c = 1'b0;\n        endcase\n    end\n\n    always_comb begin\n        case (opcode[1:0])\n            2'b00: flag_v_sel = (op_a[15] & op_b[15] & ~add_res16[15]) | (~op_a[15] & ~op_b[15] & add_res16[15]);\n            2'b01: flag_v_sel = (op_a[15] & ~op_b[15] & ~sub_res16[15]) | (~op_a[15] & op_b[15] & sub_res16[15]);\n            2'b10: ;\n        endcase\n    end\n\n    assign flag_v = flag_v_sel;\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "6. PORT TYPE",
+            "error_description": "Drove an input port using a continuous assignment by assigning an internal signal to input wire op_a.",
+            "error_line": 45
+        },
+        {
+            "taxonomy_title": "9. LOGIC SYNTHESIS",
+            "error_description": "Created an unintentional latch by using an incomplete case statement on opcode[1:0] that does not assign flag_v_sel in all branches and lacks a default.",
+            "error_line": 113
+        },
+        {
+            "taxonomy_title": "11. BIT WIDTH USAGE",
+            "error_description": "Assigned a 16-bit vector (wide_bus) to an 8-bit signal (narrow), causing truncation.",
+            "error_line": 67
+        },
+        {
+            "taxonomy_title": "8. MODULE INSTANCES",
+            "error_description": "Instantiated an 8-bit adder sub-module and connected 16-bit signals op_a and op_b to its 8-bit ports, causing port width mismatches at the instance boundary.",
+            "error_line": 47
+        }
+    ]
+}

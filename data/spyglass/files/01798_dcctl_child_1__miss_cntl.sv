@@ -1,0 +1,27 @@
+module miss_cntl (
+    output dc_idle,
+    output dc_req,
+    output dc_error,
+    output last_fill_cyc,
+    output first_fill_cyc,
+    output fill_cyc_active,
+    output zeroline_busy,
+    output zeroline_cyc,
+    output dc_wr_cyc123,
+    output miss_wait,
+    output miss_idle,
+    input req_outstanding,
+    input repl_start,
+    input dcu_miss_c,
+    input smu_na_st_c,
+    input zeroline_c,
+    input normal_ack,
+    input nc_xaction,
+    input error_ack,
+    input reset_l,
+    input clk,
+    input sin,
+    output so,
+    input sm
+);
+endmodule

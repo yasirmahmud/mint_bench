@@ -1,0 +1,20 @@
+{
+    "module_code": "module shift_register_esv #(parameter int WIDTH = 16, parameter int DEPTH = 8) (\n    input  logic                        clk,\n    input  logic                        rst_n,\n    input  logic                        shift_en,\n    input  logic [WIDTH-1:0]            din,\n    input  logic                        load_parallel,\n    input  logic [WIDTH-1:0]            parallel_in,\n    input  logic                        reverse,\n    input  logic                        enable_tap,\n    input  logic [$clog2(DEPTH)-1:0]    tap_index,\n    output logic [WIDTH-1:0]            q_out,\n    output logic [WIDTH-1:0]            tail_out,\n    output logic                        dout_serial,\n    output logic [31:0]                 debug_weighted,\n    output logic                        tap_out\n);\n\nfunction automatic [WIDTH-1:0] bit_reverse(input logic [WIDTH-1:0] v);\n    automatic int j;\n    for (j = 0; j < WIDTH; j++) begin\n        bit_reverse[j] = v[WIDTH-1-j];\n    end\nendfunction\n\nlocalparam int LAST = DEPTH - 1;\nlogic [WIDTH-1:0] stage [0:DEPTH-1];\nlogic [WIDTH-1:0] din_eff;\nlogic             tap_hold;\nlogic [15:0]      tap_accum;\ninteger           i;\n\nalways_comb begin\n    if (reverse) begin\n        din_eff = bit_reverse(din);\n    end else begin\n        din_eff = din;\n    end\nend\n\nalways_ff @(posedge clk or negedge rst_n) begin\n    if (!rst_n) begin\n        for (i = 0; i < DEPTH; i++) begin\n            stage[i] <= '0;\n        end\n        q_out <= '0;\n        tail_out <= '0;\n        dout_serial <= 1'b0;\n        debug_weighted <= '0;\n        tap_accum <= '0;\n        tap_out <= 1'b0;\n    end else begin\n        if (load_parallel) begin\n            for (i = 0; i < DEPTH; i++) begin\n                stage[i] <= parallel_in;\n            end\n        end else if (shift_en) begin\n            stage[0] <= din_eff;\n            for (i = 1; i < DEPTH; i++) begin\n                stage[i] <= stage[i-1];\n            end\n        end\n        q_out <= stage[LAST];\n        tail_out <= stage[0];\n        dout_serial <= stage[LAST][WIDTH-1] ^ tap_accum[0];\n        debug_weighted <= (stage[LAST][15:0] ^ stage[0][15:0]) * 16'd32749;\n        if (shift_en) begin\n            tap_accum = tap_accum + {15'b0, stage[tap_index][0]};\n        end\n        tap_out <= tap_hold;\n    end\nend\n\nalways_comb begin\n    if (enable_tap) tap_hold = stage[tap_index][0];\nend\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "13. CODE QUALITY AND SYNTHESIS",
+            "error_description": "Introduced a large constant multiply in the data path to compute debug_weighted, which can infer a costly multiplier instead of a simpler operation.",
+            "error_line": 65
+        },
+        {
+            "taxonomy_title": "5. RACE OR HAZARD",
+            "error_description": "Mixed blocking (=) and non-blocking (<=) assignments within the same always_ff block by updating tap_accum with a blocking assignment while other registers use non-blocking assignments.",
+            "error_line": 67
+        },
+        {
+            "taxonomy_title": "9. LOGIC SYNTHESIS",
+            "error_description": "Created an unintended latch by incompletely assigning tap_hold in an always_comb block, only driving it when enable_tap is asserted without a default/else assignment.",
+            "error_line": 74
+        }
+    ]
+}

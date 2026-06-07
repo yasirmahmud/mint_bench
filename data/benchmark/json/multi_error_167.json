@@ -1,0 +1,25 @@
+{
+    "module_code": "module Decoder #(parameter int AW = 4) (\n    input  logic                     clk,\n    input  logic                     rst_n,\n    input  logic                     en,\n    input  logic [AW-1:0]            addr,\n    input  logic [1:0]               mode,\n    output logic [(1<<AW)-1:0]       y\n);\n\n    localparam int M = (1<<AW);\n\n    logic [M-1:0] onehot_pre;\n    logic [M-1:0] onehot_gated;\n    logic [M-1:0] onehot_from_comb;\n    logic [M-1:0] onehot_from_reg;\n    wire  [M-1:0] onehot_bus;\n\n    logic hold_en;\n    logic [AW-1:0] count_r;\n    logic [M-1:0]  mask_r;\n\n    function automatic [M-1:0] mode_mask (input logic [1:0] m);\n        case (m)\n            2'b00: mode_mask = {M{1'b1}};\n            2'b01: mode_mask = {{(M/2){1'b0}}, {(M/2){1'b1}}};\n            2'b10: begin\n                mode_mask = '0;\n                for (int i = 0; i < M; i++) begin\n                    if ((i % 2) == 0) mode_mask[i] = 1'b1;\n                end\n            end\n            2'b11: begin\n                mode_mask = '0;\n                for (int i = 0; i < M; i++) begin\n                    if ((i % 3) == 0) mode_mask[i] = 1'b1;\n                end\n            end\n            default: mode_mask = {M{1'b1}};\n        endcase\n    endfunction\n\n    always_comb begin\n        onehot_pre = '0;\n        if (en) begin\n            onehot_pre = '0;\n            if (addr < M) begin\n                onehot_pre[addr] = 1'b1;\n            end\n        end else begin\n            onehot_pre = '0;\n        end\n    end\n\n    always_comb begin\n        onehot_gated = onehot_pre & mode_mask(mode);\n    end\n\n    always_comb begin\n        if (mode[1]) hold_en = en;\n    end\n\n    wire effective_en = en | hold_en;\n\n    always_comb begin\n        if (mode[0]) begin\n            onehot_from_comb = (onehot_gated << count_r) | (onehot_gated >> (M - count_r));\n        end else begin\n            onehot_from_comb = onehot_gated;\n        end\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            onehot_from_reg <= '0;\n            count_r        <= '0;\n            mask_r         <= '0;\n        end else begin\n            mask_r = {M{effective_en}};\n            count_r <= count_r + 1'b1;\n            if (effective_en) begin\n                onehot_from_reg <= onehot_gated & mode_mask(mode) & mask_r;\n            end\n        end\n    end\n\n    assign onehot_bus = onehot_from_comb;\n    assign onehot_bus = onehot_from_reg;\n\n    assign y = onehot_bus;\n\n    localparam bit DO_NEST = 1'b0;\n    generate\n        if (DO_NEST) begin : g_nest\n            Decoder #(.AW(AW)) u_dec (\n                .clk  (clk),\n                .rst_n(rst_n),\n                .en   (en),\n                .addr (addr),\n                .mode (mode),\n                .y    (y[7:0])\n            );\n        end\n    endgenerate\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "14. CONNECTIVITY AND DRIVING",
+            "error_description": "Introduced multiple active drivers by adding a second continuous assignment driving the same net (onehot_bus) from a different source.",
+            "error_line": 87
+        },
+        {
+            "taxonomy_title": "8. MODULE INSTANCES",
+            "error_description": "Instantiated the same module inside a generate block and connected a narrower slice (8 bits) to a wider output port (16 bits), creating a port width mismatch at the instance boundary.",
+            "error_line": 100
+        },
+        {
+            "taxonomy_title": "5. RACE OR HAZARD",
+            "error_description": "Mixed blocking and non-blocking assignments in the same sequential always_ff block by using a blocking assignment to mask_r alongside non-blocking assignments, creating potential race behavior.",
+            "error_line": 78
+        },
+        {
+            "taxonomy_title": "10. COMBINATIONAL OR SEQUENTIAL",
+            "error_description": "In a combinational always block, assigned hold_en only under a condition without an else/default, inferring a latch and thus mixing sequential behavior into combinational logic.",
+            "error_line": 59
+        }
+    ]
+}

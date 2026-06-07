@@ -1,0 +1,25 @@
+{
+    "module_code": "module complex_mux #(parameter int WIDTH = 8) (\n    input  logic                   clk,\n    input  logic                   rst_n,\n    input  logic        [1:0]      sel_in,\n    input  logic [WIDTH-1:0]       d0,\n    input  logic [WIDTH-1:0]       d1,\n    input  logic [WIDTH-1:0]       d2,\n    input  logic [WIDTH-1:0]       d3,\n    input  logic                   override,\n    input  logic                   dbg_force_en,\n    input  logic [WIDTH-1:0]       dbg_force_val,\n    output wire  [WIDTH-1:0]       y\n);\n\ntypedef enum logic [1:0] {ST_IDLE, ST_LOAD, ST_WAIT, ST_ERR} state_t;\nstate_t state, next_state;\nlogic [1:0] sel_reg;\nlogic [1:0] sel_eff;\nlogic [WIDTH-1:0] y_core;\nwire  [WIDTH-1:0] y_bus;\n\nlogic [WIDTH-1:0] mask0;\nlogic [WIDTH-1:0] mask1;\nlogic [WIDTH-1:0] mask2;\nlogic [WIDTH-1:0] mask3;\n\nassign mask0 = {WIDTH{1'b1}};\nassign mask1 = {WIDTH{1'b1}};\nassign mask2 = {WIDTH{1'b1}};\nassign mask3 = {WIDTH{1'b1}};\n\nwire [WIDTH-1:0] d0_m = d0 & mask0;\nwire [WIDTH-1:0] d1_m = d1 & mask1;\nwire [WIDTH-1:0] d2_m = d2 & mask2;\nwire [WIDTH-1:0] d3_m = d3 & mask3;\n\nalways_ff @(posedge clk or negedge rst_n) begin\n    if (!rst_n) begin\n        state   <= ST_IDLE;\n        sel_reg <= 2'b00;\n    end else begin\n        state <= next_state;\n        if (state == ST_LOAD) begin\n            sel_reg <= sel_in;\n        end\n    end\nend\n\nalways_comb begin\n    next_state = state;\n    unique case (state)\n        ST_IDLE: begin\n            if (override) next_state = ST_LOAD;\n        end\n        ST_LOAD: begin\n            next_state = ST_WAIT;\n        end\n        ST_WAIT: begin\n            next_state = ST_IDLE;\n        end\n        default: begin\n            next_state = ST_IDLE;\n        end\n    endcase\nend\n\nassign sel_eff = override ? sel_reg : sel_in;\n\nalways @(sel_eff or d0_m or d1_m) begin\n    case (sel_eff)\n        2'b00: y_core = d0_m;\n        2'b01: y_core = d1_m;\n        2'b10: y_core = d2_m;\n    endcase\nend\n\nassign y_bus = y_core;\nassign y_bus = dbg_force_en ? dbg_force_val : {WIDTH{1'bz}};\nassign y = y_bus;\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "3. SENSITIVITY LIST",
+            "error_description": "The combinational always block for the mux explicitly omits d2_m and d3_m from the sensitivity list while reading them inside, creating a sensitivity list mismatch.",
+            "error_line": 69
+        },
+        {
+            "taxonomy_title": "12. STATE MACHINE (FSM) DEFECTS",
+            "error_description": "The state enum includes ST_ERR, which is never reachable by any transition, introducing an unreachable state in the FSM.",
+            "error_line": 15
+        },
+        {
+            "taxonomy_title": "9. LOGIC SYNTHESIS",
+            "error_description": "The mux case statement does not cover all possible values of sel_eff and lacks a default assignment to y_core, causing an unintended latch inference.",
+            "error_line": 70
+        },
+        {
+            "taxonomy_title": "14. CONNECTIVITY AND DRIVING",
+            "error_description": "The internal net y_bus is driven by two continuous assignments, creating multiple drivers that can contend.",
+            "error_line": 78
+        }
+    ]
+}

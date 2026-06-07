@@ -1,0 +1,20 @@
+{
+    "module_code": "module child_unit #(parameter WIDTH=8) (\n    input  logic [WIDTH-1:0] ctrl,\n    input  logic             enable,\n    output logic             y\n);\n    always_comb begin\n        y = (&ctrl) & enable;\n    end\nendmodule\n\nmodule fsm_top (\n    input  logic         clk,\n    input  logic         rst_n,\n    input  logic         start,\n    input  logic         ack,\n    input  logic [15:0]  data_in,\n    output logic [15:0]  data_out,\n    output logic         busy,\n    output logic         done\n);\n    typedef enum logic [2:0] {\n        S_IDLE,\n        S_LOAD,\n        S_EXEC,\n        S_WAIT,\n        S_DONE\n    } state_e;\n\n    state_e state;\n    state_e next_state;\n\n    logic [15:0] data_reg;\n    logic [15:0] data_next;\n    logic [15:0] accum;\n    logic [15:0] accum_next;\n\n    logic [3:0]  ctrl_bus_4b;\n    logic        child_y;\n    logic        loopback;\n    logic \\always_comb ;\n\n    assign \\always_comb  = start & ~busy;\n    assign loopback = ~loopback;\n\n    child_unit u_child (\n        .ctrl(ctrl_bus_4b),\n        .enable(start),\n        .y(child_y)\n    );\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            state    <= S_IDLE;\n            data_reg <= 16'h0000;\n            accum    <= 16'h0000;\n            data_out <= 16'h0000;\n            done     <= 1'b0;\n        end else begin\n            state    <= next_state;\n            data_reg <= data_next;\n            accum    <= accum_next;\n            data_out <= accum_next;\n            done     <= (next_state == S_DONE);\n        end\n    end\n\n    always_comb begin\n        next_state = state;\n        data_next  = data_reg;\n        accum_next = accum;\n        busy       = (state != S_IDLE);\n        ctrl_bus_4b = 4'h0;\n\n        case (state)\n            S_IDLE: begin\n                if (start) begin\n                    next_state = S_LOAD;\n                    busy = 1'b1;\n                end else begin\n                    next_state = S_IDLE;\n                end\n            end\n            S_LOAD: begin\n                data_next  = data_in;\n                accum_next = data_reg + 16'h0001;\n                ctrl_bus_4b = 4'hA;\n                if (\\always_comb ) begin\n                    accum_next = data_in ^ 16'h00FF;\n                end\n                next_state = S_EXEC;\n            end\n            S_EXEC: begin\n                ctrl_bus_4b = 4'h5;\n                accum_next = data_reg + accum;\n                if (child_y) begin\n                    next_state = S_WAIT;\n                end else begin\n                    next_state = S_DONE;\n                end\n            end\n            S_WAIT: begin\n                ctrl_bus_4b = 4'hC;\n                if (ack) begin\n                    next_state = S_DONE;\n                end else begin\n                    next_state = S_WAIT;\n                end\n            end\n            S_DONE: begin\n                ctrl_bus_4b = 4'h1;\n                next_state = S_IDLE;\n            end\n            default: begin\n                next_state = S_IDLE;\n            end\n        endcase\n\n        accum_next[0] = accum_next[0] ^ loopback;\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "9. LOGIC SYNTHESIS",
+            "error_description": "Introduced a combinational feedback loop with a self-referential continuous assignment: assign loopback = ~loopback;",
+            "error_line": 43
+        },
+        {
+            "taxonomy_title": "8. MODULE INSTANCES",
+            "error_description": "Created a port width mismatch by connecting a 4-bit signal to an 8-bit input port in a submodule instantiation using named association on the .ctrl port.",
+            "error_line": 46
+        },
+        {
+            "taxonomy_title": "4. RESERVED WORDS",
+            "error_description": "Declared a signal using an escaped identifier that matches a SystemVerilog keyword: logic \\always_comb ;",
+            "error_line": 40
+        }
+    ]
+}

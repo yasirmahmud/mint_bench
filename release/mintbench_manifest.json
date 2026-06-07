@@ -1,0 +1,52 @@
+{
+  "generated_from": "raw data under data/",
+  "suite_name": "MintBench",
+  "tracks": [
+    {
+      "annotation_file": "release/annotations/lint_localization.jsonl",
+      "name": "rtl_lint_localization",
+      "stats": {
+        "errors": 921,
+        "instances": 312,
+        "max_errors_per_instance": 4,
+        "mean_errors_per_instance": 2.952,
+        "mean_source_lines": 114.712,
+        "min_errors_per_instance": 1,
+        "taxonomy_families": 14
+      },
+      "task": "lint_localization"
+    },
+    {
+      "annotation_file": "release/annotations/cdc.jsonl",
+      "name": "cdc_verification",
+      "stats": {
+        "instances": 2,
+        "mean_violations_per_instance": 22.5,
+        "violations": 45
+      },
+      "task": "cdc_verification"
+    },
+    {
+      "annotation_file": "release/annotations/rca.jsonl",
+      "name": "rca",
+      "stats": {
+        "instances": 9,
+        "paired_scenarios": 9,
+        "root_cause_annotations": 15
+      },
+      "task": "rca"
+    },
+    {
+      "annotation_file": "release/annotations/scalability.jsonl",
+      "name": "scalability",
+      "stats": {
+        "bad_violation_count": 63,
+        "clean_violation_count": 0,
+        "instances": 2,
+        "source_file_count": 15
+      },
+      "task": "scalability"
+    }
+  ],
+  "version": "1.0.0"
+}

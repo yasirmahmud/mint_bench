@@ -1,0 +1,25 @@
+{
+    "module_code": "module shift_register_mixed #(parameter int WIDTH = 8) (\n    input  logic                   clk,\n    input  logic                   rst_n,\n    input  logic                   enable,\n    input  logic                   load,\n    input  logic                   dir,\n    input  logic                   serial_in,\n    input  logic [WIDTH-1:0]       parallel_in,\n    input  logic                   async_en,\n    output logic [WIDTH-1:0]       q,\n    output logic                   serial_out\n);\n\n    logic [WIDTH-1:0] shift_reg;\n    logic [WIDTH-1:0] preload_muxed;\n    logic [WIDTH-1:0] next_value;\n    logic [WIDTH-1:0] shadow_reg;\n    logic [$clog2(WIDTH+1)-1:0] bit_count;\n    logic                       feedback_bit;\n    logic                       temp;\n\n    function automatic [WIDTH-1:0] mux_preload(input logic [WIDTH-1:0] p, input logic s);\n        mux_preload = (p ^ {WIDTH{s}});\n    endfunction\n\n    function automatic [WIDTH-1:0] rotl(input logic [WIDTH-1:0] v, input logic sbit);\n        rotl = {v[WIDTH-2:0], sbit};\n    endfunction\n\n    function automatic [WIDTH-1:0] rotr(input logic [WIDTH-1:0] v, input logic sbit);\n        rotr = {sbit, v[WIDTH-1:1]};\n    endfunction\n\n    always @(parallel_in or load) begin\n        if (load && dir) begin\n            preload_muxed = parallel_in;\n        end else if (load && !dir) begin\n            preload_muxed = {parallel_in[WIDTH-2:0], serial_in};\n        end else begin\n            preload_muxed = mux_preload(parallel_in, 1'b0);\n        end\n    end\n\n    always_comb begin\n        next_value = shift_reg;\n        if (dir) begin\n            next_value = rotl(shift_reg, serial_in ^ bit_count[0]);\n        end else begin\n            next_value = rotr(shift_reg, serial_in ^ bit_count[0]);\n        end\n    end\n\n    always @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            shift_reg <= '0;\n            serial_out <= 1'b0;\n            bit_count <= '0;\n        end else begin\n            if (enable) begin\n                temp = shift_reg[0];\n                if (load === 1'b1) begin\n                    shift_reg <= preload_muxed;\n                end else begin\n                    shift_reg <= next_value;\n                end\n                serial_out <= temp ^ feedback_bit;\n                bit_count <= bit_count + 1'b1;\n            end\n        end\n    end\n\n    assign q = shift_reg;\n\n    always @(posedge clk or posedge async_en) begin\n        if (async_en) begin\n            shadow_reg <= shift_reg;\n        end else begin\n            shadow_reg <= shadow_reg ^ next_value;\n        end\n    end\n\n    always_comb begin\n        feedback_bit = ^shadow_reg;\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "3. SENSITIVITY LIST",
+            "error_description": "Combinational always block omits signals it reads (dir and serial_in) from its sensitivity list.",
+            "error_line": 34
+        },
+        {
+            "taxonomy_title": "5. RACE OR HAZARD",
+            "error_description": "Sequential block mixes blocking and non-blocking assignments, creating a potential race.",
+            "error_line": 60
+        },
+        {
+            "taxonomy_title": "7. OPERATORS",
+            "error_description": "Uses case-equality (===) in synthesizable control logic for a single-bit comparison.",
+            "error_line": 61
+        },
+        {
+            "taxonomy_title": "10. COMBINATIONAL OR SEQUENTIAL",
+            "error_description": "Sequential process uses an additional asynchronous event (async_en) alongside the clock to update state.",
+            "error_line": 74
+        }
+    ]
+}

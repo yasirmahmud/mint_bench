@@ -1,0 +1,493 @@
+#!/usr/bin/env python3
+"""Build a paper-ready release manifest and annotation files for MintBench.
+
+The script keeps the raw data in place and writes a standardized release layer
+under `release/` with:
+
+- summary manifest
+- per-track JSONL annotation files
+- a markdown statistics table
+"""
+
+from __future__ import annotations
+
+import json
+from dataclasses import dataclass
+from pathlib import Path
+from statistics import mean
+from typing import Any, Iterable
+
+
+ROOT = Path(__file__).resolve().parents[1]
+RELEASE = ROOT / "release"
+ANNOTATIONS = RELEASE / "annotations"
+
+
+def read_json(path: Path) -> dict[str, Any]:
+    return json.loads(path.read_text())
+
+
+def write_json(path: Path, payload: Any) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n")
+
+
+def write_jsonl(path: Path, rows: Iterable[dict[str, Any]]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", encoding="utf-8") as fh:
+        for row in rows:
+            fh.write(json.dumps(row, sort_keys=True))
+            fh.write("\n")
+
+
+def line_count(text: str) -> int:
+    return text.count("\n") + (0 if not text else 1)
+
+
+def basename(path: str | None) -> str | None:
+    if path is None:
+        return None
+    return Path(path).name
+
+
+def normalize_violation(v: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "id": v.get("id"),
+        "rule": v.get("rule"),
+        "taxonomy_title": v.get("taxonomy_title"),
+        "severity": v.get("severity"),
+        "classification": v.get("classification"),
+        "file_name": basename(v.get("file_name") or v.get("file_path")),
+        "file_path": v.get("file_path"),
+        "line": int(v.get("line_number") or v.get("line") or 0),
+        "column": int(v.get("column") or 0),
+        "description": v.get("description") or v.get("error_description"),
+        "traditional_static_blind_spot": v.get("traditional_static_blind_spot"),
+    }
+
+
+def lint_annotations() -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    src_dir = ROOT / "data" / "benchmark" / "json"
+    rows: list[dict[str, Any]] = []
+    error_counts: list[int] = []
+    source_sizes: list[int] = []
+    taxonomies: set[str] = set()
+
+    for path in sorted(src_dir.glob("multi_error_*.json"), key=lambda p: int(p.stem.split("_")[-1])):
+        payload = read_json(path)
+        errors = payload["errors"]
+        taxonomies.update(e["taxonomy_title"] for e in errors)
+        error_counts.append(len(errors))
+        source_code = payload["module_code"]
+        source_sizes.append(line_count(source_code))
+        rows.append(
+            {
+                "instance_id": path.stem,
+                "task": "lint_localization",
+                "source_path": str(path.relative_to(ROOT)),
+                "source_format": "module_code_errors",
+                "module_code": source_code,
+                "source_line_count": line_count(source_code),
+                "gold_errors": [
+                    {
+                        "taxonomy_title": e["taxonomy_title"],
+                        "error_description": e["error_description"],
+                        "error_line": int(e["error_line"]),
+                    }
+                    for e in errors
+                ],
+                "gold_error_count": len(errors),
+            }
+        )
+
+    stats = {
+        "instances": len(rows),
+        "errors": sum(error_counts),
+        "taxonomy_families": len(taxonomies),
+        "min_errors_per_instance": min(error_counts),
+        "max_errors_per_instance": max(error_counts),
+        "mean_errors_per_instance": round(mean(error_counts), 3),
+        "mean_source_lines": round(mean(source_sizes), 3),
+    }
+    return rows, stats
+
+
+def spyglass_report(path: Path, task: str) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    payload = read_json(path)
+    rows = [
+        {
+            "instance_id": path.stem,
+            "task": task,
+            "source_path": str(path.relative_to(ROOT)),
+            "top": payload.get("top"),
+            "design_label": payload.get("design_label"),
+            "check": payload.get("check"),
+            "goal": payload.get("goals"),
+            "gold_violation_count": payload.get("violation_count"),
+            "gold_violations": [normalize_violation(v) for v in payload.get("violations", [])],
+        }
+    ]
+    stats = {
+        "violation_count": payload.get("violation_count"),
+        "top": payload.get("top"),
+    }
+    return rows, stats
+
+
+def cdc_annotations() -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    for rel in [
+        "data/cdc_smoke/cdc_smoke_spyglass_cdc.json",
+        "data/bench_cdc/bench_cdc_spyglass.json",
+    ]:
+        row, _ = spyglass_report(ROOT / rel, "cdc_verification")
+        rows.extend(row)
+    stats = {
+        "instances": len(rows),
+        "violations": sum(int(r["gold_violation_count"]) for r in rows),
+        "mean_violations_per_instance": round(mean(int(r["gold_violation_count"]) for r in rows), 3),
+    }
+    return rows, stats
+
+
+RCA_SPECS = [
+    {
+        "instance_id": "spyglass_blackhole_rca",
+        "dataset_path": "data/rca_dataset/spyglass_blackhole_rca",
+        "top": "sg_bh_top",
+        "buggy_dir": "data/rca_dataset/spyglass_blackhole_rca/buggy",
+        "fixed_dir": "data/rca_dataset/spyglass_blackhole_rca/fixed",
+        "buggy_violation_count": 34,
+        "fixed_violation_count": 0,
+        "root_causes": [
+            {
+                "root_id": "blackhole",
+                "root_type": "unresolved_hierarchy",
+                "file": "data/rca_dataset/spyglass_blackhole_rca/buggy/sg_bh_subsystem.sv",
+                "line": 31,
+                "description": "Typo in the instantiated module name sg_bh_blackhloe causes an unresolved hierarchy black hole.",
+            }
+        ],
+    },
+    {
+        "instance_id": "spyglass_noise_rca",
+        "dataset_path": "data/rca_dataset/spyglass_noise_rca",
+        "top": "sg_noise_top",
+        "buggy_dir": "data/rca_dataset/spyglass_noise_rca/buggy",
+        "fixed_dir": "data/rca_dataset/spyglass_noise_rca/fixed",
+        "buggy_violation_count": 11,
+        "fixed_violation_count": 0,
+        "root_causes": [
+            {
+                "root_id": "width_top",
+                "root_type": "width_mismatch",
+                "file": "data/rca_dataset/spyglass_noise_rca/buggy/sg_noise_top.sv",
+                "line": 10,
+                "description": "TOP_W is set to 24 instead of DATA_W, causing cascading width mismatches.",
+            }
+        ],
+    },
+    {
+        "instance_id": "spyglass_noise_rca_multiroot",
+        "dataset_path": "data/rca_dataset/spyglass_noise_rca_multiroot",
+        "top": "sg_mroot_top",
+        "buggy_dir": "data/rca_dataset/spyglass_noise_rca_multiroot/buggy",
+        "fixed_dir": "data/rca_dataset/spyglass_noise_rca_multiroot/fixed",
+        "buggy_violation_count": 30,
+        "fixed_violation_count": 0,
+        "root_causes": [
+            {
+                "root_id": "width_a",
+                "root_type": "width_mismatch",
+                "file": "data/rca_dataset/spyglass_noise_rca_multiroot/buggy/sg_mroot_subsys_a.sv",
+                "line": 8,
+                "description": "BUS_W is DATA_W - 8 instead of DATA_W.",
+            },
+            {
+                "root_id": "width_b",
+                "root_type": "width_mismatch",
+                "file": "data/rca_dataset/spyglass_noise_rca_multiroot/buggy/sg_mroot_subsys_b.sv",
+                "line": 8,
+                "description": "BUS_W is DATA_W - 1 instead of DATA_W.",
+            },
+            {
+                "root_id": "width_c",
+                "root_type": "width_mismatch",
+                "file": "data/rca_dataset/spyglass_noise_rca_multiroot/buggy/sg_mroot_subsys_c.sv",
+                "line": 8,
+                "description": "BUS_W is DATA_W - 4 instead of DATA_W.",
+            },
+        ],
+    },
+    {
+        "instance_id": "spyglass_xerror_rca",
+        "dataset_path": "data/rca_dataset/spyglass_xerror_rca",
+        "top": "sg_x_top",
+        "buggy_dir": "data/rca_dataset/spyglass_xerror_rca/buggy",
+        "fixed_dir": "data/rca_dataset/spyglass_xerror_rca/fixed",
+        "buggy_violation_count": 4,
+        "fixed_violation_count": 0,
+        "root_causes": [
+            {
+                "root_id": "x_seed_pkg",
+                "root_type": "x_propagation",
+                "file": "data/rca_dataset/spyglass_xerror_rca/buggy/sg_x_00_pkg.sv",
+                "line": 4,
+                "description": "RESET_SEED is initialized to 'x in the shared package.",
+            }
+        ],
+    },
+    {
+        "instance_id": "spyglass_xerror_rca_nopkg",
+        "dataset_path": "data/rca_dataset/spyglass_xerror_rca_nopkg",
+        "top": "sg_xnp_top",
+        "buggy_dir": "data/rca_dataset/spyglass_xerror_rca_nopkg/buggy",
+        "fixed_dir": "data/rca_dataset/spyglass_xerror_rca_nopkg/fixed",
+        "buggy_violation_count": 4,
+        "fixed_violation_count": 0,
+        "root_causes": [
+            {
+                "root_id": "x_seed_top",
+                "root_type": "x_propagation",
+                "file": "data/rca_dataset/spyglass_xerror_rca_nopkg/buggy/sg_xnp_top.sv",
+                "line": 14,
+                "description": "RESET_SEED is initialized to 'x directly in the top module.",
+            }
+        ],
+    },
+    {
+        "instance_id": "spyglass_bnb_mixup_rca",
+        "dataset_path": "data/rca_dataset/spyglass_bnb_mixup_rca",
+        "top": "sg_bnb_top",
+        "buggy_dir": "data/rca_dataset/spyglass_bnb_mixup_rca/buggy",
+        "fixed_dir": "data/rca_dataset/spyglass_bnb_mixup_rca/fixed",
+        "buggy_violation_count": 48,
+        "fixed_violation_count": 0,
+        "root_causes": [
+            {
+                "root_id": "bnb_macro_pkg",
+                "root_type": "assignment_semantics",
+                "file": "data/rca_dataset/spyglass_bnb_mixup_rca/buggy/sg_bnb_defs.sv",
+                "line": 10,
+                "description": "The shared macro expands to blocking assignment instead of non-blocking assignment.",
+            }
+        ],
+    },
+    {
+        "instance_id": "spyglass_bnb_mixup_rca_nopkg",
+        "dataset_path": "data/rca_dataset/spyglass_bnb_mixup_rca_nopkg",
+        "top": "sg_bnbn_top",
+        "buggy_dir": "data/rca_dataset/spyglass_bnb_mixup_rca_nopkg/buggy",
+        "fixed_dir": "data/rca_dataset/spyglass_bnb_mixup_rca_nopkg/fixed",
+        "buggy_violation_count": 36,
+        "fixed_violation_count": 0,
+        "root_causes": [
+            {
+                "root_id": "bnb_macro_nopkg",
+                "root_type": "assignment_semantics",
+                "file": "data/rca_dataset/spyglass_bnb_mixup_rca_nopkg/buggy/sg_bnbn_defs.sv",
+                "line": 11,
+                "description": "The shared macro expands to blocking assignment instead of non-blocking assignment.",
+            }
+        ],
+    },
+    {
+        "instance_id": "spyglass_noise_rca_packet",
+        "dataset_path": "data/rca_dataset/spyglass_noise_rca_packet",
+        "top": "sg_pkt_top",
+        "buggy_dir": "data/rca_dataset/spyglass_noise_rca_packet/buggy",
+        "fixed_dir": "data/rca_dataset/spyglass_noise_rca_packet/fixed",
+        "buggy_violation_count": 11,
+        "fixed_violation_count": 0,
+        "root_causes": [
+            {
+                "root_id": "packet_width",
+                "root_type": "width_mismatch",
+                "file": "data/rca_dataset/spyglass_noise_rca_packet/buggy/sg_pkt_top.sv",
+                "line": 10,
+                "description": "BUS_W is set to DATA_W - 8 instead of DATA_W, causing a width cascade in packet logic.",
+            }
+        ],
+    },
+    {
+        "instance_id": "spyglass_all_rca",
+        "dataset_path": "data/rca_dataset/spyglass_all_rca",
+        "top": "sg_all_top",
+        "buggy_dir": "data/rca_dataset/spyglass_all_rca/buggy",
+        "fixed_dir": "data/rca_dataset/spyglass_all_rca/fixed",
+        "buggy_violation_count": 75,
+        "fixed_violation_count": 0,
+        "root_causes": [
+            {
+                "root_id": "blackhole",
+                "root_type": "unresolved_hierarchy",
+                "file": "data/rca_dataset/spyglass_all_rca/buggy/sg_bh_subsystem.sv",
+                "line": 31,
+                "description": "Typo in the instantiated module name sg_bh_blackhloe causes an unresolved hierarchy black hole.",
+            },
+            {
+                "root_id": "width_top",
+                "root_type": "width_mismatch",
+                "file": "data/rca_dataset/spyglass_all_rca/buggy/sg_noise_top.sv",
+                "line": 10,
+                "description": "TOP_W is set to 24 instead of DATA_W, causing cascading width mismatches.",
+            },
+            {
+                "root_id": "width_a",
+                "root_type": "width_mismatch",
+                "file": "data/rca_dataset/spyglass_all_rca/buggy/sg_mroot_subsys_a.sv",
+                "line": 8,
+                "description": "BUS_W is DATA_W - 8 instead of DATA_W.",
+            },
+            {
+                "root_id": "width_b",
+                "root_type": "width_mismatch",
+                "file": "data/rca_dataset/spyglass_all_rca/buggy/sg_mroot_subsys_b.sv",
+                "line": 8,
+                "description": "BUS_W is DATA_W - 1 instead of DATA_W.",
+            },
+            {
+                "root_id": "width_c",
+                "root_type": "width_mismatch",
+                "file": "data/rca_dataset/spyglass_all_rca/buggy/sg_mroot_subsys_c.sv",
+                "line": 8,
+                "description": "BUS_W is DATA_W - 4 instead of DATA_W.",
+            },
+        ],
+    },
+]
+
+
+def rca_annotations() -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    total_roots = 0
+    for spec in RCA_SPECS:
+        root_count = len(spec["root_causes"])
+        total_roots += root_count
+        rows.append(
+            {
+                "instance_id": spec["instance_id"],
+                "task": "rca",
+                "dataset_path": spec["dataset_path"],
+                "top": spec["top"],
+                "buggy_dir": spec["buggy_dir"],
+                "fixed_dir": spec["fixed_dir"],
+                "buggy_violation_count": spec["buggy_violation_count"],
+                "fixed_violation_count": spec["fixed_violation_count"],
+                "root_cause_count": root_count,
+                "root_causes": spec["root_causes"],
+            }
+        )
+    stats = {
+        "instances": len(rows),
+        "root_cause_annotations": total_roots,
+        "paired_scenarios": len(rows),
+    }
+    return rows, stats
+
+
+def scalability_annotations() -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    rows = []
+    for rel, variant in [
+        ("data/big_bench/cpu1/clean/cpu1_spyglass.json", "clean"),
+        ("data/big_bench/cpu1/bad/cpu1_bad_spyglass.json", "bad"),
+    ]:
+        report = read_json(ROOT / rel)
+        rows.append(
+            {
+                "instance_id": f"cpu1_{variant}",
+                "task": "scalability",
+                "variant": variant,
+                "source_path": rel,
+                "top": report.get("top"),
+                "design_label": report.get("design_label"),
+                "violation_count": report.get("violation_count"),
+                "violations": [normalize_violation(v) for v in report.get("violations", [])],
+                "source_file_count": len(report.get("source_files", [])),
+            }
+        )
+    stats = {
+        "instances": len(rows),
+        "clean_violation_count": rows[0]["violation_count"],
+        "bad_violation_count": rows[1]["violation_count"],
+        "source_file_count": rows[0]["source_file_count"],
+    }
+    return rows, stats
+
+
+def build_manifest() -> dict[str, Any]:
+    lint_rows, lint_stats = lint_annotations()
+    cdc_rows, cdc_stats = cdc_annotations()
+    rca_rows, rca_stats = rca_annotations()
+    scale_rows, scale_stats = scalability_annotations()
+
+    manifest = {
+        "suite_name": "MintBench",
+        "version": "1.0.0",
+        "generated_from": "raw data under data/",
+        "tracks": [
+            {
+                "name": "rtl_lint_localization",
+                "task": "lint_localization",
+                "annotation_file": "release/annotations/lint_localization.jsonl",
+                "stats": lint_stats,
+            },
+            {
+                "name": "cdc_verification",
+                "task": "cdc_verification",
+                "annotation_file": "release/annotations/cdc.jsonl",
+                "stats": cdc_stats,
+            },
+            {
+                "name": "rca",
+                "task": "rca",
+                "annotation_file": "release/annotations/rca.jsonl",
+                "stats": rca_stats,
+            },
+            {
+                "name": "scalability",
+                "task": "scalability",
+                "annotation_file": "release/annotations/scalability.jsonl",
+                "stats": scale_stats,
+            },
+        ],
+    }
+
+    write_json(RELEASE / "mintbench_manifest.json", manifest)
+    write_jsonl(ANNOTATIONS / "lint_localization.jsonl", lint_rows)
+    write_jsonl(ANNOTATIONS / "cdc.jsonl", cdc_rows)
+    write_jsonl(ANNOTATIONS / "rca.jsonl", rca_rows)
+    write_jsonl(ANNOTATIONS / "scalability.jsonl", scale_rows)
+
+    stats_md = []
+    stats_md.append("# MintBench Summary\n")
+    stats_md.append("| Track | Instances | Key statistic |\n| --- | ---: | --- |\n")
+    stats_md.append(f"| RTL lint localization | {lint_stats['instances']} | {lint_stats['errors']} planted errors across {lint_stats['taxonomy_families']} taxonomy families |\n")
+    stats_md.append(f"| CDC verification | {cdc_stats['instances']} | {cdc_stats['violations']} total CDC violations |\n")
+    stats_md.append(f"| RCA | {rca_stats['instances']} | {rca_stats['root_cause_annotations']} root-cause annotations |\n")
+    stats_md.append(f"| Scalability | {scale_stats['instances']} | {scale_stats['bad_violation_count']} violations in buggy CPU1 variant, {scale_stats['clean_violation_count']} in clean variant |\n")
+    stats_md.append("\n## Evaluation Notes\n\n")
+    stats_md.append("- Lint and CDC tasks use exact-match issue localization.\n")
+    stats_md.append("- RCA uses exact-match root-cause file/line scoring.\n")
+    stats_md.append("- Scalability reports the same exact-match violation totals plus runtime in the user runner.\n")
+    (RELEASE / "mintbench_stats.md").write_text("".join(stats_md))
+
+    return manifest
+
+
+def main() -> None:
+    RELEASE.mkdir(parents=True, exist_ok=True)
+    ANNOTATIONS.mkdir(parents=True, exist_ok=True)
+    manifest = build_manifest()
+    print(json.dumps(
+        {
+            "suite_name": manifest["suite_name"],
+            "version": manifest["version"],
+            "tracks": [track["name"] for track in manifest["tracks"]],
+        },
+        indent=2,
+    ))
+
+
+if __name__ == "__main__":
+    main()

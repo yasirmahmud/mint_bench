@@ -1,0 +1,20 @@
+{
+    "module_code": "module helper_transform(\n  input  logic        clk,\n  input  logic        rst_n,\n  input  logic [3:0]  ctrl_i,\n  input  logic        data_i,\n  output logic        y\n);\n  logic [3:0] ctrl_d;\n  always_ff @(posedge clk or negedge rst_n) begin\n    if (!rst_n) begin\n      ctrl_d <= 4'd0;\n    end else begin\n      ctrl_d <= ctrl_i;\n    end\n  end\n  assign y = data_i & (|ctrl_d);\nendmodule\n\nmodule fsm_controller(\n  input  logic        clk,\n  input  logic        rst_n,\n  input  logic        start,\n  input  logic [7:0]  data_in,\n  input  logic [3:0]  threshold,\n  input  logic        ack,\n  output logic        busy,\n  output logic        valid,\n  output logic [7:0]  result\n);\n  typedef enum logic [2:0] {\n    S_IDLE,\n    S_PREP,\n    S_LOAD,\n    S_WAIT,\n    S_EXEC,\n    S_DONE,\n    S_ERR\n  } state_e;\n\n  state_e state_q;\n  state_e state_d;\n\n  logic [7:0] accum_q;\n  logic [7:0] accum_d;\n\n  logic [3:0] wait_cnt_q;\n  logic [3:0] wait_cnt_d;\n\n  logic       helper_out;\n  logic       ctrl_flags;\n  logic \\always_comb ;\n\n  helper_transform u_ht (\n    .clk   (clk),\n    .rst_n (rst_n),\n    .ctrl_i(ctrl_flags),\n    .data_i(ack),\n    .y     (helper_out)\n  );\n\n  always_ff @(posedge clk or negedge rst_n) begin\n    if (!rst_n) begin\n      state_q    <= S_IDLE;\n      accum_q    <= 8'd0;\n      wait_cnt_q <= 4'd0;\n    end else begin\n      state_q    <= state_d;\n      accum_q    <= accum_d;\n      wait_cnt_q <= wait_cnt_d;\n    end\n  end\n\n  always_comb begin\n    state_d     = state_q;\n    accum_d     = accum_q;\n    wait_cnt_d  = wait_cnt_q;\n    busy        = 1'b0;\n    valid       = 1'b0;\n    ctrl_flags  = 1'b0;\n    \\always_comb  = helper_out;\n\n    unique case (state_q)\n      S_IDLE: begin\n        busy       = 1'b0;\n        valid      = 1'b0;\n        accum_d    = 8'd0;\n        wait_cnt_d = 4'd0;\n        ctrl_flags = start & ~ack;\n        if (start) begin\n          state_d = S_PREP;\n        end\n      end\n      S_PREP: begin\n        busy       = 1'b1;\n        ctrl_flags = 1'b1;\n        wait_cnt_d = 4'd0;\n        state_d    = S_LOAD;\n      end\n      S_LOAD: begin\n        busy       = 1'b1;\n        accum_d    = data_in;\n        wait_cnt_d = 4'd0;\n        state_d    = S_WAIT;\n      end\n      S_WAIT: begin\n        busy       = 1'b1;\n        wait_cnt_d = wait_cnt_q + 4'd1;\n        if (wait_cnt_q >= threshold) begin\n          state_d = S_EXEC;\n        end else if (ack && \\always_comb ) begin\n          state_d = S_EXEC;\n        end\n      end\n      S_EXEC: begin\n        busy    = 1'b1;\n        accum_d = {accum_q[6:0], accum_q[7] ^ helper_out};\n        if (accum_q === 8'd0) begin state_d = S_ERR; end\n        else if (ack) begin\n          state_d = S_DONE;\n        end else begin\n          state_d = S_EXEC;\n        end\n      end\n      S_DONE: begin\n        busy   = 1'b0;\n        valid  = 1'b1;\n        state_d = S_IDLE;\n      end\n      default: begin\n        busy       = 1'b0;\n        valid      = 1'b0;\n        state_d    = S_ERR;\n      end\n    endcase\n  end\n\n  assign result = accum_q;\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "8. MODULE INSTANCES",
+            "error_description": "Port width mismatch: a 1-bit signal is connected to a 4-bit port (.ctrl_i), creating a structural boundary error at instantiation.",
+            "error_line": 56
+        },
+        {
+            "taxonomy_title": "4. RESERVED WORDS",
+            "error_description": "Use of a reserved keyword as an identifier via an escaped name (logic \\always_comb ;), which is syntactically legal but a reserved-word misuse.",
+            "error_line": 51
+        },
+        {
+            "taxonomy_title": "7. OPERATORS",
+            "error_description": "Use of case equality (===) in synthesizable RTL for numerical comparison, which is a dangerous operator misuse.",
+            "error_line": 117
+        }
+    ]
+}

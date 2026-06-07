@@ -1,0 +1,16 @@
+{
+    "module_code": "module mux8 #(parameter int W = 16)\n(\n    input  logic                 clk,\n    input  logic                 rst_n,\n    input  logic [W-1:0]         in0,\n    input  logic [W-1:0]         in1,\n    input  logic [W-1:0]         in2,\n    input  logic [W-1:0]         in3,\n    input  logic [W-1:0]         in4,\n    input  logic [W-1:0]         in5,\n    input  logic [W-1:0]         in6,\n    input  logic [W-1:0]         in7,\n    input  logic [2:0]           sel,\n    output logic [W-1:0]         y,\n    output logic                 y_changed,\n    output logic [31:0]          activity_count\n);\n\n    logic [W-1:0] in_bus [0:7];\n    logic [W-1:0] y_q;\n    logic         y_changed_r;\n    logic [31:0]  activity_count_r;\n\n    always_comb begin\n        in_bus[0] = in0;\n        in_bus[1] = in1;\n        in_bus[2] = in2;\n        in_bus[3] = in3;\n        in_bus[4] = in4;\n        in_bus[5] = in5;\n        in_bus[6] = in6;\n        in_bus[7] = in7;\n    end\n\n    always_comb begin\n        case (sel)\n            3'd0: y = in_bus[0];\n            3'd1: y = in_bus[1];\n            3'd2: y = in_bus[2];\n            3'd3: y = in_bus[3];\n            3'd4: y = in_bus[4];\n            3'd5: y = in_bus[5];\n            3'd6: y = in_bus[6];\n        endcase\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            y_q <= '0;\n            y_changed_r <= 1'b0;\n        end else begin\n            y_changed_r <= (y != y_q);\n            y_q <= y;\n        end\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            activity_count_r <= 32'd0;\n        end else begin\n            if (y_changed_r) begin\n                activity_count_r <= activity_count_r + 32'd1;\n            end\n        end\n    end\n\n    assign activity_count = activity_count_r;\n\n    assign y_changed = y_changed_r\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "1. SYNTAX STRUCTURE",
+            "error_description": "Omitted the terminating semicolon on a continuous assignment to intentionally violate basic syntax rules.",
+            "error_line": 69
+        },
+        {
+            "taxonomy_title": "9. LOGIC SYNTHESIS",
+            "error_description": "Used an incomplete case statement in an always_comb block that does not assign the output for all selector values, inferring a latch in synthesis.",
+            "error_line": 36,
+            "acceptable_error_lines": [35, 37]
+        }
+    ]
+}

@@ -1,0 +1,20 @@
+{
+    "module_code": "module mux4_expert #(\n    parameter int WIDTH = 16\n) (\n    input  logic                 clk,\n    input  logic                 rst_n,\n    input  logic [1:0]           sel,\n    input  logic [WIDTH-1:0]     in0,\n    input  logic [WIDTH-1:0]     in1,\n    input  logic [WIDTH-1:0]     in2,\n    input  logic [WIDTH-1:0]     in3,\n    output logic [WIDTH-1:0]     y,\n    output logic [WIDTH-1:0]     y_reg,\n    output logic [WIDTH-1:0]     y_shadow\n);\n\n    logic [WIDTH-1:0] y_pre;\n    logic [WIDTH-1:0] y_hold;\n    logic [WIDTH-1:0] temp0;\n    logic [WIDTH-1:0] temp1;\n\n    logic unused_flag;\n\n    function automatic logic [WIDTH-1:0] passthrough(input logic [WIDTH-1:0] d);\n        logic [WIDTH-1:0] r;\n        r = d;\n        return r;\n    endfunction\n\n    function automatic logic [WIDTH-1:0] select_or_mask(\n        input logic [1:0] s,\n        input logic [WIDTH-1:0] a,\n        input logic [WIDTH-1:0] b\n    );\n        logic [WIDTH-1:0] m;\n        if (s[0]) begin\n            m = a | b;\n        end else begin\n            m = a & b;\n        end\n        return m;\n    endfunction\n\n    assign temp0 = select_or_mask(sel, in0, in1);\n    assign temp1 = select_or_mask(~sel, in2, in3);\n    assign y_pre = temp0 ^ temp1;\n    assign y_hold = y_pre;\n\n    always @(sel or in0 or in1 or in3 or y_hold) begin\n        y = '0;\n        unique case (sel)\n            2'b00: begin\n                y = in0;\n            end\n            2'b01: begin\n                y = in1;\n            end\n            2'b10: begin\n                y = in2;\n            end\n            2'b11: begin\n                y = in3;\n            end\n            default: begin\n                y = y_hold;\n            end\n        endcase\n    end\n\n    always @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            y_reg    <= '0;\n            y_shadow <= '0;\n        end else begin\n            y_reg    <= y;\n            y_shadow = passthrough(y_reg);\n        end\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "2. SIGNAL USAGE",
+            "error_description": "Declared an internal logic signal 'unused_flag' and never used it, creating a declared-but-unused signal.",
+            "error_line": 21
+        },
+        {
+            "taxonomy_title": "3. SENSITIVITY LIST",
+            "error_description": "In the combinational always block for the mux, omitted 'in2' from the sensitivity list while reading it inside the block.",
+            "error_line": 48
+        },
+        {
+            "taxonomy_title": "5. RACE OR HAZARD",
+            "error_description": "Mixed blocking and non-blocking assignments in the same clocked always block by using a blocking assignment for 'y_shadow' alongside non-blocking assignments.",
+            "error_line": 75
+        }
+    ]
+}

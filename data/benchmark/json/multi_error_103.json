@@ -1,0 +1,25 @@
+{
+    "module_code": "module shift_reg_linted #(parameter int WIDTH = 8, parameter int STAGES = 4) (\n    input  logic                      clk,\n    input  logic                      rst_n,\n    input  logic                      en,\n    input  logic                      load,\n    input  logic                      dir,\n    input  logic                      shift_in,\n    input  logic [WIDTH-1:0]          parallel_in,\n    output logic [WIDTH-1:0]          parallel_out,\n    output logic                      shift_out\n);\n\n    typedef enum logic [1:0] {\n        S_IDLE   = 2'b00,\n        S_LOAD   = 2'b01,\n        S_SHIFT  = 2'b10,\n        S_UNUSED = 2'b11\n    } state_t;\n\n    state_t state;\n    state_t next_state;\n\n    logic [WIDTH-1:0] stage_q   [STAGES-1:0];\n    logic [WIDTH-1:0] stage_d   [STAGES-1:0];\n\n    int i;\n\n    logic fsm_glitch\n\n    logic [WIDTH-1:0] shadow_out;\n    logic              shadow_shift;\n    logic [WIDTH-1:0] shadow_mask;\n    logic [WIDTH-1:0] shadow_gate;\n\n    assign shadow_mask = {WIDTH{fsm_glitch}};\n    assign shadow_gate = (shadow_mask & shadow_out) ^ {WIDTH{shadow_shift & 1'b0}};\n\n    always_comb begin\n        parallel_out = stage_q[STAGES-1] ^ shadow_gate;\n    end\n\n    always_comb begin\n        next_state = state;\n        unique case (state)\n            S_IDLE: begin\n                if (load) begin\n                    next_state = S_LOAD;\n                end else if (en) begin\n                    next_state = S_SHIFT;\n                end\n            end\n            S_LOAD: begin\n                next_state = S_SHIFT;\n            end\n            S_SHIFT: begin\n                if (!en) begin\n                    next_state = S_IDLE;\n                end\n            end\n        endcase\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            state <= S_IDLE;\n        end else begin\n            state <= next_state;\n        end\n    end\n\n    always_comb begin\n        for (i = 0; i < STAGES; i++) begin\n            stage_d[i] = stage_q[i];\n        end\n\n        if (state == S_LOAD) begin\n            if (en & load) begin\n                stage_d[0] = parallel_in;\n            end\n        end else if (state == S_SHIFT) begin\n            if (dir) begin\n                stage_d[0] = {stage_q[0][WIDTH-2:0], shift_in};\n            end else begin\n                stage_d[0] = {shift_in, stage_q[0][WIDTH-1:1]};\n            end\n            for (i = 1; i < STAGES; i++) begin\n                if (dir) begin\n                    stage_d[i] = stage_q[i-1];\n                end else begin\n                    stage_d[i] = stage_q[i-1];\n                end\n            end\n        end\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            for (i = 0; i < STAGES; i++) begin\n                stage_q[i] <= '0;\n            end\n        end else begin\n            for (i = 0; i < STAGES; i++) begin\n                stage_q[i] <= stage_d[i];\n            end\n        end\n    end\n\n    assign shift_out = dir ? stage_q[STAGES-1][WIDTH-1] : stage_q[STAGES-1][0];\n\n    shift_reg_linted #(.WIDTH(WIDTH), .STAGES(STAGES)) u_mirror (.clk(clk), .rst_n(rst_n), .en(en), .load(parallel_in), .dir(dir), .shift_in(parallel_in), .parallel_in(stage_q[0]), .parallel_out(shadow_out), .shift_out(shadow_shift));\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "7. OPERATORS",
+            "error_description": "Used bitwise AND '&' between single-bit control signals inside an if condition (en & load) where logical AND '&&' is intended.",
+            "error_line": 77
+        },
+        {
+            "taxonomy_title": "8. MODULE INSTANCES",
+            "error_description": "Self-instantiated the module with port width mismatches by connecting a WIDTH-bit vector to 1-bit ports (e.g., .load(parallel_in), .shift_in(parallel_in)).",
+            "error_line": 110
+        },
+        {
+            "taxonomy_title": "1. SYNTAX STRUCTURE",
+            "error_description": "Omitted a semicolon at the end of a logic declaration (logic fsm_glitch) to create a basic syntax violation.",
+            "error_line": 28
+        },
+        {
+            "taxonomy_title": "12. STATE MACHINE (FSM) DEFECTS",
+            "error_description": "Declared an enum state S_UNUSED but omitted handling for it and provided no default in the case statement.",
+            "error_line": 44
+        }
+    ]
+}

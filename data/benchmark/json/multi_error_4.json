@@ -1,0 +1,25 @@
+{
+    "module_code": "module complex_mux_with_errors #(parameter int WIDTH = 8) (\n    input  logic                     clk,\n    input  logic                     rst_n,\n    input  logic                     en,\n    input  logic [1:0]               sel,\n    input  logic [WIDTH-1:0]         d0,\n    input  logic [WIDTH-1:0]         d1,\n    input  logic [WIDTH-1:0]         d2,\n    input  logic [WIDTH-1:0]         d3,\n    input  logic                     test_mode,\n    output logic [WIDTH-1:0]         y\n);\n\n    logic [WIDTH-1:0] pre_d0;\n    logic [WIDTH-1:0] pre_d1;\n    logic [WIDTH-1:0] pre_d2;\n    logic [WIDTH-1:0] pre_d3;\n\n    assign pre_d0 = d0 ^ {WIDTH{test_mode}};\n    assign pre_d1 = d1 ^ {WIDTH{test_mode}};\n    assign pre_d2 = d2 ^ {WIDTH{test_mode}};\n    assign pre_d3 = d3 ^ {WIDTH{test_mode}};\n\n    assign test_mode = 1'b0;\n\n    logic [WIDTH-1:0] sat_d0;\n    logic [WIDTH-1:0] sat_d1;\n    logic [WIDTH-1:0] sat_d2;\n    logic [WIDTH-1:0] sat_d3;\n\n    assign sat_d0 = pre_d0 | {WIDTH{en}};\n    assign sat_d1 = pre_d1 | {WIDTH{en}};\n    assign sat_d2 = pre_d2 | {WIDTH{en}};\n    assign sat_d3 = pre_d3 | {WIDTH{en}};\n\n    logic [WIDTH-1:0] gated_d0;\n    logic [WIDTH-1:0] gated_d1;\n    logic [WIDTH-1:0] gated_d2;\n    logic [WIDTH-1:0] gated_d3;\n\n    assign gated_d0 = en ? pre_d0 : '0;\n    assign gated_d1 = en ? pre_d1 : '0;\n    assign gated_d2 = en ? pre_d2 : '0;\n    assign gated_d3 = en ? pre_d3 : '0;\n\n    logic [WIDTH-1:0] blended01;\n    logic [WIDTH-1:0] blended23;\n\n    assign blended01 = (gated_d0 & sat_d1) | (gated_d1 & sat_d0);\n    assign blended23 = (gated_d2 & sat_d3) | (gated_d3 & sat_d2);\n\n    logic [3:0] tmp_narrow;\n    tiny_mux2 u_tiny (.a(pre_d0[3:0]), .b(pre_d1), .s(sel[0]), .y(tmp_narrow));\n\n    logic [WIDTH-1:0] aux_mask;\n    assign aux_mask = {{(WIDTH-4){1'b0}}, tmp_narrow};\n\n    logic [WIDTH-1:0] comb_mux;\n\n    always @(sel or gated_d0 or gated_d1) begin\n        comb_mux = '0;\n        unique case (sel)\n            2'b00: comb_mux = blended01 ^ aux_mask;\n            2'b01: comb_mux = blended01;\n            2'b10: comb_mux = blended23;\n            2'b11: comb_mux = gated_d3;\n            default: comb_mux = '0;\n        endcase\n    end\n\n    logic parity0;\n    logic parity1;\n    logic parity2;\n    logic parity3;\n\n    always_comb begin\n        parity0 = ^d0;\n        parity1 = ^d1;\n        parity2 = ^d2;\n        parity3 = ^d3;\n    end\n\n    logic [WIDTH-1:0] parity_mask;\n    always_comb begin\n        parity_mask = {WIDTH{parity0 | parity1 | parity2 | parity3}};\n    end\n\n    logic [WIDTH-1:0] y_reg;\n\n    always @(posedge clk or sel) begin\n        if (!rst_n) begin\n            y_reg <= '0;\n        end else begin\n            y_reg <= comb_mux ^ (en ? parity_mask : '0);\n        end\n    end\n\n    assign y = y_reg;\n\nendmodule\n\nmodule tiny_mux2 (\n    input  logic [3:0] a,\n    input  logic [7:0] b,\n    input  logic       s,\n    output logic [7:0] y\n);\n    always_comb begin\n        y = s ? b : {4'b0000, a};\n    end\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "3. SENSITIVITY LIST",
+            "error_description": "The combinational always block omits blended23/gated_d3 dependencies from its sensitivity list while reading them, causing a mismatch between read signals and listed sensitivities.",
+            "error_line": 60
+        },
+        {
+            "taxonomy_title": "10. COMBINATIONAL OR SEQUENTIAL",
+            "error_description": "A clocked always block includes a level-sensitive data/control signal (sel) in its sensitivity list alongside posedge clk, mixing combinational and sequential behavior.",
+            "error_line": 90
+        },
+        {
+            "taxonomy_title": "6. PORT TYPE",
+            "error_description": "The input port 'test_mode' is driven internally by a continuous assignment, violating port direction and net/variable driving rules.",
+            "error_line": 24
+        },
+        {
+            "taxonomy_title": "8. MODULE INSTANCES",
+            "error_description": "The submodule 'tiny_mux2' drives an 8-bit output port connected to a 4-bit net in the parent instance, creating a port width mismatch at the module boundary.",
+            "error_line": 53
+        }
+    ]
+}

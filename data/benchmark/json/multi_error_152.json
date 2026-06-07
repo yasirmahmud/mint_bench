@@ -1,0 +1,25 @@
+{
+    "module_code": "module pipelined_alu_faulty (\n    input  logic         clk,\n    input  logic         rst_n,\n    input  logic         valid_in,\n    input  logic [31:0]  a,\n    input  logic [31:0]  b,\n    input  logic [3:0]   op,\n    input  logic         force_in,\n    output logic [31:0]  y,\n    output logic         carry_out,\n    output logic         zero,\n    output logic         valid_out,\n    output logic [1:0]   flags\n);\n\n    logic [31:0] a_mux;\n    logic [31:0] b_mux;\n    logic [4:0]  shamt;\n    logic [32:0] sum_tmp;\n    logic [32:0] diff_tmp;\n\n    logic [31:0] result_comb;\n    logic        carry_comb;\n    logic        zero_comb;\n\n    logic [31:0] y_reg;\n    logic        carry_reg;\n    logic        zero_reg;\n    logic        valid_out_reg;\n    logic [1:0]  flags_reg;\n\n    logic [1:0]  status;\n    logic        valid_next;\n    logic        unused_flag;\n\n    always_comb begin\n        a_mux  = force_in ? ~a : a;\n        b_mux  = b;\n        shamt  = b[4:0];\n        sum_tmp  = {1'b0, a_mux} + {1'b0, b_mux};\n        diff_tmp = {1'b0, a_mux} - {1'b0, b_mux};\n        result_comb = 32'h0000_0000;\n        carry_comb  = 1'b0;\n        case (op)\n            4'h0: begin\n                result_comb = sum_tmp[31:0];\n                carry_comb  = sum_tmp[32];\n            end\n            4'h1: begin\n                result_comb = diff_tmp[31:0];\n                carry_comb  = diff_tmp[32];\n            end\n            4'h2: begin\n                result_comb = a && b;\n            end\n            4'h3: begin\n                result_comb = a | b;\n            end\n            4'h4: begin\n                result_comb = a ^ b;\n            end\n            4'h5: begin\n                result_comb = a << shamt;\n            end\n            4'h6: begin\n                result_comb = a >> shamt;\n            end\n            4'h7: begin\n                result_comb = ($signed(a) < $signed(b)) ? 32'd1 : 32'd0;\n            end\n            4'h8: begin\n                result_comb = {a[30:0], 1'b0};\n            end\n            default: begin\n                result_comb = a;\n            end\n        endcase\n        zero_comb = (result_comb == 32'd0);\n    end\n\n    always_comb begin\n        valid_next = valid_in;\n    end\n\n    always_comb begin\n        force_in = valid_in;\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            y_reg         <= 32'h0;\n            carry_reg     <= 1'b0;\n            zero_reg      <= 1'b0;\n            valid_out_reg <= 1'b0;\n            flags_reg     <= 2'b00;\n            status        <= 2'b00;\n        end else begin\n            y_reg         <= result_comb;\n            carry_reg     <= carry_comb;\n            zero_reg      <= zero_comb;\n            valid_out_reg <= valid_next;\n            status = {carry_reg, zero_comb};\n            flags_reg     <= status;\n        end\n    end\n\n    assign y         = y_reg;\n    assign carry_out = carry_reg;\n    assign zero      = zero_reg;\n    assign valid_out = valid_out_reg;\n    assign flags     = flags_reg;\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "7. OPERATORS",
+            "error_description": "Used logical AND (&&) between 32-bit vectors for the AND operation instead of bitwise AND (&), causing boolean reduction semantics.",
+            "error_line": 54
+        },
+        {
+            "taxonomy_title": "6. PORT TYPE",
+            "error_description": "Procedurally assigned to an input port inside the module, violating port directionality rules.",
+            "error_line": 86
+        },
+        {
+            "taxonomy_title": "5. RACE OR HAZARD",
+            "error_description": "Mixed blocking (=) and non-blocking (<=) assignments within the same clocked always_ff block, introducing a race.",
+            "error_line": 102
+        },
+        {
+            "taxonomy_title": "2. SIGNAL USAGE",
+            "error_description": "Declared a local signal that is never read or driven, making it an unused signal.",
+            "error_line": 34
+        }
+    ]
+}

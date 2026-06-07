@@ -1,0 +1,25 @@
+{
+    "module_code": "module util_block(\n  input  logic        clk,\n  input  logic        rst_n,\n  input  logic [7:0]  data,\n  input  logic        en,\n  output logic [7:0]  sum_out\n);\n  logic [7:0] r;\n  always_ff @(posedge clk or negedge rst_n) begin\n    if (!rst_n) begin\n      r <= 8'd0;\n    end else if (en) begin\n      r <= r + data;\n    end\n  end\n  assign sum_out = r;\nendmodule\n\nmodule fsm_ctrl(\n  input  logic        clk,\n  input  logic        rst_n,\n  input  logic        start,\n  input  logic [3:0]  data_in,\n  output logic        done,\n  output logic [7:0]  out_bus\n);\n\n  logic [7:0] accum_out;\n  logic       en_util;\n  logic [7:0] stage_reg;\n  logic [7:0] op_count;\n  logic       proc_done;\n  logic       parity;\n  logic       spare_flag;\n  typedef enum logic [2:0] {S_IDLE, S_LOAD, S_PROC, S_DONE, S_UNUSED} state_t;\n  state_t state, next_state;\n\n  util_block u_util (\n    .clk(clk),\n    .rst_n(rst_n),\n    .data(data_in),\n    .en(en_util),\n    .sum_out(accum_out)\n  );\n\n  always_ff @(posedge clk or negedge rst_n) begin\n    if (!rst_n) begin\n      state     <= S_IDLE;\n      op_count  <= 8'd0;\n      stage_reg <= 8'd0;\n      proc_done <= 1'b0;\n    end else begin\n      state <= next_state;\n      if (state == S_LOAD) begin\n        stage_reg <= {4'd0, data_in};\n        op_count  <= 8'd0;\n        proc_done <= 1'b0;\n      end else if (state == S_PROC) begin\n        op_count  <= op_count + 8'd1;\n        if (op_count == 8'd15) begin\n          proc_done <= 1'b1;\n        end\n      end else if (state == S_DONE) begin\n        op_count  <= op_count;\n        proc_done <= proc_done;\n      end\n    end\n  end\n\n  always @(state or start or proc_done) begin\n    next_state = state;\n    case (state)\n      S_IDLE: begin\n        if (start) next_state = S_LOAD;\n      end\n      S_LOAD: begin\n        if (data_in != 4'd0) next_state = S_PROC;\n      end\n      S_PROC: begin\n        if (proc_done) next_state = S_DONE;\n      end\n      S_DONE: begin\n        if (!start) next_state = S_IDLE;\n      end\n      default: begin\n        next_state = S_IDLE;\n      end\n    endcase\n  end\n\n  always_comb begin\n    en_util = 1'b0;\n    case (state)\n      S_IDLE: en_util = 1'b0;\n      S_LOAD: en_util = 1'b0;\n      S_PROC: en_util = 1'b1;\n      S_DONE: en_util = 1'b0;\n      default: en_util = 1'b0;\n    endcase\n  end\n\n  always_comb begin\n    parity = ^stage_reg;\n  end\n\n  always_comb begin\n    done = (state == S_DONE);\n  end\n\n  always_comb begin\n    if (done) begin\n      out_bus = accum_out;\n    end else begin\n      out_bus = {stage_reg[7:1], parity};\n    end\n  end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "8. MODULE INSTANCES",
+            "error_description": "Port width mismatch: the submodule port 'data' is 8 bits wide, but the instance connects a 4-bit 'data_in' vector.",
+            "error_line": 41
+        },
+        {
+            "taxonomy_title": "3. SENSITIVITY LIST",
+            "error_description": "The next-state combinational block omits 'data_in' from its sensitivity list while reading it inside the block.",
+            "error_line": 70
+        },
+        {
+            "taxonomy_title": "12. STATE MACHINE (FSM) DEFECTS",
+            "error_description": "The FSM declares an extra state 'S_UNUSED' that is never entered, making it unreachable.",
+            "error_line": 35
+        },
+        {
+            "taxonomy_title": "2. SIGNAL USAGE",
+            "error_description": "A signal 'spare_flag' is declared but never driven or read anywhere in the design.",
+            "error_line": 34
+        }
+    ]
+}

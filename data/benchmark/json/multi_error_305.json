@@ -1,0 +1,25 @@
+{
+    "module_code": "module mem_ctrl\n#(\n    parameter ADDR_WIDTH = 10,\n    parameter DATA_WIDTH = 32\n)\n(\n    input  logic                     clk,\n    input  logic                     rst_n,\n    input  logic                     req_valid,\n    input  logic                     req_write,\n    input  logic [15:0]              req_addr,\n    input  logic [DATA_WIDTH-1:0]    req_wdata,\n    input  logic [3:0]               req_wstrb,\n    output logic                     req_ready,\n    output logic                     rsp_valid,\n    output logic [DATA_WIDTH-1:0]    rsp_rdata,\n    output logic [15:0]              status_out\n);\n\ntypedef enum logic [1:0] {S_IDLE, S_WRITE, S_READ, S_RESP} state_e;\n\nstate_e state;\nstate_e next_state;\n\nlogic [ADDR_WIDTH-1:0] addr_reg;\nlogic [DATA_WIDTH-1:0] wdata_reg;\nlogic [DATA_WIDTH-1:0] rdata_reg;\nlogic [3:0]            wstrb_reg;\n\nlogic [1:0] bank_sel;\n\nlogic [7:0]  ecc_byte;\nlogic [15:0] ecc_reg;\n\nlogic [7:0]  burst_len;\nlogic [15:0] burst_bytes;\n\nlogic        accept;\n\nreg [DATA_WIDTH-1:0] mem [0:(1<<ADDR_WIDTH)-1];\n\nalways_comb begin\n    next_state = state;\n    req_ready  = 1'b0;\n    rsp_valid  = 1'b0;\n    accept     = 1'b0;\n\n    bank_sel = 2'b00;\n    if (req_addr[3:0] === 4'hF) bank_sel = 2'b11;\n    else if (req_addr[3]) bank_sel = 2'b10;\n    else if (req_addr[2]) bank_sel = 2'b01;\n\n    unique case (state)\n        S_IDLE: begin\n            req_ready = (bank_sel != 2'b01);\n            if (req_valid && req_ready) begin\n                accept = 1'b1;\n                if (req_write) begin\n                    next_state = S_WRITE;\n                end else begin\n                    next_state = S_READ;\n                end\n            end\n        end\n        S_WRITE: begin\n            next_state = S_RESP;\n        end\n        S_READ: begin\n            next_state = S_RESP;\n        end\n        S_RESP: begin\n            rsp_valid = (burst_bytes != 16'd0);\n            next_state = S_IDLE;\n        end\n        default: begin\n            next_state = S_IDLE;\n        end\n    endcase\nend\n\nalways_ff @(posedge clk or negedge rst_n) begin\n    if (!rst_n) begin\n        state       <= S_IDLE;\n        addr_reg    <= '0;\n        wdata_reg   <= '0;\n        rdata_reg   <= '0;\n        wstrb_reg   <= '0;\n        rsp_rdata   <= '0;\n        burst_len   <= 8'd0;\n        burst_bytes <= 16'd0;\n        ecc_byte    <= 8'd0;\n        ecc_reg     <= 16'd0;\n        status_out  <= 16'd0;\n    end else begin\n        state = next_state;\n        if (accept) begin\n            addr_reg  <= req_addr[ADDR_WIDTH-1:0];\n            wdata_reg <= req_wdata;\n            wstrb_reg <= req_wstrb;\n            burst_len <= {5'b00000, req_addr[2:0]};\n        end\n        if (state == S_WRITE) begin\n            mem[addr_reg][7:0]    <= wstrb_reg[0] ? wdata_reg[7:0]   : mem[addr_reg][7:0];\n            mem[addr_reg][15:8]   <= wstrb_reg[1] ? wdata_reg[15:8]  : mem[addr_reg][15:8];\n            mem[addr_reg][23:16]  <= wstrb_reg[2] ? wdata_reg[23:16] : mem[addr_reg][23:16];\n            mem[addr_reg][31:24]  <= wstrb_reg[3] ? wdata_reg[31:24] : mem[addr_reg][31:24];\n        end\n        if (state == S_READ) begin\n            rdata_reg <= mem[addr_reg];\n        end\n        rsp_rdata   <= rdata_reg;\n        burst_bytes <= burst_len * 16'd64;\n        ecc_byte    <= (^wdata_reg[7:0]) ? 8'hA5 : 8'h5A;\n        ecc_reg     <= ecc_byte;\n        status_out  <= ecc_reg;\n    end\nend\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "5. RACE OR HAZARD",
+            "error_description": "Mixed blocking and non-blocking assignments in the same sequential always_ff block by assigning state with a blocking '=' while other registers use non-blocking '<='.",
+            "error_line": 95
+        },
+        {
+            "taxonomy_title": "7. OPERATORS",
+            "error_description": "Used the unsynthesizable case-equality operator '===' in synthesizable combinational logic for address decoding.",
+            "error_line": 49
+        },
+        {
+            "taxonomy_title": "13. CODE QUALITY AND SYNTHESIS",
+            "error_description": "Implemented an inefficient arithmetic operation by multiplying a variable by 64, potentially inferring a large multiplier instead of using a shift.",
+            "error_line": 112
+        },
+        {
+            "taxonomy_title": "11. BIT WIDTH USAGE",
+            "error_description": "Assigned an 8-bit value into a 16-bit register without explicit casting or padding, causing silent zero-extension.",
+            "error_line": 114
+        }
+    ]
+}

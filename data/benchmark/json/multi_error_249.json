@@ -1,0 +1,25 @@
+{
+    "module_code": "module addr_parity8(\n    input  logic [7:0] a,\n    output logic       p\n);\n    always_comb begin\n        p = ^a;\n    end\nendmodule\n\nmodule mem_controller #(\n    parameter int ADDR_W = 10,\n    parameter int DATA_W = 32\n) (\n    input  logic                   clk,\n    input  logic                   rst_n,\n    input  logic                   read,\n    input  logic                   write,\n    input  logic [ADDR_W-1:0]      addr,\n    input  logic [DATA_W-1:0]      wdata,\n    input  logic [DATA_W/8-1:0]    wstrb,\n    output logic [DATA_W-1:0]      rdata,\n    output logic                   ready,\n    output logic                   valid\n);\n    localparam int BYTES = DATA_W/8;\n    localparam int DEPTH = 1 << ADDR_W;\n\n    typedef enum logic [1:0] {\n        S_IDLE  = 2'd0,\n        S_READ  = 2'd1,\n        S_WRITE = 2'd2,\n        S_RESP  = 2'd3\n    } state_t;\n\n    state_t state_q;\n    state_t state_d;\n\n    logic [DATA_W-1:0] mem [0:DEPTH-1];\n    logic [DATA_W-1:0] rdata_q;\n    logic               valid_q;\n    logic               align_ok;\n    logic               addr_parity;\n    logic [BYTES-1:0]   byte_mask;\n\n    addr_parity8 u_ap (.a(addr), .p(addr_parity));\n\n    always_comb begin\n        if (addr[1:0] === 2'b00) align_ok = 1'b1; else align_ok = 1'b0;\n    end\n\n    always_comb begin\n        state_d = state_q;\n        ready   = 1'b0;\n        unique case (state_q)\n            S_IDLE: begin\n                if ((read || write) && align_ok && addr_parity) begin\n                    if (write) state_d = S_WRITE; else state_d = S_READ;\n                    ready = 1'b1;\n                end else begin\n                    ready = 1'b1;\n                end\n            end\n            S_READ: begin\n                state_d = S_RESP;\n                ready   = 1'b0;\n            end\n            S_WRITE: begin\n                state_d = S_RESP;\n                ready   = 1'b0;\n            end\n            S_RESP: begin\n                state_d = S_IDLE;\n                ready   = 1'b0;\n            end\n        endcase\n    end\n\n    always_comb begin\n        if (write) byte_mask = wstrb;\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            state_q <= S_IDLE;\n        end else begin\n            state_q <= state_d;\n        end\n    end\n\n    always_ff @(posedge clk) begin\n        if (state_q == S_READ) begin\n            rdata_q <= mem[addr];\n        end\n    end\n\n    always_ff @(posedge clk) begin\n        if (state_q == S_WRITE) begin\n            for (int b = 0; b < BYTES; b++) begin\n                if (byte_mask[b]) begin\n                    mem[addr][8*b +: 8] <= wdata[8*b +: 8];\n                end\n            end\n        end\n    end\n\n    always @(clk) begin\n        if (!rst_n) begin\n            valid_q <= 1'b0;\n        end else begin\n            if (state_q == S_RESP) begin\n                valid_q <= 1'b1;\n            end else if (state_q == S_IDLE) begin\n                valid_q <= 1'b0;\n            end\n        end\n    end\n\n    assign rdata = rdata_q;\n    assign valid = valid_q;\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "7. OPERATORS",
+            "error_description": "Used case equality (===) in synthesizable RTL to check address alignment, which is non-synthesizable and operator misuse.",
+            "error_line": 48
+        },
+        {
+            "taxonomy_title": "9. LOGIC SYNTHESIS",
+            "error_description": "Created an always_comb block that conditionally assigns byte_mask without a default or else branch, inferring a latch.",
+            "error_line": 79
+        },
+        {
+            "taxonomy_title": "8. MODULE INSTANCES",
+            "error_description": "Instantiated a sub-module with a port width mismatch by connecting a wider addr bus to a narrower input port.",
+            "error_line": 45
+        },
+        {
+            "taxonomy_title": "10. COMBINATIONAL OR SEQUENTIAL",
+            "error_description": "Used a level-sensitive always @(clk) block to drive sequential state (valid_q), mixing combinational sensitivity with sequential behavior.",
+            "error_line": 106
+        }
+    ]
+}

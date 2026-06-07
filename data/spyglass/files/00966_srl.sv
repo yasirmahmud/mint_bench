@@ -1,0 +1,6 @@
+module srl (
+    input s, r, output q, qbar
+);
+    assign q = ~(r | qbar);
+    assign qbar = ~(s | q);
+endmodule

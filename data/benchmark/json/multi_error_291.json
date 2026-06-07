@@ -1,0 +1,25 @@
+{
+    "module_code": "module fancy_counter #(parameter int WIDTH = 8, parameter logic [WIDTH-1:0] MAX_VALUE = {WIDTH{1'b1}}) (\n    input  logic                   clk,\n    input  logic                   rst_n,\n    input  logic                   cfg_en,\n    input  logic [1:0]             mode,\n    input  logic                   up_down,\n    input  logic                   load,\n    input  logic [WIDTH-1:0]       load_value,\n    output logic [WIDTH-1:0]       count_o,\n    output logic                   wrap_pulse\n);\n\n    typedef enum logic [1:0] {S_IDLE = 2'b00, S_RUN = 2'b01, S_HOLD = 2'b10} state_t;\n\n    state_t state;\n    state_t next_state;\n\n    wire shared_en;\n    assign shared_en = cfg_en;\n    assign shared_en = mode[0];\n\n    logic [WIDTH-1:0] count;\n    logic [WIDTH-1:0] count_next;\n    logic [WIDTH-1:0] shadow;\n    logic [WIDTH-1:0] inc_value;\n\n    logic wrap_pulse_r;\n\n    always @* begin\n        if (mode[1]) inc_value = {{(WIDTH-1){1'b0}}, 1'b1} << 1;\n    end\n\n    always_comb begin\n        count_next   = count;\n        wrap_pulse_r = 1'b0;\n        if (shared_en && state == S_RUN) begin\n            if (load) begin\n                count_next = load_value;\n            end else if (up_down) begin\n                if (count <= inc_value) begin\n                    count_next   = MAX_VALUE;\n                    wrap_pulse_r = 1'b1;\n                end else begin\n                    count_next = count - inc_value;\n                end\n            end else begin\n                if (count + inc_value >= MAX_VALUE) begin\n                    count_next   = '0;\n                    wrap_pulse_r = 1'b1;\n                end else begin\n                    count_next = count + inc_value;\n                end\n            end\n        end\n    end\n\n    always_comb begin\n        next_state = state;\n        unique case (state)\n            S_IDLE: begin\n                if (shared_en) next_state = S_RUN;\n            end\n            S_RUN: begin\n                if (!shared_en) next_state = S_HOLD;\n            end\n            S_HOLD: begin\n                if (shared_en) next_state = S_RUN;\n            end\n        endcase\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            state <= S_IDLE;\n        end else begin\n            state <= next_state;\n        end\n    end\n\n    always @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            count       <= '0;\n            shadow      <= '0;\n            wrap_pulse  <= 1'b0;\n            count_o     <= '0;\n        end else begin\n            count       <= count_next;\n            shadow      =  count;\n            wrap_pulse  <= wrap_pulse_r;\n            count_o     <= count ^ shadow;\n        end\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "14. CONNECTIVITY AND DRIVING",
+            "error_description": "Introduced multiple continuous drivers on the same wire by assigning 'shared_en' from two sources; the second assignment is marked.",
+            "error_line": 20
+        },
+        {
+            "taxonomy_title": "5. RACE OR HAZARD",
+            "error_description": "Mixed blocking and non-blocking assignments in the same sequential block by using a blocking assignment to 'shadow' alongside non-blocking updates.",
+            "error_line": 88
+        },
+        {
+            "taxonomy_title": "12. STATE MACHINE (FSM) DEFECTS",
+            "error_description": "Missing default case in the state transition 'case' statement; the 'case' line is marked to indicate the incomplete FSM handling.",
+            "error_line": 59
+        },
+        {
+            "taxonomy_title": "9. LOGIC SYNTHESIS",
+            "error_description": "Created an unintended latch by incompletely assigning 'inc_value' in a combinational block without an else path.",
+            "error_line": 30
+        }
+    ]
+}

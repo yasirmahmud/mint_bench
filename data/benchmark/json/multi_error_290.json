@@ -1,0 +1,20 @@
+{
+    "module_code": "module complex_mux #(parameter int WIDTH = 16, parameter int SELW = 3) (\n    input logic [WIDTH-1:0] in0,\n    input logic [WIDTH-1:0] in1,\n    input logic [WIDTH-1:0] in2,\n    input logic [WIDTH-1:0] in3,\n    input logic [WIDTH-1:0] in4,\n    input logic [WIDTH-1:0] in5,\n    input logic [WIDTH-1:0] in6,\n    input logic [WIDTH-1:0] in7,\n    input logic [SELW-1:0] sel,\n    input logic enable,\n    output logic [WIDTH-1:0] y\n);\n\nwire [WIDTH-1:0] contention_net;\nlogic [SELW-1:0] reg_sel;\nlogic [WIDTH-1:0] core_mux;\nlogic [WIDTH-1:0] out_pre;\nlogic [WIDTH-1:0] shadow_gate_value;\n\nlogic [WIDTH-1:0] en_in0;\nlogic [WIDTH-1:0] en_in1;\nlogic [WIDTH-1:0] en_in2;\nlogic [WIDTH-1:0] en_in3;\nlogic [WIDTH-1:0] en_in4;\nlogic [WIDTH-1:0] en_in5;\nlogic [WIDTH-1:0] en_in6;\nlogic [WIDTH-1:0] en_in7;\n\nlogic and_misuse;\n\nalways @(posedge sel[0]) reg_sel <= sel;\n\nassign contention_net = in0;\nassign contention_net = in1;\n\nalways_comb begin\n    en_in0 = enable ? in0 : {WIDTH{1'b0}};\n    en_in1 = enable ? in1 : {WIDTH{1'b0}};\n    en_in2 = enable ? in2 : {WIDTH{1'b0}};\n    en_in3 = enable ? in3 : {WIDTH{1'b0}};\n    en_in4 = enable ? in4 : {WIDTH{1'b0}};\n    en_in5 = enable ? in5 : {WIDTH{1'b0}};\n    en_in6 = enable ? in6 : {WIDTH{1'b0}};\n    en_in7 = enable ? in7 : {WIDTH{1'b0}};\n\n    and_misuse = (sel && 3'b011);\n\n    core_mux = {WIDTH{1'b0}};\n    unique case (sel)\n        3'd0: core_mux = en_in0;\n        3'd1: core_mux = en_in1;\n        3'd2: core_mux = en_in2;\n        3'd3: core_mux = en_in3;\n        3'd4: core_mux = en_in4;\n        3'd5: core_mux = en_in5;\n        3'd6: core_mux = en_in6;\n        3'd7: core_mux = en_in7;\n        default: core_mux = {WIDTH{1'b0}};\n    endcase\n\n    if (and_misuse) begin\n        core_mux = core_mux ^ en_in2;\n    end else begin\n        core_mux = core_mux | en_in3;\n    end\n\n    shadow_gate_value = {WIDTH{reg_sel[1]}} & en_in7;\n\n    out_pre = (core_mux | shadow_gate_value) ^ contention_net;\nend\n\nassign y = out_pre;\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "14. CONNECTIVITY AND DRIVING",
+            "error_description": "Introduced two continuous drivers on the same internal net by assigning contention_net from in0 and in1, causing bus contention.",
+            "error_line": 35
+        },
+        {
+            "taxonomy_title": "7. OPERATORS",
+            "error_description": "Misused logical AND (&&) between multi-bit vectors in combinational logic where a bitwise AND would be appropriate.",
+            "error_line": 47
+        },
+        {
+            "taxonomy_title": "10. COMBINATIONAL OR SEQUENTIAL",
+            "error_description": "Created a sequential block clocked by a data-path signal sel[0], inferring flip-flops without a proper clock domain.",
+            "error_line": 32
+        }
+    ]
+}

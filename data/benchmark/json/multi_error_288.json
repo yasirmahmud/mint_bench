@@ -1,0 +1,20 @@
+{
+    "module_code": "module verified_counter #(parameter int WIDTH = 8) (\n    input  logic                     clk,\n    input  logic                     rst_n,\n    input  logic                     en,\n    input  logic                     up_dn,\n    input  logic                     load,\n    input  logic                     clear,\n    input  logic [WIDTH-1:0]         load_value,\n    output logic [WIDTH-1:0]         count,\n    output logic                     tc,\n    output logic                     even,\n    output wire  [WIDTH-1:0]         debug_bus\n);\n\n    logic [WIDTH-1:0] next_count;\n    logic             gating_en;\n    logic             saturate_max;\n    logic             saturate_min;\n    logic             hold;\n    logic [WIDTH-1:0] step;\n    logic [WIDTH-1:0] masked_count;\n    logic [3:0]       unused_cfg;\n\n    wire  [WIDTH-1:0] primary_dbg;\n    wire  [WIDTH-1:0] aux_bus;\n\n    assign step = {{(WIDTH-1){1'b0}}, 1'b1};\n\n    assign saturate_max = up_dn & (count == {WIDTH{1'b1}});\n    assign saturate_min = (~up_dn) & (count == {WIDTH{1'b0}});\n    assign hold         = saturate_max | saturate_min;\n    assign gating_en    = en & (~hold);\n\n    assign masked_count = count & {WIDTH{rst_n}};\n\n    always_comb begin\n        if (load) begin\n            next_count = load_value;\n        end else if (gating_en) begin\n            if (up_dn) begin\n                next_count = count + step;\n            end else begin\n                next_count = count - step;\n            end\n        end\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            count <= {WIDTH{1'b0}};\n        end else if (clear) begin\n            count <= {WIDTH{1'b0}};\n        end else begin\n            count <= next_count;\n        end\n    end\n\n    assign tc   = (up_dn && (count == {WIDTH{1'b1}})) || ((!up_dn) && (count == {WIDTH{1'b0}}));\n    assign even = ~^count;\n\n    assign primary_dbg = masked_count ^ {WIDTH{up_dn}};\n    assign aux_bus     = {count[WIDTH-2:0], count[WIDTH-1]};\n\n    assign debug_bus = primary_dbg;\n    assign debug_bus = aux_bus;\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "9. LOGIC SYNTHESIS",
+            "error_description": "Introduced an incomplete always_comb decision tree for next_count; when neither load nor gating_en are asserted, next_count is not assigned, inferring a latch.",
+            "error_line": 37
+        },
+        {
+            "taxonomy_title": "14. CONNECTIVITY AND DRIVING",
+            "error_description": "Drove the same net debug_bus from two continuous assignments, creating multiple active drivers (bus contention).",
+            "error_line": 65
+        },
+        {
+            "taxonomy_title": "2. SIGNAL USAGE",
+            "error_description": "Declared a signal unused_cfg that is never read or driven anywhere in the design.",
+            "error_line": 22
+        }
+    ]
+}

@@ -1,0 +1,25 @@
+{
+    "module_code": "module alu_with_lint_issues #(parameter WIDTH = 16) (\n    input logic clk,\n    input logic rst_n,\n    input logic [WIDTH-1:0] op_a,\n    input logic [WIDTH-1:0] op_b,\n    input logic [3:0] opcode,\n    output logic [WIDTH-1:0] result,\n    output logic zero,\n    output logic carry,\n    output logic overflow,\n    output logic negative,\n    output logic parity\n);\n\nlogic [WIDTH-1:0] next_result;\nlogic [WIDTH-1:0] res_reg;\n\nlogic [WIDTH:0] add_ext;\nlogic [WIDTH:0] sub_ext;\nlogic add_carry;\nlogic sub_borrow;\nlogic add_overflow;\n\nlogic [WIDTH-1:0] and_res;\nlogic [WIDTH-1:0] or_res;\nlogic [WIDTH-1:0] xor_res;\nlogic [WIDTH-1:0] sll_res;\nlogic [WIDTH-1:0] srl_res;\nlogic [WIDTH-1:0] sra_res;\nlogic [WIDTH-1:0] add_res;\nlogic [WIDTH-1:0] sub_res;\nlogic [WIDTH-1:0] mul_lo;\n\nlogic [WIDTH-1:0] temp_accum;\n\nlogic [15:0] wide_status;\nlogic [7:0] narrow_status;\n\nwire [WIDTH-1:0] spare_bus;\n\nassign op_a = '0;\n\nassign and_res = op_a & op_b;\nassign or_res = op_a | op_b;\nassign xor_res = op_a ^ op_b;\nassign sll_res = op_a << op_b[3:0];\nassign srl_res = op_a >> op_b[3:0];\nassign sra_res = $signed(op_a) >>> op_b[3:0];\n\nassign add_ext = {1'b0, op_a} + {1'b0, op_b};\nassign add_res = add_ext[WIDTH-1:0];\nassign add_carry = add_ext[WIDTH];\n\nassign sub_ext = {1'b0, op_a} + {1'b0, ~op_b} + 1'b1;\nassign sub_res = sub_ext[WIDTH-1:0];\nassign sub_borrow = ~sub_ext[WIDTH];\n\nassign add_overflow = (op_a[WIDTH-1] == op_b[WIDTH-1]) && (add_res[WIDTH-1] != op_a[WIDTH-1]);\n\nassign mul_lo = op_a * op_b;\n\nalways_comb begin\n    next_result = '0;\n    unique case (opcode)\n        4'h0: next_result = add_res;\n        4'h1: next_result = sub_res;\n        4'h2: next_result = and_res;\n        4'h3: next_result = or_res;\n        4'h4: next_result = xor_res;\n        4'h5: next_result = sll_res;\n        4'h6: next_result = srl_res;\n        4'h7: next_result = sra_res;\n        4'h8: next_result = mul_lo;\n        4'h9: next_result = temp_accum;\n        4'hA: next_result = {op_a[7:0], op_b[7:0]};\n        4'hB: next_result = {WIDTH{1'b1}} ^ op_a;\n        4'hC: next_result = op_a + {{(WIDTH-1){1'b0}}, 1'b1};\n        4'hD: next_result = op_b - {{(WIDTH-1){1'b0}}, 1'b1};\n        4'hE: next_result = (op_a < op_b) ? {{(WIDTH-1){1'b0}}, 1'b1} : '0;\n        4'hF: next_result = op_a;\n        default: next_result = '0;\n    endcase\nend\n\nalways_comb begin\n    if (opcode[3]) temp_accum = op_a + op_b;\nend\n\nalways_ff @(posedge clk or negedge rst_n) begin\n    if (!rst_n) begin\n        res_reg <= '0;\n    end else begin\n        res_reg <= next_result;\n    end\nend\n\nassign result = res_reg;\n\nalways_comb begin\n    zero = (res_reg == '0);\n    negative = res_reg[WIDTH-1];\n    case (opcode)\n        4'h0: begin\n            carry = add_carry;\n            overflow = add_overflow;\n        end\n        4'h1: begin\n            carry = ~sub_borrow;\n            overflow = (op_a[WIDTH-1] != op_b[WIDTH-1]) && (sub_res[WIDTH-1] != op_a[WIDTH-1]);\n        end\n        default: begin\n            carry = 1'b0;\n            overflow = 1'b0;\n        end\n    endcase\nend\n\nassign wide_status = res_reg[15:0];\nassign narrow_status = wide_status;\nassign parity = ^narrow_status;\n\nassign spare_bus = op_a ^ op_b;\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "6. PORT TYPE",
+            "error_description": "Assigned a continuous driver to an input port declared as a variable (logic), driving the input from within the module.",
+            "error_line": 41
+        },
+        {
+            "taxonomy_title": "10. COMBINATIONAL OR SEQUENTIAL",
+            "error_description": "Used always_comb with an incomplete assignment to temp_accum, inferring a latch due to missing else/default assignment.",
+            "error_line": 85
+        },
+        {
+            "taxonomy_title": "11. BIT WIDTH USAGE",
+            "error_description": "Assigned a 16-bit vector (wide_status) to an 8-bit vector (narrow_status) without explicit truncation, causing width mismatch.",
+            "error_line": 119
+        },
+        {
+            "taxonomy_title": "14. CONNECTIVITY AND DRIVING",
+            "error_description": "Created an unconnected internal net by driving spare_bus with no consumers, representing an internal wiring/connectivity defect.",
+            "error_line": 122
+        }
+    ]
+}

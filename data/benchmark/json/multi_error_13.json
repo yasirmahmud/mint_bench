@@ -1,0 +1,20 @@
+{
+    "module_code": "module bit_counter(\n  input logic [7:0] data_i,\n  output logic [3:0] popcnt_o\n);\n  always_comb begin\n    popcnt_o = 4'd0;\n    for (int i = 0; i < 8; i++) begin\n      popcnt_o = popcnt_o + data_i[i];\n    end\n  end\nendmodule\n\nmodule decoder(\n  input logic clk,\n  input logic rst_n,\n  input logic start_i,\n  input logic [7:0] instr_i,\n  output logic valid_o,\n  output logic [15:0] decode_o,\n  output logic [3:0] bitcount_o\n);\n\ntypedef enum logic [1:0] {S_IDLE, S_DECODE, S_OUTPUT, S_UNUSED} state_e;\nstate_e current_state, next_state;\n\nlogic [7:0] instr_q;\nlogic [3:0] opcode_q;\nlogic [3:0] func_q;\nlogic [15:0] one_hot;\nlogic [7:0] trunc_bus;\nlogic [7:0] upper8;\n\nalways_ff @(posedge clk or negedge rst_n) begin\n  if (!rst_n) begin\n    instr_q <= 8'h00;\n  end else if (current_state == S_IDLE && start_i) begin\n    instr_q <= instr_i;\n  end\nend\n\nassign opcode_q = instr_q[7:4];\nassign func_q = instr_q[3:0];\nassign one_hot = 16'h0001 << opcode_q;\nassign trunc_bus = one_hot;\nassign upper8 = {bitcount_o, func_q};\n\nalways_comb begin\n  next_state = current_state;\n  unique case (current_state)\n    S_IDLE: begin\n      if (start_i) next_state = S_DECODE;\n    end\n    S_DECODE: begin\n      next_state = S_OUTPUT;\n    end\n    S_OUTPUT: begin\n      next_state = S_IDLE;\n    end\n    default: begin\n      next_state = S_IDLE;\n    end\n  endcase\nend\n\nalways_ff @(posedge clk or negedge rst_n) begin\n  if (!rst_n) begin\n    current_state <= S_IDLE;\n  end else begin\n    current_state <= next_state;\n  end\nend\n\nalways_ff @(posedge clk or negedge rst_n) begin\n  if (!rst_n) begin\n    valid_o <= 1'b0;\n  end else begin\n    valid_o <= (current_state == S_OUTPUT);\n  end\nend\n\nalways_ff @(posedge clk or negedge rst_n) begin\n  if (!rst_n) begin\n    decode_o <= 16'h0000;\n  end else if (current_state == S_OUTPUT) begin\n    decode_o <= {upper8, trunc_bus};\n  end\nend\n\nbit_counter u_bit_counter (\n  .data_i(func_q),\n  .popcnt_o(bitcount_o)\n);\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "11. BIT WIDTH USAGE",
+            "error_description": "Assigned a 16-bit signal (one_hot) to an 8-bit signal (trunc_bus), causing silent truncation.",
+            "error_line": 44
+        },
+        {
+            "taxonomy_title": "12. STATE MACHINE (FSM) DEFECTS",
+            "error_description": "Declared an extra enumerated state (S_UNUSED) that is never reachable in transitions.",
+            "error_line": 23
+        },
+        {
+            "taxonomy_title": "8. MODULE INSTANCES",
+            "error_description": "Connected a 4-bit signal (func_q) to an 8-bit submodule input port (data_i) during instantiation.",
+            "error_line": 90
+        }
+    ]
+}

@@ -1,0 +1,25 @@
+{
+    "module_code": "module alu32(\n    input  logic [31:0] a,\n    input  logic [31:0] b,\n    input  logic [3:0]  op,\n    output logic [31:0] y,\n    output logic        carry_out,\n    output logic        zero,\n    output logic        overflow,\n    inout  logic [31:0] dbg_bus\n);\n\nlocalparam [3:0] OP_ADD   = 4'h0;\nlocalparam [3:0] OP_SUB   = 4'h1;\nlocalparam [3:0] OP_AND   = 4'h2;\nlocalparam [3:0] OP_OR    = 4'h3;\nlocalparam [3:0] OP_XOR   = 4'h4;\nlocalparam [3:0] OP_SLL   = 4'h5;\nlocalparam [3:0] OP_SRL   = 4'h6;\nlocalparam [3:0] OP_SRA   = 4'h7;\nlocalparam [3:0] OP_INC   = 4'h8;\nlocalparam [3:0] OP_DEC   = 4'h9;\nlocalparam [3:0] OP_MIN   = 4'hA;\nlocalparam [3:0] OP_MAX   = 4'hB;\nlocalparam [3:0] OP_PASSA = 4'hC;\nlocalparam [3:0] OP_PASSB = 4'hD;\nlocalparam [3:0] OP_ADDX  = 4'hE;\nlocalparam [3:0] OP_DBGX  = 4'hF;\n\nwire [31:0] drive_bus;\nassign drive_bus = a;\nassign drive_bus = b;\n\nlogic [32:0] add_ext;\nlogic [32:0] sub_ext;\nlogic [31:0] or_res;\nlogic [31:0] xor_res;\nlogic [31:0] shl_res;\nlogic [31:0] srl_res;\nlogic [31:0] sra_res;\n\nalways_comb begin\n    add_ext = {1'b0, a} + {1'b0, b};\n    sub_ext = {1'b0, a} - {1'b0, b};\n    or_res  = a | b;\n    xor_res = a ^ b;\n    shl_res = a << b[4:0];\n    srl_res = a >> b[4:0];\n    sra_res = $signed(a) >>> b[4:0];\n\n    y = 32'h00000000;\n    overflow = 1'b0;\n    zero = 1'b0;\n\n    unique case (op)\n        OP_ADD: begin\n            y = add_ext[31:0];\n            carry_out = add_ext[32];\n            overflow = (~(a[31] ^ b[31])) & (a[31] ^ y[31]);\n        end\n        OP_SUB: begin\n            y = sub_ext[31:0];\n            carry_out = sub_ext[32];\n            overflow = (a[31] ^ b[31]) & (a[31] ^ y[31]);\n        end\n        OP_AND: begin\n            y = (a && b) ? 32'hFFFFFFFF : 32'h00000000;\n        end\n        OP_OR: begin\n            y = or_res;\n        end\n        OP_XOR: begin\n            y = xor_res;\n        end\n        OP_SLL: begin\n            y = shl_res;\n        end\n        OP_SRL: begin\n            y = srl_res;\n        end\n        OP_SRA: begin\n            y = sra_res;\n        end\n        OP_INC: begin\n            y = a + 32'd1;\n            carry_out = (a == 32'hFFFFFFFF);\n        end\n        OP_DEC: begin\n            y = a - 32'd1;\n            carry_out = (a == 32'h00000000);\n        end\n        OP_MIN: begin\n            y = ($signed(a) < $signed(b)) ? a : b;\n        end\n        OP_MAX: begin\n            y = ($signed(a) > $signed(b)) ? a : b;\n        end\n        OP_PASSA: begin\n            y = a;\n        end\n        OP_PASSB: begin\n            y = b;\n        end\n        OP_ADDX: begin\n            y = drive_bus + 32'd1;\n            carry_out = &drive_bus;\n        end\n        OP_DBGX: begin\n            y = drive_bus ^ dbg_bus;\n        end\n        default: begin\n            y = 32'hDEADBEEF;\n        end\n    endcase\n\n    zero = (y == 32'h00000000);\nend\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "10. COMBINATIONAL OR SEQUENTIAL",
+            "error_description": "carry_out is not assigned on all control paths inside the always_comb, inferring a latch; the always_comb block line is tagged.",
+            "error_line": 41
+        },
+        {
+            "taxonomy_title": "14. CONNECTIVITY AND DRIVING",
+            "error_description": "drive_bus is a wire with two distinct continuous drivers (a and b), creating multiple active drivers on the same net.",
+            "error_line": 31
+        },
+        {
+            "taxonomy_title": "6. PORT TYPE",
+            "error_description": "dbg_bus is declared as an inout port but is only read internally and never driven by the module, misusing the port direction.",
+            "error_line": 9
+        },
+        {
+            "taxonomy_title": "7. OPERATORS",
+            "error_description": "Logical AND (&&) is used where a bitwise AND (&) was intended for the AND operation, implemented via a ternary to 32 bits.",
+            "error_line": 66
+        }
+    ]
+}

@@ -1,0 +1,20 @@
+{
+    "module_code": "module shift_register #(parameter int WIDTH = 16) (\n    input  logic                     clk,\n    input  logic                     rst_n,\n    input  logic                     load,\n    input  logic                     shift_en,\n    input  logic                     dir,\n    input  logic                     serial_in_left,\n    input  logic                     serial_in_right,\n    input  logic [WIDTH-1:0]         parallel_in,\n    input  logic [WIDTH-1:0]         hold_mask,\n    output logic [WIDTH-1:0]         parallel_out\n);\n\n    logic [WIDTH-1:0] data_q;\n    logic [WIDTH-1:0] data_d;\n    logic [WIDTH-1:0] enable_mask;\n    logic             combined_mask_flag;\n    logic             insertion_bit;\n    logic [WIDTH-1:0] preload_value;\n    logic             head_bit;\n    logic             tail_bit;\n    logic [WIDTH-1:0] masked_new;\n    logic [WIDTH-1:0] preserved_old;\n\n    assign enable_mask = {WIDTH{shift_en}};\n\n    assign combined_mask_flag = hold_mask && enable_mask;\n\n    assign head_bit = data_q[WIDTH-1];\n    assign tail_bit = data_q[0];\n\n    always_comb begin\n        masked_new    = '0;\n        preserved_old = '0;\n        masked_new    = (data_d & ~hold_mask);\n        preserved_old = (data_q & hold_mask);\n    end\n\n    always_comb begin\n        data_d = data_q;\n        if (dir) begin\n            data_d = {data_q[WIDTH-2:0], insertion_bit};\n        end else begin\n            data_d = {insertion_bit, data_q[WIDTH-1:1]};\n        end\n        if (|hold_mask) begin\n            data_d = masked_new | preserved_old;\n        end\n    end\n\n    always_comb begin\n        if (dir) begin\n            insertion_bit = serial_in_left;\n        end else if (combined_mask_flag) begin\n            insertion_bit = serial_in_right;\n        end\n    end\n\n    always @(parallel_in) begin\n        if (load) begin\n            preload_value = parallel_in;\n        end else begin\n            preload_value = {WIDTH{1'b0}};\n        end\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            data_q <= '0;\n        end else begin\n            if (load) begin\n                data_q <= preload_value;\n            end else if (shift_en) begin\n                data_q <= data_d;\n            end else begin\n                data_q <= data_q;\n            end\n        end\n    end\n\n    assign parallel_out = data_q;\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "3. SENSITIVITY LIST",
+            "error_description": "The always block's sensitivity list includes only parallel_in but reads load inside, causing a mismatch between signals read and those listed.",
+            "error_line": 59
+        },
+        {
+            "taxonomy_title": "7. OPERATORS",
+            "error_description": "Used logical AND (&&) between two vector signals (hold_mask and enable_mask), which collapses to a single-bit truth value instead of bitwise AND.",
+            "error_line": 27
+        },
+        {
+            "taxonomy_title": "9. LOGIC SYNTHESIS",
+            "error_description": "The always_comb block incompletely assigns insertion_bit (missing an else branch), inferring a latch in synthesis.",
+            "error_line": 51
+        }
+    ]
+}

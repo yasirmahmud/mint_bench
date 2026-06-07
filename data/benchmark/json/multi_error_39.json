@@ -1,0 +1,15 @@
+{
+    "module_code": "module priority_encoder #(\n    parameter int WIDTH = 16,\n    parameter int INDEX_W = (WIDTH > 1) ? $clog2(WIDTH) : 1\n) (\n    input  logic                 clk,\n    input  logic                 rst_n,\n    input  logic [WIDTH-1:0]     req_i,\n    input  logic                 consume_i,\n    output logic                 valid_o,\n    output logic [INDEX_W-1:0]   index_o,\n    output logic [WIDTH-1:0]     onehot_o\n);\n\n    logic [WIDTH-1:0] onehot_c;\n    logic [INDEX_W-1:0] index_c;\n    logic valid_c;\n    logic multi_req;\n    logic hold_inputs;\n    int logic;\n\n    function automatic [INDEX_W-1:0] onehot_to_index(input logic [WIDTH-1:0] oh);\n        [INDEX_W-1:0] idx;\n        idx = '0;\n        for (int j = 0; j < WIDTH; j++) begin\n            if (oh[j]) idx = j[INDEX_W-1:0];\n        end\n        return idx;\n    endfunction\n\n    function automatic int popcount(input logic [WIDTH-1:0] v);\n        int count;\n        count = 0;\n        for (int k = 0; k < WIDTH; k++) begin\n            if (v[k]) count++;\n        end\n        return count;\n    endfunction\n\n    always_comb begin\n        onehot_c = '0;\n        valid_c = |req_i;\n        for (int i = WIDTH - 1; i >= 0; i--) begin\n            if (req_i[i]) begin\n                onehot_c[i] = 1'b1;\n                break;\n            end\n        end\n        index_c = onehot_to_index(onehot_c);\n    end\n\n    always_comb begin\n        int pc;\n        pc = popcount(req_i);\n        multi_req = (pc > 1);\n        hold_inputs = valid_o && !consume_i && multi_req;\n    end\n\n    always_comb begin\n        int tmp_cnt;\n        tmp_cnt = popcount(req_i);\n        if (tmp_cnt > 0) begin\n            logic = tmp_cnt;\n        end else begin\n            logic = 0;\n        end\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            onehot_o <= '0;\n            index_o  <= '0;\n            valid_o  <= 1'b0;\n        end else begin\n            if (consume_i || !valid_o) begin\n                onehot_o <= onehot_c;\n                index_o  <= index_c;\n                valid_o  <= valid_c;\n            end else begin\n                onehot_o <= onehot_o;\n                index_o  <= index_o;\n                valid_o  <= valid_o;\n            end\n        end\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            req_i <= '0;\n        end else begin\n            if (hold_inputs) begin\n                req_i <= req_i;\n            end\n        end\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "4. RESERVED WORDS",
+            "error_description": "Declared a variable named 'logic', which is a SystemVerilog reserved keyword used as a data type.",
+            "error_line": 19
+        },
+        {
+            "taxonomy_title": "6. PORT TYPE",
+            "error_description": "Performed a procedural assignment to the input port 'req_i' within an always_ff block, violating port directionality rules.",
+            "error_line": 88
+        }
+    ]
+}

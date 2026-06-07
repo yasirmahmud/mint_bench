@@ -1,0 +1,28 @@
+{
+    "module_code": "module mem_controller(\n    input  logic        clk,\n    input  logic        rst_n,\n    input  logic        read_req,\n    input  logic        write_req,\n    input  logic [15:0] addr,\n    input  logic [31:0] wdata,\n    input  logic [3:0]  wstrb,\n    output logic [31:0] rdata,\n    output logic        ready,\n    output logic        error\n);\n\nlocalparam int MEM_DEPTH = 256;\n\ntypedef enum logic [1:0] {S_IDLE, S_READ, S_WRITE, S_WAIT} state_t\nstate_t state, next_state;\n\nlogic [7:0]  addr_idx;\nlogic [15:0] mem [0:MEM_DEPTH-1];\nlogic [15:0] mem_rdata;\nlogic [15:0] write_data16;\nlogic        do_read;\nlogic        do_write;\nlogic [3:0]  outstanding;\n\nassign addr_idx = addr[7:0];\n\nalways_comb begin\n    write_data16 = mem[addr_idx];\n    if (wstrb[0]) begin\n        write_data16[7:0] = wdata[7:0];\n    end\n    if (wstrb[1]) begin\n        write_data16[15:8] = wdata[15:8];\n    end\nend\n\nassign do_read  = (state == S_READ);\nassign do_write = (state == S_WRITE);\n\nalways_ff @(posedge clk or negedge rst_n) begin\n    if (!rst_n) begin\n        state <= S_IDLE;\n    end else begin\n        state <= next_state;\n    end\nend\n\nalways_comb begin\n    next_state = state;\n    case (state)\n        S_IDLE: begin\n            if (write_req) begin\n                next_state = S_WRITE;\n            end else if (read_req) begin\n                next_state = S_READ;\n            end\n        end\n        S_READ: begin\n            next_state = S_WAIT;\n        end\n        S_WRITE: begin\n            next_state = S_WAIT;\n        end\n    endcase\nend\n\nalways_ff @(posedge clk or negedge rst_n) begin\n    if (!rst_n) begin\n        mem_rdata <= '0;\n    end else begin\n        if (do_write) begin\n            mem[addr_idx] <= write_data16;\n        end\n        if (do_read) begin\n            mem_rdata <= mem[addr_idx];\n        end\n    end\nend\n\nalways_ff @(posedge clk or negedge rst_n) begin\n    if (!rst_n) begin\n        rdata <= '0;\n    end else begin\n        if (state == S_WAIT) begin\n            rdata <= mem_rdata;\n        end\n    end\nend\n\nalways_ff @(posedge clk or negedge rst_n) begin\n    if (!rst_n) begin\n        ready <= 1'b0;\n        error <= 1'b0;\n    end else begin\n        ready <= (state == S_IDLE);\n        error <= (read_req && write_req);\n    end\nend\n\nalways @(posedge read_req or posedge write_req) begin\n    outstanding <= outstanding + 1;\nend\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "1. SYNTAX STRUCTURE",
+            "error_description": "Missing semicolon at the end of the typedef enum declaration.",
+            "error_line": 16
+        },
+        {
+            "taxonomy_title": "10. COMBINATIONAL OR SEQUENTIAL",
+            "error_description": "Sequential storage is inferred from an always block triggered by posedge of request signals instead of a proper clock.",
+            "error_line": 102
+        },
+        {
+            "taxonomy_title": "12. STATE MACHINE (FSM) DEFECTS",
+            "error_description": "The FSM next-state case statement lacks a default or an explicit branch for S_WAIT, creating an unhandled state that can deadlock.",
+            "error_line": 52
+        },
+        {
+            "taxonomy_title": "11. BIT WIDTH USAGE",
+            "error_description": "Assigning a 16-bit mem_rdata to a 32-bit rdata without explicit extension, causing an implicit width mismatch.",
+            "error_line": 87,
+            "acceptable_error_lines": [
+                86
+            ]
+        }
+    ]
+}

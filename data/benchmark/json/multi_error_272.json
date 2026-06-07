@@ -1,0 +1,15 @@
+{
+    "module_code": "module fsm_with_two_defects #(parameter COUNT_MAX = 4'd10) (\n  input  logic        clk,\n  input  logic        rst_n,\n  input  logic        start,\n  input  logic        stop,\n  input  logic [1:0]  mode,\n  input  logic [7:0]  data_in,\n  input  logic [7:0]  threshold,\n  output logic        ready,\n  output logic        busy,\n  output logic        error_flag,\n  output logic [7:0]  data_out\n);\n\ntypedef enum logic [2:0] {\n  S_IDLE,\n  S_LOAD,\n  S_PROCESS,\n  S_WAIT,\n  S_DONE,\n  S_ERROR,\n  S_UNUSED\n} state_t;\n\nstate_t state, next_state;\nlogic [3:0] counter;\nlogic [7:0] data_buf;\nlogic gate_enable;\n\nalways_ff @(posedge clk or negedge rst_n) begin\n  if (!rst_n) begin\n    state <= S_IDLE;\n    counter <= 4'd0;\n    data_buf <= 8'd0;\n    data_out <= 8'd0;\n  end else begin\n    state <= next_state;\n    case (state)\n      S_IDLE: begin\n        counter <= 4'd0;\n      end\n      S_LOAD: begin\n        data_buf <= data_in;\n        counter <= 4'd0;\n      end\n      S_PROCESS: begin\n        counter <= counter + 4'd1;\n        if (gate_enable) data_out <= data_buf ^ {6'd0, mode}; else data_out <= data_out;\n      end\n      S_WAIT: begin\n        counter <= counter;\n      end\n      S_DONE: begin\n        counter <= 4'd0;\n      end\n      S_ERROR: begin\n        counter <= counter;\n      end\n      default: begin\n        counter <= 4'd0;\n      end\n    endcase\n  end\nend\n\nalways_comb begin\n  next_state = state;\n  unique case (state)\n    S_IDLE: begin\n      if (start) next_state = S_LOAD;\n    end\n    S_LOAD: begin\n      if (stop) next_state = S_ERROR; else next_state = S_PROCESS;\n    end\n    S_PROCESS: begin\n      if (stop) next_state = S_ERROR;\n      else if (counter >= COUNT_MAX) next_state = S_WAIT;\n      else if (data_buf > threshold) next_state = S_WAIT;\n    end\n    S_WAIT: begin\n      if (!stop && mode[1]) next_state = S_DONE;\n      else if (!stop && !mode[1]) next_state = S_PROCESS;\n      else next_state = S_ERROR;\n    end\n    S_DONE: begin\n      next_state = S_IDLE;\n    end\n    S_ERROR: begin\n      if (!stop) next_state = S_IDLE;\n    end\n    default: begin\n      next_state = S_ERROR;\n    end\n  endcase\nend\n\nassign ready = (state == S_IDLE);\nassign busy = (state == S_LOAD) || (state == S_PROCESS) || (state == S_WAIT);\nassign error_flag = (state == S_ERROR);\n\nalways_comb begin\n  if (state == S_PROCESS && mode[0]) gate_enable = 1'b1;\nend\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "9. LOGIC SYNTHESIS",
+            "error_description": "Introduced an incomplete combinational assignment to gate_enable by using an if without an else or default assignment, inferring a latch during synthesis.",
+            "error_line": 102
+        },
+        {
+            "taxonomy_title": "12. STATE MACHINE (FSM) DEFECTS",
+            "error_description": "Declared an enumerated state S_UNUSED that is never reached by any transition, creating an unreachable state in the FSM.",
+            "error_line": 22
+        }
+    ]
+}

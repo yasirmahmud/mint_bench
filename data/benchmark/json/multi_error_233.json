@@ -1,0 +1,25 @@
+{
+    "module_code": "module mini_cell #(parameter INW = 4, parameter OUTW = 16) (\n    input  logic [INW-1:0]  in,\n    input  logic             en,\n    output logic [OUTW-1:0]  out\n);\n    always_comb begin\n        out = '0;\n        if (en) begin\n            if (in < OUTW) begin\n                out[in] = 1'b1;\n            end\n        end\n    end\nendmodule\n\nmodule decoder (\n    input  logic         clk,\n    input  logic         rst_n,\n    input  logic         enable,\n    input  logic [7:0]   opcode,\n    input  logic [15:0]  mask,\n    output logic [15:0]  decode_out,\n    output logic [7:0]   debug_byte\n);\n    typedef enum logic [1:0] {S_IDLE, S_LOAD, S_DECODE, S_UNUSED} state_t;\n    state_t state, next_state;\n\n    logic [7:0]  latched_opcode;\n    logic        enable_q;\n    logic [3:0]  sel_low;\n    logic [15:0] dec1;\n    logic [15:0] dec2;\n    logic [15:0] cell_out;\n    wire  [15:0] decode_bus;\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            state <= S_IDLE;\n            latched_opcode <= '0;\n            enable_q <= 1'b0;\n        end else begin\n            state <= next_state;\n            enable_q <= enable;\n            if (state == S_LOAD) begin\n                latched_opcode <= opcode;\n            end\n        end\n    end\n\n    always_comb begin\n        next_state = state;\n        unique case (state)\n            S_IDLE: begin\n                if (enable) next_state = S_LOAD;\n            end\n            S_LOAD: begin\n                next_state = S_DECODE;\n            end\n            S_DECODE: begin\n                if (!enable) next_state = S_IDLE;\n            end\n            default: begin\n                next_state = S_IDLE;\n            end\n        endcase\n    end\n\n    always_comb begin\n        sel_low = latched_opcode[3:0];\n        dec1 = 16'h0000;\n        dec2 = 16'h0000;\n        if (enable_q) begin\n            dec1[sel_low] = 1'b1;\n            dec2 = mask & (16'h0001 << sel_low);\n        end\n    end\n\n    mini_cell u_cell (\n        .in(opcode),\n        .en(enable_q),\n        .out(cell_out)\n    );\n\n    assign decode_bus = dec1 | cell_out;\n    assign decode_bus = dec2;\n\n    always_comb begin\n        decode_out = decode_bus;\n        debug_byte = {opcode, 2'b01};\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "8. MODULE INSTANCES",
+            "error_description": "Instantiated sub-module port width mismatch: an 8-bit signal is connected to a 4-bit child port via .in(opcode).",
+            "error_line": 79
+        },
+        {
+            "taxonomy_title": "14. CONNECTIVITY AND DRIVING",
+            "error_description": "Created bus contention by driving the same net decode_bus from two separate continuous assignments.",
+            "error_line": 84
+        },
+        {
+            "taxonomy_title": "12. STATE MACHINE (FSM) DEFECTS",
+            "error_description": "Declared an unreachable FSM state S_UNUSED in the enum that is never entered by any transition.",
+            "error_line": 25
+        },
+        {
+            "taxonomy_title": "11. BIT WIDTH USAGE",
+            "error_description": "Assigned a 10-bit concatenation {opcode, 2'b01} to an 8-bit debug_byte, causing truncation.",
+            "error_line": 89
+        }
+    ]
+}

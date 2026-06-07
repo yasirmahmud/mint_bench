@@ -1,0 +1,25 @@
+{
+    "module_code": "module fsm_quality_core(\n  input wire clk,\n  input wire rst_n,\n  input wire start,\n  input logic [15:0] data_in,\n  input logic [7:0] cfg,\n  output logic done,\n  output logic [7:0] data_out\n);\n\nlocalparam logic [15:0] TIMEOUT16 = 16'd1000;\n\ntypedef enum logic [2:0] {S_IDLE, S_LOAD, S_PREP, S_ACCUM, S_WAIT, S_DONE, S_ERR} state_t;\nstate_t state, nstate;\n\nlogic [15:0] accum, n_accum;\nlogic [15:0] counter, n_counter;\nlogic processing_en;\nlogic threshold_hit;\nlogic timeout_hit;\n\nlogic [7:0] a, b, c, d;\nlogic [31:0] ineff_res;\n\nwire [7:0] bus_conflict;\nassign bus_conflict = {cfg[3:0], cfg[7:4]};\nassign bus_conflict = data_in[15:8];\nassign start = bus_conflict[0];\nassign ineff_res = (a * b) * (c * d);\n\nalways_ff @(posedge clk or negedge rst_n) begin\n  if (!rst_n) begin\n    state <= S_IDLE;\n    accum <= 16'd0;\n    counter <= 16'd0;\n    done <= 1'b0;\n    data_out <= 8'h00;\n  end else begin\n    state <= nstate;\n    accum <= n_accum;\n    counter <= n_counter;\n    if (state == S_DONE) begin\n      done <= 1'b1;\n      data_out <= accum;\n    end else if (state == S_IDLE) begin\n      done <= 1'b0;\n    end\n  end\nend\n\nalways_comb begin\n  nstate = state;\n  n_accum = accum;\n  n_counter = counter;\n  processing_en = 1'b0;\n  threshold_hit = 1'b0;\n  timeout_hit = (counter >= TIMEOUT16);\n  a = data_in[7:0];\n  b = data_in[15:8];\n  c = cfg;\n  d = bus_conflict;\n  unique case (state)\n    S_IDLE: begin\n      n_counter = 16'd0;\n      if (start) begin\n        nstate = S_LOAD;\n      end\n    end\n    S_LOAD: begin\n      processing_en = 1'b1;\n      n_accum = data_in;\n      if (processing_en && cfg[0]) begin\n        nstate = S_PREP;\n      end else begin\n        nstate = S_ACCUM;\n      end\n    end\n    S_PREP: begin\n      n_accum = {data_in[7:0], data_in[15:8]};\n      if (cfg[1]) begin\n        if (cfg[2]) begin\n          if (cfg[3]) begin\n            if (cfg[4]) begin\n              if (cfg[5]) begin\n                nstate = S_ACCUM;\n              end else begin\n                nstate = S_WAIT;\n              end\n            end else begin\n              nstate = S_WAIT;\n            end\n          end else begin\n            nstate = S_ACCUM;\n          end\n        end else begin\n          nstate = S_WAIT;\n        end\n      end else begin\n        nstate = S_ACCUM;\n      end\n    end\n    S_ACCUM: begin\n      processing_en = 1'b1;\n      if (processing_en) begin\n        n_accum = accum + {8'd0, cfg} + {8'd0, bus_conflict} + {8'd0, ineff_res[7:0]};\n      end\n      n_counter = counter + 16'd1;\n      if (n_accum[15]) begin\n        threshold_hit = 1'b1;\n      end\n      if (threshold_hit) begin\n        nstate = S_WAIT;\n      end else if (timeout_hit) begin\n        nstate = S_ERR;\n      end\n    end\n    S_WAIT: begin\n      n_counter = counter + 16'd1;\n      if (counter[3:0] == 4'hF) begin\n        nstate = S_DONE;\n      end else if (start && cfg[7]) begin\n        nstate = S_ACCUM;\n      end else begin\n        nstate = S_WAIT;\n      end\n    end\n    S_DONE: begin\n      if (!start) begin\n        nstate = S_IDLE;\n      end\n    end\n    S_ERR: begin\n      nstate = S_DONE;\n    end\n    default: begin\n      nstate = S_IDLE;\n    end\n  endcase\nend\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "13. CODE QUALITY AND SYNTHESIS",
+            "error_description": "Introduced an inefficient arithmetic chain by multiplying four 8-bit values in a cascaded manner, inferring large combinational multipliers on a single line.",
+            "error_line": 29
+        },
+        {
+            "taxonomy_title": "6. PORT TYPE",
+            "error_description": "Drove an input port internally using a continuous assignment to the input net.",
+            "error_line": 28
+        },
+        {
+            "taxonomy_title": "11. BIT WIDTH USAGE",
+            "error_description": "Assigned a 16-bit register to an 8-bit output without explicit truncation or casting, causing silent data loss.",
+            "error_line": 44
+        },
+        {
+            "taxonomy_title": "14. CONNECTIVITY AND DRIVING",
+            "error_description": "Created multiple active drivers on a single wire by issuing two continuous assignments to the same internal net.",
+            "error_line": 27
+        }
+    ]
+}

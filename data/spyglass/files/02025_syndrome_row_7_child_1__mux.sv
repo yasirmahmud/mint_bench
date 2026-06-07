@@ -1,0 +1,4 @@
+// Definition for the 'mux' module to resolve ErrorAnalyzeBBox
+module mux(input [12:0] alpha, input r, output [12:0] out);
+  assign out = r ? alpha : 13'b0;
+endmodule

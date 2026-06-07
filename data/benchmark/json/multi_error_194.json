@@ -1,0 +1,25 @@
+{
+    "module_code": "module fifo_with_four_lint_errors #(\n    parameter int WIDTH  = 8,\n    parameter int DEPTH  = 16,\n    parameter int ADDR_W = $clog2(DEPTH)\n) (\n    input  logic                 clk,\n    input  logic                 rst_n,\n    input  logic                 wr_en,\n    input  logic                 rd_en,\n    input  logic [WIDTH-1:0]     wr_data,\n    output logic [WIDTH-1:0]     rd_data,\n    output logic                 full,\n    output logic                 empty,\n    output logic [ADDR_W:0]      level\n);\n\n    logic [WIDTH-1:0]            mem [0:DEPTH-1];\n    logic [ADDR_W-1:0]           wr_ptr;\n    logic [ADDR_W-1:0]           rd_ptr;\n    logic [ADDR_W:0]             count;\n\n    logic                        full_comb;\n    logic                        empty_comb;\n\n    logic                        unused_debug_flag;\n\n    function automatic logic can_read(\n        input logic re,\n        input logic em\n    );\n        can_read = re && !em;\n    endfunction\n\n    function automatic logic can_write(\n        input logic we,\n        input logic fu\n    );\n        can_write = we && !fu;\n    endfunction\n\n    always @(wr_ptr or rd_ptr) begin\n        full_comb  = (count == DEPTH) || ((wr_ptr + 1'b1) == rd_ptr && wr_en && !rd_en);\n        empty_comb = (count == 0)     || ((rd_ptr == wr_ptr) && rd_en && !wr_en);\n    end\n\n    always @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            wr_ptr  <= '0;\n            rd_ptr  <= '0;\n            count   <= '0;\n            rd_data <= '0;\n            full    <= 1'b0;\n            empty   <= 1'b1;\n        end else begin\n            if (can_write(wr_en, full)) begin\n                mem[wr_ptr] <= wr_data;\n                wr_ptr      <= (wr_ptr == ADDR_W'(DEPTH-1)) ? '0 : (wr_ptr + 1'b1);\n                count       <= count + 1'b1;\n            end\n            if (can_read(rd_en, empty)) begin\n                rd_data     <= mem[rd_ptr];\n                rd_ptr      <= (rd_ptr == ADDR_W'(DEPTH-1)) ? '0 : (rd_ptr + 1'b1);\n                count       = count - 1'b1;\n            end\n            full  <= full_comb;\n            empty <= empty_comb;\n        end\n    end\n\n    assign level = count;\n\n    assign wr_en = wr_en & ~full;\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "6. PORT TYPE",
+            "error_description": "Assigned to an input port using a continuous assign, violating port directionality.",
+            "error_line": 72
+        },
+        {
+            "taxonomy_title": "3. SENSITIVITY LIST",
+            "error_description": "Combinational always block omits signals (count, wr_en, rd_en) that are read inside the block from its sensitivity list.",
+            "error_line": 41
+        },
+        {
+            "taxonomy_title": "2. SIGNAL USAGE",
+            "error_description": "Declared a signal that is never used anywhere in the design.",
+            "error_line": 25
+        },
+        {
+            "taxonomy_title": "5. RACE OR HAZARD",
+            "error_description": "Mixed blocking and non-blocking assignments in the same sequential always block by using a blocking assignment to 'count'.",
+            "error_line": 63
+        }
+    ]
+}

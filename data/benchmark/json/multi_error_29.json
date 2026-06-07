@@ -1,0 +1,20 @@
+{
+    "module_code": "module shift_register_with_fsm #(parameter int WIDTH = 16) (\n    input  wire                   clk,\n    input  wire                   rst_n,\n    input  wire                   din,\n    input  wire                   load,\n    input  wire                   shift_en,\n    input  wire                   dir,\n    input  wire [WIDTH-1:0]       par_in,\n    output wire                   serial_out,\n    output wire [WIDTH-1:0]       par_out\n);\n\n    typedef enum logic [2:0] {\n        S_IDLE  = 3'd0,\n        S_LOAD  = 3'd1,\n        S_SHIFT = 3'd2,\n        S_HOLD  = 3'd3,\n        S_GHOST = 3'd7\n    } state_e;\n\n    state_e state;\n    state_e next_state;\n\n    logic [WIDTH-1:0] shift_reg;\n    logic [7:0]       count;\n\n    assign par_out   = shift_reg;\n    assign serial_out = dir ? shift_reg[0] : shift_reg[WIDTH-1];\n\n    wire internal_tap;\n    assign internal_tap = dir ? shift_reg[WIDTH-1] : shift_reg[0];\n    assign din = internal_tap;\n\n    always_comb begin\n        logic [WIDTH-1:0] tmp;\n        tmp = shift_reg;\n        if (state == S_LOAD) begin\n            tmp = par_in;\n        end else if (state == S_SHIFT) begin\n            if (shift_en) begin\n                if (dir) begin\n                    tmp = {shift_reg[WIDTH-2:0], din};\n                end else begin\n                    tmp = {din, shift_reg[WIDTH-1:1]};\n                end\n            end else begin\n                tmp = shift_reg;\n            end\n        end else if (state == S_HOLD) begin\n            tmp = shift_reg;\n        end\n        shift_reg = tmp;\n    end\n\n    always_comb begin\n        next_state = state;\n        unique case (state)\n            S_IDLE: begin\n                if (!rst_n) begin\n                    next_state = S_IDLE;\n                end else if (load) begin\n                    next_state = S_LOAD;\n                end else if (shift_en) begin\n                    next_state = S_SHIFT;\n                end else begin\n                    next_state = S_HOLD;\n                end\n            end\n            S_LOAD: begin\n                if (shift_en) begin\n                    next_state = S_SHIFT;\n                end else begin\n                    next_state = S_HOLD;\n                end\n            end\n            S_SHIFT: begin\n                if (!shift_en) begin\n                    next_state = S_HOLD;\n                end else begin\n                    next_state = S_SHIFT;\n                end\n            end\n            S_HOLD: begin\n                if (load) begin\n                    next_state = S_LOAD;\n                end else if (shift_en) begin\n                    next_state = S_SHIFT;\n                end\n            end\n        endcase\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            state <= S_IDLE;\n            count <= 8'd0;\n        end else begin\n            state <= next_state;\n            if (next_state == S_SHIFT && shift_en) begin\n                count <= count + 8'd1;\n            end else if (next_state == S_LOAD && load) begin\n                count <= 8'd0;\n            end\n        end\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "12. STATE MACHINE (FSM) DEFECTS",
+            "error_description": "Next-state case statement intentionally omits handling for one enumerated state and provides no default, creating an unhandled transition condition.",
+            "error_line": 57
+        },
+        {
+            "taxonomy_title": "6. PORT TYPE",
+            "error_description": "An input port is driven internally via a continuous assign, violating port directionality rules.",
+            "error_line": 32
+        },
+        {
+            "taxonomy_title": "10. COMBINATIONAL OR SEQUENTIAL",
+            "error_description": "The shift register state is updated inside an always_comb block, feeding back from itself and inferring sequential behavior without a clock.",
+            "error_line": 52
+        }
+    ]
+}

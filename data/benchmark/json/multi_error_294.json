@@ -1,0 +1,25 @@
+{
+    "module_code": "module mux_lintful #(\n    parameter int WIDTH = 16,\n    parameter int SELW  = 3\n) (\n    input  wire [WIDTH-1:0] in0,\n    input  wire [WIDTH-1:0] in1,\n    input  wire [WIDTH-1:0] in2,\n    input  wire [WIDTH-1:0] in3,\n    input  wire [WIDTH-1:0] in4,\n    input  wire [WIDTH-1:0] in5,\n    input  wire [WIDTH-1:0] in6,\n    input  wire [WIDTH-1:0] in7,\n    input  wire [SELW-1:0]  sel,\n    input  wire             en,\n    output wire [WIDTH-1:0] y,\n    output wire [7:0]       y_narrow\n);\n\nlogic [3:0] unused_flag;\n\nassign sel = sel;\n\nwire [WIDTH-1:0] p0 = in0;\nwire [WIDTH-1:0] p1 = in1;\nwire [WIDTH-1:0] p2 = in2;\nwire [WIDTH-1:0] p3 = in3;\nwire [WIDTH-1:0] p4 = in4;\nwire [WIDTH-1:0] p5 = in5;\nwire [WIDTH-1:0] p6 = in6;\nwire [WIDTH-1:0] p7 = in7;\n\nwire [WIDTH-1:0] z;\nassign z = {WIDTH{1'b0}};\n\nwire [WIDTH-1:0] s0 = en ? p0 : z;\nwire [WIDTH-1:0] s1 = en ? p1 : z;\nwire [WIDTH-1:0] s2 = en ? p2 : z;\nwire [WIDTH-1:0] s3 = en ? p3 : z;\nwire [WIDTH-1:0] s4 = en ? p4 : z;\nwire [WIDTH-1:0] s5 = en ? p5 : z;\nwire [WIDTH-1:0] s6 = en ? p6 : z;\nwire [WIDTH-1:0] s7 = en ? p7 : z;\n\nlogic [WIDTH-1:0] deep_result;\n\nalways_comb begin\n    deep_result = z;\n    if (en) begin\n        if (sel == SELW'(3'd0)) begin\n            deep_result = s0;\n        end else begin\n            if (sel == SELW'(3'd1)) begin\n                deep_result = s1;\n            end else begin\n                if (sel == SELW'(3'd2)) begin\n                    deep_result = s2;\n                end else begin\n                    if (sel == SELW'(3'd3)) begin\n                        deep_result = s3;\n                    end else begin\n                        if (sel == SELW'(3'd4)) begin\n                            deep_result = s4;\n                        end else begin\n                            if (sel == SELW'(3'd5)) begin\n                                deep_result = s5;\n                            end else begin\n                                if (sel == SELW'(3'd6)) begin\n                                    deep_result = s6;\n                                end else begin\n                                    deep_result = s7;\n                                end\n                            end\n                        end\n                    end\n                end\n            end\n        end\n    end\nend\n\nassign y = deep_result;\nassign y_narrow = y;\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "2. SIGNAL USAGE",
+            "error_description": "Declared a logic vector 'unused_flag' that is never read or driven anywhere in the module.",
+            "error_line": 19
+        },
+        {
+            "taxonomy_title": "6. PORT TYPE",
+            "error_description": "Drove the input port 'sel' internally using a continuous assignment.",
+            "error_line": 21
+        },
+        {
+            "taxonomy_title": "13. CODE QUALITY AND SYNTHESIS",
+            "error_description": "Implemented a deeply nested if-else structure to select the mux input, creating a long combinational path.",
+            "error_line": 49
+        },
+        {
+            "taxonomy_title": "11. BIT WIDTH USAGE",
+            "error_description": "Assigned a 16-bit signal 'y' to an 8-bit output 'y_narrow', causing silent truncation.",
+            "error_line": 82
+        }
+    ]
+}

@@ -1,0 +1,20 @@
+{
+    "module_code": "module rr_arbiter #(parameter int N = 4) (\n    input  logic                 clk,\n    input  logic                 rst_n,\n    input  logic                 enable,\n    input  logic [N-1:0]         req,\n    input  logic [N-1:0]         lock,\n    input  logic [N-1:0]         prio_override,\n    output logic [N-1:0]         grant,\n    output logic                 grant_valid,\n    output logic [$clog2((N<2)?2:N)-1:0] grant_idx\n);\n\n    localparam int LG = (N < 2) ? 1 : $clog2(N);\n\n    logic [N-1:0] grant_r;\n    logic         grant_valid_r;\n    logic [LG-1:0] grant_idx_r;\n\n    logic [N-1:0] grant_next;\n    logic         grant_valid_next;\n    logic [LG-1:0] grant_idx_next;\n\n    logic [LG-1:0] last_idx_r;\n\n    logic [N-1:0] grant_mask;\n    logic [N-1:0] eff_req;\n    logic [N-1:0] temp_primary;\n    logic [N-1:0] temp_secondary;\n\n    wire no_req = (req === '0);\n\n    wire lock_hold = |(grant_r & lock);\n\n    always_comb begin\n        grant_mask = '0;\n        for (int i = 0; i < N; i++) begin\n            if (i > last_idx_r) begin\n                grant_mask[i] = 1'b1;\n            end else begin\n                grant_mask[i] = 1'b0;\n            end\n        end\n    end\n\n    always @(req or grant_mask) begin\n        temp_primary   = req & grant_mask;\n        temp_secondary = req & (~grant_mask);\n        if (|temp_primary) begin\n            eff_req = temp_primary;\n        end else begin\n            eff_req = temp_secondary;\n        end\n        if (!enable) begin\n            eff_req = '0;\n        end else begin\n            eff_req = eff_req | prio_override;\n        end\n    end\n\n    always_comb begin\n        grant_next        = '0;\n        grant_valid_next  = 1'b0;\n        grant_idx_next    = '0;\n        if (!no_req) begin\n            logic found;\n            found = 1'b0;\n            for (int j = 0; j < N; j++) begin\n                if (!found && eff_req[j]) begin\n                    grant_next[j]       = 1'b1;\n                    grant_valid_next    = 1'b1;\n                    grant_idx_next      = j[LG-1:0];\n                    found               = 1'b1;\n                end\n            end\n        end\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            grant_r        <= '0;\n            grant_valid_r  <= 1'b0;\n            grant_idx_r    <= '0;\n            last_idx_r     <= '0;\n        end else begin\n            if (lock_hold) begin\n                grant_r        <= grant_r;\n                grant_valid_r  <= grant_valid_r;\n                grant_idx_r    <= grant_idx_r;\n            end else begin\n                grant_r        <= grant_next;\n                grant_valid_r  <= grant_valid_next;\n                grant_idx_r    = grant_idx_next;\n            end\n            if (grant_valid_r) begin\n                last_idx_r <= grant_idx_r;\n            end\n        end\n    end\n\n    always_comb begin\n        grant        = grant_r;\n        grant_valid  = grant_valid_r;\n        grant_idx    = grant_idx_r;\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "7. OPERATORS",
+            "error_description": "Used 4-state equality (===) in synthesizable RTL to compare req against zero, which is a dangerous operator misuse.",
+            "error_line": 30
+        },
+        {
+            "taxonomy_title": "5. RACE OR HAZARD",
+            "error_description": "Mixed blocking (=) and non-blocking (<=) assignments within the same sequential always_ff block by assigning grant_idx_r with blocking.",
+            "error_line": 92
+        },
+        {
+            "taxonomy_title": "3. SENSITIVITY LIST",
+            "error_description": "Created an always block with an incomplete sensitivity list that omits signals read within the block (enable and prio_override).",
+            "error_line": 45
+        }
+    ]
+}

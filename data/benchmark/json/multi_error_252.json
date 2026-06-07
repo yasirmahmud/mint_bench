@@ -1,0 +1,15 @@
+{
+    "module_code": "module flex_priority_encoder #(\n  parameter int WIDTH  = 16,\n  parameter int CODE_W = (WIDTH <= 1) ? 1 : $clog2(WIDTH)\n) (\n  input  logic                     clk,\n  input  logic                     rst_n,\n  input  logic                     valid_i,\n  input  logic [WIDTH-1:0]         din,\n  input  logic [WIDTH-1:0]         mask_i,\n  input  logic                     msb_first_i,\n  output logic                     ready_o,\n  output logic                     valid_o,\n  output logic [CODE_W-1:0]        code_o,\n  output logic [WIDTH-1:0]         onehot_o,\n  output logic                     none_o\n);\n\n  localparam bit CONST_ONE = 1'b1;\n  localparam int SEARCH_MSB = 1\n\n  logic [WIDTH-1:0]                masked;\n  logic [WIDTH-1:0]                onehot_comb;\n  logic [CODE_W-1:0]               code_comb;\n  logic                            none_comb;\n\n  logic [WIDTH-1:0]                onehot_r;\n  logic [CODE_W-1:0]               code_r;\n  logic                            valid_r;\n  logic                            none_r;\n\n  logic [7:0]                      debug_tap;\n  logic                            debug_any;\n\n  assign masked = din & mask_i;\n  assign debug_tap = din;\n  assign debug_any = |debug_tap;\n\n  always_comb begin\n    onehot_comb = '0;\n    code_comb   = '0;\n    none_comb   = 1'b1;\n    if (msb_first_i) begin\n      for (int i = WIDTH-1; i >= 0; i--) begin\n        if (masked[i] && none_comb) begin\n          onehot_comb[i] = 1'b1;\n          code_comb      = i[CODE_W-1:0];\n          none_comb      = 1'b0;\n        end\n      end\n    end else begin\n      for (int j = 0; j < WIDTH; j++) begin\n        if (masked[j] && none_comb) begin\n          onehot_comb[j] = 1'b1;\n          code_comb      = j[CODE_W-1:0];\n          none_comb      = 1'b0;\n        end\n      end\n    end\n  end\n\n  always_ff @(posedge clk or negedge rst_n) begin\n    if (!rst_n) begin\n      onehot_r <= '0;\n      code_r   <= '0;\n      valid_r  <= 1'b0;\n      none_r   <= 1'b1;\n    end else begin\n      if (valid_i) begin\n        onehot_r <= onehot_comb;\n        code_r   <= code_comb;\n        valid_r  <= !none_comb;\n        none_r   <= none_comb;\n      end else begin\n        valid_r  <= 1'b0;\n      end\n    end\n  end\n\n  assign ready_o  = 1'b1 | debug_any;\n  assign valid_o  = valid_r;\n  assign code_o   = code_r;\n  assign onehot_o = onehot_r;\n  assign none_o   = none_r;\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "11. BIT WIDTH USAGE",
+            "error_description": "Assigned a 16-bit input vector directly to an 8-bit logic signal, causing truncation on the line with the ERROR_TAG.",
+            "error_line": 35
+        },
+        {
+            "taxonomy_title": "1. SYNTAX STRUCTURE",
+            "error_description": "Omitted the semicolon at the end of a localparam declaration, creating a syntax rule violation on the line with the ERROR_TAG.",
+            "error_line": 19
+        }
+    ]
+}

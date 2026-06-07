@@ -1,0 +1,25 @@
+{
+    "module_code": "module mem_controller #(\n    parameter integer DATA_WIDTH = 32,\n    parameter integer ADDR_WIDTH = 8\n) (\n    input  logic                      clk,\n    input  logic                      rst_n,\n    input  logic                      req_valid,\n    output logic                      req_ready,\n    input  logic                      wr_en,\n    input  logic [ADDR_WIDTH-1:0]     addr,\n    input  logic [DATA_WIDTH-1:0]     wdata,\n    input  logic [DATA_WIDTH/8-1:0]   wstrb,\n    output logic [DATA_WIDTH-1:0]     rdata,\n    output logic                      rvalid,\n    input  logic                      ext_ready,\n    output logic                      dbg_flag\n);\n\n    localparam int DEPTH = (1 << ADDR_WIDTH);\n\n    wire orphan_net;\n\n    logic [DATA_WIDTH-1:0] mem [0:DEPTH-1];\n\n    typedef enum logic [1:0] {\n        S_IDLE,\n        S_READ,\n        S_WRITE,\n        S_RESP\n    } state_t;\n\n    state_t state;\n    state_t next_state;\n\n    logic do_write;\n    logic do_read;\n\n    logic [ADDR_WIDTH-1:0]   addr_reg;\n    logic [DATA_WIDTH-1:0]   wdata_reg;\n    logic [DATA_WIDTH/8-1:0] wstrb_reg;\n\n    logic faulty_seq_reg;\n\n    always_comb begin\n        do_write   = 1'b0;\n        do_read    = 1'b0;\n        req_ready  = 1'b0;\n        next_state = state;\n        dbg_flag   = faulty_seq_reg;\n        unique case (state)\n            S_IDLE: begin\n                req_ready = 1'b1;\n                if (req_valid & wr_en) begin\n                    do_write   = 1'b1;\n                    next_state = S_WRITE;\n                end else if (req_valid && !wr_en) begin\n                    do_read    = 1'b1;\n                    next_state = S_READ;\n                end\n            end\n            S_READ: begin\n                next_state = S_RESP;\n            end\n            S_WRITE: begin\n                next_state = S_RESP;\n            end\n            S_RESP: begin\n                if (ext_ready && !req_valid) begin\n                    next_state = S_IDLE;\n                end\n            end\n            default: begin\n                next_state = S_IDLE;\n            end\n        endcase\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            state     <= S_IDLE;\n            addr_reg  <= '0;\n            wdata_reg <= '0;\n            wstrb_reg <= '0;\n        end else begin\n            state <= next_state;\n            if (state == S_IDLE && req_valid) begin\n                addr_reg  <= addr;\n                wdata_reg <= wdata;\n                wstrb_reg <= wstrb;\n            end\n        end\n    end\n\n    integer i;\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            rdata  <= '0;\n            rvalid <= 1'b0;\n        end else begin\n            if (state == S_WRITE) begin\n                for (i = 0; i < DATA_WIDTH/8; i = i + 1) begin\n                    if (wstrb_reg[i]) begin\n                        mem[addr_reg][8*i +: 8] <= wdata_reg[8*i +: 8];\n                    end\n                end\n            end\n            if (state == S_READ) begin\n                rdata <= mem[addr_reg];\n            end\n            if (state == S_RESP) begin\n                rvalid <= 1'b1;\n            end else begin\n                rvalid <= 1'b0;\n            end\n        end\n    end\n\n    always @(req_valid) begin\n        faulty_seq_reg <= wdata[0];\n    end\n\n    assign ext_ready = 1'b0;\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "14. CONNECTIVITY AND DRIVING",
+            "error_description": "Declared an internal net that is never connected or used, creating an unconnected internal net.",
+            "error_line": 21
+        },
+        {
+            "taxonomy_title": "7. OPERATORS",
+            "error_description": "Used bitwise AND '&' in a conditional instead of logical AND '&&', which can produce unintended behavior.",
+            "error_line": 53
+        },
+        {
+            "taxonomy_title": "10. COMBINATIONAL OR SEQUENTIAL",
+            "error_description": "Created a state-holding process without a proper clock edge using 'always @(req_valid)', inferring sequential behavior from a data signal.",
+            "error_line": 118
+        },
+        {
+            "taxonomy_title": "6. PORT TYPE",
+            "error_description": "Drove an input port with a continuous assignment inside the module, violating port directionality and data type rules.",
+            "error_line": 122
+        }
+    ]
+}

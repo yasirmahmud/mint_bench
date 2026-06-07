@@ -1,0 +1,25 @@
+{
+    "module_code": "module mux2_cell #(parameter WIDTH = 8) (\n    input  logic [WIDTH-1:0] a,\n    input  logic [WIDTH-1:0] b,\n    input  logic             s,\n    output logic [WIDTH-1:0] y\n);\n    assign y = s ? b : a;\nendmodule\n\nmodule complex_mux #(parameter WIDTH = 8) (\n    input  logic                   clk,\n    input  logic                   rst_n,\n    input  logic [WIDTH-1:0]       in0,\n    input  logic [WIDTH-1:0]       in1,\n    input  logic [WIDTH-1:0]       in2,\n    input  logic [WIDTH-1:0]       in3,\n    input  logic [1:0]             sel,\n    output logic [WIDTH-1:0]       y\n);\n    logic [WIDTH-1:0] aux_path;\n    logic [WIDTH-1:0] d2;\n    logic [WIDTH-1:0] d3;\n    logic [WIDTH-1:0] mux_out;\n    logic [WIDTH-1:0] registered_out;\n    logic [WIDTH-1:0] debug_spare;\n\n    typedef enum logic [1:0] {IDLE, ROUTE, HOLD} state_t;\n    state_t state;\n    state_t nstate;\n\n    function automatic [WIDTH-1:0] mask_sel(input logic [1:0] s);\n        case (s)\n            2'b00: mask_sel = {WIDTH{1'b1}};\n            2'b01: mask_sel = {WIDTH{1'b1}};\n            2'b10: mask_sel = {WIDTH{1'b1}};\n            default: mask_sel = {WIDTH{1'b1}};\n        endcase\n    endfunction\n\n    function automatic [WIDTH-1:0] bit_reverse(input logic [WIDTH-1:0] x);\n        int i;\n        for (i = 0; i < WIDTH; i++) begin\n            bit_reverse[i] = x[WIDTH-1-i];\n        end\n    endfunction\n\n    mux2_cell #(.WIDTH(WIDTH)) u_aux (\n        .a(in0),\n        .b(in1[3:0]),\n        .s(sel[0]),\n        .y(aux_path)\n    );\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            state <= IDLE;\n        end else begin\n            state <= nstate;\n        end\n    end\n\n    always_comb begin\n        nstate = state;\n        unique case (state)\n            IDLE: begin\n                if (sel != 2'b00) begin\n                    nstate = ROUTE;\n                end else begin\n                    nstate = IDLE;\n                end\n            end\n            ROUTE: begin\n                if (sel == 2'b00) begin\n                    nstate = IDLE;\n                end else begin\n                    nstate = ROUTE;\n                end\n            end\n            default: begin\n                nstate = IDLE;\n            end\n        endcase\n    end\n\n    always_comb begin\n        d2 = in2 ^ bit_reverse(aux_path);\n        d3 = in3 & mask_sel(sel);\n    end\n\n    always @(sel or in0 or in1) begin\n        unique case (sel)\n            2'b00: mux_out = in0;\n            2'b01: mux_out = in1;\n            2'b10: mux_out = d2;\n            2'b11: mux_out = d3;\n            default: mux_out = in0;\n        endcase\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            registered_out <= '0;\n        end else if (state == ROUTE) begin\n            registered_out <= mux_out;\n        end else begin\n            registered_out <= registered_out;\n        end\n    end\n\n    assign y = registered_out;\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "2. SIGNAL USAGE",
+            "error_description": "Introduced an unused signal by declaring 'debug_spare' that is never read or driven elsewhere.",
+            "error_line": 25
+        },
+        {
+            "taxonomy_title": "3. SENSITIVITY LIST",
+            "error_description": "Created a combinational always block with an incomplete sensitivity list by omitting signals 'd2' and 'd3' that are read inside.",
+            "error_line": 90
+        },
+        {
+            "taxonomy_title": "12. STATE MACHINE (FSM) DEFECTS",
+            "error_description": "Declared an FSM state 'HOLD' in the enum that is never transitioned to, making it an unreachable state.",
+            "error_line": 27
+        },
+        {
+            "taxonomy_title": "8. MODULE INSTANCES",
+            "error_description": "Instantiated submodule 'mux2_cell' with a port width mismatch by connecting 4-bit 'in1[3:0]' to an 8-bit port 'b'.",
+            "error_line": 49
+        }
+    ]
+}

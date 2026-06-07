@@ -1,0 +1,20 @@
+{
+    "module_code": "module encoder32 (\n    input  logic [31:0] din,\n    input  logic        enable,\n    output logic [5:0]  code,\n    output logic        valid,\n    output wire  [15:0] scaled_weight,\n    output logic [1:0]  msb_block,\n    output logic        parity\n);\n\n    wire parity_wire;\n    assign parity_wire = ^din;\n    assign din[0] = parity_wire;\n\n    wire [7:0] hi8;\n    wire [7:0] midhi8;\n    wire [7:0] midlo8;\n    wire [7:0] lo8;\n\n    assign hi8     = din[31:24];\n    assign midhi8  = din[23:16];\n    assign midlo8  = din[15:8];\n    assign lo8     = din[7:0];\n\n    wire [3:0] block_has_one;\n    assign block_has_one[3] = |hi8;\n    assign block_has_one[2] = |midhi8;\n    assign block_has_one[1] = |midlo8;\n    assign block_has_one[0] = |lo8;\n\n    logic [6:0] popcount;\n    assign scaled_weight = popcount * 16'd27;\n\n    always_comb begin\n        popcount = 7'd0;\n        for (int k = 0; k < 32; k++) begin\n            popcount = popcount + din[k];\n        end\n\n        parity = parity_wire;\n\n        msb_block = 2'd0;\n        if (block_has_one[3]) begin\n            msb_block = 2'd3;\n        end else if (block_has_one[2]) begin\n            msb_block = 2'd2;\n        end else if (block_has_one[1]) begin\n            msb_block = 2'd1;\n        end else if (block_has_one[0]) begin\n            msb_block = 2'd0;\n        end else begin\n            msb_block = 2'd0;\n        end\n\n        logic found;\n        found = 1'b0;\n\n        if (enable) begin\n            code  = 6'd0;\n            valid = 1'b0;\n            for (int j = 31; j >= 0; j--) begin\n                if (din[j] && !found) begin\n                    code  = j[5:0];\n                    valid = 1'b1;\n                    found = 1'b1;\n                end\n            end\n        end\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "13. CODE QUALITY AND SYNTHESIS",
+            "error_description": "Used a constant multiply for scaled_weight (popcount * 27), which infers a hardware multiplier and is suboptimal versus shift/add.",
+            "error_line": 32
+        },
+        {
+            "taxonomy_title": "9. LOGIC SYNTHESIS",
+            "error_description": "In always_comb, code and valid are only assigned inside if(enable) without an else/default assignment, inferring latches when enable is low.",
+            "error_line": 58
+        },
+        {
+            "taxonomy_title": "6. PORT TYPE",
+            "error_description": "Drove the input port din[0] via a continuous assignment inside the module.",
+            "error_line": 13
+        }
+    ]
+}

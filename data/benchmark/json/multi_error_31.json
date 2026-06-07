@@ -1,0 +1,25 @@
+{
+    "module_code": "module inc4(\n    input  logic [3:0] in,\n    input  logic       en,\n    output logic [3:0] out\n);\n    always_comb begin\n        if (en) begin\n            out = in + 4'd1;\n        end else begin\n            out = in;\n        end\n    end\nendmodule\n\nmodule counter_core #(\n    parameter int WIDTH = 16\n)(\n    input  logic                 clk,\n    input  logic                 rst_n,\n    input  logic                 enable,\n    input  logic                 up,\n    input  logic                 load,\n    input  logic                 clear,\n    input  logic [3:0]           step,\n    input  logic [WIDTH-1:0]     load_value,\n    output logic [WIDTH-1:0]     count,\n    output logic                 terminal,\n    output logic                 parity\n);\n    logic [WIDTH-1:0] count_reg;\n    logic [WIDTH-1:0] next_count;\n    logic [WIDTH-1:0] step_ext;\n    logic [WIDTH-1:0] sum_up;\n    logic [WIDTH-1:0] sum_down;\n    logic             sat_up;\n    logic             sat_down;\n    wire  [7:0]       dbg_bus;\n    logic [3:0]       low_inc;\n    logic             \\\\always_comb ;\n\n    assign step_ext = {{(WIDTH-4){1'b0}}, step};\n    assign sum_up   = count_reg + step_ext;\n    assign sum_down = count_reg - step_ext;\n    assign count    = count_reg;\n\n    inc4 u_inc (\n        .in(count_reg[7:0]),\n        .en(enable),\n        .out(low_inc)\n    );\n\n    assign dbg_bus = count_reg[7:0];\n    assign dbg_bus = {8{enable}};\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            count_reg <= '0;\n        end else begin\n            count_reg <= next_count;\n        end\n    end\n\n    always @(enable or up or load or clear or step or count_reg) begin\n        next_count = count_reg;\n        if (!enable) begin\n            next_count = count_reg;\n        end else if (clear) begin\n            next_count = '0;\n        end else if (load) begin\n            next_count = load_value;\n        end else if (up) begin\n            next_count = sum_up;\n        end else begin\n            next_count = sum_down;\n        end\n    end\n\n    always_comb begin\n        sat_up   = (sum_up   < count_reg);\n        sat_down = (sum_down > count_reg);\n    end\n\n    always_comb begin\n        terminal = 1'b0;\n        if (enable && up && sat_up) begin\n            terminal = 1'b1;\n        end else if (enable && !up && sat_down) begin\n            terminal = 1'b1;\n        end\n    end\n\n    always_comb begin\n        \\\\always_comb = enable & (count_reg[0] ^ up);\n    end\n\n    always_comb begin\n        parity = ^(count_reg ^ {WIDTH{\\\\always_comb}});\n    end\n\n    always_comb begin\n        if (enable) begin\n            next_count[3:0] = low_inc;\n        end\n    end\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "8. MODULE INSTANCES",
+            "error_description": "Width mismatch at a submodule port by connecting an 8-bit slice count_reg[7:0] to the inc4 input port declared as 4 bits.",
+            "error_line": 47
+        },
+        {
+            "taxonomy_title": "3. SENSITIVITY LIST",
+            "error_description": "Combinational always block computes next_count using load_value but load_value is missing from the sensitivity list.",
+            "error_line": 63
+        },
+        {
+            "taxonomy_title": "14. CONNECTIVITY AND DRIVING",
+            "error_description": "The net dbg_bus is driven by two continuous assignments, creating multiple active drivers.",
+            "error_line": 53
+        },
+        {
+            "taxonomy_title": "4. RESERVED WORDS",
+            "error_description": "Declared an escaped identifier named \\always_comb as a signal, reusing a reserved keyword as an identifier.",
+            "error_line": 39
+        }
+    ]
+}

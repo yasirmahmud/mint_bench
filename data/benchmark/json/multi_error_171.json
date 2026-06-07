@@ -1,0 +1,25 @@
+{
+    "module_code": "module rr_arbiter_badlint #(\n    parameter int N = 4\n) (\n    input  logic                 clk,\n    input  logic                 rst_n,\n    input  logic [N-1:0]         req,\n    input  logic [N-1:0]         lock,\n    input  logic                 ready,\n    output logic [N-1:0]         grant,\n    output logic                 valid\n);\n\n    localparam int WIDTH = N\n    localparam int PTRW  = 2;\n\n    logic [N-1:0] req_masked;\n    logic [N-1:0] rot_req;\n    logic [N-1:0] sel_rot;\n    logic [N-1:0] sel;\n\n    logic [PTRW-1:0] token;\n    logic [PTRW-1:0] token_n;\n\n    logic [31:0] req32;\n    logic [31:0] weight;\n\n    assign req[0] = 1'b0;\n\n    always_comb begin\n        req_masked = req & ~lock;\n    end\n\n    always_comb begin\n        rot_req = req_masked;\n        unique case (token)\n            2'd0: rot_req = req_masked;\n            2'd1: rot_req = {req_masked[N-2:0], req_masked[N-1]};\n            2'd2: rot_req = {req_masked[N-3:0], req_masked[N-1:N-2]};\n            2'd3: rot_req = {req_masked[0], req_masked[N-1:1]};\n            default: rot_req = req_masked;\n        endcase\n    end\n\n    always_comb begin\n        if (rot_req[0])\n            sel_rot = 4'b0001;\n        else if (rot_req[1])\n            sel_rot = 4'b0010;\n        else if (rot_req[2])\n            sel_rot = 4'b0100;\n        else if (rot_req[3])\n            sel_rot = 4'b1000;\n    end\n\n    always_comb begin\n        sel = sel_rot;\n        unique case (token)\n            2'd0: sel = sel_rot;\n            2'd1: sel = {sel_rot[0], sel_rot[3:1]};\n            2'd2: sel = {sel_rot[1:0], sel_rot[3:2]};\n            2'd3: sel = {sel_rot[2:0], sel_rot[3]};\n            default: sel = sel_rot;\n        endcase\n    end\n\n    always_comb begin\n        req32  = {{(32-N){1'b0}}, req_masked};\n        weight = req32 * 32'd123456789;\n    end\n\n    always_comb begin\n        grant = sel;\n    end\n\n    always_comb begin\n        valid = |weight;\n    end\n\n    always_comb begin\n        token_n = token;\n        if (ready && valid) begin\n            unique case (1'b1)\n                sel[0]: token_n = 2'd1;\n                sel[1]: token_n = 2'd2;\n                sel[2]: token_n = 2'd3;\n                sel[3]: token_n = 2'd0;\n                default: token_n = token;\n            endcase\n        end\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            token <= '0;\n        end else begin\n            token <= token_n;\n        end\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "1. SYNTAX STRUCTURE",
+            "error_description": "Missing semicolon at the end of a localparam declaration.",
+            "error_line": 13
+        },
+        {
+            "taxonomy_title": "13. CODE QUALITY AND SYNTHESIS",
+            "error_description": "Heavy 32-bit multiplication used to compute a simple validity check, creating an unnecessarily large combinational multiplier.",
+            "error_line": 68
+        },
+        {
+            "taxonomy_title": "9. LOGIC SYNTHESIS",
+            "error_description": "always_comb block for selection lacks a default assignment, causing latch inference when no request is asserted.",
+            "error_line": 44
+        },
+        {
+            "taxonomy_title": "6. PORT TYPE",
+            "error_description": "Continuous assignment drives an input port bit, violating port direction and assigning to a variable type.",
+            "error_line": 27
+        }
+    ]
+}

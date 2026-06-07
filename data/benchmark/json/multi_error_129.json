@@ -1,0 +1,25 @@
+{
+    "module_code": "module smart_alu (\n  input logic clk,\n  input logic rst_n,\n  input logic start,\n  input logic [31:0] op_a,\n  input logic [31:0] op_b,\n  input logic [3:0] opcode,\n  output logic [31:0] result,\n  output logic carry_out,\n  output logic zero,\n  output logic overflow\n);\n\n  logic [31:0] result_comb;\n  logic c_out_comb;\n  logic ovf_comb;\n  logic [31:0] temp;\n  logic [31:0] \\logic ;\n\n  always @* begin\n    c_out_comb = 1'b0;\n    ovf_comb = 1'b0;\n    case (opcode)\n      4'h0: begin\n        {c_out_comb, result_comb} = op_a + op_b;\n        ovf_comb = (op_a[31] == op_b[31]) && (result_comb[31] != op_a[31]);\n      end\n      4'h1: begin\n        {c_out_comb, result_comb} = op_a + (~op_b + 1);\n        ovf_comb = (op_a[31] != op_b[31]) && (result_comb[31] != op_a[31]);\n      end\n      4'h2: begin\n        if (op_a && op_b) begin result_comb = op_a; end else begin result_comb = op_b; end\n      end\n      4'h3: begin\n        result_comb = op_a | op_b;\n      end\n      4'h4: begin\n        result_comb = op_a ^ op_b;\n      end\n      4'h5: begin\n        result_comb = op_a << op_b[4:0];\n      end\n      4'h6: begin\n        result_comb = op_a >> op_b[4:0];\n      end\n      4'h7: begin\n        logic [4:0] s;\n        s = op_b[4:0];\n        result_comb = (s != 5'd0) ? ((op_a << s) | (op_a >> (5'd32 - s))) : op_a;\n      end\n      4'h8: begin\n        logic [63:0] mult;\n        mult = op_a * op_b;\n        result_comb = mult[31:0];\n      end\n      4'h9: begin\n        result_comb = {31'b0, (op_a > op_b)};\n      end\n      4'hA: begin\n        result_comb = {31'b0, (op_a == op_b)};\n      end\n      4'hB: begin\n        result_comb = (op_a < op_b) ? op_a : op_b;\n      end\n      4'hC: begin\n        result_comb = (op_a > op_b) ? op_a : op_b;\n      end\n      4'hD: begin\n        result_comb = 0;\n        for (int j = 0; j < 32; j++) begin\n          result_comb = result_comb + op_a[j];\n        end\n      end\n      4'hE: begin\n        result_comb = {{16{op_a[15]}}, op_a[15:0]};\n      end\n      4'hF: ;\n    endcase\n  end\n\n  always @(posedge clk or negedge rst_n) begin\n    if (!rst_n) begin\n      result <= 32'h0;\n      carry_out <= 1'b0;\n      overflow <= 1'b0;\n      zero <= 1'b1;\n      \\logic <= 32'h0;\n      temp <= 32'h0;\n    end else begin\n      if (start) begin\n        temp = result_comb;\n        result <= temp;\n        carry_out <= c_out_comb;\n        overflow <= ovf_comb;\n        zero <= (temp == 32'h0);\n        \\logic <= temp ^ op_b;\n      end\n    end\n  end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "4. RESERVED WORDS",
+            "error_description": "Declared an identifier using an escaped SystemVerilog keyword (\\logic) as a signal name.",
+            "error_line": 18
+        },
+        {
+            "taxonomy_title": "7. OPERATORS",
+            "error_description": "Used logical AND (&&) on 32-bit vectors in place of bitwise AND (&) within a conditional.",
+            "error_line": 33
+        },
+        {
+            "taxonomy_title": "9. LOGIC SYNTHESIS",
+            "error_description": "Intentionally left a case branch without assigning result_comb, inferring a latch for opcode 4'hF.",
+            "error_line": 78
+        },
+        {
+            "taxonomy_title": "5. RACE OR HAZARD",
+            "error_description": "Mixed blocking (=) and non-blocking (<=) assignments in the same clocked always block by using a blocking assignment to temp.",
+            "error_line": 92
+        }
+    ]
+}

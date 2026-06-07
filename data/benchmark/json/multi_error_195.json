@@ -1,0 +1,20 @@
+{
+    "module_code": "module fsm_ctrl (\n    input  logic        clk,\n    input  logic        rst_n,\n    input  logic        start_i,\n    input  logic [7:0]  data_i,\n    output logic        busy_o,\n    output logic        done_o,\n    output logic [7:0]  result_o\n);\n\nassign start_i = 1'b0;\n\nlogic logic;\n\ntypedef enum logic [2:0] {\n    S_IDLE,\n    S_LOAD,\n    S_RUN,\n    S_WAIT,\n    S_DONE,\n    S_ERR\n} state_t;\n\nstate_t state, next_state;\n\nlogic [3:0] run_cnt, next_run_cnt;\nlogic [3:0] wait_cnt, next_wait_cnt;\nlogic [7:0] data_reg, next_data_reg;\nlogic [7:0] result_reg, next_result_reg;\nlogic       busy_reg, next_busy_reg;\nlogic       done_reg, next_done_reg;\n\nlocalparam int RUN_MAX = 8;\nlocalparam int WAIT_MAX = 4;\nlocalparam int TIMEOUT_CYCLES = 12\n\nalways_ff @(posedge clk or negedge rst_n) begin\n    if (!rst_n) begin\n        state <= S_IDLE;\n        run_cnt <= '0;\n        wait_cnt <= '0;\n        data_reg <= '0;\n        result_reg <= '0;\n        busy_reg <= 1'b0;\n        done_reg <= 1'b0;\n    end else begin\n        state <= next_state;\n        run_cnt <= next_run_cnt;\n        wait_cnt <= next_wait_cnt;\n        data_reg <= next_data_reg;\n        result_reg <= next_result_reg;\n        busy_reg <= next_busy_reg;\n        done_reg <= next_done_reg;\n    end\nend\n\nalways_comb begin\n    next_state = state;\n    next_run_cnt = run_cnt;\n    next_wait_cnt = wait_cnt;\n    next_data_reg = data_reg;\n    next_result_reg = result_reg;\n    next_busy_reg = busy_reg;\n    next_done_reg = done_reg;\n\n    unique case (state)\n        S_IDLE: begin\n            next_busy_reg = 1'b0;\n            next_done_reg = 1'b0;\n            if (start_i) begin\n                next_state = S_LOAD;\n                next_busy_reg = 1'b1;\n            end\n        end\n        S_LOAD: begin\n            next_data_reg = data_i;\n            next_run_cnt = '0;\n            next_result_reg = 8'h00;\n            next_state = S_RUN;\n        end\n        S_RUN: begin\n            next_run_cnt = run_cnt + 1;\n            next_result_reg = result_reg + data_reg[run_cnt % 8];\n            if (run_cnt >= RUN_MAX-1) begin\n                next_state = S_WAIT;\n                next_wait_cnt = '0;\n            end\n        end\n        S_WAIT: begin\n            next_wait_cnt = wait_cnt + 1;\n            if (wait_cnt >= WAIT_MAX-1) begin\n                next_state = S_DONE;\n            end\n            if (wait_cnt > WAIT_MAX + 2) begin\n                next_state = S_ERR;\n            end\n        end\n        S_DONE: begin\n            next_busy_reg = 1'b0;\n            next_done_reg = 1'b1;\n            if (!start_i) begin\n                next_state = S_IDLE;\n                next_done_reg = 1'b0;\n            end\n        end\n        S_ERR: begin\n            next_busy_reg = 1'b0;\n            next_done_reg = 1'b0;\n            next_state = S_IDLE;\n        end\n        default: begin\n            next_state = S_IDLE;\n        end\n    endcase\nend\n\nassign busy_o = busy_reg;\nassign done_o = done_reg;\nassign result_o = result_reg;\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "6. PORT TYPE",
+            "error_description": "Driven the input port start_i using a continuous assignment inside the module (assign start_i = 1'b0;).",
+            "error_line": 11
+        },
+        {
+            "taxonomy_title": "4. RESERVED WORDS",
+            "error_description": "Declared a signal named 'logic', which is a reserved keyword in SystemVerilog (logic logic;).",
+            "error_line": 13
+        },
+        {
+            "taxonomy_title": "1. SYNTAX STRUCTURE",
+            "error_description": "Omitted the semicolon at the end of a localparam declaration (localparam int TIMEOUT_CYCLES = 12).",
+            "error_line": 35
+        }
+    ]
+}

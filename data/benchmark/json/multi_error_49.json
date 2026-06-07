@@ -1,0 +1,25 @@
+{
+    "module_code": "module decoder_core (\n    input  logic        clk,\n    input  logic        rst_n,\n    input  logic        enable,\n    input  logic        valid,\n    input  logic [7:0]  instr,\n    input  logic [1:0]  mode,\n    input  logic        clear,\n    output logic [3:0]  op_class,\n    output logic [7:0]  ctrl,\n    output logic        take_action,\n    output logic        fault,\n    output logic [2:0]  state_dbg\n);\n\n    typedef enum logic [2:0] {S_IDLE, S_FETCH, S_DECODE, S_EXEC, S_ERR, S_RECOVER} state_t;\n\n    state_t state;\n    state_t next_state;\n\n    logic [3:0] counter;\n    logic [3:0] counter_next;\n\n    logic [7:0] status;\n    logic [7:0] status_next;\n\n    logic       done;\n    logic       fault_cond;\n    logic [7:0] aux_mask;\n\n    assign state_dbg = state;\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            state   <= S_IDLE;\n            counter <= 4'd0;\n            status  <= 8'd0;\n        end else begin\n            state   <= next_state;\n            counter <= counter_next;\n            status  = status_next;\n        end\n    end\n\n    always_comb begin\n        next_state = state;\n        done       = 1'b0;\n        fault_cond = 1'b0;\n        case (state)\n            S_IDLE: begin\n                if (enable) next_state = S_FETCH;\n            end\n            S_FETCH: begin\n                if (valid) next_state = S_DECODE; else next_state = S_FETCH;\n            end\n            S_DECODE: begin\n                fault_cond = instr[7];\n                if (fault_cond) next_state = S_ERR; else next_state = S_EXEC;\n            end\n            S_EXEC: begin\n                done = (counter == 4'd0);\n                if (done) next_state = S_IDLE;\n            end\n            S_ERR: begin\n                if (clear) next_state = S_IDLE;\n            end\n            default: begin\n                next_state = S_IDLE;\n            end\n        endcase\n    end\n\n    always_comb begin\n        counter_next = counter;\n        status_next  = status;\n        op_class     = 4'h0;\n        ctrl         = 8'h00;\n        take_action  = 1'b0;\n        fault        = 1'b0;\n        case (state)\n            S_IDLE: begin\n                counter_next = 4'd8;\n                op_class     = {2'b00, mode};\n                ctrl         = 8'h00;\n            end\n            S_FETCH: begin\n                op_class     = instr[7:4];\n                ctrl         = {instr[3:0], 4'hA};\n                status_next  = {2{instr[3:0]}};\n            end\n            S_DECODE: begin\n                op_class     = instr[7:4] ^ aux_mask[7:4];\n                ctrl         = instr ^ aux_mask;\n                take_action  = 1'b1;\n                status_next  = instr;\n            end\n            S_EXEC: begin\n                if (counter != 4'd0) counter_next = counter - 4'd1;\n                ctrl         = status;\n                op_class     = {instr[7:6], mode};\n            end\n            S_ERR: begin\n                fault        = 1'b1;\n                ctrl         = 8'hFF;\n                op_class     = 4'hE;\n            end\n            default: begin\n                op_class     = 4'h0;\n                ctrl         = 8'h00;\n            end\n        endcase\n    end\n\n    always_comb begin\n        if (enable) begin\n            aux_mask = {instr[3:0], instr[3:0]};\n        end else if (mode == 2'b01) begin\n            aux_mask = mode[0] ? 8'hF0 : 8'h0F;\n        end\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "12. STATE MACHINE (FSM) DEFECTS",
+            "error_description": "Introduced an unreachable state by adding S_RECOVER to the state enumeration but never transitioning into it.",
+            "error_line": 16
+        },
+        {
+            "taxonomy_title": "9. LOGIC SYNTHESIS",
+            "error_description": "Created an unintended latch by omitting the final else/default assignment for aux_mask in an always_comb block.",
+            "error_line": 116,
+            "acceptable_error_lines": [
+                114,
+                116,
+                117
+            ]
+        },
+        {
+            "taxonomy_title": "5. RACE OR HAZARD",
+            "error_description": "Mixed blocking and non-blocking assignments in the same sequential always_ff block by assigning status with a blocking '='.",
+            "error_line": 41
+        }
+    ]
+}

@@ -1,0 +1,25 @@
+{
+    "module_code": "module decoder64 (\n    input  logic        clk,\n    input  logic        rst_n,\n    input  logic        en_decode,\n    input  logic [7:0]  opcode,\n    input  logic [3:0]  subop,\n    input  logic [15:0] din,\n    output logic [7:0]  control,\n    output logic [15:0] dout,\n    output logic        valid\n);\n\nwire \\logic ;\n\ntypedef enum logic [2:0] {\n    S_IDLE,\n    S_LOAD,\n    S_EXEC,\n    S_WAIT,\n    S_UNUSED\n} state_t;\n\nstate_t state, next_state;\n\nlogic [7:0]  control_next;\nlogic [7:0]  control_r;\nlogic        valid_next;\nlogic        valid_r;\nlogic [15:0] dout_reg;\n\nlogic [4:0]  dec_sel;\nlogic [15:0] rotated;\nlogic [15:0] mask_a;\nlogic [15:0] mask_b;\n\nassign control = control_r;\nassign dout    = dout_reg;\nassign valid   = valid_r;\n\nassign \\logic  = 1'b0;\n\nassign rotated = {din[7:0], din[15:8]};\nassign mask_a  = {8{opcode[0]}} << 8;\nassign mask_b  = {8{opcode[1]}} | 16'h0F0F;\n\nassign dec_sel = (opcode==8'h00) ? 5'd0 : (opcode==8'h01) ? 5'd1 : (opcode==8'h02) ? 5'd2 : (opcode==8'h03) ? 5'd3 : (opcode==8'h04) ? 5'd4 : (opcode==8'h05) ? 5'd5 : (opcode==8'h06) ? 5'd6 : (opcode==8'h07) ? 5'd7 : (opcode==8'h08) ? 5'd8 : (opcode==8'h09) ? 5'd9 : (opcode==8'h0A) ? 5'd10 : (opcode==8'h0B) ? 5'd11 : (opcode==8'h0C) ? 5'd12 : (opcode==8'h0D) ? 5'd13 : (opcode==8'h0E) ? 5'd14 : 5'd15;\n\nalways_comb begin\n    next_state = state;\n    unique case (state)\n        S_IDLE:   if (en_decode) next_state = S_LOAD; else next_state = S_IDLE;\n        S_LOAD:   next_state = S_EXEC;\n        S_EXEC:   if (dec_sel[0]) next_state = S_WAIT; else next_state = S_IDLE;\n        S_WAIT:   if (!en_decode) next_state = S_IDLE; else next_state = S_WAIT;\n        S_UNUSED: next_state = S_IDLE;\n    endcase\nend\n\nalways_ff @(posedge clk or negedge rst_n) begin\n    if (!rst_n) begin\n        state      <= S_IDLE;\n        control_r  <= 8'h00;\n        valid_r    <= 1'b0;\n    end else begin\n        state      <= next_state;\n        control_r  <= control_next;\n        valid_r    <= valid_next;\n    end\nend\n\nalways_comb begin\n    control_next = 8'h00;\n    valid_next   = 1'b0;\n    if (state == S_EXEC) begin\n        control_next[0] = dec_sel[0];\n        control_next[1] = dec_sel[1] ^ subop[0];\n        control_next[2] = dec_sel[2] & subop[1];\n        control_next[3] = dec_sel[3] | subop[2];\n        control_next[4] = (rotated[0] ^ mask_b[0]);\n        control_next[5] = (rotated[5] & mask_a[8]);\n        control_next[6] = (din[10] | mask_b[10]);\n        control_next[7] = (subop == 4'hF);\n        valid_next      = 1'b1;\n    end else begin\n        control_next = 8'h00;\n        valid_next   = 1'b0;\n    end\nend\n\nalways @* begin\n    if (state == S_LOAD) begin\n        /* intentionally left without assigning dout_reg in this branch */\n    end\n    if (en_decode) dout_reg = (rotated ^ mask_b) + {8'h00, opcode};\nend\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "9. LOGIC SYNTHESIS",
+            "error_description": "Introduced unintended latch inference by assigning dout_reg only when en_decode is true in a combinational always block without an else or default assignment.",
+            "error_line": 94
+        },
+        {
+            "taxonomy_title": "4. RESERVED WORDS",
+            "error_description": "Declared a net using an escaped identifier \\logic to reuse the reserved keyword 'logic' as a signal name.",
+            "error_line": 13
+        },
+        {
+            "taxonomy_title": "12. STATE MACHINE (FSM) DEFECTS",
+            "error_description": "Added an extra state S_UNUSED in the enum that is never transitioned into, creating an unreachable state.",
+            "error_line": 20
+        },
+        {
+            "taxonomy_title": "13. CODE QUALITY AND SYNTHESIS",
+            "error_description": "Implemented opcode decoding with a long nested ternary expression, producing a deep combinational path that is suboptimal for synthesis.",
+            "error_line": 46
+        }
+    ]
+}

@@ -1,0 +1,15 @@
+{
+    "module_code": "module counter_complex #(\n    parameter int WIDTH = 16\n) (\n    input  logic                     clk,\n    input  logic                     rst_n,\n    input  logic                     en,\n    input  logic                     up,\n    input  logic                     load,\n    input  logic [WIDTH-1:0]         load_value,\n    input  logic [WIDTH-1:0]         step,\n    input  logic                     clear,\n    input  logic [WIDTH-1:0]         threshold,\n    output logic [WIDTH-1:0]         count,\n    output logic                     at_zero,\n    output logic                     at_max,\n    output logic                     threshold_hit,\n    output logic                     wrap_pulse\n);\n\nlocalparam logic [WIDTH-1:0] MAX_VAL = {WIDTH{1'b1}};\nlocalparam logic [WIDTH-1:0] ZERO_CONST = '0\n\nlogic [WIDTH-1:0] next_count;\nlogic              wrap_next;\nlogic              thresh_hit_next;\nlogic              will_wrap_up;\nlogic              will_wrap_down;\nlogic [WIDTH:0]    sum_ext;\nlogic [WIDTH:0]    diff_ext;\n\nassign at_zero = (count == '0);\nassign at_max  = (count == MAX_VAL);\n\nalways_comb begin\n    sum_ext  = {1'b0, count} + {1'b0, step};\n    diff_ext = {1'b0, count} - {1'b0, step};\n    will_wrap_up   = up && en && sum_ext[WIDTH];\n    will_wrap_down = (!up) && en && diff_ext[WIDTH];\n\n    next_count = count;\n    if (clear) begin\n        next_count = '0;\n    end else if (load) begin\n        next_count = load_value;\n    end else if (en) begin\n        if (up) begin\n            next_count = sum_ext[WIDTH-1:0];\n        end else begin\n            next_count = diff_ext[WIDTH-1:0];\n        end\n    end\n\n    if (will_wrap_up || will_wrap_down) begin\n        wrap_next = 1'b1;\n    end else begin\n        wrap_next = 1'b0;\n    end\n\n    thresh_hit_next = (next_count == threshold);\n\n    if (clear) count = ZERO_CONST;\nend\n\nalways_ff @(posedge clk or negedge rst_n) begin\n    if (!rst_n) begin\n        count         <= '0;\n        wrap_pulse    <= 1'b0;\n        threshold_hit <= 1'b0;\n    end else begin\n        count         <= next_count;\n        wrap_pulse    <= wrap_next;\n        threshold_hit <= thresh_hit_next;\n    end\nend\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "10. COMBINATIONAL OR SEQUENTIAL",
+            "error_description": "Assigned the state register 'count' inside an always_comb block, creating a combinational driver for a sequential state variable.",
+            "error_line": 61
+        },
+        {
+            "taxonomy_title": "1. SYNTAX STRUCTURE",
+            "error_description": "Omitted the terminating semicolon in a localparam declaration to produce a basic syntax violation.",
+            "error_line": 21
+        }
+    ]
+}

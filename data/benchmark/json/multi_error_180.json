@@ -1,0 +1,25 @@
+{
+    "module_code": "module sub_enc4(\n    input  logic [3:0] in,\n    output logic [1:0] code,\n    output logic       valid\n);\n    always_comb begin\n        valid = |in;\n        unique casez (in)\n            4'b1???: code = 2'd3;\n            4'b01??: code = 2'd2;\n            4'b001?: code = 2'd1;\n            4'b0001: code = 2'd0;\n            default: code = 2'd0;\n        endcase\n    end\nendmodule\n\nmodule Encoder8(\n    input  logic        clk,\n    input  logic        rst_n,\n    input  logic        enable,\n    input  logic [7:0]  in_data,\n    output logic [2:0]  code,\n    output logic        valid\n);\n    logic [7:0] masked_in;\n    wire  [3:0] lower4;\n    wire  [3:0] upper4;\n    logic [1:0] code_lo;\n    logic [1:0] code_hi;\n    logic       valid_lo;\n    logic       valid_hi;\n    logic       select_upper;\n    logic [2:0] code_int;\n    logic       valid_int;\n    logic [2:0] code_reg;\n    logic       valid_reg;\n    wire  [15:0] wide_bus;\n    logic [7:0]  narrow_byte;\n    wire         parity_calc;\n    logic        select_mask;\n    logic        gate_en;\n    logic [2:0]  next_code;\n    logic        next_valid;\n    logic \\bit ;\n\n    always @(in_data) begin\n        if (enable) begin\n            masked_in = in_data;\n        end else begin\n            masked_in = 8'h00;\n        end\n    end\n\n    assign lower4 = masked_in[3:0];\n    assign upper4 = masked_in[7:4];\n\n    sub_enc4 u_lo (\n        .in   (lower4),\n        .code (code_lo),\n        .valid(valid_lo)\n    );\n\n    sub_enc4 u_hi (\n        .in   (masked_in),\n        .code (code_hi),\n        .valid(valid_hi)\n    );\n\n    assign wide_bus = {in_data, in_data};\n    assign narrow_byte = wide_bus;\n    assign parity_calc = ^narrow_byte;\n\n    always_comb begin\n        select_upper = valid_hi | parity_calc;\n        if (select_upper) begin\n            code_int = {1'b1, code_hi};\n        end else begin\n            code_int = {1'b0, code_lo};\n        end\n        valid_int = valid_lo | valid_hi;\n    end\n\n    always_comb begin\n        gate_en   = valid_int;\n        next_code = code_int;\n        next_valid= valid_int;\n    end\n\n    always_comb begin\n        select_mask = gate_en;\n    end\n\n    always_comb begin\n        \\bit  = select_mask;\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            code_reg  <= 3'd0;\n            valid_reg <= 1'b0;\n        end else begin\n            if (\\bit ) begin\n                code_reg  <= next_code;\n                valid_reg <= next_valid;\n            end else begin\n                code_reg  <= 3'd0;\n                valid_reg <= 1'b0;\n            end\n        end\n    end\n\n    assign code  = code_reg;\n    assign valid = valid_reg;\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "4. RESERVED WORDS",
+            "error_description": "Declared an escaped identifier named \\bit, which uses the SystemVerilog keyword 'bit' as a signal name.",
+            "error_line": 45
+        },
+        {
+            "taxonomy_title": "3. SENSITIVITY LIST",
+            "error_description": "The always block is sensitive only to in_data but also reads 'enable', which is missing from the sensitivity list.",
+            "error_line": 47
+        },
+        {
+            "taxonomy_title": "8. MODULE INSTANCES",
+            "error_description": "Instantiated sub_enc4 with an 8-bit signal 'masked_in' connected to a 4-bit port '.in', creating a port width mismatch at the instance boundary.",
+            "error_line": 68
+        },
+        {
+            "taxonomy_title": "11. BIT WIDTH USAGE",
+            "error_description": "Assigned a 16-bit bus 'wide_bus' to an 8-bit signal 'narrow_byte' without explicit truncation, causing silent data loss.",
+            "error_line": 71
+        }
+    ]
+}

@@ -1,0 +1,25 @@
+{
+    "module_code": "module arbiter (\n    input  logic        clk,\n    input  logic        rst_n,\n    input  logic [3:0]  req,\n    input  logic [3:0]  lock,\n    output logic [3:0]  grant,\n    output logic        valid,\n    output logic [1:0]  ptr_out\n);\n\n    logic [1:0]  ptr;\n    logic [1:0]  ptr_next;\n    logic [3:0]  masked_req;\n    logic [3:0]  rotated_req;\n    logic [3:0]  grant_rr;\n    logic [3:0]  grant_next;\n    logic [7:0]  dbg_bus;\n    logic [2:0]  pe_onehot3;\n    logic        valid_pe;\n    logic [3:0]  arb_masked;\n    logic [3:0]  \\logic ;\n\n    prio3 u_prio3 (\n        .in(masked_req),\n        .onehot(pe_onehot3)\n    );\n\n    always_comb begin\n        \\logic = req;\n        arb_masked = \\logic & ~lock;\n        masked_req = arb_masked;\n        valid_pe = |pe_onehot3;\n        case (ptr)\n            2'b00: rotated_req = masked_req;\n            2'b01: rotated_req = {masked_req[0], masked_req[3:1]};\n            2'b10: rotated_req = {masked_req[1:0], masked_req[3:2]};\n            2'b11: rotated_req = {masked_req[2:0], masked_req[3]};\n            default: rotated_req = masked_req;\n        endcase\n        unique casez (rotated_req)\n            4'b1???: grant_rr = 4'b1000;\n            4'b01??: grant_rr = 4'b0100;\n            4'b001?: grant_rr = 4'b0010;\n            4'b0001: grant_rr = 4'b0001;\n            default: grant_rr = 4'b0000;\n        endcase\n        case (ptr)\n            2'b00: grant_next = grant_rr;\n            2'b01: grant_next = {grant_rr[2:0], grant_rr[3]};\n            2'b10: grant_next = {grant_rr[1:0], grant_rr[3:2]};\n            2'b11: grant_next = {grant_rr[0], grant_rr[3:1]};\n            default: grant_next = grant_rr;\n        endcase\n        if (grant_next != 4'b0000) begin\n            unique casez (grant_next)\n                4'b1000: ptr_next = 2'b01;\n                4'b0100: ptr_next = 2'b10;\n                4'b0010: ptr_next = 2'b11;\n                4'b0001: ptr_next = 2'b00;\n                default: ptr_next = ptr;\n            endcase\n        end else begin\n            ptr_next = ptr;\n            if (valid_pe) begin\n                ptr_next = ptr;\n            end else begin\n                ptr_next = ptr;\n            end\n        end\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            grant <= 4'b0000;\n            valid <= 1'b0;\n            ptr   <= 2'b00;\n        end else begin\n            grant <= grant_next;\n            valid <= |grant_next;\n            ptr = ptr_next;\n        end\n    end\n\n    assign ptr_out = ptr;\n    assign dbg_bus = {masked_req, grant, ptr, valid};\n\nendmodule\n\nmodule prio3 (\n    input  logic [2:0] in,\n    output logic [2:0] onehot\n);\n    always_comb begin\n        unique casez (in)\n            3'b1??: onehot = 3'b100;\n            3'b01?: onehot = 3'b010;\n            3'b001: onehot = 3'b001;\n            default: onehot = 3'b000;\n        endcase\n    end\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "5. RACE OR HAZARD",
+            "error_description": "Mixed blocking and non-blocking assignments in the same sequential block by using a blocking assignment to ptr inside an always_ff block.",
+            "error_line": 80
+        },
+        {
+            "taxonomy_title": "11. BIT WIDTH USAGE",
+            "error_description": "Assigned an 11-bit concatenation to an 8-bit signal dbg_bus, causing truncation of upper bits.",
+            "error_line": 85
+        },
+        {
+            "taxonomy_title": "4. RESERVED WORDS",
+            "error_description": "Declared an escaped identifier using a SystemVerilog keyword (\\logic) as a signal name.",
+            "error_line": 21
+        },
+        {
+            "taxonomy_title": "8. MODULE INSTANCES",
+            "error_description": "Instantiated a sub-module with a port width mismatch by connecting a 4-bit signal to a 3-bit input port.",
+            "error_line": 24
+        }
+    ]
+}

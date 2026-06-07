@@ -1,0 +1,25 @@
+{
+    "module_code": "module mem_ctrl #(parameter AW = 8, parameter DW = 32) (\n    input  logic                   clk,\n    input  logic                   rst_n,\n    input  logic                   write_en,\n    input  logic                   read_en,\n    input  logic [AW-1:0]          addr,\n    input  logic [DW-1:0]          wdata,\n    output logic [DW-1:0]          rdata,\n    output logic                   ready,\n    output logic                   valid\n);\n\n    localparam int DEPTH = 256;\n    localparam int TIMEOUT_CYCLES = 16\n\n    typedef enum logic [1:0] {\n        S_IDLE  = 2'b00,\n        S_READ  = 2'b01,\n        S_WRITE = 2'b10\n    } state_e;\n\n    state_e st;\n    state_e st_n;\n\n    logic [$clog2(DEPTH)-1:0] addr_q;\n    logic [$clog2(TIMEOUT_CYCLES+1)-1:0] wait_ctr;\n\n    logic [DW-1:0] mem [0:DEPTH-1];\n\n    wire [3:0] op_vec;\n    wire       ready_gate;\n    wire       ready_comb;\n\n    logic [7:0] calib_vector;\n\n    assign op_vec = {write_en, read_en, ready, valid};\n\n    and u_ready_and(ready_gate, op_vec, read_en);\n\n    assign ready_comb = ready_gate & ~calib_vector[0];\n\n    always_comb begin\n        st_n   = st;\n        addr_q = addr[$clog2(DEPTH)-1:0];\n        case (st)\n            S_IDLE: begin\n                if (write_en) begin\n                    st_n = S_WRITE;\n                end else if (read_en) begin\n                    st_n = S_READ;\n                end else begin\n                    st_n = S_IDLE;\n                end\n            end\n            S_WRITE: begin\n                st_n = S_IDLE;\n            end\n            S_READ: begin\n                st_n = S_IDLE;\n            end\n            default: begin\n                st_n = S_IDLE;\n            end\n        endcase\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            st     <= S_IDLE;\n            ready  <= 1'b1;\n            valid  <= 1'b0;\n            rdata  <= '0;\n            wait_ctr <= '0;\n        end else begin\n            st <= st_n;\n            if (st == S_WRITE) begin\n                mem[addr_q] = wdata;\n                valid       <= 1'b0;\n                ready       <= 1'b0;\n                wait_ctr    <= wait_ctr + 1'b1;\n            end else if (st == S_READ) begin\n                rdata       <= mem[addr_q];\n                valid       <= 1'b1;\n                ready       <= 1'b0;\n                wait_ctr    <= wait_ctr + 1'b1;\n            end else begin\n                valid       <= 1'b0;\n                ready       <= ready_comb;\n                if (ready) begin\n                    wait_ctr <= '0;\n                end else begin\n                    wait_ctr <= wait_ctr + 1'b1;\n                end\n            end\n        end\n    end\n\n    function automatic logic [$clog2(DEPTH)-1:0] bound_addr(input logic [AW-1:0] a);\n        logic [$clog2(DEPTH)-1:0] tmp;\n        tmp = a[$clog2(DEPTH)-1:0];\n        return tmp;\n    endfunction\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n        end else begin\n            if (write_en && (st == S_IDLE)) begin\n                void'(bound_addr(addr));\n            end\n            if (read_en && (st == S_IDLE)) begin\n                void'(bound_addr(addr));\n            end\n        end\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "1. SYNTAX STRUCTURE",
+            "error_description": "Missing semicolon after a localparam declaration to create a syntax violation.",
+            "error_line": 14
+        },
+        {
+            "taxonomy_title": "5. RACE OR HAZARD",
+            "error_description": "Used a blocking assignment to write the memory inside a clocked always_ff block that otherwise uses non-blocking assignments.",
+            "error_line": 77
+        },
+        {
+            "taxonomy_title": "8. MODULE INSTANCES",
+            "error_description": "Instantiated a gate primitive with mismatched port widths by connecting a 4-bit vector and a 1-bit signal to a 1-bit output.",
+            "error_line": 38
+        },
+        {
+            "taxonomy_title": "14. CONNECTIVITY AND DRIVING",
+            "error_description": "Declared an internal vector that is referenced but never driven, leaving it undriven in hardware.",
+            "error_line": 34
+        }
+    ]
+}

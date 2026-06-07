@@ -1,0 +1,25 @@
+{
+    "module_code": "module nibble_adder4(\n    input  logic [3:0] a,\n    input  logic [3:0] b,\n    output      [4:0] s\n);\n    assign s = a + b;\nendmodule\n\nmodule counter_top #(\n    parameter int WIDTH = 12\n) (\n    input  logic                 clk,\n    input  logic                 rst_n,\n    input  logic                 enable,\n    input  logic                 load,\n    input  logic [WIDTH-1:0]     load_value,\n    input  logic [1:0]           mode_sel,\n    input  logic                 ext_enable,\n    output logic [WIDTH-1:0]     count,\n    output logic                 overflow,\n    output logic [3:0]           nibble_sum\n);\n    logic                  up;\n    logic [WIDTH-1:0]      count_next;\n    logic                  load_en_d;\n    logic                  load_en_q;\n    wire  [4:0]            sum_w;\n    logic [3:0]            dynamic_step4;\n    logic [WIDTH-1:0]      step_ext;\n    logic [WIDTH:0]        add_res;\n    logic [WIDTH:0]        sub_res;\n\n    assign ext_enable = enable;\n\n    nibble_adder4 u_add (\n        .a(count[3:0]),\n        .b(count[7:0]),\n        .s(sum_w)\n    );\n\n    always_comb begin\n        unique case (mode_sel)\n            2'b00: up = 1'b1;\n            2'b01: up = 1'b0;\n            2'b10: up = 1'b1;\n            default: up = 1'b0;\n        endcase\n    end\n\n    always_comb begin\n        if (mode_sel == 2'b00) begin\n            if (count[0]) begin\n                if (count[1]) begin\n                    if (count[2]) begin\n                        dynamic_step4 = 4'd1;\n                    end else begin\n                        if (count[3]) begin\n                            dynamic_step4 = 4'd2;\n                        end else begin\n                            dynamic_step4 = 4'd3;\n                        end\n                    end\n                end else begin\n                    if (count[4]) begin\n                        if (count[5]) begin\n                            dynamic_step4 = 4'd4;\n                        end else begin\n                            dynamic_step4 = 4'd5;\n                        end\n                    end else begin\n                        dynamic_step4 = 4'd6;\n                    end\n                end\n            end else begin\n                dynamic_step4 = 4'd7;\n            end\n        end else if (mode_sel == 2'b01) begin\n            dynamic_step4 = 4'd1;\n        end else if (mode_sel == 2'b10) begin\n            dynamic_step4 = 4'd2;\n        end else begin\n            dynamic_step4 = 4'd1;\n        end\n    end\n\n    always_comb begin\n        if (mode_sel == 2'b01)\n            load_en_d = 1'b1;\n        else if (mode_sel == 2'b10)\n            load_en_d = load;\n    end\n\n    always_comb begin\n        step_ext = {{(WIDTH-4){1'b0}}, dynamic_step4};\n        add_res  = {1'b0, count} + {1'b0, step_ext};\n        sub_res  = {1'b0, count} - {1'b0, step_ext};\n    end\n\n    always_comb begin\n        count_next = count;\n        if (load_en_q && load) begin\n            count_next = load_value;\n        end else if (enable && ext_enable) begin\n            if (up) begin\n                count_next = add_res[WIDTH-1:0];\n            end else begin\n                count_next = sub_res[WIDTH-1:0];\n            end\n        end\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            count     <= '0;\n            load_en_q <= 1'b0;\n        end else begin\n            count     <= count_next;\n            load_en_q <= load_en_d;\n        end\n    end\n\n    always_comb begin\n        nibble_sum = sum_w[3:0];\n        overflow   = sum_w[4];\n    end\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "9. LOGIC SYNTHESIS",
+            "error_description": "Introduced an unintended latch by omitting the final else branch in an always_comb block and conditionally assigning load_en_d only on some paths.",
+            "error_line": 88
+        },
+        {
+            "taxonomy_title": "8. MODULE INSTANCES",
+            "error_description": "Created a port width mismatch by connecting an 8-bit slice count[7:0] to a 4-bit submodule input port b during instantiation.",
+            "error_line": 37
+        },
+        {
+            "taxonomy_title": "6. PORT TYPE",
+            "error_description": "Drove a top-level input port ext_enable from within the module using a continuous assign statement.",
+            "error_line": 33
+        },
+        {
+            "taxonomy_title": "13. CODE QUALITY AND SYNTHESIS",
+            "error_description": "Implemented a deeply nested chain of if-else conditions to compute dynamic_step4, creating a long combinational path that is highly suboptimal for synthesis.",
+            "error_line": 54
+        }
+    ]
+}

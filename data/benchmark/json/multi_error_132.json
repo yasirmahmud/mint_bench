@@ -1,0 +1,25 @@
+{
+    "module_code": "module counter_with_exact4_lints #(parameter int WIDTH = 8) (\n    input  wire                    clk,\n    input  wire                    rst_n,\n    input  wire                    en,\n    input  wire                    up_dn,\n    input  wire                    load,\n    input  wire [WIDTH-1:0]        load_val,\n    input  wire [WIDTH-1:0]        threshold,\n    output wire [WIDTH-1:0]        count_o,\n    output wire                    at_threshold,\n    output wire                    overflow_pulse\n);\n\n    localparam int MAX_CYCLES  = 4;\n    localparam int INTERNAL_W  = 16;\n    localparam int ZERO_CONST  = 0\n\n    logic [WIDTH-1:0]            count_q;\n    logic [WIDTH-1:0]            count_d;\n    logic                        sat_q;\n    logic                        sat_d;\n    logic                        overflow_q;\n    logic                        overflow_d;\n    logic                        at_thr_q;\n    logic                        at_thr_d;\n\n    logic [3:0]                  pulse_div_q;\n    logic [3:0]                  pulse_div_d;\n\n    wire                         inc_pulse;\n    wire                         dec_pulse;\n    wire                         tap_wire;\n    wire [INTERNAL_W-1:0]        wide_bus;\n\n    logic [WIDTH:0]              arith_tmp;\n\n    assign inc_pulse = en &  up_dn;\n    assign dec_pulse = en & ~up_dn;\n\n    assign tap_wire = inc_pulse;\n    assign tap_wire = dec_pulse;\n\n    wire internal_reset_req;\n    assign internal_reset_req = 1'b0;\n    assign rst_n = internal_reset_req;\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            pulse_div_q <= '0;\n        end else begin\n            pulse_div_q <= pulse_div_d;\n        end\n    end\n\n    always_comb begin\n        pulse_div_d = pulse_div_q;\n        if (tap_wire) begin\n            if (pulse_div_q == (MAX_CYCLES-1)) begin\n                pulse_div_d = '0;\n            end else begin\n                pulse_div_d = pulse_div_q + 4'd1;\n            end\n        end\n    end\n\n    always_comb begin\n        count_d     = count_q;\n        sat_d       = sat_q;\n        overflow_d  = 1'b0;\n        at_thr_d    = 1'b0;\n\n        if (load) begin\n            count_d  = load_val;\n            sat_d    = 1'b0;\n            at_thr_d = (load_val == threshold);\n        end else if (en) begin\n            if (up_dn) begin\n                arith_tmp  = {1'b0, count_q} + {{WIDTH{1'b0}}, 1'b1};\n                count_d    = arith_tmp[WIDTH-1:0];\n                overflow_d = arith_tmp[WIDTH];\n                if (&count_q) begin\n                    sat_d = 1'b1;\n                end\n            end else begin\n                arith_tmp  = {1'b0, count_q} - {{WIDTH{1'b0}}, 1'b1};\n                count_d    = arith_tmp[WIDTH-1:0];\n                overflow_d = arith_tmp[WIDTH];\n                if (count_q == '0) begin\n                    sat_d = 1'b1;\n                end\n            end\n        end\n\n        if (count_d == threshold) begin\n            at_thr_d = 1'b1;\n        end\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            count_q    <= '0;\n            sat_q      <= 1'b0;\n            overflow_q <= 1'b0;\n            at_thr_q   <= 1'b0;\n        end else begin\n            count_q    <= count_d;\n            sat_q      <= sat_d;\n            overflow_q <= overflow_d;\n            at_thr_q   <= at_thr_d;\n        end\n    end\n\n    assign count_o        = count_q;\n    assign at_threshold   = at_thr_q;\n    assign overflow_pulse = overflow_q & en & ~sat_q;\n\n    assign wide_bus = count_q;\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "1. SYNTAX STRUCTURE",
+            "error_description": "A semicolon is intentionally missing after a localparam declaration.",
+            "error_line": 16
+        },
+        {
+            "taxonomy_title": "14. CONNECTIVITY AND DRIVING",
+            "error_description": "The internal net tap_wire is driven by two simultaneous continuous assignments, creating multiple active drivers.",
+            "error_line": 41
+        },
+        {
+            "taxonomy_title": "6. PORT TYPE",
+            "error_description": "The input port rst_n is driven within the module using a continuous assignment.",
+            "error_line": 45
+        },
+        {
+            "taxonomy_title": "11. BIT WIDTH USAGE",
+            "error_description": "A 16-bit wire (wide_bus) is driven directly by an 8-bit signal (count_q) without explicit padding.",
+            "error_line": 117
+        }
+    ]
+}

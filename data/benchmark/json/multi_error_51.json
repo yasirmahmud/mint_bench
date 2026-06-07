@@ -1,0 +1,25 @@
+{
+    "module_code": "module fsm_engine (\n    input  logic         clk,\n    input  logic         rst_n,\n    input  logic         start,\n    input  logic [3:0]   cmd,\n    input  logic [15:0]  data_in,\n    output logic         ready,\n    output logic [7:0]   result_out\n);\n\n    typedef enum logic [2:0] {\n        S_IDLE,\n        S_WAIT,\n        S_LOAD,\n        S_EXEC,\n        S_DONE\n    } state_t;\n\n    state_t state;\n    state_t next_state;\n\n    logic [7:0]  acc;\n    logic [7:0]  acc_next;\n    logic [3:0]  step;\n    logic [3:0]  step_next;\n    logic [15:0] data_buf;\n    logic [15:0] data_buf_next;\n\n    logic [7:0]  sum_temp;\n    logic [7:0]  sum_temp_next;\n\n    logic        ready_next;\n    logic [7:0]  result_out_next;\n\n    logic        enable_compute;\n    logic        busy;\n\n    localparam logic [3:0] LOAD_STEPS = 4'd8;\n\n    always_comb begin\n        next_state      = state;\n        acc_next        = acc;\n        step_next       = step;\n        data_buf_next   = data_buf;\n        sum_temp_next   = sum_temp;\n        ready_next      = 1'b0;\n        result_out_next = result_out;\n        enable_compute  = 1'b0;\n\n        case (state)\n            S_IDLE: begin\n                if (start && (cmd === 4'h5)) begin\n                    next_state = S_LOAD;\n                end else begin\n                    next_state = S_WAIT;\n                end\n            end\n            S_WAIT: begin\n                if (start && (cmd == 4'h5)) begin\n                    next_state = S_LOAD;\n                end else begin\n                    next_state = S_WAIT;\n                end\n            end\n            S_LOAD: begin\n                data_buf_next = data_in;\n                acc_next = data_in;\n                step_next = LOAD_STEPS;\n                sum_temp_next = 8'd0;\n                next_state = S_EXEC;\n            end\n            S_EXEC: begin\n                enable_compute = 1'b1;\n                if (enable_compute);\n                begin\n                    sum_temp_next = acc + data_buf[7:0];\n                    acc_next = sum_temp_next;\n                    step_next = step - 4'd1;\n                    if (step_next == 4'd0) begin\n                        next_state = S_DONE;\n                    end else begin\n                        next_state = S_EXEC;\n                    end\n                end\n            end\n            S_DONE: begin\n                ready_next      = 1'b1;\n                result_out_next = acc;\n                next_state      = S_IDLE;\n            end\n            default: begin\n                next_state = S_IDLE;\n            end\n        endcase\n    end\n\n    always @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            state       <= S_IDLE;\n            acc         <= 8'd0;\n            step        <= 4'd0;\n            data_buf    <= 16'd0;\n            sum_temp    <= 8'd0;\n            ready       <= 1'b0;\n            result_out  <= 8'd0;\n            busy        <= 1'b0;\n        end else begin\n            state       <= next_state;\n            acc         <= acc_next;\n            step        <= step_next;\n            data_buf    <= data_buf_next;\n            sum_temp    <= sum_temp_next;\n            ready       <= ready_next;\n            result_out  <= result_out_next;\n            busy = (state != S_IDLE);\n        end\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "5. RACE OR HAZARD",
+            "error_description": "Mixed blocking and non-blocking assignments in the same sequential clocked block by using a blocking assignment to 'busy' while other registers use non-blocking.",
+            "error_line": 115
+        },
+        {
+            "taxonomy_title": "7. OPERATORS",
+            "error_description": "Used case equality operator '===' for synthesizable control logic in an RTL if-condition comparing 'cmd' to a constant.",
+            "error_line": 52
+        },
+        {
+            "taxonomy_title": "11. BIT WIDTH USAGE",
+            "error_description": "Assigned a 16-bit signal 'data_in' to an 8-bit register 'acc_next', causing silent truncation.",
+            "error_line": 67
+        },
+        {
+            "taxonomy_title": "1. SYNTAX STRUCTURE",
+            "error_description": "Inserted a stray semicolon after an if-condition, creating an empty statement and decoupling the following begin-end block from the condition.",
+            "error_line": 74
+        }
+    ]
+}

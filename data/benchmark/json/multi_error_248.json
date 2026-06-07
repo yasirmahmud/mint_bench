@@ -1,0 +1,20 @@
+{
+    "module_code": "module priority_encoder16 (\n    input  logic         clk,\n    input  logic         rst_n,\n    input  logic         en,\n    input  logic [15:0]  req,\n    output logic [3:0]   code,\n    output logic         valid,\n    output logic         ready\n);\n\n    localparam int LEVELS = 4\n\n    logic [15:0] req_sync1;\n    logic [15:0] req_sync2;\n    logic [15:0] req_gated;\n    logic [3:0]  idx_comb;\n    logic [3:0]  idx_q;\n    logic        valid_comb;\n    logic        valid_q;\n    logic        ready_q;\n    logic        en_int;\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            req_sync1 <= '0;\n            req_sync2 <= '0;\n            idx_q     <= '0;\n            valid_q   <= 1'b0;\n            ready_q   <= 1'b0;\n        end else begin\n            req_sync1 <= req;\n            req_sync2 <= req_sync1;\n            idx_q     <= idx_comb;\n            valid_q   <= valid_comb;\n            ready_q   <= (valid_comb == 1'b0) && (LEVELS == 4);\n            en        <= en_int;\n        end\n    end\n\n    always_comb begin\n        req_gated = req_sync2 & {16{en}};\n    end\n\n    always_comb begin\n        valid_comb = |req_gated;\n    end\n\n    always_comb begin\n        en_int = 1'b1;\n        if (valid_q) begin\n            en_int = 1'b0;\n        end else if (&req_sync2[7:0]) begin\n            en_int = 1'b1;\n        end\n    end\n\n    always_comb begin\n        unique casez (req_gated)\n            16'b1???????????????: idx_comb = 4'd15;\n            16'b01??????????????: idx_comb = 4'd14;\n            16'b001?????????????: idx_comb = 4'd13;\n            16'b0001????????????: idx_comb = 4'd12;\n            16'b00001???????????: idx_comb = 4'd11;\n            16'b000001??????????: idx_comb = 4'd10;\n            16'b0000001?????????: idx_comb = 4'd9;\n            16'b00000001????????: idx_comb = 4'd8;\n            16'b000000001???????: idx_comb = 4'd7;\n            16'b0000000001??????: idx_comb = 4'd6;\n            16'b00000000001?????: idx_comb = 4'd5;\n            16'b000000000001????: idx_comb = 4'd4;\n            16'b0000000000001???: idx_comb = 4'd3;\n            16'b00000000000001??: idx_comb = 4'd2;\n            16'b000000000000001?: idx_comb = 4'd1;\n            16'b0000000000000001: idx_comb = 4'd0;\n        endcase\n    end\n\n    assign code  = idx_q;\n    assign valid = valid_q;\n    assign ready = ready_q;\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "1. SYNTAX STRUCTURE",
+            "error_description": "Missing semicolon at the end of a localparam declaration line.",
+            "error_line": 11
+        },
+        {
+            "taxonomy_title": "6. PORT TYPE",
+            "error_description": "Procedurally driving an input port 'en' inside an always_ff block.",
+            "error_line": 36
+        },
+        {
+            "taxonomy_title": "9. LOGIC SYNTHESIS",
+            "error_description": "Combinational case statement without a default or full coverage causes a latch on idx_comb.",
+            "error_line": 58
+        }
+    ]
+}

@@ -1,0 +1,25 @@
+{
+    "module_code": "module helper_pairwise #(parameter W = 4) (input  logic [W-1:0] a, input  logic [W-1:0] b, output logic [W-1:0] y);\n    assign y = a ^ b;\nendmodule\n\nmodule complex_mux #(\n    parameter WIDTH = 8\n) (\n    input  logic [WIDTH-1:0] din0,\n    input  logic [WIDTH-1:0] din1,\n    input  logic [WIDTH-1:0] din2,\n    input  logic [WIDTH-1:0] din3,\n    input  logic [WIDTH-1:0] din4,\n    input  logic [WIDTH-1:0] din5,\n    input  logic [WIDTH-1:0] din6,\n    input  logic [WIDTH-1:0] din7,\n    input  logic [2:0]       sel,\n    output logic [WIDTH-1:0] y\n);\n    logic [WIDTH-1:0] y_comb;\n    logic [WIDTH-1:0] data_a;\n    logic [WIDTH-1:0] data_b;\n    logic [3:0]       narrow_reg;\n    logic [3:0]       helper_y;\n    logic [WIDTH-1:0] expanded_narrow;\n    logic [WIDTH-1:0] spare_wire;\n\n    function automatic logic [WIDTH-1:0] extend4(input logic [3:0] v);\n        extend4 = {{(WIDTH-4){1'b0}}, v};\n    endfunction\n\n    assign data_a = (din0 & din1) | (din2 ^ din3);\n    assign data_b = (din4 | din5) ^ (din6 & din7);\n\n    helper_pairwise #(.W(4)) u_helper (\n        .a(data_a),\n        .b(data_b[3:0]),\n        .y(helper_y)\n    );\n\n    assign narrow_reg = din0;\n\n    assign expanded_narrow = extend4(narrow_reg);\n\n    assign y_comb = (sel == 3'd0) ? din0 : ((sel == 3'd1) ? din1 : ((sel == 3'd2) ? din2 : ((sel == 3'd3) ? din3 : ((sel == 3'd4) ? din4 : ((sel == 3'd5) ? din5 : ((sel == 3'd6) ? din6 : din7))))));\n\n    logic [WIDTH-1:0] mix0;\n    logic [WIDTH-1:0] mix1;\n    logic [WIDTH-1:0] mix2;\n    logic [WIDTH-1:0] mix3;\n\n    assign mix0 = (din0 ^ din4) & {WIDTH{sel[0]}};\n    assign mix1 = (din1 ^ din5) & {WIDTH{sel[1]}};\n    assign mix2 = (din2 ^ din6) & {WIDTH{sel[2]}};\n    assign mix3 = (din3 ^ din7) & {WIDTH{~sel[0]}};\n\n    logic [WIDTH-1:0] blended;\n    assign blended = (mix0 | mix1) ^ (mix2 | mix3);\n\n    logic [WIDTH-1:0] helper_ext;\n    assign helper_ext = {{(WIDTH-4){1'b0}}, helper_y};\n\n    logic [WIDTH-1:0] post_mix;\n    assign post_mix = (y_comb ^ helper_ext) | blended;\n\n    logic [WIDTH-1:0] mask_from_sel;\n    assign mask_from_sel = {WIDTH{sel[0] ^ sel[1] ^ sel[2]}};\n\n    logic [WIDTH-1:0] gated;\n    assign gated = post_mix & ~mask_from_sel;\n\n    logic [WIDTH-1:0] final_xor;\n    assign final_xor = gated ^ expanded_narrow;\n\n    assign y = final_xor;\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "13. CODE QUALITY AND SYNTHESIS",
+            "error_description": "Used a deeply nested chain of ternary operators for the multiplexer selection on a single line, creating a long combinational path instead of using a cleaner case structure.",
+            "error_line": 44
+        },
+        {
+            "taxonomy_title": "8. MODULE INSTANCES",
+            "error_description": "Instantiated a submodule with a port width mismatch by connecting an 8-bit signal to a 4-bit input port using named association.",
+            "error_line": 35
+        },
+        {
+            "taxonomy_title": "2. SIGNAL USAGE",
+            "error_description": "Declared a signal that is never used anywhere in the design, leaving dead code.",
+            "error_line": 25
+        },
+        {
+            "taxonomy_title": "11. BIT WIDTH USAGE",
+            "error_description": "Assigned an 8-bit bus directly to a 4-bit register, causing silent truncation.",
+            "error_line": 40
+        }
+    ]
+}

@@ -1,0 +1,25 @@
+{
+    "module_code": "module priority_encoder16\n(\n  input  logic            clk,\n  input  logic            rst_n,\n  input  logic            enable,\n  input  logic [15:0]     in_bus,\n  input  logic [15:0]     mask,\n  input  logic            \\always_comb ,\n  output logic [3:0]      code,\n  output logic            valid\n);\n\nlogic [3:0] next_code;\nlogic       next_valid;\nwire [15:0] masked;\nwire        effective_en;\nwire        zero_detect;\nwire        odd_parity;\nlogic [3:0] ghost;\n\nfunction automatic [3:0] enc_high(input logic [15:0] v);\n  automatic [3:0] idx;\n  idx = 4'd0;\n  for (int j = 15; j >= 0; j--) begin\n    if (v[j]) idx = j[3:0];\n  end\n  return idx;\nendfunction\n\nfunction automatic int popcount(input logic [15:0] v);\n  automatic int c;\n  c = 0;\n  for (int k = 0; k < 16; k++) begin\n    if (v[k]) c++;\n  end\n  return c;\nendfunction\n\nassign masked       = in_bus & mask;\nassign effective_en = enable & \\always_comb ;\nassign odd_parity   = ^masked;\nassign zero_detect  = (masked === 16'h0000);\n\nalways_comb begin\n  next_code = 4'd0;\n  if (effective_en) begin\n    int ones;\n    int adjust;\n    ones   = popcount(masked);\n    adjust = 0;\n    if (zero_detect) begin\n      next_valid = 1'b0;\n      next_code  = 4'd0;\n    end else begin\n      next_valid = 1'b1;\n      next_code  = enc_high(masked);\n      if (ones > 8) begin\n        next_code = 4'hF;\n      end\n      if (ones[0]) begin\n        adjust = 1;\n      end\n      next_code = next_code ^ adjust[3:0];\n      next_code[0] = next_code[0] ^ odd_parity;\n    end\n  end\nend\n\nalways_ff @(posedge clk or negedge rst_n) begin\n  if (!rst_n) begin\n    code  <= 4'd0;\n    valid <= 1'b0;\n  end else begin\n    code  <= next_code;\n    valid <= next_valid;\n  end\nend\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "9. LOGIC SYNTHESIS",
+            "error_description": "Introduced a latch by not assigning next_valid on the else path of an if in an always_comb; the line beginning the if (effective_en) block lacks a corresponding else that assigns next_valid.",
+            "error_line": 46
+        },
+        {
+            "taxonomy_title": "7. OPERATORS",
+            "error_description": "Used case-equality (===) in synthesizable combinational logic for zero detection, which is unsafe for synthesis.",
+            "error_line": 42
+        },
+        {
+            "taxonomy_title": "2. SIGNAL USAGE",
+            "error_description": "Declared a signal 'ghost' that is never used anywhere in the module.",
+            "error_line": 19
+        },
+        {
+            "taxonomy_title": "4. RESERVED WORDS",
+            "error_description": "Used an escaped identifier that is a reserved keyword (\\always_comb) as a port name.",
+            "error_line": 8
+        }
+    ]
+}

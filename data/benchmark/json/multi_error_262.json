@@ -1,0 +1,25 @@
+{
+    "module_code": "module counter_with_issues #(\n    parameter int N = 8\n) (\n    input  logic                    clk,\n    input  logic                    rst_n,\n    input  logic                    enable,\n    input  logic                    up,\n    input  logic                    load,\n    input  logic                    wrap_mode,\n    input  logic [3:0]              step_in,\n    input  logic [N-1:0]            load_value,\n    output logic [N-1:0]            count_out,\n    output logic                    at_max,\n    output logic                    at_min\n);\n\n    timeunit 1ns;\n    timeprecision 1ps;\n\n    localparam logic [N-1:0] MAX_VAL = {N{1'b1}}\n    localparam logic [N-1:0] MIN_VAL = '0;\n\n    logic [N-1:0]            curr_count;\n    logic [N-1:0]            next_count;\n    logic [N-1:0]            preload_shadow;\n\n    logic [N+7:0]            wide_data;\n    logic [7:0]              narrow_data;\n    logic                    shadow_flag;\n\n    logic [N-1:0]            step_ext;\n    logic [N-1:0]            inc_value;\n    logic [N-1:0]            dec_value;\n\n    assign wide_data = {8'h00, curr_count};\n    assign narrow_data = wide_data;\n\n    always @ (posedge clk or posedge enable) begin\n        shadow_flag <= enable ? ~shadow_flag : shadow_flag;\n    end\n\n    always_comb begin\n        step_ext = '0;\n        step_ext[3:0] = step_in + narrow_data[3:0];\n        if (shadow_flag) begin\n            step_ext = step_ext + {{(N-1){1'b0}}, 1'b1};\n        end\n        inc_value = curr_count + step_ext;\n        dec_value = curr_count - step_ext;\n    end\n\n    always_comb begin\n        next_count = curr_count;\n        if (load) begin\n            next_count = preload_shadow;\n        end else begin\n            if (enable) begin\n                if (up) begin\n                    if (wrap_mode) begin\n                        if (inc_value > MAX_VAL) begin\n                            next_count = MIN_VAL + (inc_value - MAX_VAL - {{(N-1){1'b0}},1'b1});\n                        end else begin\n                            next_count = inc_value;\n                        end\n                    end else begin\n                        if (inc_value > MAX_VAL) begin\n                            next_count = MAX_VAL;\n                        end else begin\n                            next_count = inc_value;\n                        end\n                    end\n                end else begin\n                    if (wrap_mode) begin\n                        if (curr_count < step_ext) begin\n                            next_count = MAX_VAL - (step_ext - curr_count - {{(N-1){1'b0}},1'b1});\n                        end else begin\n                            next_count = dec_value;\n                        end\n                    end else begin\n                        if (curr_count < step_ext) begin\n                            next_count = MIN_VAL;\n                        end else begin\n                            next_count = dec_value;\n                        end\n                    end\n                end\n            end\n        end\n    end\n\n    always_comb begin\n        if (load) preload_shadow = load_value;\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            curr_count <= MIN_VAL;\n        end else begin\n            curr_count <= next_count;\n        end\n    end\n\n    assign count_out = curr_count;\n\n    always_comb begin\n        at_max = (curr_count == MAX_VAL);\n        at_min = (curr_count == MIN_VAL);\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "1. SYNTAX STRUCTURE",
+            "error_description": "Missing semicolon at the end of a localparam declaration for MAX_VAL.",
+            "error_line": 20
+        },
+        {
+            "taxonomy_title": "11. BIT WIDTH USAGE",
+            "error_description": "Assigned a wider bus (N+8 bits) to an 8-bit signal, causing truncation.",
+            "error_line": 36
+        },
+        {
+            "taxonomy_title": "10. COMBINATIONAL OR SEQUENTIAL",
+            "error_description": "Sequential block triggered by two edges (clk and enable), effectively creating a flip-flop with multiple event controls.",
+            "error_line": 38
+        },
+        {
+            "taxonomy_title": "9. LOGIC SYNTHESIS",
+            "error_description": "Incomplete always_comb assignment to preload_shadow with a missing else/default path, inferring a latch.",
+            "error_line": 92
+        }
+    ]
+}

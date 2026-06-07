@@ -1,0 +1,20 @@
+{
+    "module_code": "module fifo_with_three_lint_issues\n  #(parameter int DATA_WIDTH = 8,\n    parameter int DEPTH = 16)\n(\n  input  logic                  clk,\n  input  logic                  rst_n,\n  input  logic                  wr_en,\n  input  logic                  rd_en,\n  input  logic [DATA_WIDTH-1:0] wr_data,\n  output logic [DATA_WIDTH-1:0] rd_data,\n  output logic                  full,\n  output logic                  empty,\n  output logic [$clog2(DEPTH):0] level\n);\n\n  localparam int AW = $clog2(DEPTH);\n  localparam logic [AW:0] DEPTH_VAL = DEPTH;\n  localparam logic [AW-1:0] DEPTH_M1 = DEPTH - 1;\n\n  typedef enum logic [1:0] {S_IDLE = 2'b00, S_WRITE = 2'b01, S_READ = 2'b10} state_t;\n  state_t state;\n  state_t next_state;\n\n  logic [DATA_WIDTH-1:0] mem [0:DEPTH-1];\n  logic [AW-1:0] wr_addr;\n  logic [AW-1:0] rd_addr;\n  logic [AW:0]   count;\n\n  logic do_write;\n  logic do_read;\n\n  logic [DATA_WIDTH-1:0] rd_data_q;\n  assign rd_data = rd_data_q;\n\n  logic [DATA_WIDTH-1:0] narrow_reg;\n  logic [DATA_WIDTH+7:0] wide_bus;\n\n  assign full = (count == DEPTH_VAL);\n  assign empty = (count == '0)\n  assign level = count;\n\n  always_comb begin\n    wide_bus = {mem[rd_addr], 8'h3C};\n  end\n\n  always_comb begin\n    next_state = state;\n    do_write = 1'b0;\n    do_read  = 1'b0;\n    case (state)\n      S_IDLE: begin\n        if (wr_en && !full) begin\n          next_state = S_WRITE;\n          do_write = 1'b1;\n        end else if (rd_en && !empty) begin\n          next_state = S_READ;\n          do_read = 1'b1;\n        end else begin\n          next_state = S_IDLE;\n        end\n      end\n      S_WRITE: begin\n        if (wr_en && !full) begin\n          next_state = S_WRITE;\n          do_write = 1'b1;\n        end else begin\n          next_state = S_IDLE;\n        end\n      end\n      S_READ: begin\n        if (rd_en && !empty) begin\n          next_state = S_READ;\n          do_read = 1'b1;\n        end else begin\n          next_state = S_IDLE;\n        end\n      end\n    endcase\n  end\n\n  always_ff @(posedge clk or negedge rst_n) begin\n    if (!rst_n) begin\n      state      <= S_IDLE;\n      wr_addr    <= '0;\n      rd_addr    <= '0;\n      count      <= '0;\n      rd_data_q  <= '0;\n      narrow_reg <= '0;\n    end else begin\n      state <= next_state;\n\n      if (do_write) begin\n        mem[wr_addr] <= wr_data;\n        if (wr_addr == DEPTH_M1) begin\n          wr_addr <= '0;\n        end else begin\n          wr_addr <= wr_addr + 1'b1;\n        end\n      end\n\n      if (do_read) begin\n        narrow_reg <= wide_bus;\n        rd_data_q <= narrow_reg;\n        if (rd_addr == DEPTH_M1) begin\n          rd_addr <= '0;\n        end else begin\n          rd_addr <= rd_addr + 1'b1;\n        end\n      end\n\n      if (do_write && !do_read) begin\n        count <= count + 1'b1;\n      end else if (do_read && !do_write) begin\n        count <= count - 1'b1;\n      end else begin\n        count <= count;\n      end\n    end\n  end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "1. SYNTAX STRUCTURE",
+            "error_description": "Missing semicolon at the end of a continuous assignment line for the empty signal.",
+            "error_line": 39
+        },
+        {
+            "taxonomy_title": "11. BIT WIDTH USAGE",
+            "error_description": "Assigned a wider vector (DATA_WIDTH+8 bits) to a narrower register (DATA_WIDTH bits), causing truncation.",
+            "error_line": 102
+        },
+        {
+            "taxonomy_title": "12. STATE MACHINE (FSM) DEFECTS",
+            "error_description": "Case statement for the FSM has no default branch, triggering a missing-default-case defect.",
+            "error_line": 50
+        }
+    ]
+}

@@ -1,0 +1,20 @@
+{
+    "module_code": "module memory_controller #(parameter ADDR_WIDTH = 16, parameter DATA_WIDTH = 32, parameter DEPTH = 256) (\n    input  logic                         clk,\n    input  logic                         rst_n,\n    input  logic                         req_valid,\n    input  logic                         req_write,\n    input  logic [ADDR_WIDTH-1:0]        req_addr,\n    input  logic [DATA_WIDTH-1:0]        req_wdata,\n    input  logic                         resp_ready,\n    output logic                         resp_valid,\n    output logic [DATA_WIDTH-1:0]        resp_rdata\n);\n\n    typedef enum logic [1:0] { S_IDLE, S_READ, S_WRITE, S_RESP } state_t;\n    state_t state;\n    state_t nxt_state;\n\n    logic                        we_reg;\n    logic                        we_n;\n    logic [7:0]                  addr_reg;\n    logic [7:0]                  addr_n;\n    logic [DATA_WIDTH-1:0]       write_data_reg;\n    logic [DATA_WIDTH-1:0]       write_data_n;\n    logic                        status_bit;\n\n    logic [DATA_WIDTH-1:0]       mem [0:DEPTH-1];\n\n    wire [7:0] addr_index;\n    assign addr_index = req_addr;\n\n    wire undriven_gate;\n\n    always_comb begin\n        nxt_state      = state;\n        we_n           = 1'b0;\n        addr_n         = addr_reg;\n        write_data_n   = write_data_reg;\n\n        unique case (state)\n            S_IDLE: begin\n                if (status_bit) begin\n                    nxt_state = S_IDLE;\n                end else if (req_valid && !undriven_gate) begin\n                    addr_n = addr_index;\n                    if (req_write) begin\n                        write_data_n = req_wdata;\n                        we_n         = 1'b1;\n                        nxt_state    = S_WRITE;\n                    end else begin\n                        nxt_state    = S_READ;\n                    end\n                end\n            end\n            S_READ: begin\n                nxt_state = S_RESP;\n            end\n            S_WRITE: begin\n                nxt_state = S_RESP;\n            end\n            S_RESP: begin\n                if (resp_ready) begin\n                    nxt_state = S_IDLE;\n                end else begin\n                    nxt_state = S_RESP;\n                end\n            end\n        endcase\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            state          <= S_IDLE;\n            we_reg         <= 1'b0;\n            addr_reg       <= '0;\n            write_data_reg <= '0;\n            resp_valid     <= 1'b0;\n            resp_rdata     <= '0;\n            status_bit     = 1'b0;\n        end else begin\n            state          <= nxt_state;\n            we_reg         <= we_n;\n            addr_reg       <= addr_n;\n            write_data_reg <= write_data_n;\n\n            if (we_n) begin\n                mem[addr_n] <= write_data_n;\n            end\n\n            if (state == S_READ) begin\n                resp_rdata <= mem[addr_reg];\n            end\n\n            resp_valid <= (nxt_state == S_RESP);\n\n            if (state == S_WRITE) status_bit = 1'b1;\n            else if (state == S_IDLE && !req_valid) status_bit = 1'b0;\n        end\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "5. RACE OR HAZARD",
+            "error_description": "Mixed blocking (=) and non-blocking (<=) assignments in the same clocked always_ff block by assigning to status_bit with a blocking operator while other registers use non-blocking.",
+            "error_line": 94
+        },
+        {
+            "taxonomy_title": "11. BIT WIDTH USAGE",
+            "error_description": "Assigned a 16-bit address bus to an 8-bit index, causing truncation of the upper bits.",
+            "error_line": 28
+        },
+        {
+            "taxonomy_title": "14. CONNECTIVITY AND DRIVING",
+            "error_description": "Declared an internal wire that is read in logic but never driven anywhere, leaving the net unconnected.",
+            "error_line": 30
+        }
+    ]
+}

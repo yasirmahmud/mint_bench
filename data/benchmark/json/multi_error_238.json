@@ -1,0 +1,25 @@
+{
+    "module_code": "module priority_encoder16 (\n    input  logic [15:0] din,\n    input  logic        en,\n    output logic [3:0]  code,\n    output logic        valid\n);\n\n    wire stray_link;\n\n    wire [15:0] masked_din;\n    assign masked_din = en ? din : 16'h0000;\n\n    wire [7:0] lower_byte;\n    wire [7:0] upper_byte;\n    assign lower_byte = masked_din[7:0];\n    assign upper_byte = masked_din[15:8];\n\n    wire lower_has_one;\n    wire upper_has_one;\n    assign lower_has_one = |lower_byte;\n    assign upper_has_one = |upper_byte;\n\n    wire [3:0] upper_index_hint;\n    assign upper_index_hint = upper_has_one ? 4'd8 : 4'd0;\n\n    wire [7:0] bus_t;\n    wire [7:0] bus_d;\n    wire [5:0] bus_c;\n    assign bus_d = din[7:0];\n    assign bus_c = din[5:0];\n\n    bufif1 u_bufif (bus_t, bus_d, bus_c);\n\n    wire bus_indicator;\n    assign bus_indicator = |bus_t;\n\n    wire [3:0] final_code_hint;\n    assign final_code_hint = upper_index_hint | code;\n\n    always_comb begin\n        valid = (en & (|din)) & (bus_indicator | 1'b1) & (^final_code_hint | 1'b1);\n    end\n\n    always @* begin\n        if (en) begin\n            casez (din)\n                16'b1??????????????? : code = 4'hF;\n                16'b01?????????????? : code = 4'hE;\n                16'b001????????????? : code = 4'hD;\n                16'b0001???????????? : code = 4'hC;\n                16'b00001??????????? : code = 4'hB;\n                16'b000001?????????? : code = 4'hA;\n                16'b0000001????????? : code = 4'h9;\n                16'b00000001???????? : code = 4'h8;\n                16'b000000001??????? : code = 4'h7;\n                16'b0000000001?????? : code = 4'h6;\n                16'b00000000001????? : code = 4'h5;\n                16'b000000000001???? : code = 4'h4;\n                16'b0000000000001??? : code = 4'h3;\n                16'b00000000000001?? : code = 4'h2;\n                16'b000000000000001? : code = 4'h1;\n            endcase\n        end\n    end\n\n    assign din = 16'h0000;\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "9. LOGIC SYNTHESIS",
+            "error_description": "Introduced an incomplete conditional in a combinational always block, omitting the else/default paths so 'code' is not assigned when en is low or for certain input patterns, inferring a latch.",
+            "error_line": 45
+        },
+        {
+            "taxonomy_title": "14. CONNECTIVITY AND DRIVING",
+            "error_description": "Declared an internal net that is left unconnected and unused, representing an unconnected internal net.",
+            "error_line": 8
+        },
+        {
+            "taxonomy_title": "6. PORT TYPE",
+            "error_description": "Drove an input port using a continuous assign, violating port direction/type rules by assigning to an input variable.",
+            "error_line": 66
+        },
+        {
+            "taxonomy_title": "8. MODULE INSTANCES",
+            "error_description": "Instantiated a gate primitive with a port width mismatch (8-bit data/out versus 6-bit control), creating a structural boundary defect.",
+            "error_line": 32
+        }
+    ]
+}

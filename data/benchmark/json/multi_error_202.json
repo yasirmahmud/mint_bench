@@ -1,0 +1,15 @@
+{
+    "module_code": "module flex_encoder8 (\n    input  logic        clk,\n    input  logic        rst_n,\n    input  logic [7:0]  in_data,\n    input  logic        in_valid,\n    input  logic [1:0]  mode,\n    output logic [2:0]  code,\n    output logic        valid,\n    output logic [7:0]  onehot\n);\n\nfunction automatic logic [7:0] reverse8(input logic [7:0] x);\n    logic [7:0] y;\n    int k;\n    begin\n        y = 8'h00;\n        for (k = 0; k < 8; k++) begin\n            y[7-k] = x[k];\n        end\n        return y;\n    end\nendfunction\n\nlogic [2:0] code_c;\nlogic       valid_c;\nlogic [7:0] onehot_c;\nlogic [2:0] code_post_c;\nlogic [2:0] code_post_q;\nlogic [7:0] masked_data_c;\nlogic [7:0] masked_data_q;\n\nassign mode = {1'b0, rst_n};\n\nalways_comb begin\n    if (mode[1]) begin\n        masked_data_c = reverse8(in_data) & 8'hFE;\n    end else begin\n        masked_data_c = in_data;\n    end\nend\n\nalways @(masked_data_c or mode) begin\n    onehot_c = 8'h00;\n    code_c   = 3'd0;\n    valid_c  = 1'b0;\n    if (mode[0] == 1'b0) begin\n        for (int i = 0; i < 8; i++) begin\n            if (masked_data_c[i] && in_valid) begin\n                onehot_c = 8'b1 << i;\n                code_c   = i[2:0];\n                valid_c  = 1'b1;\n                break;\n            end\n        end\n    end else begin\n        for (int i = 7; i >= 0; i--) begin\n            if (masked_data_c[i] && in_valid) begin\n                onehot_c = 8'b1 << i;\n                code_c   = i[2:0];\n                valid_c  = 1'b1;\n                break;\n            end\n        end\n    end\nend\n\nalways_comb begin\n    case (mode)\n        2'b00: code_post_c = code_c;\n        2'b01: code_post_c = ~code_c;\n        2'b10: code_post_c = {code_c[0], code_c[2:1]};\n        default: code_post_c = code_c ^ 3'b101;\n    endcase\nend\n\nalways_ff @(posedge clk or negedge rst_n) begin\n    if (!rst_n) begin\n        code          <= 3'd0;\n        valid         <= 1'b0;\n        onehot        <= 8'd0;\n        code_post_q   <= 3'd0;\n        masked_data_q <= 8'd0;\n    end else begin\n        code_post_q   <= code_post_c;\n        masked_data_q <= masked_data_c;\n        code          <= code_post_c ^ code_post_q;\n        valid         <= valid_c & (masked_data_q != 8'd0);\n        onehot        <= onehot_c;\n    end\nend\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "6. PORT TYPE",
+            "error_description": "An input port 'mode' is driven internally using a continuous assignment.",
+            "error_line": 32
+        },
+        {
+            "taxonomy_title": "3. SENSITIVITY LIST",
+            "error_description": "A combinational always block reads 'in_valid' but the sensitivity list omits it.",
+            "error_line": 42
+        }
+    ]
+}

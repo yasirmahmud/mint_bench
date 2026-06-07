@@ -1,0 +1,25 @@
+{
+    "module_code": "module decoder_top (\n    input  logic        clk,\n    input  logic        rst_n,\n    input  logic        enable,\n    input  logic [5:0]  addr,\n    output logic [63:0] out_dec\n);\n\n    localparam int DECODE_LATENCY = 2\n\n    logic [5:0]  stage_addr;\n    logic        stage_enable;\n    logic [63:0] dec_comb;\n    logic [63:0] mask;\n    logic [63:0] dec_masked;\n    logic [63:0] gated_dec;\n    logic [63:0] aux_dec;\n    logic [63:0] out_next;\n    logic [63:0] out_reg;\n    logic [31:0] cell_out_wide;\n    logic [63:0] cell_out_ext;\n    wire         dec_bus_bit3;\n    logic [3:0]  lo_bits;\n    logic [3:0]  hi_bits;\n    logic [1:0]  lo_idx2;\n    logic [15:0] predec_lo;\n    logic [15:0] predec_hi;\n    logic [15:0] predec_lo_reg;\n    logic [15:0] predec_hi_reg;\n    logic [63:0] predec64;\n\n    always @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            stage_addr   <= 6'd0;\n            stage_enable <= 1'b0;\n        end else begin\n            stage_addr   <= addr;\n            stage_enable = enable;\n        end\n    end\n\n    always_comb begin\n        dec_comb = 64'b0;\n        if (stage_enable) begin\n            dec_comb[stage_addr] = 1'b1;\n        end\n    end\n\n    assign mask       = {64{enable}};\n    assign dec_masked = dec_comb & mask;\n    assign gated_dec  = dec_masked;\n\n    assign dec_bus_bit3 = stage_enable;\n    assign dec_bus_bit3 = (stage_addr == 6'd3) & enable;\n\n    decoder_cell u_cell (\n        .en(stage_enable),\n        .in_bits(stage_addr),\n        .out_bits(cell_out_wide)\n    );\n\n    assign cell_out_ext = {48'd0, cell_out_wide[15:0]};\n\n    assign lo_bits = stage_addr[3:0];\n    assign hi_bits = {2'b00, stage_addr[5:4]};\n    assign lo_idx2 = stage_addr[1:0];\n\n    always_comb begin\n        predec_lo = 16'b0;\n        if (stage_enable) begin\n            predec_lo[lo_bits] = 1'b1;\n        end\n    end\n\n    always_comb begin\n        predec_hi = 16'b0;\n        if (stage_enable) begin\n            predec_hi[hi_bits] = 1'b1;\n        end\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            predec_lo_reg <= 16'd0;\n            predec_hi_reg <= 16'd0;\n        end else begin\n            predec_lo_reg <= predec_lo;\n            predec_hi_reg <= predec_hi;\n        end\n    end\n\n    always_comb begin\n        predec64 = 64'd0;\n        if (stage_enable) begin\n            int i;\n            for (i = 0; i < 16; i++) begin\n                if (predec_hi_reg[i]) begin\n                    predec64[i*4 + lo_idx2] = 1'b1;\n                end\n            end\n        end\n    end\n\n    always_comb begin\n        aux_dec       = gated_dec | cell_out_ext | predec64;\n        aux_dec[3]    = aux_dec[3] | dec_bus_bit3;\n        out_next      = aux_dec;\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            out_reg <= 64'd0;\n        end else begin\n            out_reg <= out_next;\n        end\n    end\n\n    assign out_dec = out_reg;\n\nendmodule\n\nmodule decoder_cell (\n    input  logic       en,\n    input  logic [3:0] in_bits,\n    output logic [15:0] out_bits\n);\n    always_comb begin\n        out_bits = 16'b0;\n        if (en) begin\n            out_bits[in_bits] = 1'b1;\n        end\n    end\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "1. SYNTAX STRUCTURE",
+            "error_description": "Injected a missing semicolon at the end of a localparam declaration to violate basic syntax structure rules.",
+            "error_line": 9
+        },
+        {
+            "taxonomy_title": "5. RACE OR HAZARD",
+            "error_description": "Mixed blocking and non-blocking assignments within the same clocked always block, creating a race condition risk.",
+            "error_line": 38
+        },
+        {
+            "taxonomy_title": "8. MODULE INSTANCES",
+            "error_description": "Instantiated a child module with mismatched port widths by connecting a 6-bit signal to a 4-bit input and a 32-bit signal to a 16-bit output.",
+            "error_line": 60
+        },
+        {
+            "taxonomy_title": "14. CONNECTIVITY AND DRIVING",
+            "error_description": "Created multiple active drivers on a single net by assigning to the same wire from two separate continuous assignments.",
+            "error_line": 54
+        }
+    ]
+}

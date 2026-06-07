@@ -1,0 +1,20 @@
+{
+    "module_code": "module alu32 (\n    input  logic [31:0] a,\n    input  logic [31:0] b,\n    input  logic [3:0]  op,\n    input  logic [4:0]  shamt,\n    output logic [31:0] y,\n    output logic        zero,\n    output logic        neg,\n    output logic        carry,\n    output logic        overflow\n);\n\nwire [31:0] \\always ;\n\nlogic [32:0] add_ext;\nlogic [32:0] sub_ext;\nlogic [31:0] sum_res;\nlogic [31:0] diff_res;\nlogic [31:0] and_res;\nlogic [31:0] or_res;\nlogic [31:0] xor_res;\nlogic [31:0] sll_res;\nlogic [31:0] srl_res;\nlogic [31:0] sra_res;\nlogic [31:0] slt_res;\nlogic [31:0] sltu_res;\nlogic [31:0] res_comb;\nlogic        carry_add;\nlogic        carry_sub;\nlogic        ov_add;\nlogic        ov_sub;\n\nassign \\always  = a ^ b;\n\nalways_comb begin\n    add_ext = {1'b0, a} + {1'b0, b};\n    sub_ext = {1'b0, a} + {1'b0, ~b} + 33'd1;\n    sum_res = add_ext[31:0];\n    diff_res = sub_ext[31:0];\n    carry_add = add_ext[32];\n    carry_sub = sub_ext[32];\n    ov_add = (a[31] == b[31]) && (sum_res[31] != a[31]);\n    ov_sub = (a[31] != b[31]) && (diff_res[31] != a[31]);\n    and_res = a & b;\n    or_res  = a | b;\n    xor_res = \\always ;\n    sll_res = a << shamt;\n    srl_res = a >> shamt;\n    sra_res = $signed(a) >>> shamt;\n    slt_res = $signed(a) < $signed(b) ? 32'd1 : 32'd0;\n    sltu_res = (a < b) ? 32'd1 : 32'd0;\n    res_comb = 32'd0;\n    carry = 1'b0;\n    overflow = 1'b0;\n\n    case (op)\n        4'h0: begin\n            res_comb = sum_res;\n            carry = carry_add;\n            overflow = ov_add;\n        end\n        4'h1: begin\n            res_comb = diff_res;\n            carry = carry_sub;\n            overflow = ov_sub;\n        end\n        4'h2: begin\n            res_comb = a && b;\n            carry = 1'b0;\n            overflow = 1'b0;\n        end\n        4'h3: begin\n            res_comb = or_res;\n        end\n        4'h4: begin\n            res_comb = xor_res;\n        end\n        4'h5: begin\n            res_comb = sll_res;\n        end\n        4'h6: begin\n            res_comb = srl_res;\n        end\n        4'h7: begin\n            res_comb = sra_res;\n        end\n        4'h8: begin\n            res_comb = slt_res;\n        end\n        4'h9: begin\n            res_comb = sltu_res;\n        end\n        4'hA: begin\n            res_comb = a;\n        end\n        4'hB: begin\n            res_comb = b;\n        end\n        4'hC: begin\n            res_comb = (a + {27'd0, shamt}) ^ (b - 32'd1);\n        end\n        4'hD: begin\n            res_comb = (a ^ b) + (a | b);\n        end\n        4'hE: begin\n            res_comb = a[0] ? (b[0] ? (a ^ b) : (a + b)) : (a[1] ? (b[1] ? (a - b) : (a | b)) : (a[2] ? (b[2] ? (a & b) : (a << shamt)) : (a[3] ? (b[3] ? (a >> shamt) : ($signed(a) >>> shamt)) : (a ^ (b + 32'h1)))));\n        end\n        default: begin\n            res_comb = 32'd0;\n        end\n    endcase\nend\n\nalways_comb begin\n    y = res_comb;\n    zero = (y == 32'd0);\n    neg = y[31];\nend\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "4. RESERVED WORDS",
+            "error_description": "Used an escaped identifier named after a SystemVerilog keyword (\\always) as a signal, which is legal syntax but violates reserved word usage guidelines.",
+            "error_line": 13
+        },
+        {
+            "taxonomy_title": "7. OPERATORS",
+            "error_description": "Used logical AND (&&) on 32-bit vectors to implement a bitwise AND operation, which collapses to a 1-bit boolean and silently misbehaves.",
+            "error_line": 68
+        },
+        {
+            "taxonomy_title": "13. CODE QUALITY AND SYNTHESIS",
+            "error_description": "Implemented a deeply nested ternary conditional expression for one ALU operation, creating an excessively long combinational path.",
+            "error_line": 106
+        }
+    ]
+}

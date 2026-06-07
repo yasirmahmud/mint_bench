@@ -1,0 +1,15 @@
+{
+    "module_code": "module dec5x32_decoder (\n    input  logic        clk,\n    input  logic        rst_n,\n    input  logic        en,\n    input  logic [4:0]  addr,\n    input  logic [31:0] mask_in,\n    input  logic        passthrough,\n    input  logic        sticky_en,\n    input  logic        mode_sel,\n    output logic [31:0] dec,\n    output logic        valid,\n    output logic [5:0]  popcnt,\n    output logic        parity\n);\n\n    localparam int MODE_ZERO = 0\n    localparam int MODE_PASS = 1;\n\n    function automatic [5:0] popcount32(input logic [31:0] x);\n        integer i;\n        popcount32 = '0;\n        for (i = 0; i < 32; i++) begin\n            popcount32 = popcount32 + x[i];\n        end\n    endfunction\n\n    function automatic logic is_onehot32(input logic [31:0] v);\n        is_onehot32 = (v != 32'b0) && ((v & (v - 32'b1)) == 32'b0);\n    endfunction\n\n    logic [31:0] dec_base;\n    logic [31:0] dec_masked;\n    logic [31:0] dec_next;\n    logic [31:0] dec_q;\n    logic        valid_next;\n    logic        valid_q;\n    logic [31:0] mask_eff;\n    logic        onehot_next;\n    logic        unused_flag;\n\n    always_comb begin\n        dec_base    = 32'b0;\n        dec_masked  = 32'b0;\n        dec_next    = dec_q;\n        valid_next  = valid_q;\n        mask_eff    = mask_in;\n        onehot_next = 1'b0;\n\n        if (mode_sel == MODE_PASS) begin\n            mask_eff = 32'hFFFF_FFFF;\n        end else begin\n            mask_eff = mask_in;\n        end\n\n        if (en) begin\n            dec_base = (32'h1 << addr);\n        end else begin\n            dec_base = 32'b0;\n        end\n\n        if (passthrough) begin\n            dec_masked = dec_base;\n        end else begin\n            dec_masked = dec_base & mask_eff;\n        end\n\n        onehot_next = is_onehot32(dec_masked);\n\n        if (sticky_en) begin\n            dec_next   = dec_q | dec_masked;\n            valid_next = valid_q | (en & onehot_next);\n        end else begin\n            dec_next   = dec_masked;\n            valid_next = (en & onehot_next);\n        end\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            dec_q   <= 32'b0;\n            valid_q <= 1'b0;\n        end else begin\n            dec_q   <= dec_next;\n            valid_q <= valid_next;\n        end\n    end\n\n    assign dec    = dec_q;\n    assign valid  = valid_q;\n    assign parity = ^dec_q;\n    assign popcnt = popcount32(dec_q);\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "1. SYNTAX STRUCTURE",
+            "error_description": "Inserted a missing semicolon after a localparam declaration, creating a syntax violation.",
+            "error_line": 16
+        },
+        {
+            "taxonomy_title": "2. SIGNAL USAGE",
+            "error_description": "Declared a logic signal that is never used anywhere in the design.",
+            "error_line": 39
+        }
+    ]
+}

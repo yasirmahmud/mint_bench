@@ -1,0 +1,25 @@
+{
+    "module_code": "module fifo_sv #(\n    parameter int WIDTH = 16,\n    parameter int DEPTH = 16,\n    parameter int ADDR_W = $clog2(DEPTH)\n) (\n    input  logic                     clk,\n    input  logic                     rst_n,\n    input  logic                     wr_en,\n    input  logic                     rd_en,\n    input  logic [WIDTH-1:0]         din,\n    output logic [7:0]               dout,\n    output logic                     full,\n    output logic                     empty,\n    output logic                     almost_full,\n    output logic                     almost_empty\n);\n\nlocalparam int ALMOST_FULL_GAP  = 2;\nlocalparam int ALMOST_EMPTY_GAP = 2;\nlocalparam int WATERMARK = DEPTH/2\n\nlogic [WIDTH-1:0] mem [0:DEPTH-1];\n\nlogic [ADDR_W-1:0] wptr;\nlogic [ADDR_W-1:0] rptr;\n\nlogic [ADDR_W:0]   count;\n\nlogic [7:0]        dout_q;\n\nlocalparam logic [ADDR_W:0] DEPTH_VAL   = DEPTH;\nlocalparam logic [ADDR_W:0] AF_GAP_VAL  = ALMOST_FULL_GAP;\nlocalparam logic [ADDR_W:0] AE_GAP_VAL  = ALMOST_EMPTY_GAP;\nlocalparam logic [ADDR_W-1:0] DEPTH_M1  = DEPTH - 1;\n\ntypedef enum logic [1:0] {\n    ST_IDLE,\n    ST_WRITE,\n    ST_READ,\n    ST_ERR\n} state_e;\n\nstate_e state;\nstate_e next_state;\n\nlogic wr_do;\nlogic rd_do;\n\nlogic incr;\nlogic decr;\n\nlogic logic;\n\nassign incr = wr_do & ~rd_do;\nassign decr = rd_do & ~wr_do;\n\nassign full  = (count == DEPTH_VAL);\nassign empty = (count == { (ADDR_W+1){1'b0} });\n\nassign almost_full  = (count >= (DEPTH_VAL - AF_GAP_VAL));\nassign almost_empty = (count <= AE_GAP_VAL);\n\nassign dout = dout_q;\n\nalways_ff @(posedge clk or negedge rst_n) begin\n    if (!rst_n) begin\n        state  <= ST_IDLE;\n        wptr   <= {ADDR_W{1'b0}};\n        rptr   <= {ADDR_W{1'b0}};\n        count  <= {(ADDR_W+1){1'b0}};\n        dout_q <= 8'h00;\n    end else begin\n        state <= next_state;\n        if (wr_do) begin\n            mem[wptr] <= din;\n            if (wptr == DEPTH_M1) begin\n                wptr <= {ADDR_W{1'b0}};\n            end else begin\n                wptr <= wptr + 1'b1;\n            end\n        end\n        if (rd_do) begin\n            dout_q <= mem[rptr];\n            if (rptr == DEPTH_M1) begin\n                rptr <= {ADDR_W{1'b0}};\n            end else begin\n                rptr <= rptr + 1'b1;\n            end\n        end\n        if (incr && !decr) begin\n            count <= count + 1'd1;\n        end else if (decr && !incr) begin\n            count <= count - 1'd1;\n        end else begin\n            count <= count;\n        end\n        logic <= wr_do ^ rd_do;\n    end\nend\n\nassign wr_do = (state == ST_WRITE) && wr_en && !full;\nassign rd_do = (state == ST_READ)  && rd_en && !empty;\n\nalways_comb begin\n    next_state = state;\n    unique case (state)\n        ST_IDLE: begin\n            if (wr_en && !full && rd_en && !empty) begin\n                next_state = ST_WRITE;\n            end else if (wr_en && !full) begin\n                next_state = ST_WRITE;\n            end else if (rd_en && !empty) begin\n                next_state = ST_READ;\n            end\n        end\n        ST_WRITE: begin\n            if (rd_en && !empty) begin\n                next_state = ST_IDLE;\n            end else if (!wr_en || full) begin\n                next_state = ST_IDLE;\n            end\n        end\n        ST_READ: begin\n            if (wr_en && !full) begin\n                next_state = ST_IDLE;\n            end else if (!rd_en || empty) begin\n                next_state = ST_IDLE;\n            end\n        end\n    endcase\nend\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "1. SYNTAX STRUCTURE",
+            "error_description": "Missing semicolon at the end of a localparam declaration.",
+            "error_line": 20
+        },
+        {
+            "taxonomy_title": "4. RESERVED WORDS",
+            "error_description": "Declared an identifier using a reserved keyword (logic) as a signal name.",
+            "error_line": 52
+        },
+        {
+            "taxonomy_title": "11. BIT WIDTH USAGE",
+            "error_description": "Assigned a 16-bit memory word directly into an 8-bit register, causing truncation.",
+            "error_line": 83
+        },
+        {
+            "taxonomy_title": "12. STATE MACHINE (FSM) DEFECTS",
+            "error_description": "Case statement for next-state logic lacks a default and omits handling for the ST_ERR state.",
+            "error_line": 104
+        }
+    ]
+}

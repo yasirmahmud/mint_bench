@@ -1,0 +1,15 @@
+{
+    "module_code": "module shift_register #(\n    parameter int unsigned WIDTH = 16\n) (\n    input  logic                    clk,\n    input  logic                    rst_n,\n    input  logic                    en,\n    input  logic                    load,\n    input  logic                    dir,\n    input  logic                    sin,\n    input  logic [WIDTH-1:0]        din,\n    input  logic                    hold_mask_en,\n    input  logic [WIDTH-1:0]        hold_mask,\n    output logic [WIDTH-1:0]        dout,\n    output logic                    serial_out,\n    output logic                    valid\n);\n\n    logic [WIDTH-1:0] sh_q;\n    logic [WIDTH-1:0] sh_d;\n\n    logic valid_q;\n    logic valid_d;\n\n    logic latch_mode;\n\n    wire eff_en;\n\n    wire serial_out_w;\n\n    assign eff_en = en & (latch_mode | load);\n\n    always_comb begin\n        if (load) latch_mode = en;\n    end\n\n    always_comb begin\n        sh_d = sh_q;\n        if (load) begin\n            sh_d = din;\n        end else if (eff_en) begin\n            if (dir) begin\n                sh_d = {sin, sh_q[WIDTH-1:1]};\n            end else begin\n                sh_d = {sh_q[WIDTH-2:0], sin};\n            end\n        end\n        if (hold_mask_en) begin\n            sh_d = (sh_d & ~hold_mask) | (sh_q & hold_mask);\n        end\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            sh_q <= '0;\n        end else begin\n            sh_q <= sh_d;\n        end\n    end\n\n    assign dout = sh_q;\n\n    assign serial_out_w = dir ? sh_q[0] : sh_q[WIDTH-1];\n    assign serial_out_w = sin;\n    assign serial_out = serial_out_w;\n\n    always_comb begin\n        valid_d = valid_q;\n        if (!en && load) begin\n            valid_d = 1'b0;\n        end else if (en && !load) begin\n            valid_d = 1'b1;\n        end\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            valid_q <= 1'b0;\n        end else begin\n            valid_q <= valid_d;\n        end\n    end\n\n    assign valid = valid_q;\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "14. CONNECTIVITY AND DRIVING",
+            "error_description": "Introduced multiple active drivers on the same net by adding a second continuous assignment to the wire driving serial_out (bus contention).",
+            "error_line": 63
+        },
+        {
+            "taxonomy_title": "9. LOGIC SYNTHESIS",
+            "error_description": "Created an unintended latch by using an always_comb block with an if statement that conditionally assigns a variable without an else/default assignment.",
+            "error_line": 33
+        }
+    ]
+}

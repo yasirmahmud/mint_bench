@@ -1,0 +1,20 @@
+{
+    "module_code": "module fifo_lint_exact4 #(\n    parameter int DATA_W = 8,\n    parameter int DEPTH  = 16\n) (\n    input  logic                    clk,\n    input  logic                    rst_n,\n    input  logic                    wr_en,\n    input  logic                    rd_en,\n    input  logic [DATA_W-1:0]       din,\n    output logic [DATA_W-1:0]       dout,\n    output wire                     full,\n    output wire                     empty,\n    output logic                    almost_full,\n    output wire [7:0]               count\n);\n\n    localparam int AW = (DEPTH <= 1) ? 1 : $clog2(DEPTH);\n\n    logic [AW-1:0] wr_ptr;\n    logic [AW-1:0] rd_ptr;\n    logic [15:0]   count_int;\n\n    logic [DATA_W-1:0] mem [0:DEPTH-1];\n\n    logic ready_for_write;\n    logic valid_read;\n    assign ready_for_write = !full;\n    assign valid_read      = !empty;\n\n    logic unused_flag;\n\n    wire write_fire = wr_en && ready_for_write;\n    wire read_fire  = rd_en && valid_read;\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            wr_ptr    <= '0;\n            rd_ptr    <= '0;\n            count_int <= '0;\n        end else begin\n            unique case ({write_fire, read_fire})\n                2'b10: begin\n                    mem[wr_ptr] <= din;\n                    wr_ptr      <= wr_ptr + 1'b1;\n                    count_int   <= count_int + 16'd1;\n                end\n                2'b01: begin\n                    rd_ptr      <= rd_ptr + 1'b1;\n                    count_int   <= count_int - 16'd1;\n                end\n                2'b11: begin\n                    mem[wr_ptr] <= din;\n                    wr_ptr      <= wr_ptr + 1'b1;\n                    rd_ptr      <= rd_ptr + 1'b1;\n                end\n                default: begin\n                end\n            endcase\n        end\n    end\n\n    assign full  = (count_int >= DEPTH);\n    assign empty = (count_int == 16'd0);\n\n    logic [15:0] cnt_next;\n\n    always_comb begin\n        cnt_next = count_int;\n        if (write_fire && !read_fire) begin\n            cnt_next = count_int + 16'd1;\n        end else if (read_fire && !write_fire) begin\n            cnt_next = count_int - 16'd1;\n        end\n    end\n\n    always_comb begin\n        if (wr_ptr != rd_ptr) begin\n            almost_full = (cnt_next >= (DEPTH-1));\n        end\n    end\n\n    assign dout = mem[rd_ptr];\n\n    assign count = count_int;\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "2. SIGNAL USAGE",
+            "error_description": "Declared a signal 'unused_flag' that is never read or driven anywhere in the module.",
+            "error_line": 30
+        },
+        {
+            "taxonomy_title": "11. BIT WIDTH USAGE",
+            "error_description": "Assigned a 16-bit internal counter 'count_int' to an 8-bit output port 'count' via a continuous assignment, causing truncation.",
+            "error_line": 84
+        },
+        {
+            "taxonomy_title": "9. LOGIC SYNTHESIS",
+            "error_description": "In an always_comb block, 'almost_full' is conditionally assigned without a matching else/default assignment, inferring a latch.",
+            "error_line": 78
+        }
+    ]
+}

@@ -1,0 +1,20 @@
+{
+    "module_code": "module smart_encoder8 (\n    input  logic        clk,\n    input  logic        rst_n,\n    input  logic        enable,\n    input  logic        cfg_inv,\n    input  logic [7:0]  din,\n    output logic [2:0]  code,\n    output logic        valid,\n    output logic [7:0]  onehot\n);\n\n    logic [7:0] din_masked;\n    logic [2:0] pre_code;\n    logic       pre_valid;\n\n    logic [2:0] code_q;\n    logic       valid_q;\n\n    logic [7:0] hist;\n    logic [7:0] hist_next;\n\n    logic [7:0] din_and_hist;\n    logic [7:0] din_xor_hist;\n    logic       parity;\n    logic [7:0] onehot_candidate;\n\n    always @(din or enable) begin\n        if (enable) begin\n            din_masked = cfg_inv ? ~din : din;\n        end else begin\n            din_masked = 8'h00;\n        end\n    end\n\n    always_comb begin\n        pre_valid = |din_masked;\n        if (din_masked[7]) pre_code = 3'd7;\n        else if (din_masked[6]) pre_code = 3'd6;\n        else if (din_masked[5]) pre_code = 3'd5;\n        else if (din_masked[4]) pre_code = 3'd4;\n        else if (din_masked[3]) pre_code = 3'd3;\n        else if (din_masked[2]) pre_code = 3'd2;\n        else if (din_masked[1]) pre_code = 3'd1;\n        else if (din_masked[0]) pre_code = 3'd0;\n    end\n\n    always_comb begin\n        din_and_hist = din_masked & hist;\n        din_xor_hist = din_masked ^ hist;\n    end\n\n    always_comb begin\n        parity = ^din_masked;\n    end\n\n    always @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            code_q <= 3'd0;\n            valid_q <= 1'b0;\n            hist   <= 8'h00;\n        end else begin\n            code_q <= pre_code;\n            valid_q = pre_valid;\n            hist   <= hist_next;\n        end\n    end\n\n    always_comb begin\n        hist_next = (hist & ~din_masked) | (~hist & din_masked);\n    end\n\n    always_comb begin\n        if (valid_q) begin\n            onehot_candidate = 8'h01 << code_q;\n        end else begin\n            onehot_candidate = 8'h00;\n        end\n    end\n\n    always_comb begin\n        if (parity) begin\n            onehot = onehot_candidate;\n        end else begin\n            onehot = onehot_candidate ^ 8'hFF;\n        end\n    end\n\n    assign code  = code_q;\n    assign valid = valid_q;\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "9. LOGIC SYNTHESIS",
+            "error_description": "Introduced an unintentional latch by not assigning pre_code on all paths of a combinational decision chain, causing pre_code to hold its previous value when no input bits are set.",
+            "error_line": 37
+        },
+        {
+            "taxonomy_title": "3. SENSITIVITY LIST",
+            "error_description": "Used an explicit sensitivity list that omits cfg_inv while it is read inside the block, causing a simulation-synthesis mismatch.",
+            "error_line": 27
+        },
+        {
+            "taxonomy_title": "5. RACE OR HAZARD",
+            "error_description": "Mixed blocking and non-blocking assignments within the same clocked always block by assigning valid_q with a blocking assignment while other signals use non-blocking.",
+            "error_line": 63
+        }
+    ]
+}

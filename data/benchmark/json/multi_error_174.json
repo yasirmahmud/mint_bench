@@ -1,0 +1,25 @@
+{
+    "module_code": "module fsm_controller (clk, rst_n, start, data_in, valid, ready, done, state_out, error_bus);\n  input  logic        clk;\n  input  logic        rst_n;\n  input  logic        start;\n  input  logic [7:0]  data_in;\n  output logic        valid;\n  output logic        ready;\n  output logic        done;\n  output logic [3:0]  state_out;\n  output wire  [3:0]  error_bus;\n\n  typedef enum logic [2:0] {\n    S_IDLE = 3'd0,\n    S_LOAD = 3'd1,\n    S_WAIT = 3'd2,\n    S_RUN  = 3'd3,\n    S_DONE = 3'd4\n  } state_e;\n\n  state_e state_q, state_d;\n\n  logic [7:0] acc_q, acc_d;\n  logic [3:0] timer_q, timer_d;\n  logic       parity_q, parity_d;\n  logic [7:0] data_buf_q, data_buf_d;\n  logic       unused_flag;\n\n  always_comb begin\n    state_d    = state_q;\n    acc_d      = acc_q;\n    timer_d    = timer_q;\n    parity_d   = parity_q;\n    data_buf_d = data_buf_q;\n\n    valid      = valid;\n    ready      = ready;\n    done       = done;\n\n    logic valid_d, ready_d, done_d;\n    valid_d = valid;\n    ready_d = ready;\n    done_d  = done;\n\n    unique case (state_q)\n      S_IDLE: begin\n        ready_d = 1'b1;\n        valid_d = 1'b0;\n        done_d  = 1'b0;\n        if (start) begin\n          state_d    = S_LOAD;\n          data_buf_d = data_in;\n          parity_d   = ^data_in;\n        end\n      end\n      S_LOAD: begin\n        ready_d = 1'b0;\n        timer_d = 4'd5;\n        acc_d   = data_buf_q;\n        state_d = S_WAIT;\n      end\n      S_WAIT: begin\n        if (timer_q == 4'd0) begin\n          state_d = S_RUN;\n        end else begin\n          timer_d = timer_q - 1;\n        end\n      end\n      S_RUN: begin\n        valid_d = 1'b1;\n        if (acc_q[0]) begin\n          state_d = S_DONE;\n        end else begin\n          if (parity_q) begin\n            acc_d = acc_q + 8'd2;\n          end else begin\n            acc_d = acc_q + 8'd1;\n          end\n        end\n      end\n      S_DONE: begin\n        done_d  = 1'b1;\n        valid_d = 1'b0;\n        ready_d = 1'b1;\n        state_d = S_IDLE;\n      end\n      default: begin\n        state_d = S_IDLE;\n      end\n    endcase\n\n    valid = valid_d;\n    ready = ready_d;\n    done  = done_d;\n  end\n\n  always_ff @(posedge clk or negedge rst_n) begin\n    if (!rst_n) begin\n      state_q    <= S_IDLE;\n      acc_q      <= 8'd0;\n      timer_q    <= 4'd0;\n      parity_q   <= 1'b0;\n      data_buf_q <= 8'd0;\n      valid      <= 1'b0;\n      ready      <= 1'b1;\n      done       <= 1'b0;\n    end else begin\n      state_q    <= state_d;\n      acc_q      =  acc_d;\n      timer_q    <= timer_d;\n      parity_q   <= parity_d;\n      data_buf_q <= data_buf_d;\n      valid      <= valid;\n      ready      <= ready;\n      done       <= done;\n    end\n  end\n\n  assign state_out = {1'b0, state_q};\n\n  assign error_bus = {state_q, 1'b0};\n  assign error_bus = 4'hF;\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "1. SYNTAX STRUCTURE",
+            "error_description": "Used non-ANSI style module port list, which many linters flag under syntax structure rules.",
+            "error_line": 1
+        },
+        {
+            "taxonomy_title": "2. SIGNAL USAGE",
+            "error_description": "Declared signal 'unused_flag' that is never read or driven anywhere.",
+            "error_line": 26
+        },
+        {
+            "taxonomy_title": "10. COMBINATIONAL OR SEQUENTIAL",
+            "error_description": "Used a blocking assignment inside an always_ff block for 'acc_q', violating proper sequential coding separation.",
+            "error_line": 108
+        },
+        {
+            "taxonomy_title": "14. CONNECTIVITY AND DRIVING",
+            "error_description": "Drove 'error_bus' with two continuous assignments, creating multiple active drivers on the same net.",
+            "error_line": 121
+        }
+    ]
+}

@@ -1,0 +1,15 @@
+{
+    "module_code": "module priority_encoder16 (\n    input  logic        clk,\n    input  logic        rst_n,\n    input  logic [15:0] in_vec,\n    input  logic        req,\n    output logic [3:0]  idx,\n    output logic        valid,\n    output logic [15:0] onehot\n);\n\n    localparam int WIDTH = 16\n    localparam int IDXW  = 4;\n\n    logic               req_q;\n    logic               req_qq;\n    logic [WIDTH-1:0]   in_vec_q;\n    logic [WIDTH-1:0]   masked_vec;\n    logic               valid_comb;\n    logic [7:0]         idx8_comb;\n    logic [WIDTH-1:0]   onehot_comb;\n\n    function automatic logic [7:0] prienc16(input logic [WIDTH-1:0] v);\n        logic [7:0] r;\n        int i;\n        begin\n            r = 8'd0;\n            for (i = WIDTH-1; i >= 0; i -= 1) begin\n                if (v[i]) begin\n                    r = i[7:0];\n                end\n            end\n            prienc16 = r;\n        end\n    endfunction\n\n    function automatic logic [WIDTH-1:0] onehot_from_idx(\n        input logic [IDXW-1:0] j,\n        input logic             val\n    );\n        logic [WIDTH-1:0] oh;\n        begin\n            oh = '0;\n            if (val) begin\n                oh = '0;\n                oh[j] = 1'b1;\n            end\n            onehot_from_idx = oh;\n        end\n    endfunction\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            req_q   <= 1'b0;\n            req_qq  <= 1'b0;\n            in_vec_q <= '0;\n        end else begin\n            req_q   <= req;\n            req_qq  <= req_q;\n            in_vec_q <= in_vec;\n        end\n    end\n\n    assign masked_vec = req_qq ? in_vec_q : '0;\n    assign valid_comb = |masked_vec;\n    assign idx8_comb  = prienc16(masked_vec);\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            idx   <= '0;\n            valid <= 1'b0;\n        end else begin\n            idx   <= idx8_comb;\n            valid <= valid_comb;\n        end\n    end\n\n    assign onehot_comb = onehot_from_idx(idx, valid);\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            onehot <= '0;\n        end else begin\n            onehot <= onehot_comb;\n        end\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "1. SYNTAX STRUCTURE",
+            "error_description": "Missing semicolon at the end of the localparam declaration for WIDTH.",
+            "error_line": 11
+        },
+        {
+            "taxonomy_title": "11. BIT WIDTH USAGE",
+            "error_description": "Assigning an 8-bit signal (idx8_comb) to a 4-bit register (idx), causing truncation.",
+            "error_line": 72
+        }
+    ]
+}

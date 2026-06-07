@@ -1,0 +1,26 @@
+{
+    "module_code": "module fancy_decoder (\n    input  logic        clk,\n    input  logic        rst_n,\n    input  logic        en,\n    input  logic [3:0]  addr,\n    input  logic [1:0]  mode,\n    output logic [15:0] dec_raw,\n    output logic [15:0] dec_qual,\n    output logic        valid\n);\n\n    logic \\always_comb ;\n\n    assign \\always_comb  = en & rst_n;\n\n    always_comb begin\n        dec_raw = 16'h0000;\n        if (mode == 2'b00) begin\n            if (addr[3] == 1'b0) begin\n                if (addr[2] == 1'b0) begin\n                    if (addr[1] == 1'b0) begin\n                        if (addr[0] == 1'b0) dec_raw[0] = 1'b1;\n                        else dec_raw[1] = 1'b1;\n                    end else begin\n                        if (addr[0] == 1'b0) dec_raw[2] = 1'b1;\n                        else dec_raw[3] = 1'b1;\n                    end\n                end else begin\n                    if (addr[1] == 1'b0) begin\n                        if (addr[0] == 1'b0) dec_raw[4] = 1'b1;\n                        else dec_raw[5] = 1'b1;\n                    end else begin\n                        if (addr[0] == 1'b0) dec_raw[6] = 1'b1;\n                        else dec_raw[7] = 1'b1;\n                    end\n                end\n            end else begin\n                if (addr[2] == 1'b0) begin\n                    if (addr[1] == 1'b0) begin\n                        if (addr[0] == 1'b0) dec_raw[8] = 1'b1;\n                        else dec_raw[9] = 1'b1;\n                    end else begin\n                        if (addr[0] == 1'b0) dec_raw[10] = 1'b1;\n                        else dec_raw[11] = 1'b1;\n                    end\n                end else begin\n                    if (addr[1] == 1'b0) begin\n                        if (addr[0] == 1'b0) dec_raw[12] = 1'b1;\n                        else dec_raw[13] = 1'b1;\n                    end else begin\n                        if (addr[0] == 1'b0) dec_raw[14] = 1'b1;\n                        else dec_raw[15] = 1'b1;\n                    end\n                end\n            end\n        end else if (mode == 2'b01) begin\n            if (addr[3] == 1'b0) begin\n                if (addr[2] == 1'b0) begin\n                    if (addr[1] == 1'b0) begin\n                        if (addr[0] == 1'b0) dec_raw[15] = 1'b1;\n                        else dec_raw[14] = 1'b1;\n                    end else begin\n                        if (addr[0] == 1'b0) dec_raw[13] = 1'b1;\n                        else dec_raw[12] = 1'b1;\n                    end\n                end else begin\n                    if (addr[1] == 1'b0) begin\n                        if (addr[0] == 1'b0) dec_raw[11] = 1'b1;\n                        else dec_raw[10] = 1'b1;\n                    end else begin\n                        if (addr[0] == 1'b0) dec_raw[9] = 1'b1;\n                        else dec_raw[8] = 1'b1;\n                    end\n                end\n            end else begin\n                if (addr[2] == 1'b0) begin\n                    if (addr[1] == 1'b0) begin\n                        if (addr[0] == 1'b0) dec_raw[7] = 1'b1;\n                        else dec_raw[6] = 1'b1;\n                    end else begin\n                        if (addr[0] == 1'b0) dec_raw[5] = 1'b1;\n                        else dec_raw[4] = 1'b1;\n                    end\n                end else begin\n                    if (addr[1] == 1'b0) begin\n                        if (addr[0] == 1'b0) dec_raw[3] = 1'b1;\n                        else dec_raw[2] = 1'b1;\n                    end else begin\n                        if (addr[0] == 1'b0) dec_raw[1] = 1'b1;\n                        else dec_raw[0] = 1'b1;\n                    end\n                end\n            end\n        end else begin\n            dec_raw = (16'h0001 << addr);\n        end\n    end\n\n    always @(addr or mode) begin\n        if (en)\n            dec_qual = dec_raw;\n        else\n            dec_qual = 16'h0000;\n    end\n\n    always @(clk) begin\n        if (clk) begin\n            valid <= (\\always_comb ) ? |dec_qual : 1'b0;\n        end\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "4. RESERVED WORDS",
+            "error_description": "Declared an escaped identifier named \\always_comb to use a reserved keyword as a signal name, which compiles but violates reserved-word usage guidelines.",
+            "error_line": 12
+        },
+        {
+            "taxonomy_title": "13. CODE QUALITY AND SYNTHESIS",
+            "error_description": "Introduced a deeply nested chain of if-else statements for decoding, creating long combinational paths and poor synthesis quality.",
+            "error_line": 19,
+            "acceptable_error_lines": [18]
+        },
+        {
+            "taxonomy_title": "3. SENSITIVITY LIST",
+            "error_description": "Used an explicit sensitivity list that omits signals read within the block (en and dec_raw), causing a sensitivity list mismatch.",
+            "error_line": 99
+        },
+        {
+            "taxonomy_title": "10. COMBINATIONAL OR SEQUENTIAL",
+            "error_description": "Used an always @(clk) level-sensitive block to update a state signal, mixing sequential intent without a proper clock edge.",
+            "error_line": 106
+        }
+    ]
+}

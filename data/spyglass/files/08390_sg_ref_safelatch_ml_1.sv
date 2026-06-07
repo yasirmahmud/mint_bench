@@ -1,0 +1,5 @@
+module SafeLatch_ML_ex1 (input clk1, input clk2, input data_in, output reg q_out);
+ wire enable_sig;
+ assign enable_sig = clk1 & clk2;
+ always @(enable_sig or data_in) begin if (enable_sig) begin q_out <= data_in;
+ end end endmodule

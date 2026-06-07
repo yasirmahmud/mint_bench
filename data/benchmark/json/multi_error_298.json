@@ -1,0 +1,25 @@
+{
+    "module_code": "module rr_arbiter #(parameter int N = 4) (\n    input  logic                      clk,\n    input  logic                      rst_n,\n    input  logic [N-1:0]              req,\n    input  logic                      ack,\n    output logic [N-1:0]              grant,\n    output logic                      grant_valid,\n    output logic [$clog2(N)-1:0]      grant_idx,\n    output logic [2:0]                debug_metric\n);\n\n    typedef enum logic [2:0] { ST_IDLE, ST_SCAN, ST_GRANT, ST_HOLD, ST_UNUSED } state_t;\n\n    state_t state_q, state_d;\n    logic [$clog2(N)-1:0] ptr_q, ptr_d;\n\n    logic [N-1:0] rr_mask;\n    logic [N-1:0] masked_req;\n    logic [N-1:0] select_vec;\n    logic has_masked;\n    logic has_any;\n    logic found;\n    logic [$clog2(N)-1:0] cand_idx;\n\n    int unsigned i;\n    int unsigned k;\n\n    function automatic logic [N-1:0] onehot(input logic [$clog2(N)-1:0] idx);\n        logic [N-1:0] tmp;\n        int j;\n        begin\n            tmp = '0;\n            for (j = 0; j < N; j++) begin\n                if (j == idx) tmp[j] = 1'b1;\n            end\n            return tmp;\n        end\n    endfunction\n\n    always_comb begin\n        rr_mask = '0;\n        for (i = 0; i < N; i++) begin\n            if (i >= ptr_q) rr_mask[i] = 1'b1;\n            else rr_mask[i] = 1'b0;\n        end\n    end\n\n    always_comb begin\n        masked_req = req & rr_mask;\n        has_any = (req === {N{1'b0}}) ? 1'b0 : 1'b1;\n    end\n\n    always_comb begin\n        has_masked = |masked_req;\n        if (has_masked) select_vec = masked_req;\n        else select_vec = req;\n        found = 1'b0;\n        cand_idx = '0;\n        for (k = 0; k < N; k++) begin\n            if (!found && select_vec[k]) begin\n                cand_idx = k[$clog2(N)-1:0];\n                found = 1'b1;\n            end\n        end\n    end\n\n    always_comb begin\n        state_d = state_q;\n        ptr_d = ptr_q;\n        grant_valid = 1'b0;\n        grant_idx = cand_idx;\n        unique case (state_q)\n            ST_IDLE: begin\n                if (has_any) state_d = ST_SCAN;\n            end\n            ST_SCAN: begin\n                if (found) state_d = ST_GRANT;\n                else state_d = ST_IDLE;\n            end\n            ST_GRANT: begin\n                grant_valid = 1'b1;\n                if (ack) begin\n                    ptr_d = cand_idx + {{($clog2(N)-1){1'b0}}, 1'b1};\n                    state_d = ST_HOLD;\n                end\n            end\n            ST_HOLD: begin\n                if (!ack) state_d = ST_IDLE;\n            end\n            default: begin\n                state_d = ST_IDLE;\n            end\n        endcase\n    end\n\n    always_comb begin\n        if (state_q == ST_GRANT) grant = onehot(grant_idx);\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            state_q <= ST_IDLE;\n            ptr_q   <= '0;\n        end else begin\n            state_q <= state_d;\n            ptr_q   <= ptr_d;\n        end\n    end\n\n    logic [15:0] dbg_accum;\n    logic [2:0]  dbg_metric;\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            dbg_accum    <= '0;\n            dbg_metric   <= '0;\n            debug_metric <= '0;\n        end else begin\n            dbg_accum    <= dbg_accum + { {(16-N){1'b0}}, req } + { {(16-N){1'b0}}, grant };\n            dbg_metric   <= dbg_accum % 7;\n            debug_metric <= dbg_metric;\n        end\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "12. STATE MACHINE (FSM) DEFECTS",
+            "error_description": "Introduced an unreachable FSM state by adding ST_UNUSED to the enum without any transition into it.",
+            "error_line": 12
+        },
+        {
+            "taxonomy_title": "7. OPERATORS",
+            "error_description": "Used 4-state equality (===) in synthesizable control logic to detect zero requests, which is unsafe for synthesis semantics.",
+            "error_line": 50
+        },
+        {
+            "taxonomy_title": "9. LOGIC SYNTHESIS",
+            "error_description": "Created an unintended latch by conditionally assigning 'grant' in an always_comb block without an else path or default assignment.",
+            "error_line": 97
+        },
+        {
+            "taxonomy_title": "13. CODE QUALITY AND SYNTHESIS",
+            "error_description": "Used a modulus operation in RTL (dbg_metric <= dbg_accum % 7), inferring an expensive divider and leading to suboptimal hardware.",
+            "error_line": 120
+        }
+    ]
+}

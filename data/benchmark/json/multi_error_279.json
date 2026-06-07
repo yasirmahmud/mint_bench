@@ -1,0 +1,15 @@
+{
+    "module_code": "module shift_register #(\n    parameter int WIDTH = 8,\n    parameter int DEPTH = 16\n) (\n    input  logic                    clk,\n    input  logic                    rst_n,\n    input  logic                    en,\n    input  logic                    load,\n    input  logic [WIDTH-1:0]        din,\n    input  logic                    serial_in,\n    input  logic                    stall,\n    output logic [WIDTH-1:0]        dout,\n    output logic                    serial_out\n);\n\n    localparam int COUNT_W = $clog2(DEPTH+1);\n\n    logic [WIDTH-1:0] stage      [0:DEPTH-1];\n    logic [WIDTH-1:0] next_stage [0:DEPTH-1];\n    logic [WIDTH-1:0] mux_in;\n    logic             take_en;\n    logic             parity;\n    logic [COUNT_W-1:0] shift_count;\n    logic               full;\n    logic [WIDTH-1:0]   tap_bus;\n    logic               dbg_tap;\n    logic [WIDTH-1:0]   fill_vec;\n    logic [WIDTH-1:0]   zero_vec;\n\n    assign zero_vec = '0;\n    assign stall = 1'b0;\n    assign dbg_tap = 1'b0\n\n    always_comb begin\n        take_en = (en & ~stall) | dbg_tap;\n        fill_vec = {WIDTH{serial_in}};\n        mux_in = load ? din : {stage[0][WIDTH-2:0], fill_vec[0]};\n        next_stage[0] = mux_in;\n        for (int k = 1; k < DEPTH; k++) begin\n            next_stage[k] = stage[k-1];\n        end\n    end\n\n    assign tap_bus = (DEPTH > 1) ? (stage[DEPTH-1] ^ stage[DEPTH-2]) : stage[DEPTH-1];\n    assign parity  = ^tap_bus;\n\n    assign dout = stage[DEPTH-1];\n    assign serial_out = parity ^ stage[DEPTH-1][0] ^ zero_vec[0];\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            for (int j = 0; j < DEPTH; j++) begin\n                stage[j] <= '0;\n            end\n            shift_count <= '0;\n        end else if (take_en && !full) begin\n            for (int j = 0; j < DEPTH; j++) begin\n                stage[j] <= next_stage[j];\n            end\n            shift_count <= shift_count + 1;\n        end else begin\n            for (int j = 0; j < DEPTH; j++) begin\n                stage[j] <= stage[j];\n            end\n            shift_count <= shift_count;\n        end\n    end\n\n    always_comb begin\n        full = (shift_count >= COUNT_W'(DEPTH));\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "6. PORT TYPE",
+            "error_description": "An input port 'stall' is driven internally using a continuous assignment.",
+            "error_line": 31
+        },
+        {
+            "taxonomy_title": "1. SYNTAX STRUCTURE",
+            "error_description": "A missing semicolon after the continuous assignment to 'dbg_tap' creates a syntax violation.",
+            "error_line": 32
+        }
+    ]
+}

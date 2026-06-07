@@ -1,0 +1,20 @@
+{
+    "module_code": "module shift_register_fsm #(\n    parameter int WIDTH   = 16,\n    parameter int COUNT_W = 8\n) (\n    input  logic                 clk,\n    input  logic                 rst_n,\n    input  logic                 load,\n    input  logic                 shift_en,\n    input  logic                 dir,\n    input  logic                 serial_in_left,\n    input  logic                 serial_in_right,\n    input  logic [WIDTH-1:0]     parallel_in,\n    output logic [WIDTH-1:0]     parallel_out,\n    output logic                 serial_out_left,\n    output logic                 serial_out_right\n);\n\n    typedef enum logic [1:0] { S_IDLE, S_LOAD, S_SHIFT, S_UNUSED } state_t;\n\n    state_t state;\n    state_t next_state;\n\n    logic [WIDTH-1:0] shreg;\n    logic [COUNT_W-1:0] shift_count;\n    logic gate_shift;\n    logic dir_q;\n\n    assign parallel_out    = shreg;\n    assign serial_out_left = shreg[WIDTH-1];\n    assign serial_out_right= shreg[0];\n\n    assign serial_in_left = dir & load;\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            dir_q       <= 1'b0;\n        end else begin\n            dir_q       <= dir;\n        end\n    end\n\n    always_comb begin\n        gate_shift = 1'b0;\n        if (shift_en === 1'b1) begin\n            gate_shift = 1'b1;\n        end\n    end\n\n    always_comb begin\n        next_state = state;\n        unique case (state)\n            S_IDLE: begin\n                if (load) begin\n                    next_state = S_LOAD;\n                end else if (gate_shift) begin\n                    next_state = S_SHIFT;\n                end else begin\n                    next_state = S_IDLE;\n                end\n            end\n            S_LOAD: begin\n                next_state = S_IDLE;\n            end\n            S_SHIFT: begin\n                if (!gate_shift) begin\n                    next_state = S_IDLE;\n                end else begin\n                    next_state = S_SHIFT;\n                end\n            end\n            default: begin\n                next_state = S_IDLE;\n            end\n        endcase\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            state       <= S_IDLE;\n            shreg       <= '0;\n            shift_count <= '0;\n        end else begin\n            state <= next_state;\n            case (next_state)\n                S_LOAD: begin\n                    shreg       <= parallel_in;\n                    shift_count <= '0;\n                end\n                S_SHIFT: begin\n                    if (dir_q) begin\n                        shreg <= {serial_in_right, shreg[WIDTH-1:1]};\n                    end else begin\n                        shreg <= {shreg[WIDTH-2:0], serial_in_left};\n                    end\n                    shift_count <= shift_count + 1'b1;\n                end\n                default: begin\n                    shreg       <= shreg;\n                    shift_count <= shift_count;\n                end\n            endcase\n        end\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "12. STATE MACHINE (FSM) DEFECTS",
+            "error_description": "Declared an extra FSM state S_UNUSED that is never transitioned into, creating an unreachable state.",
+            "error_line": 18
+        },
+        {
+            "taxonomy_title": "6. PORT TYPE",
+            "error_description": "Drove an input port (serial_in_left) using a continuous assign within the module.",
+            "error_line": 32
+        },
+        {
+            "taxonomy_title": "7. OPERATORS",
+            "error_description": "Used case-equality operator (===) in synthesizable control logic for shift gating.",
+            "error_line": 44
+        }
+    ]
+}

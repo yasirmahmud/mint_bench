@@ -1,0 +1,21 @@
+{
+    "module_code": "module mux16_complex #(parameter WIDTH = 8) (\n    input  logic                   clk,\n    input  logic                   rst_n,\n    input  logic                   enable,\n    input  logic [3:0]             sel,\n    input  logic [WIDTH-1:0]       in0,\n    input  logic [WIDTH-1:0]       in1,\n    input  logic [WIDTH-1:0]       in2,\n    input  logic [WIDTH-1:0]       in3,\n    input  logic [WIDTH-1:0]       in4,\n    input  logic [WIDTH-1:0]       in5,\n    input  logic [WIDTH-1:0]       in6,\n    input  logic [WIDTH-1:0]       in7,\n    input  logic [WIDTH-1:0]       in8,\n    input  logic [WIDTH-1:0]       in9,\n    input  logic [WIDTH-1:0]       in10,\n    input  logic [WIDTH-1:0]       in11,\n    input  logic [WIDTH-1:0]       in12,\n    input  logic [WIDTH-1:0]       in13,\n    input  logic [WIDTH-1:0]       in14,\n    input  logic [WIDTH-1:0]       in15,\n    output logic [WIDTH-1:0]       y,\n    output logic                   valid\n);\n\n    logic [WIDTH-1:0] mux_out;\n    logic [WIDTH-1:0] temp_a;\n    logic [WIDTH-1:0] temp_b;\n    logic [WIDTH-1:0] temp_c;\n    logic [WIDTH-1:0] temp_d;\n\n    assign temp_a = in0 ^ in1;\n    assign temp_b = in2 ^ in3;\n    assign temp_c = in4 ^ in5;\n    assign temp_d = in6 ^ in7;\n\n    always @(sel or in0 or in1) begin\n        mux_out = in0;\n        if (sel == 4'd0) begin\n            mux_out = in0;\n        end else if (sel == 4'd1) begin\n            mux_out = in1;\n        end else if (sel == 4'd2) begin\n            mux_out = in2;\n        end else if (sel == 4'd3) begin\n            mux_out = in3;\n        end else if (sel == 4'd4) begin\n            mux_out = in4;\n        end else if (sel == 4'd5) begin\n            mux_out = in5;\n        end else if (sel == 4'd6) begin\n            mux_out = in6;\n        end else if (sel == 4'd7) begin\n            mux_out = in7;\n        end else if (sel == 4'd8) begin\n            mux_out = in8;\n        end else if (sel == 4'd9) begin\n            mux_out = in9;\n        end else if (sel == 4'd10) begin\n            mux_out = in10;\n        end else if (sel == 4'd11) begin\n            mux_out = in11;\n        end else if (sel == 4'd12) begin\n            mux_out = in12;\n        end else if (sel == 4'd13) begin\n            mux_out = in13;\n        end else if (sel == 4'd14) begin\n            mux_out = in14;\n        end else begin\n            mux_out = in15;\n        end\n    end\n\n    always @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            y <= '0;\n            valid = 1'b0;\n        end else begin\n            if (enable) begin\n                y <= mux_out;\n                valid = 1'b1;\n            end else begin\n                y <= y;\n                valid = 1'b0;\n            end\n        end\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "3. SENSITIVITY LIST",
+            "error_description": "The combinational always block's sensitivity list omits many data inputs (e.g., in2..in15) that are read within the block, using only sel, in0, and in1.",
+            "error_line": 37
+        },
+        {
+            "taxonomy_title": "13. CODE QUALITY AND SYNTHESIS",
+            "error_description": "The multiplexer is implemented as a deeply nested if-else chain starting at the first if condition, creating a long combinational path rather than using a balanced case or priority-free structure.",
+            "error_line": 39
+        },
+        {
+            "taxonomy_title": "5. RACE OR HAZARD",
+            "error_description": "Within the sequential always block, nonblocking assignments are mixed with blocking assignments (e.g., valid uses blocking while y uses nonblocking), creating potential race behavior.",
+            "error_line": 77,
+            "acceptable_error_lines": [81]
+        }
+    ]
+}

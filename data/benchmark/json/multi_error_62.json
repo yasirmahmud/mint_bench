@@ -1,0 +1,25 @@
+{
+    "module_code": "module counter_lint4 (\n    input  logic        clk,\n    input  logic        rst_n,\n    input  wire         en,\n    input  logic        load,\n    input  logic        dir,\n    input  logic [15:0] load_value,\n    input  logic [7:0]  step_in,\n    output logic [15:0] count_out,\n    output logic        carry_flag,\n    output wire         zero_flag\n);\n\n    assign en = dir;\n\n    logic [15:0] count_reg;\n    logic [15:0] next_count;\n    logic        carry_next;\n    logic [7:0]  trunc_reg;\n    logic        floating_sig;\n\n    wire  [15:0] step_ext = {8'd0, step_in};\n    wire  [31:0] waste_mult;\n    wire         parity_bit;\n    wire         debug_tap;\n\n    assign zero_flag  = (count_reg == 16'd0);\n    assign parity_bit = ^count_reg;\n    assign debug_tap  = en & dir & ~zero_flag & parity_bit & trunc_reg[0];\n    assign waste_mult = count_reg * 32'd3;\n\n    always_comb begin\n        next_count = count_reg;\n        trunc_reg  = count_reg;\n        if (load) begin\n            next_count = load_value;\n        end else if (en) begin\n            if (dir) begin\n                if (count_reg > step_ext) begin\n                    next_count = count_reg - step_ext;\n                end else begin\n                    next_count = 16'd0;\n                end\n            end else begin\n                if ((16'hFFFF - count_reg) > step_ext) begin\n                    next_count = count_reg + step_ext;\n                end else begin\n                    next_count = 16'hFFFF;\n                end\n            end\n        end\n    end\n\n    always_comb begin\n        carry_next = 1'b0;\n        if (en) begin\n            carry_next = waste_mult[31] | debug_tap;\n        end\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            count_reg  <= 16'd0;\n            count_out  <= 16'd0;\n            carry_flag <= 1'b0;\n        end else begin\n            count_reg  <= next_count;\n            count_out  <= next_count;\n            carry_flag <= carry_next;\n        end\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "13. CODE QUALITY AND SYNTHESIS",
+            "error_description": "Used a multiplication by a constant (count_reg * 32'd3) in a continuous assignment, which can infer a costly multiplier instead of using an efficient shift/add implementation.",
+            "error_line": 30
+        },
+        {
+            "taxonomy_title": "11. BIT WIDTH USAGE",
+            "error_description": "Assigned a 16-bit value (count_reg) to an 8-bit register (trunc_reg) without explicit casting or slicing, causing silent truncation.",
+            "error_line": 34
+        },
+        {
+            "taxonomy_title": "6. PORT TYPE",
+            "error_description": "Drove an input port (en) from within the module using a continuous assign, violating port directionality rules.",
+            "error_line": 14
+        },
+        {
+            "taxonomy_title": "14. CONNECTIVITY AND DRIVING",
+            "error_description": "Declared an internal signal (floating_sig) that is never connected or used, leaving it unconnected.",
+            "error_line": 20
+        }
+    ]
+}

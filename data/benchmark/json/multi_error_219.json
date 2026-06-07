@@ -1,0 +1,25 @@
+{
+    "module_code": "module arbiter4 #(parameter int N = 4) (\n    input  logic                 clk,\n    input  logic                 rst,\n    input  logic [N-1:0]         req,\n    output logic [N-1:0]         grant,\n    output logic                 grant_valid\n);\n\n    logic [1:0] ptr_q;\n    logic [1:0] ptr_d;\n    logic [N-1:0] grant_c;\n    logic grant_v_c;\n    localparam logic [31:0] CFG_WEIGHT = 32'd65535;\n    logic [31:0] wasteful_calc;\n    logic \\always_comb ;\n\n    always @(posedge clk) begin\n        force req[0] = 1'b0;\n    end\n\n    always_comb begin\n        grant_c = '0;\n        ptr_d = ptr_q;\n        \\always_comb = req[0];\n        wasteful_calc = ({28'd0, req} * CFG_WEIGHT) * 32'd1024;\n        if (ptr_q == 2'd0) begin\n            if (\\always_comb) begin\n                grant_c = 4'b0001;\n                ptr_d = 2'd1;\n            end else if (req[1]) begin\n                grant_c = 4'b0010;\n                ptr_d = 2'd2;\n            end else if (req[2]) begin\n                grant_c = 4'b0100;\n                ptr_d = 2'd3;\n            end else if (req[3]) begin\n                grant_c = 4'b1000;\n                ptr_d = 2'd0;\n            end else begin\n                grant_c = 4'b0000;\n                ptr_d = ptr_q;\n            end\n        end else if (ptr_q == 2'd1) begin\n            if (req[1]) begin\n                grant_c = 4'b0010;\n                ptr_d = 2'd2;\n            end else if (req[2]) begin\n                grant_c = 4'b0100;\n                ptr_d = 2'd3;\n            end else if (req[3]) begin\n                grant_c = 4'b1000;\n                ptr_d = 2'd0;\n            end else if (\\always_comb) begin\n                grant_c = 4'b0001;\n                ptr_d = 2'd1;\n            end else begin\n                grant_c = 4'b0000;\n                ptr_d = ptr_q;\n            end\n        end else if (ptr_q == 2'd2) begin\n            if (req[2]) begin\n                grant_c = 4'b0100;\n                ptr_d = 2'd3;\n            end else if (req[3]) begin\n                grant_c = 4'b1000;\n                ptr_d = 2'd0;\n            end else if (\\always_comb) begin\n                grant_c = 4'b0001;\n                ptr_d = 2'd1;\n            end else if (req[1]) begin\n                grant_c = 4'b0010;\n                ptr_d = 2'd2;\n            end else begin\n                grant_c = 4'b0000;\n                ptr_d = ptr_q;\n            end\n        end else begin\n            if (req[3]) begin\n                grant_c = 4'b1000;\n                ptr_d = 2'd0;\n            end else if (\\always_comb) begin\n                grant_c = 4'b0001;\n                ptr_d = 2'd1;\n            end else if (req[1]) begin\n                grant_c = 4'b0010;\n                ptr_d = 2'd2;\n            end else if (req[2]) begin\n                grant_c = 4'b0100;\n                ptr_d = 2'd3;\n            end else begin\n                grant_c = 4'b0000;\n                ptr_d = ptr_q;\n            end\n        end\n        grant_v_c = (|grant_c) | wasteful_calc[0];\n    end\n\n    always @(posedge clk or posedge rst or posedge grant_valid) begin\n        if (rst) begin\n            ptr_q <= 2'd0;\n        end else if (grant_valid) begin\n            ptr_q <= ptr_d;\n        end else begin\n            ptr_q <= ptr_q;\n        end\n    end\n\n    always_comb begin\n        grant = grant_c;\n        grant_valid = grant_v_c;\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "4. RESERVED WORDS",
+            "error_description": "Declared an escaped identifier named \\always_comb using a reserved keyword as an identifier.",
+            "error_line": 15
+        },
+        {
+            "taxonomy_title": "6. PORT TYPE",
+            "error_description": "Procedurally forced and drove the input port req[0] from within the module.",
+            "error_line": 18
+        },
+        {
+            "taxonomy_title": "13. CODE QUALITY AND SYNTHESIS",
+            "error_description": "Introduced a large-width chained multiplication that infers a costly hardware multiplier.",
+            "error_line": 25
+        },
+        {
+            "taxonomy_title": "10. COMBINATIONAL OR SEQUENTIAL",
+            "error_description": "Used a sequential always block with an extra asynchronous event (grant_valid) alongside the clock and reset.",
+            "error_line": 98
+        }
+    ]
+}

@@ -1,0 +1,25 @@
+{
+    "module_code": "module fsm_ctrl #(parameter int WIDTH = 8) (\n    input  logic                   clk,\n    input  logic                   rst_n,\n    input  logic                   start,\n    input  logic                   enable,\n    input  logic                   data_valid,\n    input  logic [WIDTH-1:0]       data_in,\n    input  logic [3:0]             cfg_mode,\n    output logic                   done,\n    output logic [WIDTH-1:0]       acc\n);\n\n    typedef enum logic [2:0] {\n        S_IDLE,\n        S_LOAD,\n        S_RUN,\n        S_WAIT,\n        S_DONE,\n        S_ERR\n    } state_t;\n\n    state_t state;\n    state_t next_state;\n\n    logic [15:0] cnt;\n    logic [15:0] cfg_threshold;\n    logic done_next;\n\n    localparam int MAX_TIMEOUT = 1023\n\n    logic always_comb;\n\n    assign cfg_threshold = {12'b0000_0000_0000, cfg_mode};\n\n    logic in_idle;\n    logic in_load;\n    logic in_run;\n    logic in_wait;\n    logic in_done;\n    logic in_err;\n\n    assign in_idle = (state == S_IDLE);\n    assign in_load = (state == S_LOAD);\n    assign in_run  = (state == S_RUN);\n    assign in_wait = (state == S_WAIT);\n    assign in_done = (state == S_DONE);\n    assign in_err  = (state == S_ERR);\n\n    always @(state or start or data_valid) begin\n        next_state = state;\n        done_next  = 1'b0;\n        case (state)\n            S_IDLE: begin\n                if (enable && start) begin\n                    next_state = S_LOAD;\n                end else begin\n                    next_state = S_IDLE;\n                end\n            end\n            S_LOAD: begin\n                if (data_valid) begin\n                    next_state = S_RUN;\n                end else begin\n                    next_state = S_WAIT;\n                end\n            end\n            S_WAIT: begin\n                if (data_valid) begin\n                    next_state = S_RUN;\n                end else if (!enable) begin\n                    next_state = S_IDLE;\n                end else begin\n                    next_state = S_WAIT;\n                end\n            end\n            S_RUN: begin\n                if (cnt >= cfg_threshold) begin\n                    next_state = S_DONE;\n                    done_next  = 1'b1;\n                end else if (cnt > MAX_TIMEOUT) begin\n                    next_state = S_ERR;\n                end else begin\n                    next_state = S_RUN;\n                end\n            end\n            S_DONE: begin\n                done_next = 1'b1;\n                if (!enable) begin\n                    next_state = S_IDLE;\n                end else if (start) begin\n                    next_state = S_LOAD;\n                end else begin\n                    next_state = S_DONE;\n                end\n            end\n            S_ERR: begin\n                next_state = S_IDLE;\n            end\n            default: begin\n                next_state = S_ERR;\n            end\n        endcase\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            state <= S_IDLE;\n            acc   <= '0;\n            cnt   <= '0;\n            done  <= 1'b0;\n        end else begin\n            state <= next_state;\n            if (state == S_LOAD && data_valid) begin\n                acc <= data_in;\n            end else if (state == S_RUN) begin\n                acc = acc ^ data_in;\n            end\n            if (state == S_RUN) begin\n                cnt <= cnt + 16'd1;\n            end else begin\n                cnt <= 16'd0;\n            end\n            done <= done_next;\n        end\n    end\n\n    logic [WIDTH-1:0] acc_masked;\n    assign acc_masked = acc & {WIDTH{enable}};\n\n    logic [WIDTH-1:0] acc_final;\n    assign acc_final = in_done ? acc_masked : acc;\n\n    wire guard_ok;\n    assign guard_ok = (cfg_threshold != 16'd0) && enable;\n\n    wire safe_path;\n    assign safe_path = guard_ok && !in_err;\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "1. SYNTAX STRUCTURE",
+            "error_description": "Missing semicolon at the end of a localparam declaration, violating basic syntax rules.",
+            "error_line": 29
+        },
+        {
+            "taxonomy_title": "4. RESERVED WORDS",
+            "error_description": "Declared an identifier named 'always_comb', which is a reserved SystemVerilog keyword used for procedural blocks.",
+            "error_line": 31
+        },
+        {
+            "taxonomy_title": "3. SENSITIVITY LIST",
+            "error_description": "The combinational always block's sensitivity list excludes 'enable' and 'cfg_threshold' that are read inside, causing a mismatch.",
+            "error_line": 49
+        },
+        {
+            "taxonomy_title": "5. RACE OR HAZARD",
+            "error_description": "Mixed blocking '=' and non-blocking '<=' assignments within the same sequential always_ff block, creating a potential race.",
+            "error_line": 116
+        }
+    ]
+}

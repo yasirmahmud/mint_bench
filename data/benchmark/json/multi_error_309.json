@@ -1,0 +1,25 @@
+{
+    "module_code": "module alu64 (\n    input  logic [63:0] a,\n    input  logic [63:0] b,\n    input  logic [3:0]  op,\n    input  logic        cin,\n    input  wire         ext_in,\n    output logic [63:0] y,\n    output logic        cout,\n    output logic        zero\n);\n\nwire [5:0] shamt;\nassign shamt = b[5:0];\n\nwire eq_x;\nassign eq_x = (a === b);\n\nassign ext_in = 1'b0;\n\nlogic [63:0] core_res;\nlogic        cout_int;\nlogic [63:0] y_interm;\nlogic        aux_flag;\n\nalways @(*) begin\n    case (op)\n        4'h6: aux_flag = |b[63:32];\n        4'h7: aux_flag = &a[63:32];\n        default: ;\n    endcase\nend\n\nalways @(a or b) begin\n    cout_int = 1'b0;\n    core_res = 64'd0;\n    case (op)\n        4'h0: begin\n            {cout_int, core_res} = a + b;\n        end\n        4'h1: begin\n            {cout_int, core_res} = a + b + cin;\n        end\n        4'h2: begin\n            {cout_int, core_res} = a - b;\n        end\n        4'h3: begin\n            core_res = a & b;\n            cout_int = 1'b0;\n        end\n        4'h4: begin\n            core_res = a | b;\n            cout_int = 1'b0;\n        end\n        4'h5: begin\n            core_res = a ^ b;\n            cout_int = 1'b0;\n        end\n        4'h6: begin\n            core_res = a << shamt;\n            cout_int = 1'b0;\n        end\n        4'h7: begin\n            core_res = a >> shamt;\n            cout_int = 1'b0;\n        end\n        4'h8: begin\n            core_res = a * b;\n            cout_int = 1'b0;\n        end\n        4'h9: begin\n            core_res = {63'd0, eq_x};\n            cout_int = 1'b0;\n        end\n        4'hA: begin\n            core_res = ext_in ? ~a : a;\n            cout_int = 1'b0;\n        end\n        4'hB: begin\n            core_res = (a < b) ? b : a;\n            cout_int = 1'b0;\n        end\n        4'hC: begin\n            core_res = (a == b) ? 64'd0 : 64'd1;\n            cout_int = 1'b0;\n        end\n        default: begin\n            core_res = 64'hDEADBEEFDEADBEEF;\n            cout_int = 1'b0;\n        end\n    endcase\nend\n\nalways_comb begin\n    if (aux_flag) begin\n        y_interm = core_res ^ {64{1'b1}};\n    end else begin\n        y_interm = core_res;\n    end\nend\n\nalways_comb begin\n    y = y_interm;\n    cout = cout_int;\n    zero = (y_interm == 64'd0);\nend\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "3. SENSITIVITY LIST",
+            "error_description": "The always block that computes core_res and cout_int uses op and cin but the sensitivity list only includes a and b.",
+            "error_line": 33
+        },
+        {
+            "taxonomy_title": "7. OPERATORS",
+            "error_description": "Used case equality (===) in synthesizable RTL when comparing a and b to generate eq_x.",
+            "error_line": 16
+        },
+        {
+            "taxonomy_title": "9. LOGIC SYNTHESIS",
+            "error_description": "The case statement for aux_flag omits assignments in some branches (default does nothing), causing unintentional latch inference.",
+            "error_line": 26
+        },
+        {
+            "taxonomy_title": "6. PORT TYPE",
+            "error_description": "A continuous assignment drives the input port ext_in from within the module.",
+            "error_line": 18
+        }
+    ]
+}

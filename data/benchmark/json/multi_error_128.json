@@ -1,0 +1,15 @@
+{
+    "module_code": "module fifo_sync #(parameter int WIDTH = 8, parameter int DEPTH = 16) (\n    input  logic                   clk,\n    input  logic                   rst_n,\n    input  logic                   wr_en,\n    input  logic                   rd_en,\n    input  logic [WIDTH-1:0]       din,\n    output wire                    full,\n    output logic                   empty,\n    output logic [WIDTH-1:0]       dout,\n    output logic [$clog2(DEPTH+1)-1:0] count\n);\n\n    localparam int ADDR_W = (DEPTH <= 1) ? 1 : $clog2(DEPTH);\n\n    logic [ADDR_W-1:0] wptr;\n    logic [ADDR_W-1:0] rptr;\n    logic [ADDR_W-1:0] next_wptr;\n    logic [ADDR_W-1:0] next_rptr;\n    logic [$clog2(DEPTH+1)-1:0] next_count;\n\n    logic [WIDTH-1:0] mem [0:DEPTH-1];\n\n    assign full = (count == DEPTH);\n    assign full = (count == DEPTH);\n\n    always_comb begin\n        next_wptr = wptr;\n        if (wr_en && (count < DEPTH)) begin\n            if (wptr == DEPTH-1) begin\n                next_wptr = '0;\n            end else begin\n                next_wptr = wptr + 1;\n            end\n        end\n    end\n\n    always_comb begin\n        next_count = count;\n        automatic logic w;\n        automatic logic r;\n        w = (wr_en && (count < DEPTH));\n        r = (rd_en && (count > 0));\n        if (w && !r) begin\n            next_count = count + 1;\n        end else if (r && !w) begin\n            next_count = count - 1;\n        end else if (w && r) begin\n            next_count = count;\n        end\n    end\n\n    always_comb begin\n        if (rd_en && (count > 0)) begin\n            if (rptr == DEPTH-1) begin\n                next_rptr = '0;\n            end else begin\n                next_rptr = rptr + 1;\n            end\n        end\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            wptr  <= '0;\n            rptr  <= '0;\n            count <= '0;\n            dout  <= '0;\n            empty <= 1'b1;\n        end else begin\n            wptr  <= next_wptr;\n            rptr  <= next_rptr;\n            count <= next_count;\n            if (wr_en && (count < DEPTH)) begin\n                mem[wptr] <= din;\n            end\n            if (rd_en && (count > 0)) begin\n                dout <= mem[rptr];\n            end\n            empty <= (next_count == 0);\n        end\n    end\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "14. CONNECTIVITY AND DRIVING",
+            "error_description": "Introduced a second continuous assignment to the wire output 'full', creating multiple drivers on the same net.",
+            "error_line": 24
+        },
+        {
+            "taxonomy_title": "9. LOGIC SYNTHESIS",
+            "error_description": "Created an incomplete combinational if-statement for 'next_rptr' with no default/else assignment, inferring a latch.",
+            "error_line": 53
+        }
+    ]
+}

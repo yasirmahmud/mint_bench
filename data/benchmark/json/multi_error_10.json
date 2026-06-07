@@ -1,0 +1,25 @@
+{
+    "module_code": "module arbiter_with_precise_lint #(parameter int N = 4) (\n    input  logic                   clk,\n    input  logic                   rst_n,\n    input  logic [N-1:0]           req,\n    output wire  [N-1:0]           grant,\n    output wire                    grant_valid,\n    output wire  [1:0]             grant_idx\n);\n\n    logic [N-1:0] grant_reg;\n    logic [N-1:0] grant_next;\n    logic [1:0]   rr_ptr;\n    logic [2*N-1:0] double_req;\n    logic [2*N-1:0] double_grant;\n    logic [N-1:0] req_rot;\n    logic [N-1:0] grant_rot;\n    logic [N-1:0] masked_req;\n    logic [N-1:0] grant_masked;\n    wire          valid_wire;\n    logic         rr_valid_wire;\n    logic         spare_unused;\n\n    function automatic logic [N-1:0] first_one(input logic [N-1:0] v);\n        logic [N-1:0] res;\n        res = '0;\n        for (int i = 0; i < N; i++) begin\n            if (v[i] === 1'b1) begin\n                res[i] = 1'b1;\n                break;\n            end\n        end\n        return res;\n    endfunction\n\n    function automatic logic[$clog2(N)-1:0] onehot_to_index(input logic [N-1:0] v);\n        logic[$clog2(N)-1:0] idx;\n        idx = '0;\n        for (int k = 0; k < N; k++) begin\n            if (v[k]) idx = k[$clog2(N)-1:0];\n        end\n        return idx;\n    endfunction\n\n    always_comb begin\n        masked_req    = req;\n        double_req    = {masked_req, masked_req};\n        req_rot       = (double_req >> rr_ptr)[N-1:0];\n        grant_rot     = first_one(req_rot);\n        double_grant  = {grant_rot, grant_rot} << rr_ptr;\n        grant_next    = double_grant[N-1:0] | double_grant[2*N-1:N];\n        grant_masked  = grant_next;\n        rr_valid_wire = |grant_masked;\n    end\n\n    always_ff @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            grant_reg <= '0;\n            rr_ptr    <= '0;\n        end else begin\n            grant_reg <= grant_next;\n            if (rr_valid_wire) begin\n                rr_ptr <= onehot_to_index(grant_next) + 2'd1;\n            end else begin\n                rr_ptr <= rr_ptr;\n            end\n        end\n    end\n\n    assign grant = grant_reg;\n    assign valid_wire = |grant_reg;\n    assign valid_wire = rr_valid_wire;\n    assign grant_valid = valid_wire;\n    assign grant_idx = grant_reg;\n\nendmodule",
+    "errors": [
+        {
+            "taxonomy_title": "14. CONNECTIVITY AND DRIVING",
+            "error_description": "Introduced two continuous assignments to the same net valid_wire; the second assignment creates multiple active drivers.",
+            "error_line": 71
+        },
+        {
+            "taxonomy_title": "2. SIGNAL USAGE",
+            "error_description": "Declared the internal signal spare_unused and never used or driven it.",
+            "error_line": 21
+        },
+        {
+            "taxonomy_title": "7. OPERATORS",
+            "error_description": "Used case-equality (===) inside combinational logic to test a single-bit signal in the arbiter, which is unsafe for synthesis.",
+            "error_line": 27
+        },
+        {
+            "taxonomy_title": "11. BIT WIDTH USAGE",
+            "error_description": "Assigned the 4-bit grant_reg bus to the 2-bit grant_idx output, causing truncation due to width mismatch.",
+            "error_line": 73
+        }
+    ]
+}
