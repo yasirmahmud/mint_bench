@@ -1,0 +1,109 @@
+{
+  "errors": [
+    {
+      "file_name": "ibex_core.sv",
+      "line": 17,
+      "description": "Blocking assignment used inside a flip-flop inferred sequential block"
+    },
+    {
+      "file_name": "ibex_core.sv",
+      "line": 18,
+      "description": "Operator (===) encountered. Treating as (==) for synthesis"
+    },
+    {
+      "file_name": "ibex_core.sv",
+      "line": 19,
+      "description": "Multiple simultaneous drivers for a signal"
+    },
+    {
+      "file_name": "ibex_core.sv",
+      "line": 20,
+      "description": "Case statement does not have a default clause in combinational logic"
+    },
+    {
+      "file_name": "ibex_core.sv",
+      "line": 21,
+      "description": "Latch inferred for signal due to incomplete assignment coverage"
+    },
+    {
+      "file_name": "ibex_core.sv",
+      "line": 22,
+      "description": "Blocking assignment used inside a flip-flop inferred sequential block"
+    },
+    {
+      "file_name": "ibex_core.sv",
+      "line": 23,
+      "description": "Operator (===) encountered. Treating as (==) for synthesis"
+    },
+    {
+      "file_name": "ibex_core.sv",
+      "line": 24,
+      "description": "Multiple simultaneous drivers for a signal"
+    },
+    {
+      "file_name": "ibex_core.sv",
+      "line": 25,
+      "description": "Case statement does not have a default clause in combinational logic"
+    },
+    {
+      "file_name": "ibex_core.sv",
+      "line": 26,
+      "description": "Latch inferred for signal due to incomplete assignment coverage"
+    },
+    {
+      "file_name": "ibex_core.sv",
+      "line": 27,
+      "description": "Blocking assignment used inside a flip-flop inferred sequential block"
+    },
+    {
+      "file_name": "ibex_core.sv",
+      "line": 28,
+      "description": "Operator (===) encountered. Treating as (==) for synthesis"
+    },
+    {
+      "file_name": "ibex_core.sv",
+      "line": 29,
+      "description": "Multiple simultaneous drivers for a signal"
+    },
+    {
+      "file_name": "ibex_core.sv",
+      "line": 30,
+      "description": "Case statement does not have a default clause in combinational logic"
+    },
+    {
+      "file_name": "ibex_core.sv",
+      "line": 31,
+      "description": "Latch inferred for signal due to incomplete assignment coverage"
+    },
+    {
+      "file_name": "ibex_core.sv",
+      "line": 32,
+      "description": "Blocking assignment used inside a flip-flop inferred sequential block"
+    },
+    {
+      "file_name": "ibex_core.sv",
+      "line": 33,
+      "description": "Operator (===) encountered. Treating as (==) for synthesis"
+    },
+    {
+      "file_name": "ibex_core.sv",
+      "line": 34,
+      "description": "Multiple simultaneous drivers for a signal"
+    },
+    {
+      "file_name": "ibex_core.sv",
+      "line": 35,
+      "description": "Case statement does not have a default clause in combinational logic"
+    },
+    {
+      "file_name": "ibex_core.sv",
+      "line": 36,
+      "description": "Latch inferred for signal due to incomplete assignment coverage"
+    },
+    {
+      "file_name": "ibex_core.sv",
+      "line": 37,
+      "description": "Blocking assignment used inside a flip-flop inferred sequential block"
+    }
+  ]
+}

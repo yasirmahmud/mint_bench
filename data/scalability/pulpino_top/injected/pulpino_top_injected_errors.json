@@ -1,0 +1,109 @@
+{
+  "errors": [
+    {
+      "file_name": "pulpino_top.sv",
+      "line": 22,
+      "description": "Blocking assignment used inside a flip-flop inferred sequential block"
+    },
+    {
+      "file_name": "pulpino_top.sv",
+      "line": 23,
+      "description": "Operator (===) encountered. Treating as (==) for synthesis"
+    },
+    {
+      "file_name": "pulpino_top.sv",
+      "line": 24,
+      "description": "Multiple simultaneous drivers for a signal"
+    },
+    {
+      "file_name": "pulpino_top.sv",
+      "line": 25,
+      "description": "Case statement does not have a default clause in combinational logic"
+    },
+    {
+      "file_name": "pulpino_top.sv",
+      "line": 25,
+      "description": "Latch inferred for signal due to incomplete assignment coverage"
+    },
+    {
+      "file_name": "pulpino_top.sv",
+      "line": 25,
+      "description": "Blocking assignment used inside a flip-flop inferred sequential block"
+    },
+    {
+      "file_name": "pulpino_top.sv",
+      "line": 25,
+      "description": "Operator (===) encountered. Treating as (==) for synthesis"
+    },
+    {
+      "file_name": "pulpino_top.sv",
+      "line": 25,
+      "description": "Multiple simultaneous drivers for a signal"
+    },
+    {
+      "file_name": "pulpino_top.sv",
+      "line": 25,
+      "description": "Case statement does not have a default clause in combinational logic"
+    },
+    {
+      "file_name": "pulpino_top.sv",
+      "line": 25,
+      "description": "Latch inferred for signal due to incomplete assignment coverage"
+    },
+    {
+      "file_name": "pulpino_top.sv",
+      "line": 25,
+      "description": "Blocking assignment used inside a flip-flop inferred sequential block"
+    },
+    {
+      "file_name": "pulpino_top.sv",
+      "line": 25,
+      "description": "Operator (===) encountered. Treating as (==) for synthesis"
+    },
+    {
+      "file_name": "pulpino_top.sv",
+      "line": 25,
+      "description": "Multiple simultaneous drivers for a signal"
+    },
+    {
+      "file_name": "pulpino_top.sv",
+      "line": 25,
+      "description": "Case statement does not have a default clause in combinational logic"
+    },
+    {
+      "file_name": "pulpino_top.sv",
+      "line": 25,
+      "description": "Latch inferred for signal due to incomplete assignment coverage"
+    },
+    {
+      "file_name": "pulpino_top.sv",
+      "line": 25,
+      "description": "Blocking assignment used inside a flip-flop inferred sequential block"
+    },
+    {
+      "file_name": "pulpino_top.sv",
+      "line": 25,
+      "description": "Operator (===) encountered. Treating as (==) for synthesis"
+    },
+    {
+      "file_name": "pulpino_top.sv",
+      "line": 25,
+      "description": "Multiple simultaneous drivers for a signal"
+    },
+    {
+      "file_name": "pulpino_top.sv",
+      "line": 25,
+      "description": "Case statement does not have a default clause in combinational logic"
+    },
+    {
+      "file_name": "pulpino_top.sv",
+      "line": 25,
+      "description": "Latch inferred for signal due to incomplete assignment coverage"
+    },
+    {
+      "file_name": "pulpino_top.sv",
+      "line": 25,
+      "description": "Blocking assignment used inside a flip-flop inferred sequential block"
+    }
+  ]
+}

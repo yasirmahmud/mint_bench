@@ -1,0 +1,109 @@
+{
+  "errors": [
+    {
+      "file_name": "cv32e40p_core.sv",
+      "line": 34,
+      "description": "Blocking assignment used inside a flip-flop inferred sequential block"
+    },
+    {
+      "file_name": "cv32e40p_core.sv",
+      "line": 35,
+      "description": "Operator (===) encountered. Treating as (==) for synthesis"
+    },
+    {
+      "file_name": "cv32e40p_core.sv",
+      "line": 36,
+      "description": "Multiple simultaneous drivers for a signal"
+    },
+    {
+      "file_name": "cv32e40p_core.sv",
+      "line": 37,
+      "description": "Case statement does not have a default clause in combinational logic"
+    },
+    {
+      "file_name": "cv32e40p_core.sv",
+      "line": 38,
+      "description": "Latch inferred for signal due to incomplete assignment coverage"
+    },
+    {
+      "file_name": "cv32e40p_core.sv",
+      "line": 39,
+      "description": "Blocking assignment used inside a flip-flop inferred sequential block"
+    },
+    {
+      "file_name": "cv32e40p_core.sv",
+      "line": 40,
+      "description": "Operator (===) encountered. Treating as (==) for synthesis"
+    },
+    {
+      "file_name": "cv32e40p_core.sv",
+      "line": 46,
+      "description": "Multiple simultaneous drivers for a signal"
+    },
+    {
+      "file_name": "cv32e40p_core.sv",
+      "line": 106,
+      "description": "Case statement does not have a default clause in combinational logic"
+    },
+    {
+      "file_name": "cv32e40p_core.sv",
+      "line": 107,
+      "description": "Latch inferred for signal due to incomplete assignment coverage"
+    },
+    {
+      "file_name": "cv32e40p_core.sv",
+      "line": 108,
+      "description": "Blocking assignment used inside a flip-flop inferred sequential block"
+    },
+    {
+      "file_name": "cv32e40p_core.sv",
+      "line": 109,
+      "description": "Operator (===) encountered. Treating as (==) for synthesis"
+    },
+    {
+      "file_name": "cv32e40p_core.sv",
+      "line": 110,
+      "description": "Multiple simultaneous drivers for a signal"
+    },
+    {
+      "file_name": "cv32e40p_core.sv",
+      "line": 116,
+      "description": "Case statement does not have a default clause in combinational logic"
+    },
+    {
+      "file_name": "cv32e40p_core.sv",
+      "line": 122,
+      "description": "Latch inferred for signal due to incomplete assignment coverage"
+    },
+    {
+      "file_name": "cv32e40p_core.sv",
+      "line": 126,
+      "description": "Blocking assignment used inside a flip-flop inferred sequential block"
+    },
+    {
+      "file_name": "cv32e40p_core.sv",
+      "line": 127,
+      "description": "Operator (===) encountered. Treating as (==) for synthesis"
+    },
+    {
+      "file_name": "cv32e40p_core.sv",
+      "line": 361,
+      "description": "Multiple simultaneous drivers for a signal"
+    },
+    {
+      "file_name": "cv32e40p_core.sv",
+      "line": 362,
+      "description": "Case statement does not have a default clause in combinational logic"
+    },
+    {
+      "file_name": "cv32e40p_core.sv",
+      "line": 364,
+      "description": "Latch inferred for signal due to incomplete assignment coverage"
+    },
+    {
+      "file_name": "cv32e40p_core.sv",
+      "line": 365,
+      "description": "Blocking assignment used inside a flip-flop inferred sequential block"
+    }
+  ]
+}

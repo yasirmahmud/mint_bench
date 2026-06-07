@@ -1,0 +1,109 @@
+{
+  "errors": [
+    {
+      "file_name": "ast.sv",
+      "line": 191,
+      "description": "Blocking assignment used inside a flip-flop inferred sequential block"
+    },
+    {
+      "file_name": "ast.sv",
+      "line": 193,
+      "description": "Operator (===) encountered. Treating as (==) for synthesis"
+    },
+    {
+      "file_name": "ast.sv",
+      "line": 194,
+      "description": "Multiple simultaneous drivers for a signal"
+    },
+    {
+      "file_name": "ast.sv",
+      "line": 195,
+      "description": "Case statement does not have a default clause in combinational logic"
+    },
+    {
+      "file_name": "ast.sv",
+      "line": 196,
+      "description": "Latch inferred for signal due to incomplete assignment coverage"
+    },
+    {
+      "file_name": "ast.sv",
+      "line": 197,
+      "description": "Blocking assignment used inside a flip-flop inferred sequential block"
+    },
+    {
+      "file_name": "ast.sv",
+      "line": 198,
+      "description": "Operator (===) encountered. Treating as (==) for synthesis"
+    },
+    {
+      "file_name": "ast.sv",
+      "line": 210,
+      "description": "Multiple simultaneous drivers for a signal"
+    },
+    {
+      "file_name": "ast.sv",
+      "line": 211,
+      "description": "Case statement does not have a default clause in combinational logic"
+    },
+    {
+      "file_name": "ast.sv",
+      "line": 220,
+      "description": "Latch inferred for signal due to incomplete assignment coverage"
+    },
+    {
+      "file_name": "ast.sv",
+      "line": 221,
+      "description": "Blocking assignment used inside a flip-flop inferred sequential block"
+    },
+    {
+      "file_name": "ast.sv",
+      "line": 222,
+      "description": "Operator (===) encountered. Treating as (==) for synthesis"
+    },
+    {
+      "file_name": "ast.sv",
+      "line": 256,
+      "description": "Multiple simultaneous drivers for a signal"
+    },
+    {
+      "file_name": "ast.sv",
+      "line": 257,
+      "description": "Case statement does not have a default clause in combinational logic"
+    },
+    {
+      "file_name": "ast.sv",
+      "line": 258,
+      "description": "Latch inferred for signal due to incomplete assignment coverage"
+    },
+    {
+      "file_name": "ast.sv",
+      "line": 266,
+      "description": "Blocking assignment used inside a flip-flop inferred sequential block"
+    },
+    {
+      "file_name": "ast.sv",
+      "line": 267,
+      "description": "Operator (===) encountered. Treating as (==) for synthesis"
+    },
+    {
+      "file_name": "ast.sv",
+      "line": 268,
+      "description": "Multiple simultaneous drivers for a signal"
+    },
+    {
+      "file_name": "ast.sv",
+      "line": 281,
+      "description": "Case statement does not have a default clause in combinational logic"
+    },
+    {
+      "file_name": "ast.sv",
+      "line": 282,
+      "description": "Latch inferred for signal due to incomplete assignment coverage"
+    },
+    {
+      "file_name": "ast.sv",
+      "line": 295,
+      "description": "Blocking assignment used inside a flip-flop inferred sequential block"
+    }
+  ]
+}

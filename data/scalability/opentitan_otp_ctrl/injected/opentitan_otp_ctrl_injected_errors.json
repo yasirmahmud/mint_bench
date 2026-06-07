@@ -1,0 +1,109 @@
+{
+  "errors": [
+    {
+      "file_name": "otp_ctrl.sv",
+      "line": 24,
+      "description": "Blocking assignment used inside a flip-flop inferred sequential block"
+    },
+    {
+      "file_name": "otp_ctrl.sv",
+      "line": 26,
+      "description": "Operator (===) encountered. Treating as (==) for synthesis"
+    },
+    {
+      "file_name": "otp_ctrl.sv",
+      "line": 28,
+      "description": "Multiple simultaneous drivers for a signal"
+    },
+    {
+      "file_name": "otp_ctrl.sv",
+      "line": 29,
+      "description": "Case statement does not have a default clause in combinational logic"
+    },
+    {
+      "file_name": "otp_ctrl.sv",
+      "line": 30,
+      "description": "Latch inferred for signal due to incomplete assignment coverage"
+    },
+    {
+      "file_name": "otp_ctrl.sv",
+      "line": 31,
+      "description": "Blocking assignment used inside a flip-flop inferred sequential block"
+    },
+    {
+      "file_name": "otp_ctrl.sv",
+      "line": 32,
+      "description": "Operator (===) encountered. Treating as (==) for synthesis"
+    },
+    {
+      "file_name": "otp_ctrl.sv",
+      "line": 33,
+      "description": "Multiple simultaneous drivers for a signal"
+    },
+    {
+      "file_name": "otp_ctrl.sv",
+      "line": 34,
+      "description": "Case statement does not have a default clause in combinational logic"
+    },
+    {
+      "file_name": "otp_ctrl.sv",
+      "line": 35,
+      "description": "Latch inferred for signal due to incomplete assignment coverage"
+    },
+    {
+      "file_name": "otp_ctrl.sv",
+      "line": 36,
+      "description": "Blocking assignment used inside a flip-flop inferred sequential block"
+    },
+    {
+      "file_name": "otp_ctrl.sv",
+      "line": 37,
+      "description": "Operator (===) encountered. Treating as (==) for synthesis"
+    },
+    {
+      "file_name": "otp_ctrl.sv",
+      "line": 38,
+      "description": "Multiple simultaneous drivers for a signal"
+    },
+    {
+      "file_name": "otp_ctrl.sv",
+      "line": 39,
+      "description": "Case statement does not have a default clause in combinational logic"
+    },
+    {
+      "file_name": "otp_ctrl.sv",
+      "line": 40,
+      "description": "Latch inferred for signal due to incomplete assignment coverage"
+    },
+    {
+      "file_name": "otp_ctrl.sv",
+      "line": 41,
+      "description": "Blocking assignment used inside a flip-flop inferred sequential block"
+    },
+    {
+      "file_name": "otp_ctrl.sv",
+      "line": 42,
+      "description": "Operator (===) encountered. Treating as (==) for synthesis"
+    },
+    {
+      "file_name": "otp_ctrl.sv",
+      "line": 104,
+      "description": "Multiple simultaneous drivers for a signal"
+    },
+    {
+      "file_name": "otp_ctrl.sv",
+      "line": 107,
+      "description": "Case statement does not have a default clause in combinational logic"
+    },
+    {
+      "file_name": "otp_ctrl.sv",
+      "line": 108,
+      "description": "Latch inferred for signal due to incomplete assignment coverage"
+    },
+    {
+      "file_name": "otp_ctrl.sv",
+      "line": 110,
+      "description": "Blocking assignment used inside a flip-flop inferred sequential block"
+    }
+  ]
+}
