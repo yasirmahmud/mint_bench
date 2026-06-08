@@ -23,6 +23,8 @@ python3 scripts/build_mintbench_release.py
 
 The release script is deterministic for a fixed repository checkout. It sorts input files, writes stable JSON keys, and records aggregate track statistics in `release/mintbench_manifest.json`.
 
+The scalability track is built from every design directory under `data/scalability/`, with one clean and one injected instance per design.
+
 ## Prediction Schema
 
 Predictions are stored as a JSON object keyed by benchmark `instance_id`:
@@ -125,6 +127,7 @@ Before public release:
 - Rebuild `release/` from a clean checkout.
 - Run deterministic scoring on a small validation predictions file.
 - Keep only curated benchmark inputs referenced by the release builder.
+- Ensure the scalability builder still covers every design pair under `data/scalability/`.
 - Verify third-party source licenses and keep `THIRD_PARTY_NOTICES.md` current.
 - Avoid including external source exports unless their redistribution terms are documented.
 - Document any service-assisted analysis as auxiliary and non-deterministic.

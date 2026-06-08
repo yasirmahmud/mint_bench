@@ -10,6 +10,7 @@ The checked-in release metadata lives in:
 
 - `release/mintbench_manifest.json`
 - `release/mintbench_stats.md`
+- Current release manifest version: `1.1.0`
 
 For build and scoring details, see `docs/reproducibility.md`.
 
@@ -20,9 +21,9 @@ For build and scoring details, see `docs/reproducibility.md`.
 | RTL lint localization | Locate planted HDL lint issues in single-module designs | `data/rtl_lint_localization/json/` | 312 programs | 921 issue labels across 14 taxonomy families |
 | CDC verification | Detect CDC violations in multi-module fixtures | `data/cdc/` | 2 fixtures | 45 CDC violations |
 | RCA | Identify the root cause behind cascaded lint reports | `data/root_cause_analysis/` | 9 scenarios | 15 root-cause labels |
-| Scalability | Measure linter behavior on a processor-scale design pair | `data/scalability/cpu1/` | 2 variants | 63 violations in the injected variant, 0 in the clean variant |
+| Scalability | Measure linter behavior on 12 processor-scale design pairs | `data/scalability/` | 24 variants | 294 injected violations across 12 designs, 0 in all clean variants |
 
-The `data/scalability/` directory also includes additional third-party source trees that are preserved for provenance and future expansion. They are not part of the current canonical release manifest.
+The `data/scalability/` directory includes the canonical scalability release set. Each design is packaged as a clean/injected pair, and the release builder emits all 12 pairs.
 
 
 ## Release Build

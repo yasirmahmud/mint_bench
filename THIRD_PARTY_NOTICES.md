@@ -1,6 +1,6 @@
 # Third-Party Notices
 
-MintBench includes a small set of bundled third-party HDL source trees in `data/scalability/` so the benchmark can evaluate lint and root-cause tools on realistic processor-scale designs.
+MintBench includes bundled third-party HDL source trees in `data/scalability/` so the benchmark can evaluate lint and root-cause tools on realistic processor-scale designs. These source trees are part of the current canonical scalability release set.
 
 The files retain their upstream notices and licenses. The top-level benchmark glue, release scripts, generated manifests, and documentation are licensed separately under Apache-2.0; see [LICENSE](LICENSE).
 
@@ -27,5 +27,3 @@ The files retain their upstream notices and licenses. The top-level benchmark gl
 - Ibex source headers
 - OpenTitan source headers
 - SCR1 upstream repository: [syntacore/scr1](https://github.com/syntacore/scr1)
-
-If additional third-party source trees are added later, append them here before release.

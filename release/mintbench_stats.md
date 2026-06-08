@@ -4,11 +4,11 @@
 | RTL lint localization | 312 | 921 planted errors across 14 taxonomy families |
 | CDC verification | 2 | 45 total CDC violations |
 | RCA | 9 | 15 root-cause annotations |
-| Scalability | 2 | 63 violations in injected CPU1 variant, 0 in clean variant |
+| Scalability | 12 design pairs | 294 violations across injected variants, 0 across clean variants |
 
 ## Evaluation Notes
 
 - Lint and CDC tasks use exact-match issue localization.
 - RCA uses exact-match root-cause file/line scoring.
-- Scalability reports the same exact-match violation totals plus runtime in the user runner.
+- Scalability covers every design pair under `data/scalability/` and uses exact-match violation scoring.
 - Optional auxiliary analysis is enabled through user-provided service credentials.

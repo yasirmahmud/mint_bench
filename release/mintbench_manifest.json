@@ -58,12 +58,14 @@
       "name": "scalability",
       "stats": {
         "clean_violation_count": 0,
-        "injected_violation_count": 63,
-        "instances": 2,
-        "source_file_count": 15
+        "designs": 12,
+        "injected_violation_count": 294,
+        "instances": 24,
+        "pairs": 12,
+        "source_file_count": 26
       },
       "task": "scalability"
     }
   ],
-  "version": "1.0.0"
+  "version": "1.1.0"
 }

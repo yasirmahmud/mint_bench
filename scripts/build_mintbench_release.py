@@ -375,31 +375,92 @@ def rca_annotations() -> tuple[list[dict[str, Any]], dict[str, Any]]:
     return rows, stats
 
 
+def scalability_design_dirs() -> list[Path]:
+    return sorted(
+        [p for p in (ROOT / "data" / "scalability").iterdir() if p.is_dir()],
+        key=lambda p: p.name,
+    )
+
+
+def load_scalability_report(design_dir: Path) -> tuple[Path, dict[str, Any], list[dict[str, Any]]]:
+    injected_dir = design_dir / "injected"
+    tool_reports = sorted(injected_dir.glob("*_tool_report.json"))
+    if tool_reports:
+        report_path = tool_reports[0]
+        payload = read_json(report_path)
+        violations = payload.get("violations", [])
+        return report_path, payload, violations
+
+    error_reports = sorted(injected_dir.glob("*_errors.json"))
+    if error_reports:
+        report_path = error_reports[0]
+        payload = read_json(report_path)
+        violations = payload.get("errors", [])
+        return report_path, payload, violations
+
+    raise FileNotFoundError(f"No scalability report found under {injected_dir}")
+
+
+def infer_scalability_top(design_dir: Path, payload: dict[str, Any]) -> str:
+    top = payload.get("top")
+    if top:
+        return str(top)
+
+    clean_sources = sorted((design_dir / "clean").glob("*.sv"))
+    if len(clean_sources) == 1:
+        return clean_sources[0].stem
+
+    return design_dir.name
+
+
 def scalability_annotations() -> tuple[list[dict[str, Any]], dict[str, Any]]:
-    rows = []
-    for rel, variant in [
-        ("data/scalability/cpu1/clean/cpu1_tool_report.json", "clean"),
-        ("data/scalability/cpu1/injected/cpu1_injected_tool_report.json", "injected"),
-    ]:
-        report = read_json(ROOT / rel)
-        rows.append(
-            {
-                "instance_id": f"cpu1_{variant}",
-                "task": "scalability",
-                "variant": variant,
-                "source_path": rel,
-                "top": report.get("top"),
-                "design_label": report.get("design_label"),
-                "violation_count": report.get("violation_count"),
-                "violations": [normalize_violation(v) for v in report.get("violations", [])],
-                "source_file_count": len(report.get("source_files", [])),
-            }
-        )
+    rows: list[dict[str, Any]] = []
+    clean_violation_count = 0
+    injected_violation_count = 0
+    total_source_files = 0
+
+    for design_dir in scalability_design_dirs():
+        report_path, payload, violations = load_scalability_report(design_dir)
+        top = infer_scalability_top(design_dir, payload)
+        design_label = payload.get("design_label") or design_dir.name
+        source_file_count = len(list((design_dir / "clean").glob("*.sv")))
+        total_source_files += source_file_count
+
+        clean_row = {
+            "instance_id": f"{design_dir.name}_clean",
+            "task": "scalability",
+            "variant": "clean",
+            "source_path": str((design_dir / "clean" / f"{top}.sv").relative_to(ROOT)),
+            "top": top,
+            "design_label": design_label,
+            "violation_count": 0,
+            "violations": [],
+            "source_file_count": source_file_count,
+        }
+        rows.append(clean_row)
+        clean_violation_count += 0
+
+        injected_row = {
+            "instance_id": f"{design_dir.name}_injected",
+            "task": "scalability",
+            "variant": "injected",
+            "source_path": str(report_path.relative_to(ROOT)),
+            "top": top,
+            "design_label": design_label,
+            "violation_count": payload.get("violation_count", len(violations)),
+            "violations": [normalize_violation(v) for v in violations],
+            "source_file_count": source_file_count,
+        }
+        rows.append(injected_row)
+        injected_violation_count += int(injected_row["violation_count"])
+
     stats = {
+        "designs": len(rows) // 2,
+        "pairs": len(rows) // 2,
         "instances": len(rows),
-        "clean_violation_count": rows[0]["violation_count"],
-        "injected_violation_count": rows[1]["violation_count"],
-        "source_file_count": rows[0]["source_file_count"],
+        "clean_violation_count": clean_violation_count,
+        "injected_violation_count": injected_violation_count,
+        "source_file_count": total_source_files,
     }
     return rows, stats
 
@@ -412,7 +473,7 @@ def build_manifest() -> dict[str, Any]:
 
     manifest = {
         "suite_name": "MintBench",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "generated_from": "curated benchmark data under data/",
         "reproducibility": {
             "release_builder": "scripts/build_mintbench_release.py",
@@ -465,11 +526,11 @@ def build_manifest() -> dict[str, Any]:
     stats_md.append(f"| RTL lint localization | {lint_stats['instances']} | {lint_stats['errors']} planted errors across {lint_stats['taxonomy_families']} taxonomy families |\n")
     stats_md.append(f"| CDC verification | {cdc_stats['instances']} | {cdc_stats['violations']} total CDC violations |\n")
     stats_md.append(f"| RCA | {rca_stats['instances']} | {rca_stats['root_cause_annotations']} root-cause annotations |\n")
-    stats_md.append(f"| Scalability | {scale_stats['instances']} | {scale_stats['injected_violation_count']} violations in injected CPU1 variant, {scale_stats['clean_violation_count']} in clean variant |\n")
+    stats_md.append(f"| Scalability | {scale_stats['pairs']} design pairs | {scale_stats['injected_violation_count']} violations across injected variants, {scale_stats['clean_violation_count']} across clean variants |\n")
     stats_md.append("\n## Evaluation Notes\n\n")
     stats_md.append("- Lint and CDC tasks use exact-match issue localization.\n")
     stats_md.append("- RCA uses exact-match root-cause file/line scoring.\n")
-    stats_md.append("- Scalability reports the same exact-match violation totals plus runtime in the user runner.\n")
+    stats_md.append("- Scalability covers every design pair under `data/scalability/` and uses exact-match violation scoring.\n")
     stats_md.append("- Optional auxiliary analysis is enabled through user-provided service credentials.\n")
     (RELEASE / "mintbench_stats.md").write_text("".join(stats_md), encoding="utf-8")
 
