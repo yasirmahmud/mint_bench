@@ -20,20 +20,9 @@ For build and scoring details, see `docs/reproducibility.md`.
 | RTL lint localization | Locate planted HDL lint issues in single-module designs | `data/rtl_lint_localization/json/` | 312 programs | 921 issue labels across 14 taxonomy families |
 | CDC verification | Detect CDC violations in multi-module fixtures | `data/cdc/` | 2 fixtures | 45 CDC violations |
 | RCA | Identify the root cause behind cascaded lint reports | `data/root_cause_analysis/` | 9 scenarios | 15 root-cause labels |
-| Scalability | Measure linter behavior on processor-scale designs (1 baseline design + 11 open-source designs) | `data/scalability/` | 12 designs (24 variants) | 63 violations in CPU1 injected variant, 21 in each of the other 11 injected variants, 0 in all clean variants |
+| Scalability | Measure linter behavior on a processor-scale design pair | `data/scalability/cpu1/` | 2 variants | 63 violations in the injected variant, 0 in the clean variant |
 
-### Scalability Designs
-
-The scalability track includes the following design pairs (each with `clean/` and `injected/` variants):
-- **Baseline design**: `cpu1` (RISC-V core design, 63 injected violations)
-- **Open-source designs** (21 injected violations each):
-  - `caliptra_top` (Caliptra Root of Trust top module)
-  - `cv32e40p_core` (CV32E40P RISC-V processor core)
-  - `cva6` (CVA6 RISC-V processor core)
-  - `ibex_core` / `ibex_top` (Ibex RISC-V processor core and top level)
-  - `opentitan_ast` / `opentitan_gpio` / `opentitan_otp_ctrl` (OpenTitan blocks)
-  - `pulpino_core_region` / `pulpino_top` (PULPino microcontroller core region and top level)
-  - `scr1_top_axi` (SCR1 RISC-V processor core with AXI interface)
+The `data/scalability/` directory also includes additional third-party source trees that are preserved for provenance and future expansion. They are not part of the current canonical release manifest.
 
 
 ## Release Build

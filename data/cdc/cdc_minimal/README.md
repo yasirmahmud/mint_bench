@@ -14,13 +14,12 @@ Small tool CDC fixture separate from `data/cdc/cdc_protocol`.
 `cdc_minimal.sgdc` provides the clock and reset constraints needed for
 tool CDC analysis.
 
-Run:
+### Evaluation
 
-```bash
-python3 scripts/run_lint_tool.py data/cdc/cdc_minimal \
-  --top cdc_minimal_top \
-  --check cdc \
-  --out data/cdc/cdc_minimal/cdc_minimal_tool_report.json
-```
+To evaluate a CDC tool on this design:
+1. Run your CDC verification tool using the source files `cdc_minimal.sv` and constraints `cdc_minimal.sgdc`.
+2. Format the tool's findings into a predictions file according to the benchmark prediction schema (see `docs/reproducibility.md`).
+3. Compare the predictions against the pre-generated tool report `cdc_minimal_tool_report.json` using the benchmark scoring script `scripts/score_mintbench.py`.
+
 
 

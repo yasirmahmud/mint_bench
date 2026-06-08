@@ -25,12 +25,11 @@ violations, reconvergent synchronized controls, pulse-width assumptions, reset
 release hazards, binary/Gray pointer misuse, debug/test-domain feedback, and
 cross-module provenance loss.
 
-Run the tool CDC flow against this fixture with:
+### Evaluation
 
-```bash
-python3 scripts/run_lint_tool.py data/cdc/cdc_protocol \
-  --top cdc_protocol_top \
-  --check cdc \
-  --out data/cdc/cdc_protocol/cdc_protocol_tool_report_run.json
-```
+To evaluate a CDC tool on this design:
+1. Run your CDC verification tool using the source files `cdc_protocol.sv`.
+2. Format the tool's findings into a predictions file according to the benchmark prediction schema (see `docs/reproducibility.md`).
+3. Compare the predictions against the pre-generated tool report `cdc_protocol_tool_report.json` using the benchmark scoring script `scripts/score_mintbench.py`.
+
 

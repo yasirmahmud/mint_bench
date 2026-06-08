@@ -1,0 +1,8 @@
+MintBench original benchmark materials, release scripts, documentation, and generated release metadata are licensed under the Apache License, Version 2.0.
+
+SPDX-License-Identifier: Apache-2.0
+
+The full license text is available at:
+https://www.apache.org/licenses/LICENSE-2.0
+
+Third-party source files bundled under `data/` retain their upstream licenses and are documented in `THIRD_PARTY_NOTICES.md`.

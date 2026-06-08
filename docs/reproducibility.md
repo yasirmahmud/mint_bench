@@ -125,6 +125,7 @@ Before public release:
 - Rebuild `release/` from a clean checkout.
 - Run deterministic scoring on a small validation predictions file.
 - Keep only curated benchmark inputs referenced by the release builder.
+- Verify third-party source licenses and keep `THIRD_PARTY_NOTICES.md` current.
 - Avoid including external source exports unless their redistribution terms are documented.
 - Document any service-assisted analysis as auxiliary and non-deterministic.
 - Include benchmark version and commit hash in reported results.
