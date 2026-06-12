@@ -11,3 +11,5 @@ analysis_results.jsonl
 # OS files
 .DS_Store
 Thumbs.db
+large_design
+large_design_minimal

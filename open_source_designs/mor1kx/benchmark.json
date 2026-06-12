@@ -1,0 +1,534 @@
+{
+    "errors": [
+        {
+            "file_name": "rtl__verilog__mor1kx_branch_prediction.v",
+            "line": 47,
+            "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_branch_predictor_gshare.v",
+            "line": 83,
+            "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_branch_predictor_gshare.v",
+            "line": 62,
+            "description": "Latch inferred for signal 'clk' in module 'mor1kx_branch_predictor_gshare'"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_branch_predictor_gshare.v",
+            "line": 62,
+            "description": "Signal 'mor1kx_branch_predictor_gshare.u_core.clk' has multiple simultaneous drivers"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_branch_predictor_saturation_counter.v",
+            "line": 64,
+            "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_branch_predictor_saturation_counter.v",
+            "line": 53,
+            "description": "Latch inferred for signal 'clk' in module 'mor1kx_branch_predictor_saturation_counter'"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_branch_predictor_saturation_counter.v",
+            "line": 53,
+            "description": "Signal 'mor1kx_branch_predictor_saturation_counter.u_core.clk' has multiple simultaneous drivers"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_bus_if_wb32.v",
+            "line": 67,
+            "description": "Latch inferred for signal 'clk' in module 'mor1kx_bus_if_wb32'"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_bus_if_wb32.v",
+            "line": 67,
+            "description": "Signal 'mor1kx_bus_if_wb32.u_core.clk' has multiple simultaneous drivers"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_cache_lru.v",
+            "line": 194,
+            "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_cpu.v",
+            "line": 402,
+            "description": "Latch inferred for signal 'clk' in module 'mor1kx_cpu'"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_cpu.v",
+            "line": 402,
+            "description": "Signal 'mor1kx_cpu.u_core.clk' has multiple simultaneous drivers"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_cpu_cappuccino.v",
+            "line": 1663,
+            "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_cpu_cappuccino.v",
+            "line": 1516,
+            "description": "Latch inferred for signal 'clk' in module 'mor1kx_cpu_cappuccino'"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_cpu_cappuccino.v",
+            "line": 1516,
+            "description": "Signal 'mor1kx_cpu_cappuccino.u_core.clk' has multiple simultaneous drivers"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_cpu_espresso.v",
+            "line": 618,
+            "description": "The signal/variable 'get_gpr' read in the block is not in the sensitivity list"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_cpu_prontoespresso.v",
+            "line": 719,
+            "description": "The signal/variable 'get_gpr' read in the block is not in the sensitivity list"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_ctrl_cappuccino.v",
+            "line": 377,
+            "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_ctrl_cappuccino.v",
+            "line": 370,
+            "description": "Latch inferred for signal 'clk' in module 'mor1kx_ctrl_cappuccino'"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_ctrl_cappuccino.v",
+            "line": 370,
+            "description": "Signal 'mor1kx_ctrl_cappuccino.u_core.clk' has multiple simultaneous drivers"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_ctrl_espresso.v",
+            "line": 409,
+            "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_ctrl_espresso.v",
+            "line": 405,
+            "description": "Latch inferred for signal 'clk' in module 'mor1kx_ctrl_espresso'"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_ctrl_espresso.v",
+            "line": 405,
+            "description": "Signal 'mor1kx_ctrl_espresso.u_core.clk' has multiple simultaneous drivers"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_ctrl_prontoespresso.v",
+            "line": 413,
+            "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_ctrl_prontoespresso.v",
+            "line": 409,
+            "description": "Latch inferred for signal 'clk' in module 'mor1kx_ctrl_prontoespresso'"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_ctrl_prontoespresso.v",
+            "line": 409,
+            "description": "Signal 'mor1kx_ctrl_prontoespresso.u_core.clk' has multiple simultaneous drivers"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_dcache.v",
+            "line": 449,
+            "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_dcache.v",
+            "line": 421,
+            "description": "Latch inferred for signal 'clk' in module 'mor1kx_dcache'"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_dcache.v",
+            "line": 421,
+            "description": "Signal 'mor1kx_dcache.u_core.clk' has multiple simultaneous drivers"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_decode.v",
+            "line": 169,
+            "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_decode_execute_cappuccino.v",
+            "line": 52,
+            "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_decode_execute_cappuccino.v",
+            "line": 220,
+            "description": "Latch inferred for signal 'clk' in module 'mor1kx_decode_execute_cappuccino'"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_decode_execute_cappuccino.v",
+            "line": 220,
+            "description": "Signal 'mor1kx_decode_execute_cappuccino.u_core.clk' has multiple simultaneous drivers"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_dmmu.v",
+            "line": 20,
+            "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_dmmu.v",
+            "line": 188,
+            "description": "Latch inferred for signal 'clk' in module 'mor1kx_dmmu'"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_dmmu.v",
+            "line": 188,
+            "description": "Signal 'mor1kx_dmmu.u_core.clk' has multiple simultaneous drivers"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_execute_alu.v",
+            "line": 443,
+            "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_execute_alu.v",
+            "line": 233,
+            "description": "Latch inferred for signal 'clk' in module 'mor1kx_execute_alu'"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_execute_alu.v",
+            "line": 233,
+            "description": "Signal 'mor1kx_execute_alu.u_core.clk' has multiple simultaneous drivers"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_execute_ctrl_cappuccino.v",
+            "line": 163,
+            "description": "Latch inferred for signal 'clk' in module 'mor1kx_execute_ctrl_cappuccino'"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_execute_ctrl_cappuccino.v",
+            "line": 163,
+            "description": "Signal 'mor1kx_execute_ctrl_cappuccino.u_core.clk' has multiple simultaneous drivers"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_fetch_cappuccino.v",
+            "line": 378,
+            "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_fetch_cappuccino.v",
+            "line": 179,
+            "description": "Latch inferred for signal 'clk' in module 'mor1kx_fetch_cappuccino'"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_fetch_cappuccino.v",
+            "line": 179,
+            "description": "Signal 'mor1kx_fetch_cappuccino.u_core.clk' has multiple simultaneous drivers"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_fetch_espresso.v",
+            "line": 158,
+            "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_fetch_espresso.v",
+            "line": 133,
+            "description": "Latch inferred for signal 'clk' in module 'mor1kx_fetch_espresso'"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_fetch_espresso.v",
+            "line": 133,
+            "description": "Signal 'mor1kx_fetch_espresso.u_core.clk' has multiple simultaneous drivers"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_fetch_prontoespresso.v",
+            "line": 164,
+            "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_fetch_prontoespresso.v",
+            "line": 269,
+            "description": "Latch inferred for signal 'clk' in module 'mor1kx_fetch_prontoespresso'"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_fetch_prontoespresso.v",
+            "line": 269,
+            "description": "Signal 'mor1kx_fetch_prontoespresso.u_core.clk' has multiple simultaneous drivers"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_fetch_tcm_prontoespresso.v",
+            "line": 353,
+            "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_fetch_tcm_prontoespresso.v",
+            "line": 163,
+            "description": "Latch inferred for signal 'clk' in module 'mor1kx_fetch_tcm_prontoespresso'"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_fetch_tcm_prontoespresso.v",
+            "line": 163,
+            "description": "Signal 'mor1kx_fetch_tcm_prontoespresso.u_core.clk' has multiple simultaneous drivers"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_icache.v",
+            "line": 262,
+            "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_icache.v",
+            "line": 259,
+            "description": "Latch inferred for signal 'clk' in module 'mor1kx_icache'"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_icache.v",
+            "line": 259,
+            "description": "Signal 'mor1kx_icache.u_core.clk' has multiple simultaneous drivers"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_immu.v",
+            "line": 323,
+            "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_immu.v",
+            "line": 121,
+            "description": "Latch inferred for signal 'clk' in module 'mor1kx_immu'"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_immu.v",
+            "line": 121,
+            "description": "Signal 'mor1kx_immu.u_core.clk' has multiple simultaneous drivers"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_lsu_cappuccino.v",
+            "line": 298,
+            "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_lsu_cappuccino.v",
+            "line": 256,
+            "description": "Latch inferred for signal 'clk' in module 'mor1kx_lsu_cappuccino'"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_lsu_cappuccino.v",
+            "line": 256,
+            "description": "Signal 'mor1kx_lsu_cappuccino.u_core.clk' has multiple simultaneous drivers"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_lsu_espresso.v",
+            "line": 151,
+            "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_lsu_espresso.v",
+            "line": 117,
+            "description": "Latch inferred for signal 'clk' in module 'mor1kx_lsu_espresso'"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_lsu_espresso.v",
+            "line": 117,
+            "description": "Signal 'mor1kx_lsu_espresso.u_core.clk' has multiple simultaneous drivers"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_pcu.v",
+            "line": 105,
+            "description": "Latch inferred for signal 'clk' in module 'mor1kx_pcu'"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_pcu.v",
+            "line": 105,
+            "description": "Signal 'mor1kx_pcu.u_core.clk' has multiple simultaneous drivers"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_pic.v",
+            "line": 75,
+            "description": "Latch inferred for signal 'clk' in module 'mor1kx_pic'"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_pic.v",
+            "line": 75,
+            "description": "Signal 'mor1kx_pic.u_core.clk' has multiple simultaneous drivers"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_rf_cappuccino.v",
+            "line": 99,
+            "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_rf_cappuccino.v",
+            "line": 277,
+            "description": "Variable 'unused' set but not read."
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_rf_cappuccino.v",
+            "line": 102,
+            "description": "Latch inferred for signal 'clk' in module 'mor1kx_rf_cappuccino'"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_rf_cappuccino.v",
+            "line": 102,
+            "description": "Signal 'mor1kx_rf_cappuccino.u_core.clk' has multiple simultaneous drivers"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_rf_espresso.v",
+            "line": 101,
+            "description": "Latch inferred for signal 'clk' in module 'mor1kx_rf_espresso'"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_rf_espresso.v",
+            "line": 101,
+            "description": "Signal 'mor1kx_rf_espresso.u_core.clk' has multiple simultaneous drivers"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_simple_dpram_sclk.v",
+            "line": 96,
+            "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_simple_dpram_sclk.v",
+            "line": 48,
+            "description": "Latch inferred for signal 'clk' in module 'mor1kx_simple_dpram_sclk'"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_simple_dpram_sclk.v",
+            "line": 48,
+            "description": "Signal 'mor1kx_simple_dpram_sclk.u_core.clk' has multiple simultaneous drivers"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_store_buffer.v",
+            "line": 57,
+            "description": "Latch inferred for signal 'clk' in module 'mor1kx_store_buffer'"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_store_buffer.v",
+            "line": 57,
+            "description": "Signal 'mor1kx_store_buffer.u_core.clk' has multiple simultaneous drivers"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_ticktimer.v",
+            "line": 60,
+            "description": "Latch inferred for signal 'clk' in module 'mor1kx_ticktimer'"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_ticktimer.v",
+            "line": 60,
+            "description": "Signal 'mor1kx_ticktimer.u_core.clk' has multiple simultaneous drivers"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_true_dpram_sclk.v",
+            "line": 39,
+            "description": "Latch inferred for signal 'clk_a' in module 'mor1kx_true_dpram_sclk'"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_true_dpram_sclk.v",
+            "line": 39,
+            "description": "Signal 'mor1kx_true_dpram_sclk.u_core.clk_a' has multiple simultaneous drivers"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_wb_mux_cappuccino.v",
+            "line": 41,
+            "description": "Latch inferred for signal 'clk' in module 'mor1kx_wb_mux_cappuccino'"
+        },
+        {
+            "file_name": "rtl__verilog__mor1kx_wb_mux_cappuccino.v",
+            "line": 41,
+            "description": "Signal 'mor1kx_wb_mux_cappuccino.u_core.clk' has multiple simultaneous drivers"
+        },
+        {
+            "file_name": "rtl__verilog__pfpu32__pfpu32_addsub.v",
+            "line": 154,
+            "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
+        },
+        {
+            "file_name": "rtl__verilog__pfpu32__pfpu32_addsub.v",
+            "line": 135,
+            "description": "Latch inferred for signal 'clk' in module 'pfpu32_addsub'"
+        },
+        {
+            "file_name": "rtl__verilog__pfpu32__pfpu32_addsub.v",
+            "line": 135,
+            "description": "Signal 'pfpu32_addsub.u_core.clk' has multiple simultaneous drivers"
+        },
+        {
+            "file_name": "rtl__verilog__pfpu32__pfpu32_cmp.v",
+            "line": 130,
+            "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
+        },
+        {
+            "file_name": "rtl__verilog__pfpu32__pfpu32_f2i.v",
+            "line": 100,
+            "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
+        },
+        {
+            "file_name": "rtl__verilog__pfpu32__pfpu32_f2i.v",
+            "line": 87,
+            "description": "Latch inferred for signal 'clk' in module 'pfpu32_f2i'"
+        },
+        {
+            "file_name": "rtl__verilog__pfpu32__pfpu32_f2i.v",
+            "line": 87,
+            "description": "Signal 'pfpu32_f2i.u_core.clk' has multiple simultaneous drivers"
+        },
+        {
+            "file_name": "rtl__verilog__pfpu32__pfpu32_i2f.v",
+            "line": 73,
+            "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
+        },
+        {
+            "file_name": "rtl__verilog__pfpu32__pfpu32_i2f.v",
+            "line": 118,
+            "description": "Latch inferred for signal 'clk' in module 'pfpu32_i2f'"
+        },
+        {
+            "file_name": "rtl__verilog__pfpu32__pfpu32_i2f.v",
+            "line": 118,
+            "description": "Signal 'pfpu32_i2f.u_core.clk' has multiple simultaneous drivers"
+        },
+        {
+            "file_name": "rtl__verilog__pfpu32__pfpu32_muldiv.v",
+            "line": 108,
+            "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
+        },
+        {
+            "file_name": "rtl__verilog__pfpu32__pfpu32_muldiv.v",
+            "line": 187,
+            "description": "Latch inferred for signal 'clk' in module 'pfpu32_muldiv'"
+        },
+        {
+            "file_name": "rtl__verilog__pfpu32__pfpu32_muldiv.v",
+            "line": 187,
+            "description": "Signal 'pfpu32_muldiv.u_core.clk' has multiple simultaneous drivers"
+        },
+        {
+            "file_name": "rtl__verilog__pfpu32__pfpu32_rnd.v",
+            "line": 169,
+            "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
+        },
+        {
+            "file_name": "rtl__verilog__pfpu32__pfpu32_rnd.v",
+            "line": 241,
+            "description": "Latch inferred for signal 'clk' in module 'pfpu32_rnd'"
+        },
+        {
+            "file_name": "rtl__verilog__pfpu32__pfpu32_rnd.v",
+            "line": 241,
+            "description": "Signal 'pfpu32_rnd.u_core.clk' has multiple simultaneous drivers"
+        },
+        {
+            "file_name": "rtl__verilog__pfpu32__pfpu32_top.v",
+            "line": 36,
+            "description": "Operator '===' should be avoided in synthesis logic"
+        },
+        {
+            "file_name": "rtl__verilog__pfpu32__pfpu32_top.v",
+            "line": 43,
+            "description": "Variable 'unused' set but not read."
+        },
+        {
+            "file_name": "rtl__verilog__pfpu32__pfpu32_top.v",
+            "line": 83,
+            "description": "Latch inferred for signal 'clk' in module 'pfpu32_top'"
+        },
+        {
+            "file_name": "rtl__verilog__pfpu32__pfpu32_top.v",
+            "line": 83,
+            "description": "Signal 'pfpu32_top.u_core.clk' has multiple simultaneous drivers"
+        }
+    ]
+}

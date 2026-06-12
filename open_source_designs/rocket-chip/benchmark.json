@@ -1,0 +1,124 @@
+{
+    "errors": [
+        {
+            "file_name": "src__main__resources__vsrc__AsyncResetReg.v",
+            "line": 70,
+            "description": "Latch inferred for signal 'wire' in module 'AsyncResetReg'"
+        },
+        {
+            "file_name": "src__main__resources__vsrc__AsyncResetReg.v",
+            "line": 70,
+            "description": "Signal 'AsyncResetReg.u_core.wire' has multiple simultaneous drivers"
+        },
+        {
+            "file_name": "src__main__resources__vsrc__ClockDivider2.v",
+            "line": 21,
+            "description": "Blocking assignment 'clk_out = ~clk_out;' used inside a 'FlipFlop' inferred sequential block"
+        },
+        {
+            "file_name": "src__main__resources__vsrc__ClockDivider2.v",
+            "line": 20,
+            "description": "Latch inferred for signal 'clk_out' in module 'ClockDivider2'"
+        },
+        {
+            "file_name": "src__main__resources__vsrc__ClockDivider2.v",
+            "line": 20,
+            "description": "Signal 'ClockDivider2.u_core.clk_out' has multiple simultaneous drivers"
+        },
+        {
+            "file_name": "src__main__resources__vsrc__ClockDivider3.v",
+            "line": 27,
+            "description": "Blocking assignment 'clk_out = 1'b1;' used inside a 'FlipFlop' inferred sequential block"
+        },
+        {
+            "file_name": "src__main__resources__vsrc__ClockDivider3.v",
+            "line": 30,
+            "description": "Blocking assignment 'clk_out = 1'b0;' used inside a 'FlipFlop' inferred sequential block"
+        },
+        {
+            "file_name": "src__main__resources__vsrc__ClockDivider3.v",
+            "line": 25,
+            "description": "Latch inferred for signal 'delay' in module 'ClockDivider3'"
+        },
+        {
+            "file_name": "src__main__resources__vsrc__ClockDivider3.v",
+            "line": 25,
+            "description": "Signal 'ClockDivider3.u_core.delay' has multiple simultaneous drivers"
+        },
+        {
+            "file_name": "src__main__resources__vsrc__debug_rob.v",
+            "line": 55,
+            "description": "Latch inferred for signal 'bit' in module 'DebugROBPushTrace'"
+        },
+        {
+            "file_name": "src__main__resources__vsrc__debug_rob.v",
+            "line": 55,
+            "description": "Signal 'DebugROBPushTrace.u_core.bit' has multiple simultaneous drivers"
+        },
+        {
+            "file_name": "src__main__resources__vsrc__EICG_wrapper.v",
+            "line": 14,
+            "description": "The signal/variable 'en_latched' read in the block is not in the sensitivity list"
+        },
+        {
+            "file_name": "src__main__resources__vsrc__RoccBlackBox.v",
+            "line": 185,
+            "description": "Latch inferred for signal 'reset' in module 'RoccBlackBox'"
+        },
+        {
+            "file_name": "src__main__resources__vsrc__RoccBlackBox.v",
+            "line": 185,
+            "description": "Signal 'RoccBlackBox.u_core.reset' has multiple simultaneous drivers"
+        },
+        {
+            "file_name": "src__main__resources__vsrc__SimDTM.v",
+            "line": 57,
+            "description": "Latch inferred for signal 'bit' in module 'SimDTM'"
+        },
+        {
+            "file_name": "src__main__resources__vsrc__SimDTM.v",
+            "line": 57,
+            "description": "Signal 'SimDTM.u_core.bit' has multiple simultaneous drivers"
+        },
+        {
+            "file_name": "src__main__resources__vsrc__SimJTAG.v",
+            "line": 64,
+            "description": "Blocking assignment '__exit = 0;' used inside a 'FlipFlop' inferred sequential block"
+        },
+        {
+            "file_name": "src__main__resources__vsrc__SimJTAG.v",
+            "line": 67,
+            "description": "Blocking assignment '__jtag_TCK = !__jtag_TCK;' used inside a 'FlipFlop' inferred sequential block"
+        },
+        {
+            "file_name": "src__main__resources__vsrc__SimJTAG.v",
+            "line": 61,
+            "description": "Latch inferred for signal 'bit' in module 'SimJTAG'"
+        },
+        {
+            "file_name": "src__main__resources__vsrc__SimJTAG.v",
+            "line": 61,
+            "description": "Signal 'SimJTAG.u_core.bit' has multiple simultaneous drivers"
+        },
+        {
+            "file_name": "src__main__resources__vsrc__TestDriver.v",
+            "line": 119,
+            "description": "Latch inferred for signal 'clock' in module 'TestDriver'"
+        },
+        {
+            "file_name": "src__main__resources__vsrc__TestDriver.v",
+            "line": 119,
+            "description": "Signal 'TestDriver.u_core.clock' has multiple simultaneous drivers"
+        },
+        {
+            "file_name": "src__main__resources__vsrc__TraceSinkMonitor.v",
+            "line": 24,
+            "description": "Latch inferred for signal 'clk' in module 'TraceSinkMonitor'"
+        },
+        {
+            "file_name": "src__main__resources__vsrc__TraceSinkMonitor.v",
+            "line": 24,
+            "description": "Signal 'TraceSinkMonitor.u_core.clk' has multiple simultaneous drivers"
+        }
+    ]
+}
