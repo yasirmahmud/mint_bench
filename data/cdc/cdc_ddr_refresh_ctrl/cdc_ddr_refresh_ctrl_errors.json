@@ -1,0 +1,34 @@
+{
+  "errors": [
+    {
+      "file_name": "cdc_ddr_refresh_ctrl.sv",
+      "line": 61,
+      "description": "refresh_state_q is a multi-bit value produced in ddr_clk and sampled directly in ctrl_clk without a bundled-data handshake or hold guarantee."
+    },
+    {
+      "file_name": "cdc_ddr_refresh_ctrl.sv",
+      "line": 64,
+      "description": "refresh_pulse_q is a one-cycle ddr_clk pulse consumed directly in ctrl_clk, so the event can be missed or sampled metastably."
+    },
+    {
+      "file_name": "cdc_ddr_refresh_ctrl.sv",
+      "line": 70,
+      "description": "refresh_toggle_q reconverges with a one-sample ctrl_clk history, allowing metastability or double-counting in ctrl_event_o."
+    },
+    {
+      "file_name": "cdc_ddr_refresh_ctrl.sv",
+      "line": 74,
+      "description": "rank_mode_sync_q receives independently synchronized bits from encoded control vector rank_mode_q before decoding in ctrl_clk, so transient illegal modes can be observed."
+    },
+    {
+      "file_name": "cdc_ddr_refresh_ctrl.sv",
+      "line": 81,
+      "description": "ddr_rst_n is used as data inside ctrl_clk logic, so reset deassertion can asynchronously change destination state."
+    },
+    {
+      "file_name": "cdc_ddr_refresh_ctrl.sv",
+      "line": 95,
+      "description": "apb_snapshot_q combines ddr_clk payload state with ctrl_clk status state in apb_clk without a cross-domain snapshot protocol."
+    }
+  ]
+}

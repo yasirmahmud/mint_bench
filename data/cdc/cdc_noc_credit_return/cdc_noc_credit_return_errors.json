@@ -1,0 +1,34 @@
+{
+  "errors": [
+    {
+      "file_name": "cdc_noc_credit_return.sv",
+      "line": 61,
+      "description": "credit_state_q is a multi-bit value produced in router_clk and sampled directly in noc_clk without a bundled-data handshake or hold guarantee."
+    },
+    {
+      "file_name": "cdc_noc_credit_return.sv",
+      "line": 64,
+      "description": "credit_pulse_q is a one-cycle router_clk pulse consumed directly in noc_clk, so the event can be missed or sampled metastably."
+    },
+    {
+      "file_name": "cdc_noc_credit_return.sv",
+      "line": 70,
+      "description": "credit_toggle_q reconverges with a one-sample noc_clk history, allowing metastability or double-counting in noc_event_o."
+    },
+    {
+      "file_name": "cdc_noc_credit_return.sv",
+      "line": 74,
+      "description": "vc_mode_sync_q receives independently synchronized bits from encoded control vector vc_mode_q before decoding in noc_clk, so transient illegal modes can be observed."
+    },
+    {
+      "file_name": "cdc_noc_credit_return.sv",
+      "line": 81,
+      "description": "router_rst_n is used as data inside noc_clk logic, so reset deassertion can asynchronously change destination state."
+    },
+    {
+      "file_name": "cdc_noc_credit_return.sv",
+      "line": 95,
+      "description": "mgmt_snapshot_q combines router_clk payload state with noc_clk status state in mgmt_clk without a cross-domain snapshot protocol."
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "errors": [
+    {
+      "file_name": "cdc_tdm_audio_router.sv",
+      "line": 61,
+      "description": "slot_sample_q is a multi-bit value produced in tdm_clk and sampled directly in audio_clk without a bundled-data handshake or hold guarantee."
+    },
+    {
+      "file_name": "cdc_tdm_audio_router.sv",
+      "line": 64,
+      "description": "slot_valid_pulse_q is a one-cycle tdm_clk pulse consumed directly in audio_clk, so the event can be missed or sampled metastably."
+    },
+    {
+      "file_name": "cdc_tdm_audio_router.sv",
+      "line": 70,
+      "description": "slot_valid_toggle_q reconverges with a one-sample audio_clk history, allowing metastability or double-counting in audio_event_o."
+    },
+    {
+      "file_name": "cdc_tdm_audio_router.sv",
+      "line": 74,
+      "description": "slot_mode_sync_q receives independently synchronized bits from encoded control vector slot_mode_q before decoding in audio_clk, so transient illegal modes can be observed."
+    },
+    {
+      "file_name": "cdc_tdm_audio_router.sv",
+      "line": 81,
+      "description": "tdm_rst_n is used as data inside audio_clk logic, so reset deassertion can asynchronously change destination state."
+    },
+    {
+      "file_name": "cdc_tdm_audio_router.sv",
+      "line": 95,
+      "description": "bus_snapshot_q combines tdm_clk payload state with audio_clk status state in bus_clk without a cross-domain snapshot protocol."
+    }
+  ]
+}

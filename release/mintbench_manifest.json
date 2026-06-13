@@ -37,9 +37,9 @@
       "annotation_file": "release/annotations/cdc.jsonl",
       "name": "cdc_verification",
       "stats": {
-        "instances": 2,
-        "mean_violations_per_instance": 22.5,
-        "violations": 45
+        "instances": 60,
+        "mean_violations_per_instance": 6.45,
+        "violations": 387
       },
       "task": "cdc_verification"
     },

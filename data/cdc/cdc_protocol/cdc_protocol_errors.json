@@ -1,0 +1,174 @@
+{
+  "errors": [
+    {
+      "file_name": "cdc_protocol.sv",
+      "line": 329,
+      "description": "Per-bit or raw sampling of sensor_status_i is consumed as one cfg-domain status word; bit skew can create values that never existed in the sensor domain."
+    },
+    {
+      "file_name": "cdc_protocol.sv",
+      "line": 332,
+      "description": "sensor_event_pulse_i is a one-cycle sensor_clk pulse sampled directly by cfg_clk, so events can be missed when cfg_clk is slower or phase shifted."
+    },
+    {
+      "file_name": "cdc_protocol.sv",
+      "line": 335,
+      "description": "sensor_event_toggle_i is compared through one history flop, allowing metastability or double-counting because the current async value reconverges with the sampled value."
+    },
+    {
+      "file_name": "cdc_protocol.sv",
+      "line": 338,
+      "description": "sensor_valid_i controls capture of sensor_payload_i without a source hold/acknowledge contract for the payload bundle."
+    },
+    {
+      "file_name": "cdc_protocol.sv",
+      "line": 343,
+      "description": "Low and high timestamp halves are captured in different cfg_clk cycles, allowing impossible mixed-cycle timestamps."
+    },
+    {
+      "file_name": "cdc_protocol.sv",
+      "line": 347,
+      "description": "The parity reduction of sensor_crc_i can glitch and enable cfg-domain state updates using a metastable or incoherent CRC value."
+    },
+    {
+      "file_name": "cdc_protocol.sv",
+      "line": 352,
+      "description": "sensor_rst_n_i is consumed as a synchronous cfg-domain event, so reset deassertion can metastably alter cfg_status_word_o."
+    },
+    {
+      "file_name": "cdc_protocol.sv",
+      "line": 359,
+      "description": "sensor_mode_i bits are synchronized independently and then decoded as cfg_mode_shadow_o; skew can create illegal transient modes."
+    },
+    {
+      "file_name": "cdc_protocol.sv",
+      "line": 362,
+      "description": "sensor_threshold_shadow_i is a sensor-domain mirror of cfg_threshold_o copied back into cfg_clk, creating a stale or incoherent feedback path."
+    },
+    {
+      "file_name": "cdc_protocol.sv",
+      "line": 367,
+      "description": "gray_count_o appears Gray encoded, but the producer can increment by more than one under test_mode, invalidating one-bit-change CDC assumptions."
+    },
+    {
+      "file_name": "cdc_protocol.sv",
+      "line": 374,
+      "description": "debug_trigger_i crosses from debug_clk to cfg_clk and is edge-detected using the raw async value against one sampled copy."
+    },
+    {
+      "file_name": "cdc_protocol.sv",
+      "line": 292,
+      "description": "scan_enable_i selects scan_clk versus cfg_clk for state normally owned by cfg logic without a safe integrated clock mux or mode constraint."
+    },
+    {
+      "file_name": "cdc_protocol.sv",
+      "line": 440,
+      "description": "axi_desc_valid_o is driven by cmd_sync_q, a two-flop level synchronization of cfg_cmd_pulse_i that can miss narrow pulses or stretch them into multiple AXI commands."
+    },
+    {
+      "file_name": "cdc_protocol.sv",
+      "line": 444,
+      "description": "axi_descriptor_o captures cfg_descriptor_i based on cmd_sync_q without ensuring cfg_descriptor_i is stable across the AXI capture window."
+    },
+    {
+      "file_name": "cdc_protocol.sv",
+      "line": 448,
+      "description": "cfg_addr_i and cfg_wdata_i are sampled in axi_clk when cmd_sync_q is high, but the sideband values are not acknowledged or held atomically."
+    },
+    {
+      "file_name": "cdc_protocol.sv",
+      "line": 455,
+      "description": "irq_o combines a synchronized cfg_irq_enable_i with raw dsp_irq_req_i in axi_clk, creating a multi-source reconvergent CDC path."
+    },
+    {
+      "file_name": "cdc_protocol.sv",
+      "line": 458,
+      "description": "cfg_reset_req_i gates AXI status state directly from cfg_clk with no synchronizer or handshake."
+    },
+    {
+      "file_name": "cdc_protocol.sv",
+      "line": 463,
+      "description": "cfg_rst_n_i is consumed inside axi_clk logic, so the deasserting reset edge is an uncontrolled CDC event."
+    },
+    {
+      "file_name": "cdc_protocol.sv",
+      "line": 469,
+      "description": "mem_done_toggle_i is XORed against a single AXI sample, allowing metastability or double pulses in axi_status_word_o."
+    },
+    {
+      "file_name": "cdc_protocol.sv",
+      "line": 474,
+      "description": "axi_status_word_o uses mem_ptr_sync_q arithmetically after mem_read_ptr_bin_i is synchronized as independent binary bits in axi_clk."
+    },
+    {
+      "file_name": "cdc_protocol.sv",
+      "line": 477,
+      "description": "cfg_mode_shadow_i is used in axi_clk to decide whether to kick memory without an atomic encoded-control transfer."
+    },
+    {
+      "file_name": "cdc_protocol.sv",
+      "line": 531,
+      "description": "valid_sync_q gates capture of raw sensor_payload_i and sensor_status_i in dsp_clk, but those buses are not protected by a handshake."
+    },
+    {
+      "file_name": "cdc_protocol.sv",
+      "line": 538,
+      "description": "gray_sync_q from sensor_clk is compared with cfg_threshold_i from cfg_clk in dsp_clk, creating a multi-domain coherency hazard."
+    },
+    {
+      "file_name": "cdc_protocol.sv",
+      "line": 545,
+      "description": "mode_sync_q and debug_clear_cfg_i both affect dsp_irq_req_o, but debug_clear_cfg_i is not synchronized into dsp_clk."
+    },
+    {
+      "file_name": "cdc_protocol.sv",
+      "line": 581,
+      "description": "mem_write_ptr_bin_o is updated from axi_descriptor_i in mem_clk when desc_valid_sync_q is high, but the descriptor is not held until memory acknowledgement."
+    },
+    {
+      "file_name": "cdc_protocol.sv",
+      "line": 586,
+      "description": "axi_mem_kick_i is compared to a memory-domain history flop without first synchronizing the current AXI value."
+    },
+    {
+      "file_name": "cdc_protocol.sv",
+      "line": 591,
+      "description": "axi_status_word_i[12:8] is added directly into mem_read_ptr_bin_o, allowing incoherent status bus samples to alter a pointer."
+    },
+    {
+      "file_name": "cdc_protocol.sv",
+      "line": 594,
+      "description": "axi_rst_n_i is sampled in mem_clk logic as a data condition, so reset release can corrupt the memory pointer."
+    },
+    {
+      "file_name": "cdc_protocol.sv",
+      "line": 625,
+      "description": "shadow_q captures cfg_status_word_i, axi_status_word_i, dsp_sample_i, and mem_write_ptr_bin_i together with no snapshot handshake."
+    },
+    {
+      "file_name": "cdc_protocol.sv",
+      "line": 629,
+      "description": "dsp_event_level_i is edge-detected in debug_clk using the raw input and one delayed sample, creating a metastable pulse generator."
+    },
+    {
+      "file_name": "cdc_protocol.sv",
+      "line": 636,
+      "description": "debug_rst_n controls a cfg_clk flop, so reset deassertion is not synchronized to the cfg domain."
+    },
+    {
+      "file_name": "cdc_protocol.sv",
+      "line": 669,
+      "description": "cfg_seen_q incorporates mem_done_cfg_q after only one cfg_clk sample of mem_done_toggle_i, allowing missed or metastable completion state."
+    },
+    {
+      "file_name": "cdc_protocol.sv",
+      "line": 680,
+      "description": "axi_seen_q incorporates mem_done_axi_q after mem_done_toggle_i is sampled in both cfg_clk and axi_clk, and the resulting states later reconverge in reset release logic."
+    },
+    {
+      "file_name": "cdc_protocol.sv",
+      "line": 694,
+      "description": "cdc_reset_n_o is generated from cfg_seen_q, axi_seen_q, and mem_seen_q as combinational logic, so reset release can glitch or deassert asynchronously."
+    }
+  ]
+}

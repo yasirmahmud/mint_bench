@@ -1,0 +1,34 @@
+{
+  "errors": [
+    {
+      "file_name": "cdc_network_flow_table.sv",
+      "line": 61,
+      "description": "flow_key_q is a multi-bit value produced in parser_clk and sampled directly in lookup_clk without a bundled-data handshake or hold guarantee."
+    },
+    {
+      "file_name": "cdc_network_flow_table.sv",
+      "line": 64,
+      "description": "flow_hit_pulse_q is a one-cycle parser_clk pulse consumed directly in lookup_clk, so the event can be missed or sampled metastably."
+    },
+    {
+      "file_name": "cdc_network_flow_table.sv",
+      "line": 70,
+      "description": "flow_hit_toggle_q reconverges with a one-sample lookup_clk history, allowing metastability or double-counting in lookup_event_o."
+    },
+    {
+      "file_name": "cdc_network_flow_table.sv",
+      "line": 74,
+      "description": "lookup_mode_sync_q receives independently synchronized bits from encoded control vector lookup_mode_q before decoding in lookup_clk, so transient illegal modes can be observed."
+    },
+    {
+      "file_name": "cdc_network_flow_table.sv",
+      "line": 81,
+      "description": "parser_rst_n is used as data inside lookup_clk logic, so reset deassertion can asynchronously change destination state."
+    },
+    {
+      "file_name": "cdc_network_flow_table.sv",
+      "line": 95,
+      "description": "mgmt_snapshot_q combines parser_clk payload state with lookup_clk status state in mgmt_clk without a cross-domain snapshot protocol."
+    }
+  ]
+}

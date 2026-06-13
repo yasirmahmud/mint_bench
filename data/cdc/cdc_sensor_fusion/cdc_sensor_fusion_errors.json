@@ -1,0 +1,34 @@
+{
+  "errors": [
+    {
+      "file_name": "cdc_sensor_fusion.sv",
+      "line": 61,
+      "description": "fusion_input_q is a multi-bit value produced in imu_clk and sampled directly in fusion_clk without a bundled-data handshake or hold guarantee."
+    },
+    {
+      "file_name": "cdc_sensor_fusion.sv",
+      "line": 64,
+      "description": "imu_ready_pulse_q is a one-cycle imu_clk pulse consumed directly in fusion_clk, so the event can be missed or sampled metastably."
+    },
+    {
+      "file_name": "cdc_sensor_fusion.sv",
+      "line": 70,
+      "description": "imu_ready_toggle_q reconverges with a one-sample fusion_clk history, allowing metastability or double-counting in fusion_event_o."
+    },
+    {
+      "file_name": "cdc_sensor_fusion.sv",
+      "line": 74,
+      "description": "fusion_mode_sync_q receives independently synchronized bits from encoded control vector fusion_mode_q before decoding in fusion_clk, so transient illegal modes can be observed."
+    },
+    {
+      "file_name": "cdc_sensor_fusion.sv",
+      "line": 81,
+      "description": "imu_rst_n is used as data inside fusion_clk logic, so reset deassertion can asynchronously change destination state."
+    },
+    {
+      "file_name": "cdc_sensor_fusion.sv",
+      "line": 95,
+      "description": "host_snapshot_q combines imu_clk payload state with fusion_clk status state in host_clk without a cross-domain snapshot protocol."
+    }
+  ]
+}

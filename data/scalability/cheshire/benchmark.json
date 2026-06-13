@@ -1,0 +1,49 @@
+{
+    "errors": [
+        {
+            "file_name": "hw__bootrom__cheshire_bootrom.sv",
+            "line": 31,
+            "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
+        },
+        {
+            "file_name": "hw__cheshire_pkg.sv",
+            "line": 469,
+            "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
+        },
+        {
+            "file_name": "hw__cheshire_soc.sv",
+            "line": 531,
+            "description": "The signal/variable 'axi_llc_remap_req' read in the block is not in the sensitivity list"
+        },
+        {
+            "file_name": "hw__future__spinal_usb_ohci.sv",
+            "line": 93,
+            "description": "The signal/variable 'dma_int_req.ar.id' read in the block is not in the sensitivity list"
+        },
+        {
+            "file_name": "hw__future__UsbOhciAxi4.v",
+            "line": 2774,
+            "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
+        },
+        {
+            "file_name": "hw__future__UsbOhciAxi4.v",
+            "line": 1108,
+            "description": "Latch inferred for signal 'wire' in module 'UsbOhciAxi4'"
+        },
+        {
+            "file_name": "hw__future__UsbOhciAxi4.v",
+            "line": 1108,
+            "description": "Signal 'UsbOhciAxi4.u_core.wire' has multiple simultaneous drivers"
+        },
+        {
+            "file_name": "hw__regs__cheshire_soc_regs.sv",
+            "line": 47,
+            "description": "Latch inferred for signal 'wire' in module 'cheshire_soc_regs'"
+        },
+        {
+            "file_name": "hw__regs__cheshire_soc_regs.sv",
+            "line": 47,
+            "description": "Signal 'cheshire_soc_regs.u_core.wire' has multiple simultaneous drivers"
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+{
+  "errors": [
+    {
+      "file_name": "cdc_minimal.sv",
+      "line": 52,
+      "description": "dst_async_reset_n combines src_rst_n with dst_rst_n, so source-domain reset release can asynchronously control destination-domain reset behavior."
+    },
+    {
+      "file_name": "cdc_minimal.sv",
+      "line": 63,
+      "description": "src_pulse is a one-cycle src_clk pulse sampled directly in dst_clk, so the destination can miss the event or sample it metastably."
+    },
+    {
+      "file_name": "cdc_minimal.sv",
+      "line": 69,
+      "description": "dst_data_o captures the multi-bit src_bus value in dst_clk without a bundled-data handshake or hold guarantee."
+    },
+    {
+      "file_name": "cdc_minimal.sv",
+      "line": 76,
+      "description": "dst_irq_o combines the raw src_toggle value with destination history and aux_flag, creating unsynchronized reconvergence across clock domains."
+    },
+    {
+      "file_name": "cdc_minimal.sv",
+      "line": 121,
+      "description": "aux_seen_o samples src_toggle_i directly in aux_clk without a synchronizer."
+    }
+  ]
+}

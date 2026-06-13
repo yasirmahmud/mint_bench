@@ -1,0 +1,34 @@
+{
+  "errors": [
+    {
+      "file_name": "cdc_hbm_channel_status.sv",
+      "line": 61,
+      "description": "channel_status_q is a multi-bit value produced in hbm_clk and sampled directly in noc_clk without a bundled-data handshake or hold guarantee."
+    },
+    {
+      "file_name": "cdc_hbm_channel_status.sv",
+      "line": 64,
+      "description": "alert_pulse_q is a one-cycle hbm_clk pulse consumed directly in noc_clk, so the event can be missed or sampled metastably."
+    },
+    {
+      "file_name": "cdc_hbm_channel_status.sv",
+      "line": 70,
+      "description": "alert_toggle_q reconverges with a one-sample noc_clk history, allowing metastability or double-counting in noc_event_o."
+    },
+    {
+      "file_name": "cdc_hbm_channel_status.sv",
+      "line": 74,
+      "description": "stack_mode_sync_q receives independently synchronized bits from encoded control vector stack_mode_q before decoding in noc_clk, so transient illegal modes can be observed."
+    },
+    {
+      "file_name": "cdc_hbm_channel_status.sv",
+      "line": 81,
+      "description": "hbm_rst_n is used as data inside noc_clk logic, so reset deassertion can asynchronously change destination state."
+    },
+    {
+      "file_name": "cdc_hbm_channel_status.sv",
+      "line": 95,
+      "description": "cfg_snapshot_q combines hbm_clk payload state with noc_clk status state in cfg_clk without a cross-domain snapshot protocol."
+    }
+  ]
+}

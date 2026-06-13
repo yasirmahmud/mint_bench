@@ -1,0 +1,34 @@
+{
+  "errors": [
+    {
+      "file_name": "cdc_spi_dma_frontend.sv",
+      "line": 61,
+      "description": "spi_frame_q is a multi-bit value produced in spi_clk and sampled directly in dma_clk without a bundled-data handshake or hold guarantee."
+    },
+    {
+      "file_name": "cdc_spi_dma_frontend.sv",
+      "line": 64,
+      "description": "frame_done_pulse_q is a one-cycle spi_clk pulse consumed directly in dma_clk, so the event can be missed or sampled metastably."
+    },
+    {
+      "file_name": "cdc_spi_dma_frontend.sv",
+      "line": 70,
+      "description": "frame_done_toggle_q reconverges with a one-sample dma_clk history, allowing metastability or double-counting in dma_event_o."
+    },
+    {
+      "file_name": "cdc_spi_dma_frontend.sv",
+      "line": 74,
+      "description": "lane_sync_q receives independently synchronized bits from encoded control vector lane_q before decoding in dma_clk, so transient illegal modes can be observed."
+    },
+    {
+      "file_name": "cdc_spi_dma_frontend.sv",
+      "line": 81,
+      "description": "spi_rst_n is used as data inside dma_clk logic, so reset deassertion can asynchronously change destination state."
+    },
+    {
+      "file_name": "cdc_spi_dma_frontend.sv",
+      "line": 95,
+      "description": "cfg_snapshot_q combines spi_clk payload state with dma_clk status state in cfg_clk without a cross-domain snapshot protocol."
+    }
+  ]
+}

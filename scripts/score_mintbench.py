@@ -35,7 +35,7 @@ def normalize_item(item: dict[str, Any], task: str) -> tuple[Any, ...]:
     if task == "rca":
         root_type = item.get("root_type") or item.get("type") or item.get("root_cause_type")
         return (file_name, line, root_type)
-    return (item.get("rule") or item.get("taxonomy_title"), file_name, line)
+    return (item.get("rule") or item.get("taxonomy_title") or item.get("description"), file_name, line)
 
 
 def extract_prediction_items(pred: Any) -> list[dict[str, Any]]:

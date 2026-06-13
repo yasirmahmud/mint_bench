@@ -1,0 +1,34 @@
+{
+  "errors": [
+    {
+      "file_name": "cdc_satellite_modem.sv",
+      "line": 61,
+      "description": "modem_packet_q is a multi-bit value produced in modem_clk and sampled directly in host_clk without a bundled-data handshake or hold guarantee."
+    },
+    {
+      "file_name": "cdc_satellite_modem.sv",
+      "line": 64,
+      "description": "syncword_pulse_q is a one-cycle modem_clk pulse consumed directly in host_clk, so the event can be missed or sampled metastably."
+    },
+    {
+      "file_name": "cdc_satellite_modem.sv",
+      "line": 70,
+      "description": "syncword_toggle_q reconverges with a one-sample host_clk history, allowing metastability or double-counting in host_event_o."
+    },
+    {
+      "file_name": "cdc_satellite_modem.sv",
+      "line": 74,
+      "description": "link_mode_sync_q receives independently synchronized bits from encoded control vector link_mode_q before decoding in host_clk, so transient illegal modes can be observed."
+    },
+    {
+      "file_name": "cdc_satellite_modem.sv",
+      "line": 81,
+      "description": "modem_rst_n is used as data inside host_clk logic, so reset deassertion can asynchronously change destination state."
+    },
+    {
+      "file_name": "cdc_satellite_modem.sv",
+      "line": 95,
+      "description": "rf_snapshot_q combines modem_clk payload state with host_clk status state in rf_clk without a cross-domain snapshot protocol."
+    }
+  ]
+}

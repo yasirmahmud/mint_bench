@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 //
-// Small CDC validation design for the tool CDC CLI path.
+// Small CDC validation design.
 // The comments marked CDC_MINIMAL_* identify intentional CDC defects.
 
 `timescale 1ns/1ps

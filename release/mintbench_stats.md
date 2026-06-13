@@ -2,7 +2,7 @@
 | Track | Instances | Key statistic |
 | --- | ---: | --- |
 | RTL lint localization | 312 | 921 planted errors across 14 taxonomy families |
-| CDC verification | 2 | 45 total CDC violations |
+| CDC verification | 60 | 387 total CDC violations |
 | RCA | 9 | 15 root-cause annotations |
 | Scalability | 12 design pairs | 294 violations across injected variants, 0 across clean variants |
 

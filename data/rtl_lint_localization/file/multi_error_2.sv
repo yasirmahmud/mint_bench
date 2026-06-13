@@ -35,7 +35,7 @@ module rr_arbiter #(parameter int N = 4) (
         grant_mask = '0;
         for (int i = 0; i < N; i++) begin
             if (i > last_idx_r) begin
-                grant_mask[i] = 1'b1
+                grant_mask[i] = 1'b1;
             end else begin
                 grant_mask[i] = 1'b0;
             end

@@ -1,0 +1,34 @@
+{
+  "errors": [
+    {
+      "file_name": "cdc_ethernet_mac_stats.sv",
+      "line": 61,
+      "description": "mac_stats_q is a multi-bit value produced in rxmac_clk and sampled directly in csr_clk without a bundled-data handshake or hold guarantee."
+    },
+    {
+      "file_name": "cdc_ethernet_mac_stats.sv",
+      "line": 64,
+      "description": "rx_good_pulse_q is a one-cycle rxmac_clk pulse consumed directly in csr_clk, so the event can be missed or sampled metastably."
+    },
+    {
+      "file_name": "cdc_ethernet_mac_stats.sv",
+      "line": 70,
+      "description": "rx_good_toggle_q reconverges with a one-sample csr_clk history, allowing metastability or double-counting in csr_event_o."
+    },
+    {
+      "file_name": "cdc_ethernet_mac_stats.sv",
+      "line": 74,
+      "description": "stat_sel_sync_q receives independently synchronized bits from encoded control vector stat_sel_q before decoding in csr_clk, so transient illegal modes can be observed."
+    },
+    {
+      "file_name": "cdc_ethernet_mac_stats.sv",
+      "line": 81,
+      "description": "rxmac_rst_n is used as data inside csr_clk logic, so reset deassertion can asynchronously change destination state."
+    },
+    {
+      "file_name": "cdc_ethernet_mac_stats.sv",
+      "line": 95,
+      "description": "txmac_snapshot_q combines rxmac_clk payload state with csr_clk status state in txmac_clk without a cross-domain snapshot protocol."
+    }
+  ]
+}

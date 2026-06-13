@@ -1,0 +1,194 @@
+{
+    "errors": [
+        {
+            "file_name": "generators__chipyard__src__main__resources__vsrc__ClockDividerN.sv",
+            "line": 30,
+            "description": "Blocking assignment 'clk_out = 1'b0;' used inside a 'FlipFlop' inferred sequential block"
+        },
+        {
+            "file_name": "generators__chipyard__src__main__resources__vsrc__ClockDividerN.sv",
+            "line": 35,
+            "description": "Blocking assignment 'clk_out = 1'b1;' used inside a 'FlipFlop' inferred sequential block"
+        },
+        {
+            "file_name": "generators__chipyard__src__main__resources__vsrc__ClockDividerN.sv",
+            "line": 28,
+            "description": "Latch inferred for signal 'clk_out' in module 'ClockDividerN'"
+        },
+        {
+            "file_name": "generators__chipyard__src__main__resources__vsrc__ClockDividerN.sv",
+            "line": 28,
+            "description": "Signal 'ClockDividerN.u_core.clk_out' has multiple simultaneous drivers"
+        },
+        {
+            "file_name": "generators__chipyard__src__main__resources__vsrc__GCDMMIOBlackBox.v",
+            "line": 27,
+            "description": "Latch inferred for signal 'clock' in module 'GCDMMIOBlackBox'"
+        },
+        {
+            "file_name": "generators__chipyard__src__main__resources__vsrc__GCDMMIOBlackBox.v",
+            "line": 27,
+            "description": "Signal 'GCDMMIOBlackBox.u_core.clock' has multiple simultaneous drivers"
+        },
+        {
+            "file_name": "generators__chipyard__src__main__resources__vsrc__spiketile.v",
+            "line": 297,
+            "description": "Blocking assignment '__insns_retired = 64'h0;' used inside a 'FlipFlop' inferred sequential block"
+        },
+        {
+            "file_name": "generators__chipyard__src__main__resources__vsrc__spiketile.v",
+            "line": 300,
+            "description": "Blocking assignment '__icache_a_valid = 1'b0;' used inside a 'FlipFlop' inferred sequential block"
+        },
+        {
+            "file_name": "generators__chipyard__src__main__resources__vsrc__spiketile.v",
+            "line": 302,
+            "description": "Blocking assignment '__icache_a_address = 64'h0;' used inside a 'FlipFlop' inferred sequential block"
+        },
+        {
+            "file_name": "generators__chipyard__src__main__resources__vsrc__spiketile.v",
+            "line": 304,
+            "description": "Blocking assignment '__icache_a_sourceid = 64'h0;' used inside a 'FlipFlop' inferred sequential block"
+        },
+        {
+            "file_name": "generators__chipyard__src__main__resources__vsrc__spiketile.v",
+            "line": 307,
+            "description": "Blocking assignment '__mmio_a_valid = 1'b0;' used inside a 'FlipFlop' inferred sequential block"
+        },
+        {
+            "file_name": "generators__chipyard__src__main__resources__vsrc__spiketile.v",
+            "line": 309,
+            "description": "Blocking assignment '__mmio_a_address = 64'h0;' used inside a 'FlipFlop' inferred sequential block"
+        },
+        {
+            "file_name": "generators__chipyard__src__main__resources__vsrc__spiketile.v",
+            "line": 311,
+            "description": "Blocking assignment '__mmio_a_data = 64'h0;' used inside a 'FlipFlop' inferred sequential block"
+        },
+        {
+            "file_name": "generators__chipyard__src__main__resources__vsrc__spiketile.v",
+            "line": 313,
+            "description": "Blocking assignment '__mmio_a_store = 1'b0;' used inside a 'FlipFlop' inferred sequential block"
+        },
+        {
+            "file_name": "generators__chipyard__src__main__resources__vsrc__spiketile.v",
+            "line": 315,
+            "description": "Blocking assignment '__mmio_a_size = 32'h0;' used inside a 'FlipFlop' inferred sequential block"
+        },
+        {
+            "file_name": "generators__chipyard__src__main__resources__vsrc__spiketile.v",
+            "line": 318,
+            "description": "Blocking assignment '__dcache_a_valid = 1'b0;' used inside a 'FlipFlop' inferred sequential block"
+        },
+        {
+            "file_name": "generators__chipyard__src__main__resources__vsrc__spiketile.v",
+            "line": 320,
+            "description": "Blocking assignment '__dcache_a_address = 64'h0;' used inside a 'FlipFlop' inferred sequential block"
+        },
+        {
+            "file_name": "generators__chipyard__src__main__resources__vsrc__spiketile.v",
+            "line": 322,
+            "description": "Blocking assignment '__dcache_a_sourceid = 64'h0;' used inside a 'FlipFlop' inferred sequential block"
+        },
+        {
+            "file_name": "generators__chipyard__src__main__resources__vsrc__spiketile.v",
+            "line": 324,
+            "description": "Blocking assignment '__dcache_a_state_old = 1'h0;' used inside a 'FlipFlop' inferred sequential block"
+        },
+        {
+            "file_name": "generators__chipyard__src__main__resources__vsrc__spiketile.v",
+            "line": 326,
+            "description": "Blocking assignment '__dcache_a_state_new = 1'h0;' used inside a 'FlipFlop' inferred sequential block"
+        },
+        {
+            "file_name": "generators__chipyard__src__main__resources__vsrc__spiketile.v",
+            "line": 329,
+            "description": "Blocking assignment '__dcache_c_valid = 1'b0;' used inside a 'FlipFlop' inferred sequential block"
+        },
+        {
+            "file_name": "generators__chipyard__src__main__resources__vsrc__spiketile.v",
+            "line": 331,
+            "description": "Blocking assignment '__dcache_c_address = 64'h0;' used inside a 'FlipFlop' inferred sequential block"
+        },
+        {
+            "file_name": "generators__chipyard__src__main__resources__vsrc__spiketile.v",
+            "line": 333,
+            "description": "Blocking assignment '__dcache_c_sourceid = 64'h0;' used inside a 'FlipFlop' inferred sequential block"
+        },
+        {
+            "file_name": "generators__chipyard__src__main__resources__vsrc__spiketile.v",
+            "line": 335,
+            "description": "Blocking assignment '__dcache_c_param = 32'h0;' used inside a 'FlipFlop' inferred sequential block"
+        },
+        {
+            "file_name": "generators__chipyard__src__main__resources__vsrc__spiketile.v",
+            "line": 337,
+            "description": "Blocking assignment '__dcache_c_voluntary = 1'h0;' used inside a 'FlipFlop' inferred sequential block"
+        },
+        {
+            "file_name": "generators__chipyard__src__main__resources__vsrc__spiketile.v",
+            "line": 339,
+            "description": "Blocking assignment '__dcache_c_has_data = 1'h0;' used inside a 'FlipFlop' inferred sequential block"
+        },
+        {
+            "file_name": "generators__chipyard__src__main__resources__vsrc__spiketile.v",
+            "line": 341,
+            "description": "Blocking assignment '__dcache_c_data_0 = 64'h0;' used inside a 'FlipFlop' inferred sequential block"
+        },
+        {
+            "file_name": "generators__chipyard__src__main__resources__vsrc__spiketile.v",
+            "line": 343,
+            "description": "Blocking assignment '__dcache_c_data_1 = 64'h0;' used inside a 'FlipFlop' inferred sequential block"
+        },
+        {
+            "file_name": "generators__chipyard__src__main__resources__vsrc__spiketile.v",
+            "line": 345,
+            "description": "Blocking assignment '__dcache_c_data_2 = 64'h0;' used inside a 'FlipFlop' inferred sequential block"
+        },
+        {
+            "file_name": "generators__chipyard__src__main__resources__vsrc__spiketile.v",
+            "line": 347,
+            "description": "Blocking assignment '__dcache_c_data_3 = 64'h0;' used inside a 'FlipFlop' inferred sequential block"
+        },
+        {
+            "file_name": "generators__chipyard__src__main__resources__vsrc__spiketile.v",
+            "line": 349,
+            "description": "Blocking assignment '__dcache_c_data_4 = 64'h0;' used inside a 'FlipFlop' inferred sequential block"
+        },
+        {
+            "file_name": "generators__chipyard__src__main__resources__vsrc__spiketile.v",
+            "line": 351,
+            "description": "Blocking assignment '__dcache_c_data_5 = 64'h0;' used inside a 'FlipFlop' inferred sequential block"
+        },
+        {
+            "file_name": "generators__chipyard__src__main__resources__vsrc__spiketile.v",
+            "line": 353,
+            "description": "Blocking assignment '__dcache_c_data_6 = 64'h0;' used inside a 'FlipFlop' inferred sequential block"
+        },
+        {
+            "file_name": "generators__chipyard__src__main__resources__vsrc__spiketile.v",
+            "line": 355,
+            "description": "Blocking assignment '__dcache_c_data_7 = 64'h0;' used inside a 'FlipFlop' inferred sequential block"
+        },
+        {
+            "file_name": "generators__chipyard__src__main__resources__vsrc__spiketile.v",
+            "line": 358,
+            "description": "Blocking assignment '__tcm_d_valid = 1'b0;' used inside a 'FlipFlop' inferred sequential block"
+        },
+        {
+            "file_name": "generators__chipyard__src__main__resources__vsrc__spiketile.v",
+            "line": 360,
+            "description": "Blocking assignment '__tcm_d_data = 64'h0;' used inside a 'FlipFlop' inferred sequential block"
+        },
+        {
+            "file_name": "generators__chipyard__src__main__resources__vsrc__spiketile.v",
+            "line": 295,
+            "description": "Latch inferred for signal 'string' in module 'SpikeBlackBox'"
+        },
+        {
+            "file_name": "generators__chipyard__src__main__resources__vsrc__spiketile.v",
+            "line": 295,
+            "description": "Signal 'SpikeBlackBox.u_core.string' has multiple simultaneous drivers"
+        }
+    ]
+}

@@ -1,0 +1,34 @@
+{
+  "errors": [
+    {
+      "file_name": "cdc_low_power_island.sv",
+      "line": 61,
+      "description": "power_state_q is a multi-bit value produced in aon_clk and sampled directly in island_clk without a bundled-data handshake or hold guarantee."
+    },
+    {
+      "file_name": "cdc_low_power_island.sv",
+      "line": 64,
+      "description": "wake_pulse_q is a one-cycle aon_clk pulse consumed directly in island_clk, so the event can be missed or sampled metastably."
+    },
+    {
+      "file_name": "cdc_low_power_island.sv",
+      "line": 70,
+      "description": "wake_toggle_q reconverges with a one-sample island_clk history, allowing metastability or double-counting in island_event_o."
+    },
+    {
+      "file_name": "cdc_low_power_island.sv",
+      "line": 74,
+      "description": "retention_sync_q receives independently synchronized bits from encoded control vector retention_q before decoding in island_clk, so transient illegal modes can be observed."
+    },
+    {
+      "file_name": "cdc_low_power_island.sv",
+      "line": 81,
+      "description": "aon_rst_n is used as data inside island_clk logic, so reset deassertion can asynchronously change destination state."
+    },
+    {
+      "file_name": "cdc_low_power_island.sv",
+      "line": 95,
+      "description": "sys_snapshot_q combines aon_clk payload state with island_clk status state in sys_clk without a cross-domain snapshot protocol."
+    }
+  ]
+}

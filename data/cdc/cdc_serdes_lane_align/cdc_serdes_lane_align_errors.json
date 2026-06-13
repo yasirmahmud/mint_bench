@@ -1,0 +1,34 @@
+{
+  "errors": [
+    {
+      "file_name": "cdc_serdes_lane_align.sv",
+      "line": 61,
+      "description": "lane_marker_q is a multi-bit value produced in serdes_clk and sampled directly in link_clk without a bundled-data handshake or hold guarantee."
+    },
+    {
+      "file_name": "cdc_serdes_lane_align.sv",
+      "line": 64,
+      "description": "comma_pulse_q is a one-cycle serdes_clk pulse consumed directly in link_clk, so the event can be missed or sampled metastably."
+    },
+    {
+      "file_name": "cdc_serdes_lane_align.sv",
+      "line": 70,
+      "description": "comma_toggle_q reconverges with a one-sample link_clk history, allowing metastability or double-counting in link_event_o."
+    },
+    {
+      "file_name": "cdc_serdes_lane_align.sv",
+      "line": 74,
+      "description": "align_mode_sync_q receives independently synchronized bits from encoded control vector align_mode_q before decoding in link_clk, so transient illegal modes can be observed."
+    },
+    {
+      "file_name": "cdc_serdes_lane_align.sv",
+      "line": 81,
+      "description": "serdes_rst_n is used as data inside link_clk logic, so reset deassertion can asynchronously change destination state."
+    },
+    {
+      "file_name": "cdc_serdes_lane_align.sv",
+      "line": 95,
+      "description": "cfg_snapshot_q combines serdes_clk payload state with link_clk status state in cfg_clk without a cross-domain snapshot protocol."
+    }
+  ]
+}

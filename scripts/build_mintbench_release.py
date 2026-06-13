@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 from dataclasses import dataclass
 from pathlib import Path
 from statistics import mean
@@ -55,6 +56,20 @@ def normalize_violation(v: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def infer_top_from_issue_file(path: Path, issues: list[dict[str, Any]]) -> str | None:
+    for issue in issues:
+        file_name = issue.get("file_name") or issue.get("file_path")
+        if not file_name:
+            continue
+        source_path = path.parent / basename(file_name)
+        if not source_path.exists():
+            continue
+        match = re.search(r"^\s*module\s+([A-Za-z_][A-Za-z0-9_$]*)\b", source_path.read_text(encoding="utf-8"), re.M)
+        if match:
+            return match.group(1)
+    return None
+
+
 def lint_annotations() -> tuple[list[dict[str, Any]], dict[str, Any]]:
     src_dir = ROOT / "data" / "rtl_lint_localization" / "json"
     rows: list[dict[str, Any]] = []
@@ -101,35 +116,36 @@ def lint_annotations() -> tuple[list[dict[str, Any]], dict[str, Any]]:
     return rows, stats
 
 
-def tool_report(path: Path, task: str) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+def issue_report(path: Path, task: str) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     payload = read_json(path)
+    issues = payload.get("violations") or payload.get("errors", [])
+    issue_count = payload.get("violation_count", len(issues))
+    top = payload.get("top") or infer_top_from_issue_file(path, issues)
     rows = [
         {
             "instance_id": path.stem,
             "task": task,
             "source_path": str(path.relative_to(ROOT)),
-            "top": payload.get("top"),
-            "design_label": payload.get("design_label"),
+            "top": top,
+            "design_label": payload.get("design_label") or top,
             "check": payload.get("check"),
             "goal": payload.get("goals"),
-            "gold_violation_count": payload.get("violation_count"),
-            "gold_violations": [normalize_violation(v) for v in payload.get("violations", [])],
+            "gold_violation_count": issue_count,
+            "gold_violations": [normalize_violation(v) for v in issues],
         }
     ]
     stats = {
-        "violation_count": payload.get("violation_count"),
-        "top": payload.get("top"),
+        "violation_count": issue_count,
+        "top": top,
     }
     return rows, stats
 
 
 def cdc_annotations() -> tuple[list[dict[str, Any]], dict[str, Any]]:
     rows: list[dict[str, Any]] = []
-    for rel in [
-        "data/cdc/cdc_minimal/cdc_minimal_tool_report.json",
-        "data/cdc/cdc_protocol/cdc_protocol_tool_report.json",
-    ]:
-        row, _ = tool_report(ROOT / rel, "cdc_verification")
+    cdc_reports = sorted((ROOT / "data" / "cdc").glob("*/*_errors.json"))
+    for report_path in cdc_reports:
+        row, _ = issue_report(report_path, "cdc_verification")
         rows.extend(row)
     stats = {
         "instances": len(rows),

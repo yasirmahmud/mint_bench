@@ -1,0 +1,34 @@
+{
+  "errors": [
+    {
+      "file_name": "cdc_pwm_duty_update.sv",
+      "line": 61,
+      "description": "duty_cycle_q is a multi-bit value produced in cfg_clk and sampled directly in pwm_clk without a bundled-data handshake or hold guarantee."
+    },
+    {
+      "file_name": "cdc_pwm_duty_update.sv",
+      "line": 64,
+      "description": "commit_pulse_q is a one-cycle cfg_clk pulse consumed directly in pwm_clk, so the event can be missed or sampled metastably."
+    },
+    {
+      "file_name": "cdc_pwm_duty_update.sv",
+      "line": 70,
+      "description": "commit_toggle_q reconverges with a one-sample pwm_clk history, allowing metastability or double-counting in pwm_event_o."
+    },
+    {
+      "file_name": "cdc_pwm_duty_update.sv",
+      "line": 74,
+      "description": "period_mode_sync_q receives independently synchronized bits from encoded control vector period_mode_q before decoding in pwm_clk, so transient illegal modes can be observed."
+    },
+    {
+      "file_name": "cdc_pwm_duty_update.sv",
+      "line": 81,
+      "description": "cfg_rst_n is used as data inside pwm_clk logic, so reset deassertion can asynchronously change destination state."
+    },
+    {
+      "file_name": "cdc_pwm_duty_update.sv",
+      "line": 95,
+      "description": "aon_snapshot_q combines cfg_clk payload state with pwm_clk status state in aon_clk without a cross-domain snapshot protocol."
+    }
+  ]
+}

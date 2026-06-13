@@ -1,0 +1,34 @@
+{
+  "errors": [
+    {
+      "file_name": "cdc_adc_sample_fifo.sv",
+      "line": 61,
+      "description": "adc_sample_q is a multi-bit value produced in adc_clk and sampled directly in dsp_clk without a bundled-data handshake or hold guarantee."
+    },
+    {
+      "file_name": "cdc_adc_sample_fifo.sv",
+      "line": 64,
+      "description": "sample_ready_pulse_q is a one-cycle adc_clk pulse consumed directly in dsp_clk, so the event can be missed or sampled metastably."
+    },
+    {
+      "file_name": "cdc_adc_sample_fifo.sv",
+      "line": 70,
+      "description": "sample_ready_toggle_q reconverges with a one-sample dsp_clk history, allowing metastability or double-counting in dsp_event_o."
+    },
+    {
+      "file_name": "cdc_adc_sample_fifo.sv",
+      "line": 74,
+      "description": "range_mode_sync_q receives independently synchronized bits from encoded control vector range_mode_q before decoding in dsp_clk, so transient illegal modes can be observed."
+    },
+    {
+      "file_name": "cdc_adc_sample_fifo.sv",
+      "line": 81,
+      "description": "adc_rst_n is used as data inside dsp_clk logic, so reset deassertion can asynchronously change destination state."
+    },
+    {
+      "file_name": "cdc_adc_sample_fifo.sv",
+      "line": 95,
+      "description": "cfg_snapshot_q combines adc_clk payload state with dsp_clk status state in cfg_clk without a cross-domain snapshot protocol."
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "errors": [
+    {
+      "file_name": "cdc_cache_coherency_probe.sv",
+      "line": 61,
+      "description": "probe_bits_q is a multi-bit value produced in snoop_clk and sampled directly in cache_clk without a bundled-data handshake or hold guarantee."
+    },
+    {
+      "file_name": "cdc_cache_coherency_probe.sv",
+      "line": 64,
+      "description": "probe_pulse_q is a one-cycle snoop_clk pulse consumed directly in cache_clk, so the event can be missed or sampled metastably."
+    },
+    {
+      "file_name": "cdc_cache_coherency_probe.sv",
+      "line": 70,
+      "description": "probe_toggle_q reconverges with a one-sample cache_clk history, allowing metastability or double-counting in cache_event_o."
+    },
+    {
+      "file_name": "cdc_cache_coherency_probe.sv",
+      "line": 74,
+      "description": "probe_mode_sync_q receives independently synchronized bits from encoded control vector probe_mode_q before decoding in cache_clk, so transient illegal modes can be observed."
+    },
+    {
+      "file_name": "cdc_cache_coherency_probe.sv",
+      "line": 81,
+      "description": "snoop_rst_n is used as data inside cache_clk logic, so reset deassertion can asynchronously change destination state."
+    },
+    {
+      "file_name": "cdc_cache_coherency_probe.sv",
+      "line": 95,
+      "description": "core_snapshot_q combines snoop_clk payload state with cache_clk status state in core_clk without a cross-domain snapshot protocol."
+    }
+  ]
+}

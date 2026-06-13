@@ -44,7 +44,7 @@ module arbiter_with_precise_lint #(parameter int N = 4) (
     always_comb begin
         masked_req    = req;
         double_req    = {masked_req, masked_req};
-        req_rot       = N'(double_req >> rr_ptr);
+        req_rot       = (double_req >> rr_ptr)[N-1:0];
         grant_rot     = first_one(req_rot);
         double_grant  = {grant_rot, grant_rot} << rr_ptr;
         grant_next    = double_grant[N-1:0] | double_grant[2*N-1:N];

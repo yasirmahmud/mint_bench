@@ -5,7 +5,7 @@
 // A compact multi-module SystemVerilog benchmark containing CDC defects that
 // often require semantic or protocol reasoning beyond simple structural checks.
 // Each intentional issue is tagged with CDC_### and is described in
-// cdc_protocol_tool_report.json.
+// cdc_protocol_errors.json.
 
 `timescale 1ns/1ps
 
@@ -288,6 +288,7 @@ module cdc_protocol_ctrl_domain (
     logic [31:0] debug_count_q;
     logic        debug_trigger_meta_q;
 
+    // CDC_012: scan_enable_i selects a foreign clock for cfg state without a safe clock-mux cell.
     assign gated_cfg_clk = scan_enable_i ? scan_clk : cfg_clk;
 
     always_ff @(posedge cfg_clk or negedge cfg_rst_n) begin
@@ -382,7 +383,6 @@ module cdc_protocol_ctrl_domain (
         if (!cfg_rst_n) begin
             debug_count_q <= 32'd0;
         end else if (cfg_read_i) begin
-            // CDC_012: scan_enable_i selects a foreign clock for cfg state without a safe clock-mux cell.
             debug_count_q <= debug_count_q + 32'd1;
         end
     end
@@ -632,9 +632,9 @@ module cdc_protocol_debug_tap (
         end
     end
 
+    // CDC_031: Debug reset asynchronously releases cfg-clocked shadow logic.
     always_ff @(posedge cfg_clk or negedge debug_rst_n) begin
         if (!debug_rst_n) begin
-            // CDC_031: Debug reset asynchronously releases cfg-clocked shadow logic.
             cfg_shadow_reset_q <= 1'b0;
         end else begin
             cfg_shadow_reset_q <= cfg_shadow_reset_q | debug_status_o[0];

@@ -1,0 +1,34 @@
+{
+  "errors": [
+    {
+      "file_name": "cdc_uart_debug_bridge.sv",
+      "line": 61,
+      "description": "rx_word_q is a multi-bit value produced in uart_clk and sampled directly in sys_clk without a bundled-data handshake or hold guarantee."
+    },
+    {
+      "file_name": "cdc_uart_debug_bridge.sv",
+      "line": 64,
+      "description": "rx_ready_pulse_q is a one-cycle uart_clk pulse consumed directly in sys_clk, so the event can be missed or sampled metastably."
+    },
+    {
+      "file_name": "cdc_uart_debug_bridge.sv",
+      "line": 70,
+      "description": "rx_ready_toggle_q reconverges with a one-sample sys_clk history, allowing metastability or double-counting in sys_event_o."
+    },
+    {
+      "file_name": "cdc_uart_debug_bridge.sv",
+      "line": 74,
+      "description": "debug_mode_sync_q receives independently synchronized bits from encoded control vector debug_mode_q before decoding in sys_clk, so transient illegal modes can be observed."
+    },
+    {
+      "file_name": "cdc_uart_debug_bridge.sv",
+      "line": 81,
+      "description": "uart_rst_n is used as data inside sys_clk logic, so reset deassertion can asynchronously change destination state."
+    },
+    {
+      "file_name": "cdc_uart_debug_bridge.sv",
+      "line": 95,
+      "description": "debug_snapshot_q combines uart_clk payload state with sys_clk status state in debug_clk without a cross-domain snapshot protocol."
+    }
+  ]
+}
