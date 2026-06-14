@@ -12,13 +12,8 @@
         },
         {
             "file_name": "rtl__verilog__or1200_amultp2_32x32.v",
-            "line": 782,
-            "description": "Latch inferred for signal 'ONEPOS' in module 'PP_LOW'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_amultp2_32x32.v",
-            "line": 782,
-            "description": "Signal 'PP_LOW.u_core.ONEPOS' has multiple simultaneous drivers"
+            "line": 784,
+            "description": "The signal/variable 'DOUT_reg' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "rtl__verilog__or1200_cfgr.v",
@@ -31,29 +26,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "rtl__verilog__or1200_ctrl.v",
-            "line": 221,
-            "description": "Latch inferred for signal 'clk' in module 'or1200_ctrl'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_ctrl.v",
-            "line": 221,
-            "description": "Signal 'or1200_ctrl.u_core.clk' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "rtl__verilog__or1200_dc_fsm.v",
             "line": 267,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_dc_fsm.v",
-            "line": 364,
-            "description": "Latch inferred for signal 'clk' in module 'or1200_dc_fsm'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_dc_fsm.v",
-            "line": 364,
-            "description": "Signal 'or1200_dc_fsm.u_core.clk' has multiple simultaneous drivers"
         },
         {
             "file_name": "rtl__verilog__or1200_dc_top.v",
@@ -72,48 +47,23 @@
         },
         {
             "file_name": "rtl__verilog__or1200_dmmu_top.v",
-            "line": 209,
-            "description": "Latch inferred for signal 'clk' in module 'or1200_dmmu_top'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_dmmu_top.v",
-            "line": 209,
-            "description": "Signal 'or1200_dmmu_top.u_core.clk' has multiple simultaneous drivers"
+            "line": 211,
+            "description": "The signal/variable 'dtlb_done' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "rtl__verilog__or1200_dpram.v",
-            "line": 131,
-            "description": "Latch inferred for signal 'clk_a' in module 'or1200_dpram'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_dpram.v",
-            "line": 131,
-            "description": "Signal 'or1200_dpram.u_core.clk_a' has multiple simultaneous drivers"
+            "line": 107,
+            "description": "The signal/variable 'get_gpr' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "rtl__verilog__or1200_dpram_256x32.v",
-            "line": 203,
-            "description": "Latch inferred for signal 'clk_a' in module 'or1200_dpram_256x32'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_dpram_256x32.v",
-            "line": 203,
-            "description": "Signal 'or1200_dpram_256x32.u_core.clk_a' has multiple simultaneous drivers"
+            "line": 205,
+            "description": "The signal/variable 'addr_a_reg' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "rtl__verilog__or1200_dpram_32x32.v",
             "line": 173,
             "description": "Variable 'UNUSED' set but not read."
-        },
-        {
-            "file_name": "rtl__verilog__or1200_dpram_32x32.v",
-            "line": 312,
-            "description": "Latch inferred for signal 'clk_a' in module 'or1200_dpram_32x32'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_dpram_32x32.v",
-            "line": 312,
-            "description": "Signal 'or1200_dpram_32x32.u_core.clk_a' has multiple simultaneous drivers"
         },
         {
             "file_name": "rtl__verilog__or1200_du.v",
@@ -126,29 +76,9 @@
             "description": "Variable 'UNUSED' set but not read."
         },
         {
-            "file_name": "rtl__verilog__or1200_du.v",
-            "line": 145,
-            "description": "Latch inferred for signal 'clk' in module 'or1200_du'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_du.v",
-            "line": 145,
-            "description": "Signal 'or1200_du.u_core.clk' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "rtl__verilog__or1200_except.v",
             "line": 472,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_except.v",
-            "line": 280,
-            "description": "Latch inferred for signal 'clk' in module 'or1200_except'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_except.v",
-            "line": 280,
-            "description": "Signal 'or1200_except.u_core.clk' has multiple simultaneous drivers"
         },
         {
             "file_name": "rtl__verilog__or1200_fpu.v",
@@ -161,24 +91,9 @@
             "description": "Variable 'unused' set but not read."
         },
         {
-            "file_name": "rtl__verilog__or1200_fpu.v",
-            "line": 191,
-            "description": "Latch inferred for signal 'clk' in module 'or1200_fpu'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_fpu.v",
-            "line": 191,
-            "description": "Signal 'or1200_fpu.u_core.clk' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "rtl__verilog__or1200_fpu_addsub.v",
-            "line": 90,
-            "description": "Latch inferred for signal 'clk_i' in module 'or1200_fpu_addsub'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_fpu_addsub.v",
-            "line": 90,
-            "description": "Signal 'or1200_fpu_addsub.u_core.clk_i' has multiple simultaneous drivers"
+            "line": 92,
+            "description": "The signal/variable 'fract_o' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "rtl__verilog__or1200_fpu_arith.v",
@@ -196,24 +111,9 @@
             "description": "Variable 'unused' set but not read."
         },
         {
-            "file_name": "rtl__verilog__or1200_fpu_arith.v",
-            "line": 315,
-            "description": "Latch inferred for signal 'clk_i' in module 'or1200_fpu_arith'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_fpu_arith.v",
-            "line": 315,
-            "description": "Signal 'or1200_fpu_arith.u_core.clk_i' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "rtl__verilog__or1200_fpu_div.v",
-            "line": 99,
-            "description": "Latch inferred for signal 'clk_i' in module 'or1200_fpu_div'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_fpu_div.v",
-            "line": 99,
-            "description": "Signal 'or1200_fpu_div.u_core.clk_i' has multiple simultaneous drivers"
+            "line": 83,
+            "description": "The signal/variable 't_state_busy' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "rtl__verilog__or1200_fpu_fcmp.v",
@@ -231,34 +131,14 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "rtl__verilog__or1200_fpu_intfloat_conv.v",
-            "line": 116,
-            "description": "Latch inferred for signal 'clk' in module 'or1200_fpu_intfloat_conv'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_fpu_intfloat_conv.v",
-            "line": 116,
-            "description": "Signal 'or1200_fpu_intfloat_conv.u_core.clk' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "rtl__verilog__or1200_fpu_intfloat_conv_except.v",
-            "line": 85,
-            "description": "Latch inferred for signal 'clk' in module 'or1200_fpu_intfloat_conv_except'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_fpu_intfloat_conv_except.v",
-            "line": 85,
-            "description": "Signal 'or1200_fpu_intfloat_conv_except.u_core.clk' has multiple simultaneous drivers"
+            "line": 86,
+            "description": "The signal/variable 'expa_ff' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "rtl__verilog__or1200_fpu_mul.v",
-            "line": 92,
-            "description": "Latch inferred for signal 'clk_i' in module 'or1200_fpu_mul'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_fpu_mul.v",
-            "line": 92,
-            "description": "Signal 'or1200_fpu_mul.u_core.clk_i' has multiple simultaneous drivers"
+            "line": 78,
+            "description": "The signal/variable 't_state_busy' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "rtl__verilog__or1200_fpu_post_norm_addsub.v",
@@ -266,44 +146,14 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "rtl__verilog__or1200_fpu_post_norm_addsub.v",
-            "line": 121,
-            "description": "Latch inferred for signal 'clk_i' in module 'or1200_fpu_post_norm_addsub'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_fpu_post_norm_addsub.v",
-            "line": 121,
-            "description": "Signal 'or1200_fpu_post_norm_addsub.u_core.clk_i' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "rtl__verilog__or1200_fpu_post_norm_div.v",
             "line": 186,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "rtl__verilog__or1200_fpu_post_norm_div.v",
-            "line": 113,
-            "description": "Latch inferred for signal 'clk_i' in module 'or1200_fpu_post_norm_div'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_fpu_post_norm_div.v",
-            "line": 113,
-            "description": "Signal 'or1200_fpu_post_norm_div.u_core.clk_i' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "rtl__verilog__or1200_fpu_post_norm_intfloat_conv.v",
             "line": 140,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_fpu_post_norm_intfloat_conv.v",
-            "line": 139,
-            "description": "Latch inferred for signal 'clk' in module 'or1200_fpu_post_norm_intfloat_conv'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_fpu_post_norm_intfloat_conv.v",
-            "line": 139,
-            "description": "Signal 'or1200_fpu_post_norm_intfloat_conv.u_core.clk' has multiple simultaneous drivers"
         },
         {
             "file_name": "rtl__verilog__or1200_fpu_post_norm_mul.v",
@@ -311,29 +161,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "rtl__verilog__or1200_fpu_post_norm_mul.v",
-            "line": 114,
-            "description": "Latch inferred for signal 'clk_i' in module 'or1200_fpu_post_norm_mul'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_fpu_post_norm_mul.v",
-            "line": 114,
-            "description": "Signal 'or1200_fpu_post_norm_mul.u_core.clk_i' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "rtl__verilog__or1200_fpu_pre_norm_addsub.v",
             "line": 140,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_fpu_pre_norm_addsub.v",
-            "line": 103,
-            "description": "Latch inferred for signal 'clk_i' in module 'or1200_fpu_pre_norm_addsub'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_fpu_pre_norm_addsub.v",
-            "line": 103,
-            "description": "Signal 'or1200_fpu_pre_norm_addsub.u_core.clk_i' has multiple simultaneous drivers"
         },
         {
             "file_name": "rtl__verilog__or1200_fpu_pre_norm_div.v",
@@ -341,34 +171,14 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "rtl__verilog__or1200_fpu_pre_norm_div.v",
-            "line": 99,
-            "description": "Latch inferred for signal 'clk_i' in module 'or1200_fpu_pre_norm_div'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_fpu_pre_norm_div.v",
-            "line": 99,
-            "description": "Signal 'or1200_fpu_pre_norm_div.u_core.clk_i' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "rtl__verilog__or1200_fpu_pre_norm_mul.v",
-            "line": 90,
-            "description": "Latch inferred for signal 'clk_i' in module 'or1200_fpu_pre_norm_mul'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_fpu_pre_norm_mul.v",
-            "line": 90,
-            "description": "Signal 'or1200_fpu_pre_norm_mul.u_core.clk_i' has multiple simultaneous drivers"
+            "line": 91,
+            "description": "The signal/variable 'exp_10_o' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "rtl__verilog__or1200_freeze.v",
-            "line": 142,
-            "description": "Latch inferred for signal 'clk' in module 'or1200_freeze'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_freeze.v",
-            "line": 142,
-            "description": "Signal 'or1200_freeze.u_core.clk' has multiple simultaneous drivers"
+            "line": 144,
+            "description": "The signal/variable 'flushpipe_r' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "rtl__verilog__or1200_genpc.v",
@@ -376,24 +186,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "rtl__verilog__or1200_genpc.v",
-            "line": 145,
-            "description": "Latch inferred for signal 'clk' in module 'or1200_genpc'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_genpc.v",
-            "line": 145,
-            "description": "Signal 'or1200_genpc.u_core.clk' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "rtl__verilog__or1200_gmultp2_32x32.v",
-            "line": 94,
-            "description": "Latch inferred for signal 'X' in module 'or1200_gmultp2_32x32'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_gmultp2_32x32.v",
-            "line": 94,
-            "description": "Signal 'or1200_gmultp2_32x32.u_core.X' has multiple simultaneous drivers"
+            "line": 83,
+            "description": "The signal/variable 'xi' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "rtl__verilog__or1200_ic_fsm.v",
@@ -401,59 +196,24 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "rtl__verilog__or1200_ic_fsm.v",
-            "line": 148,
-            "description": "Latch inferred for signal 'clk' in module 'or1200_ic_fsm'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_ic_fsm.v",
-            "line": 148,
-            "description": "Signal 'or1200_ic_fsm.u_core.clk' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "rtl__verilog__or1200_ic_top.v",
-            "line": 225,
-            "description": "Latch inferred for signal 'clk' in module 'or1200_ic_top'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_ic_top.v",
-            "line": 225,
-            "description": "Signal 'or1200_ic_top.u_core.clk' has multiple simultaneous drivers"
+            "line": 227,
+            "description": "The signal/variable 'ic_inv_q' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "rtl__verilog__or1200_if.v",
-            "line": 121,
-            "description": "Latch inferred for signal 'clk' in module 'or1200_if'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_if.v",
-            "line": 121,
-            "description": "Signal 'or1200_if.u_core.clk' has multiple simultaneous drivers"
+            "line": 123,
+            "description": "The signal/variable 'if_bypass_reg' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "rtl__verilog__or1200_immu_top.v",
-            "line": 181,
-            "description": "Latch inferred for signal 'clk' in module 'or1200_immu_top'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_immu_top.v",
-            "line": 181,
-            "description": "Signal 'or1200_immu_top.u_core.clk' has multiple simultaneous drivers"
+            "line": 185,
+            "description": "The signal/variable 'icpu_adr_default' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "rtl__verilog__or1200_lsu.v",
             "line": 196,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_lsu.v",
-            "line": 133,
-            "description": "Latch inferred for signal 'clk' in module 'or1200_lsu'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_lsu.v",
-            "line": 133,
-            "description": "Signal 'or1200_lsu.u_core.clk' has multiple simultaneous drivers"
         },
         {
             "file_name": "rtl__verilog__or1200_mem2reg.v",
@@ -466,29 +226,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "rtl__verilog__or1200_mult_mac.v",
-            "line": 205,
-            "description": "Latch inferred for signal 'clk' in module 'or1200_mult_mac'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_mult_mac.v",
-            "line": 205,
-            "description": "Signal 'or1200_mult_mac.u_core.clk' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "rtl__verilog__or1200_operandmuxes.v",
             "line": 131,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_operandmuxes.v",
-            "line": 97,
-            "description": "Latch inferred for signal 'clk' in module 'or1200_operandmuxes'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_operandmuxes.v",
-            "line": 97,
-            "description": "Signal 'or1200_operandmuxes.u_core.clk' has multiple simultaneous drivers"
         },
         {
             "file_name": "rtl__verilog__or1200_pic.v",
@@ -496,39 +236,14 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "rtl__verilog__or1200_pic.v",
-            "line": 119,
-            "description": "Latch inferred for signal 'clk' in module 'or1200_pic'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_pic.v",
-            "line": 119,
-            "description": "Signal 'or1200_pic.u_core.clk' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "rtl__verilog__or1200_pm.v",
-            "line": 138,
-            "description": "Latch inferred for signal 'clk' in module 'or1200_pm'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_pm.v",
-            "line": 138,
-            "description": "Signal 'or1200_pm.u_core.clk' has multiple simultaneous drivers"
+            "line": 142,
+            "description": "The signal/variable 'sdf' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "rtl__verilog__or1200_qmem_top.v",
             "line": 328,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_qmem_top.v",
-            "line": 322,
-            "description": "Latch inferred for signal 'clk' in module 'or1200_qmem_top'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_qmem_top.v",
-            "line": 322,
-            "description": "Signal 'or1200_qmem_top.u_core.clk' has multiple simultaneous drivers"
         },
         {
             "file_name": "rtl__verilog__or1200_reg2mem.v",
@@ -537,13 +252,8 @@
         },
         {
             "file_name": "rtl__verilog__or1200_rf.v",
-            "line": 144,
-            "description": "Latch inferred for signal 'clk' in module 'or1200_rf'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_rf.v",
-            "line": 144,
-            "description": "Signal 'or1200_rf.u_core.clk' has multiple simultaneous drivers"
+            "line": 146,
+            "description": "The signal/variable 'addra_last' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "rtl__verilog__or1200_rfram_generic.v",
@@ -551,59 +261,24 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "rtl__verilog__or1200_rfram_generic.v",
-            "line": 203,
-            "description": "Latch inferred for signal 'clk' in module 'or1200_rfram_generic'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_rfram_generic.v",
-            "line": 203,
-            "description": "Signal 'or1200_rfram_generic.u_core.clk' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "rtl__verilog__or1200_sb.v",
-            "line": 152,
-            "description": "Latch inferred for signal 'clk' in module 'or1200_sb'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_sb.v",
-            "line": 152,
-            "description": "Signal 'or1200_sb.u_core.clk' has multiple simultaneous drivers"
+            "line": 154,
+            "description": "The signal/variable 'sb_en_reg' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "rtl__verilog__or1200_sb_fifo.v",
-            "line": 97,
-            "description": "Latch inferred for signal 'clk_i' in module 'or1200_sb_fifo'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_sb_fifo.v",
-            "line": 97,
-            "description": "Signal 'or1200_sb_fifo.u_core.clk_i' has multiple simultaneous drivers"
+            "line": 99,
+            "description": "The signal/variable 'full_o' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "rtl__verilog__or1200_spram.v",
-            "line": 123,
-            "description": "Latch inferred for signal 'mbist_si_i' in module 'or1200_spram'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_spram.v",
-            "line": 123,
-            "description": "Signal 'or1200_spram.u_core.mbist_si_i' has multiple simultaneous drivers"
+            "line": 125,
+            "description": "The signal/variable 'addr_reg' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "rtl__verilog__or1200_spram_1024x32.v",
             "line": 177,
             "description": "Variable 'UNUSED' set but not read."
-        },
-        {
-            "file_name": "rtl__verilog__or1200_spram_1024x32.v",
-            "line": 515,
-            "description": "Latch inferred for signal 'mbist_si_i' in module 'or1200_spram_1024x32'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_spram_1024x32.v",
-            "line": 515,
-            "description": "Signal 'or1200_spram_1024x32.u_core.mbist_si_i' has multiple simultaneous drivers"
         },
         {
             "file_name": "rtl__verilog__or1200_spram_1024x32_bw.v",
@@ -611,29 +286,9 @@
             "description": "Variable 'UNUSED' set but not read."
         },
         {
-            "file_name": "rtl__verilog__or1200_spram_1024x32_bw.v",
-            "line": 535,
-            "description": "Latch inferred for signal 'mbist_si_i' in module 'or1200_spram_1024x32_bw'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_spram_1024x32_bw.v",
-            "line": 535,
-            "description": "Signal 'or1200_spram_1024x32_bw.u_core.mbist_si_i' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "rtl__verilog__or1200_spram_1024x8.v",
             "line": 174,
             "description": "Variable 'UNUSED' set but not read."
-        },
-        {
-            "file_name": "rtl__verilog__or1200_spram_1024x8.v",
-            "line": 386,
-            "description": "Latch inferred for signal 'mbist_si_i' in module 'or1200_spram_1024x8'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_spram_1024x8.v",
-            "line": 386,
-            "description": "Signal 'or1200_spram_1024x8.u_core.mbist_si_i' has multiple simultaneous drivers"
         },
         {
             "file_name": "rtl__verilog__or1200_spram_128x32.v",
@@ -641,29 +296,9 @@
             "description": "Variable 'UNUSED' set but not read."
         },
         {
-            "file_name": "rtl__verilog__or1200_spram_128x32.v",
-            "line": 267,
-            "description": "Latch inferred for signal 'mbist_si_i' in module 'or1200_spram_128x32'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_spram_128x32.v",
-            "line": 267,
-            "description": "Signal 'or1200_spram_128x32.u_core.mbist_si_i' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "rtl__verilog__or1200_spram_2048x32.v",
             "line": 177,
             "description": "Variable 'UNUSED' set but not read."
-        },
-        {
-            "file_name": "rtl__verilog__or1200_spram_2048x32.v",
-            "line": 619,
-            "description": "Latch inferred for signal 'mbist_si_i' in module 'or1200_spram_2048x32'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_spram_2048x32.v",
-            "line": 619,
-            "description": "Signal 'or1200_spram_2048x32.u_core.mbist_si_i' has multiple simultaneous drivers"
         },
         {
             "file_name": "rtl__verilog__or1200_spram_2048x32_bw.v",
@@ -671,29 +306,9 @@
             "description": "Variable 'UNUSED' set but not read."
         },
         {
-            "file_name": "rtl__verilog__or1200_spram_2048x32_bw.v",
-            "line": 639,
-            "description": "Latch inferred for signal 'mbist_si_i' in module 'or1200_spram_2048x32_bw'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_spram_2048x32_bw.v",
-            "line": 639,
-            "description": "Signal 'or1200_spram_2048x32_bw.u_core.mbist_si_i' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "rtl__verilog__or1200_spram_2048x8.v",
             "line": 174,
             "description": "Variable 'UNUSED' set but not read."
-        },
-        {
-            "file_name": "rtl__verilog__or1200_spram_2048x8.v",
-            "line": 412,
-            "description": "Latch inferred for signal 'mbist_si_i' in module 'or1200_spram_2048x8'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_spram_2048x8.v",
-            "line": 412,
-            "description": "Signal 'or1200_spram_2048x8.u_core.mbist_si_i' has multiple simultaneous drivers"
         },
         {
             "file_name": "rtl__verilog__or1200_spram_256x21.v",
@@ -701,24 +316,9 @@
             "description": "Variable 'UNUSED' set but not read."
         },
         {
-            "file_name": "rtl__verilog__or1200_spram_256x21.v",
-            "line": 402,
-            "description": "Latch inferred for signal 'mbist_si_i' in module 'or1200_spram_256x21'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_spram_256x21.v",
-            "line": 402,
-            "description": "Signal 'or1200_spram_256x21.u_core.mbist_si_i' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "rtl__verilog__or1200_spram_32_bw.v",
-            "line": 128,
-            "description": "Latch inferred for signal 'mbist_si_i' in module 'or1200_spram_32_bw'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_spram_32_bw.v",
-            "line": 128,
-            "description": "Signal 'or1200_spram_32_bw.u_core.mbist_si_i' has multiple simultaneous drivers"
+            "line": 130,
+            "description": "The signal/variable 'addr_reg' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "rtl__verilog__or1200_spram_32x24.v",
@@ -726,59 +326,19 @@
             "description": "Variable 'UNUSED' set but not read."
         },
         {
-            "file_name": "rtl__verilog__or1200_spram_32x24.v",
-            "line": 293,
-            "description": "Latch inferred for signal 'mbist_si_i' in module 'or1200_spram_32x24'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_spram_32x24.v",
-            "line": 293,
-            "description": "Signal 'or1200_spram_32x24.u_core.mbist_si_i' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "rtl__verilog__or1200_spram_512x20.v",
             "line": 187,
             "description": "Variable 'UNUSED' set but not read."
         },
         {
-            "file_name": "rtl__verilog__or1200_spram_512x20.v",
-            "line": 412,
-            "description": "Latch inferred for signal 'mbist_si_i' in module 'or1200_spram_512x20'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_spram_512x20.v",
-            "line": 412,
-            "description": "Signal 'or1200_spram_512x20.u_core.mbist_si_i' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "rtl__verilog__or1200_spram_64x14.v",
             "line": 182,
             "description": "Variable 'UNUSED' set but not read."
         },
         {
-            "file_name": "rtl__verilog__or1200_spram_64x14.v",
-            "line": 379,
-            "description": "Latch inferred for signal 'mbist_si_i' in module 'or1200_spram_64x14'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_spram_64x14.v",
-            "line": 379,
-            "description": "Signal 'or1200_spram_64x14.u_core.mbist_si_i' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "rtl__verilog__or1200_spram_64x22.v",
             "line": 182,
             "description": "Variable 'UNUSED' set but not read."
-        },
-        {
-            "file_name": "rtl__verilog__or1200_spram_64x22.v",
-            "line": 394,
-            "description": "Latch inferred for signal 'mbist_si_i' in module 'or1200_spram_64x22'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_spram_64x22.v",
-            "line": 394,
-            "description": "Signal 'or1200_spram_64x22.u_core.mbist_si_i' has multiple simultaneous drivers"
         },
         {
             "file_name": "rtl__verilog__or1200_spram_64x24.v",
@@ -786,29 +346,9 @@
             "description": "Variable 'UNUSED' set but not read."
         },
         {
-            "file_name": "rtl__verilog__or1200_spram_64x24.v",
-            "line": 396,
-            "description": "Latch inferred for signal 'mbist_si_i' in module 'or1200_spram_64x24'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_spram_64x24.v",
-            "line": 396,
-            "description": "Signal 'or1200_spram_64x24.u_core.mbist_si_i' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "rtl__verilog__or1200_sprs.v",
             "line": 218,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_sprs.v",
-            "line": 391,
-            "description": "Latch inferred for signal 'clk' in module 'or1200_sprs'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_sprs.v",
-            "line": 391,
-            "description": "Signal 'or1200_sprs.u_core.clk' has multiple simultaneous drivers"
         },
         {
             "file_name": "rtl__verilog__or1200_tpram_32x32.v",
@@ -816,29 +356,9 @@
             "description": "Variable 'UNUSED' set but not read."
         },
         {
-            "file_name": "rtl__verilog__or1200_tpram_32x32.v",
-            "line": 390,
-            "description": "Latch inferred for signal 'clk_a' in module 'or1200_tpram_32x32'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_tpram_32x32.v",
-            "line": 390,
-            "description": "Signal 'or1200_tpram_32x32.u_core.clk_a' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "rtl__verilog__or1200_tt.v",
             "line": 143,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_tt.v",
-            "line": 111,
-            "description": "Latch inferred for signal 'clk' in module 'or1200_tt'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_tt.v",
-            "line": 111,
-            "description": "Signal 'or1200_tt.u_core.clk' has multiple simultaneous drivers"
         },
         {
             "file_name": "rtl__verilog__or1200_wb_biu.v",
@@ -846,29 +366,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "rtl__verilog__or1200_wb_biu.v",
-            "line": 191,
-            "description": "Latch inferred for signal 'clk' in module 'or1200_wb_biu'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_wb_biu.v",
-            "line": 191,
-            "description": "Signal 'or1200_wb_biu.u_core.clk' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "rtl__verilog__or1200_wbmux.v",
             "line": 116,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_wbmux.v",
-            "line": 100,
-            "description": "Latch inferred for signal 'clk' in module 'or1200_wbmux'"
-        },
-        {
-            "file_name": "rtl__verilog__or1200_wbmux.v",
-            "line": 100,
-            "description": "Signal 'or1200_wbmux.u_core.clk' has multiple simultaneous drivers"
         }
     ]
 }

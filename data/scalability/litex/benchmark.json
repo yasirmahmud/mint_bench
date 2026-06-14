@@ -12,13 +12,8 @@
         },
         {
             "file_name": "litex__soc__cores__cpu__cva6__cva6_wrapper__cva6_wrapper.sv",
-            "line": 142,
-            "description": "Latch inferred for signal 'logic' in module 'cva6_wrapper'"
-        },
-        {
-            "file_name": "litex__soc__cores__cpu__cva6__cva6_wrapper__cva6_wrapper.sv",
-            "line": 142,
-            "description": "Signal 'cva6_wrapper.u_core.logic' has multiple simultaneous drivers"
+            "line": 143,
+            "description": "The signal/variable 'ndmreset_n' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "litex__soc__cores__cpu__lm32__verilog__config__lm32_config.v",
@@ -39,16 +34,6 @@
             "file_name": "litex__soc__cores__jtagphy_shift.v",
             "line": 56,
             "description": "Operator '===' should be avoided in synthesis logic"
-        },
-        {
-            "file_name": "litex__soc__cores__jtagphy_shift.v",
-            "line": 147,
-            "description": "Latch inferred for signal 'wire' in module 'jtagphy_shift'"
-        },
-        {
-            "file_name": "litex__soc__cores__jtagphy_shift.v",
-            "line": 147,
-            "description": "Signal 'jtagphy_shift.u_core.wire' has multiple simultaneous drivers"
         }
     ]
 }

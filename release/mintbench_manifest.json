@@ -63,7 +63,7 @@
         "instances": 18,
         "pairs": 0,
         "source_file_count": 6188,
-        "violation_count": 8660
+        "violation_count": 5546
       },
       "task": "scalability"
     }

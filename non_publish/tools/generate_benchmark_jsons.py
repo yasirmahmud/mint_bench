@@ -104,11 +104,9 @@ def parse_first_assignment_lhs(lines: list[str]) -> tuple[int, str, str] | None:
     return None
 
 
-def find_sequential_block_issues(lines: list[str], file_name: str, errors: list[dict], module_name: str | None) -> None:
+def find_sequential_block_issues(lines: list[str], file_name: str, errors: list[dict]) -> None:
     seen_blocking: set[str] = set()
     seen_nonblocking: set[str] = set()
-    signal_candidates = parse_signal_candidates(lines)
-    signal_name = signal_candidates[0] if signal_candidates else None
 
     for idx, line in enumerate(lines, start=1):
         if not SEQ_ALWAYS_RE.search(line):
@@ -148,19 +146,6 @@ def find_sequential_block_issues(lines: list[str], file_name: str, errors: list[
                 break
             j += 1
 
-        if module_name and signal_name:
-            add_issue(
-                errors,
-                file_name,
-                idx,
-                f"Latch inferred for signal '{signal_name}' in module '{module_name}'",
-            )
-            add_issue(
-                errors,
-                file_name,
-                idx,
-                f"Signal '{module_name}.u_core.{signal_name}' has multiple simultaneous drivers",
-            )
         break
 
 
@@ -205,7 +190,7 @@ def build_issues_for_file(path: Path) -> list[dict]:
             break
 
     # Real sequential-block issues using actual assignment targets from the file.
-    find_sequential_block_issues(lines, file_name, errors, module_name)
+    find_sequential_block_issues(lines, file_name, errors)
 
     # If a file has no module/interface and no obvious issue yet, add a single
     # source-grounded combinational issue from the first assignment.
@@ -227,8 +212,8 @@ def build_issues_for_file(path: Path) -> list[dict]:
 
 
 def main() -> None:
-    root = Path(__file__).resolve().parents[1]
-    src_root = root / "large_design_minimal"
+    root = Path(__file__).resolve().parents[2]
+    src_root = root / "data" / "scalability"
     if not src_root.exists():
         raise SystemExit(f"Missing directory: {src_root}")
 

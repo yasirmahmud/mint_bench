@@ -27,28 +27,13 @@
         },
         {
             "file_name": "design__dmi__dmi_jtag_to_core_sync.v",
-            "line": 49,
-            "description": "Latch inferred for signal 'rd_en' in module 'dmi_jtag_to_core_sync'"
-        },
-        {
-            "file_name": "design__dmi__dmi_jtag_to_core_sync.v",
-            "line": 49,
-            "description": "Signal 'dmi_jtag_to_core_sync.u_core.rd_en' has multiple simultaneous drivers"
+            "line": 51,
+            "description": "The signal/variable 'rden' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "design__dmi__rvjtag_tap.v",
             "line": 101,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "design__dmi__rvjtag_tap.v",
-            "line": 122,
-            "description": "Latch inferred for signal 'trst' in module 'rvjtag_tap'"
-        },
-        {
-            "file_name": "design__dmi__rvjtag_tap.v",
-            "line": 122,
-            "description": "Signal 'rvjtag_tap.u_core.trst' has multiple simultaneous drivers"
         },
         {
             "file_name": "design__el2_dma_ctrl.sv",
@@ -82,13 +67,8 @@
         },
         {
             "file_name": "design__el2_veer_lockstep.sv",
-            "line": 698,
-            "description": "Latch inferred for signal 'logic' in module 'el2_veer_lockstep'"
-        },
-        {
-            "file_name": "design__el2_veer_lockstep.sv",
-            "line": 698,
-            "description": "Signal 'el2_veer_lockstep.u_core.logic' has multiple simultaneous drivers"
+            "line": 700,
+            "description": "The signal/variable 'rst_shadow_sr' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "design__el2_veer_wrapper.sv",
@@ -122,13 +102,8 @@
         },
         {
             "file_name": "design__ifu__el2_ifu.sv",
-            "line": 362,
-            "description": "Latch inferred for signal 'logic' in module 'el2_ifu'"
-        },
-        {
-            "file_name": "design__ifu__el2_ifu.sv",
-            "line": 362,
-            "description": "Signal 'el2_ifu.u_core.logic' has multiple simultaneous drivers"
+            "line": 388,
+            "description": "The signal/variable 'encode4_2[1]' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "design__ifu__el2_ifu_aln_ctl.sv",
@@ -181,29 +156,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "design__lib__beh_lib.sv",
-            "line": 33,
-            "description": "Latch inferred for signal 'logic' in module 'rvdff'"
-        },
-        {
-            "file_name": "design__lib__beh_lib.sv",
-            "line": 33,
-            "description": "Signal 'rvdff.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "design__lib__mem_lib.sv",
             "line": 104,
             "description": "Operator '===' should be avoided in synthesis logic"
-        },
-        {
-            "file_name": "design__lib__mem_lib.sv",
-            "line": 46,
-            "description": "Latch inferred for signal 'logic' in module 'ram_'"
-        },
-        {
-            "file_name": "design__lib__mem_lib.sv",
-            "line": 46,
-            "description": "Signal 'ram_.u_core.logic' has multiple simultaneous drivers"
         },
         {
             "file_name": "design__lsu__el2_lsu_bus_buffer.sv",
@@ -242,43 +197,18 @@
         },
         {
             "file_name": "testbench__ahb_lite_2to1_mux.sv",
-            "line": 102,
-            "description": "Latch inferred for signal 'logic' in module 'ahb_lite_2to1_mux'"
-        },
-        {
-            "file_name": "testbench__ahb_lite_2to1_mux.sv",
-            "line": 102,
-            "description": "Signal 'ahb_lite_2to1_mux.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
-            "file_name": "testbench__ahb_lsu_dma_bridge.sv",
-            "line": 106,
-            "description": "Latch inferred for signal 'clk' in module 'ahb_lsu_dma_bridge'"
-        },
-        {
-            "file_name": "testbench__ahb_lsu_dma_bridge.sv",
-            "line": 106,
-            "description": "Signal 'ahb_lsu_dma_bridge.u_core.clk' has multiple simultaneous drivers"
+            "line": 104,
+            "description": "The signal/variable 'initiator0_pend_haddr' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "testbench__ahb_sif.sv",
-            "line": 68,
-            "description": "Latch inferred for signal 'logic' in module 'ahb_sif'"
-        },
-        {
-            "file_name": "testbench__ahb_sif.sv",
-            "line": 68,
-            "description": "Signal 'ahb_sif.u_core.logic' has multiple simultaneous drivers"
+            "line": 62,
+            "description": "The signal/variable 'dws_rand' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "testbench__axi4_mux__arbiter.v",
-            "line": 143,
-            "description": "Latch inferred for signal 'wire' in module 'arbiter'"
-        },
-        {
-            "file_name": "testbench__axi4_mux__arbiter.v",
-            "line": 143,
-            "description": "Signal 'arbiter.u_core.wire' has multiple simultaneous drivers"
+            "line": 99,
+            "description": "The signal/variable 'grant_next' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "testbench__axi4_mux__axi_crossbar_addr.v",
@@ -286,34 +216,14 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "testbench__axi4_mux__axi_crossbar_addr.v",
-            "line": 295,
-            "description": "Latch inferred for signal 'wire' in module 'axi_crossbar_addr'"
-        },
-        {
-            "file_name": "testbench__axi4_mux__axi_crossbar_addr.v",
-            "line": 295,
-            "description": "Signal 'axi_crossbar_addr.u_core.wire' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "testbench__axi4_mux__axi_crossbar_rd.v",
-            "line": 312,
-            "description": "Latch inferred for signal 'wire' in module 'axi_crossbar_rd'"
-        },
-        {
-            "file_name": "testbench__axi4_mux__axi_crossbar_rd.v",
-            "line": 312,
-            "description": "Signal 'axi_crossbar_rd.u_core.wire' has multiple simultaneous drivers"
+            "line": 289,
+            "description": "The signal/variable 'decerr_len_next' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "testbench__axi4_mux__axi_crossbar_wr.v",
-            "line": 328,
-            "description": "Latch inferred for signal 'wire' in module 'axi_crossbar_wr'"
-        },
-        {
-            "file_name": "testbench__axi4_mux__axi_crossbar_wr.v",
-            "line": 328,
-            "description": "Signal 'axi_crossbar_wr.u_core.wire' has multiple simultaneous drivers"
+            "line": 317,
+            "description": "The signal/variable 'w_select_next' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "testbench__axi4_mux__axi_crossbar_wrap_2x1.v",
@@ -322,53 +232,28 @@
         },
         {
             "file_name": "testbench__axi4_mux__axi_register_rd.v",
-            "line": 199,
-            "description": "Latch inferred for signal 'wire' in module 'axi_register_rd'"
-        },
-        {
-            "file_name": "testbench__axi4_mux__axi_register_rd.v",
-            "line": 199,
-            "description": "Signal 'axi_register_rd.u_core.wire' has multiple simultaneous drivers"
+            "line": 173,
+            "description": "The signal/variable 'm_axi_arvalid_next' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "testbench__axi4_mux__axi_register_wr.v",
-            "line": 214,
-            "description": "Latch inferred for signal 'wire' in module 'axi_register_wr'"
-        },
-        {
-            "file_name": "testbench__axi4_mux__axi_register_wr.v",
-            "line": 214,
-            "description": "Signal 'axi_register_wr.u_core.wire' has multiple simultaneous drivers"
+            "line": 188,
+            "description": "The signal/variable 'm_axi_awvalid_next' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "testbench__axi_lsu_dma_bridge.sv",
-            "line": 151,
-            "description": "Latch inferred for signal 'clk' in module 'axi_lsu_dma_bridge'"
-        },
-        {
-            "file_name": "testbench__axi_lsu_dma_bridge.sv",
-            "line": 151,
-            "description": "Signal 'axi_lsu_dma_bridge.u_core.clk' has multiple simultaneous drivers"
+            "line": 153,
+            "description": "The signal/variable 'wsel_count' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "testbench__jtagdpi__jtagdpi.sv",
-            "line": 43,
-            "description": "Latch inferred for signal 'logic' in module 'jtagdpi'"
-        },
-        {
-            "file_name": "testbench__jtagdpi__jtagdpi.sv",
-            "line": 43,
-            "description": "Signal 'jtagdpi.u_core.logic' has multiple simultaneous drivers"
+            "line": 35,
+            "description": "The signal/variable 'ctx' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "testbench__user_cells.sv",
-            "line": 30,
-            "description": "Latch inferred for signal 'logic' in module 'user_clock_gate'"
-        },
-        {
-            "file_name": "testbench__user_cells.sv",
-            "line": 30,
-            "description": "Signal 'user_clock_gate.u_core.logic' has multiple simultaneous drivers"
+            "line": 31,
+            "description": "The signal/variable 'gate' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "testbench__uvm__mem__hdl__dccm_agent.sv",
@@ -407,13 +292,8 @@
         },
         {
             "file_name": "testbench__uvm__mem__hdl__tbench_top.sv",
-            "line": 82,
-            "description": "Latch inferred for signal 'clk' in module 'tbench_top'"
-        },
-        {
-            "file_name": "testbench__uvm__mem__hdl__tbench_top.sv",
-            "line": 82,
-            "description": "Signal 'tbench_top.u_core.clk' has multiple simultaneous drivers"
+            "line": 22,
+            "description": "The signal/variable 'reset' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "verification__block__dcls__el2_veer_lockstep_wrapper.sv",

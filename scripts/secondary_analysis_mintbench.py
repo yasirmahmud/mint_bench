@@ -42,15 +42,6 @@ def extract_prediction_items(pred: Any) -> list[dict[str, Any]]:
     return []
 
 
-def gold_items(row: dict[str, Any]) -> list[dict[str, Any]]:
-    task = row["task"]
-    if task == "lint_localization":
-        return row.get("gold_errors", [])
-    if task == "rca":
-        return row.get("root_causes", [])
-    return row.get("gold_violations", row.get("violations", []))
-
-
 def require_analysis_config() -> tuple[str, str, str, float]:
     access_token = os.environ.get("MINTBENCH_ANALYSIS_ACCESS_TOKEN")
     target = os.environ.get("MINTBENCH_ANALYSIS_TARGET")
@@ -75,7 +66,6 @@ def build_messages(row: dict[str, Any], prediction: Any) -> list[dict[str, str]]
     payload = {
         "instance_id": row["instance_id"],
         "task": row["task"],
-        "gold_items": gold_items(row),
         "predicted_items": extract_prediction_items(prediction),
     }
     system = "Assess HDL linter benchmark predictions and return compact JSON only."

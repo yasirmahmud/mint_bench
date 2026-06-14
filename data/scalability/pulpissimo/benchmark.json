@@ -2,13 +2,8 @@
     "errors": [
         {
             "file_name": "hw__asic_autogen_rom.sv",
-            "line": 2085,
-            "description": "Latch inferred for signal 'logic' in module 'asic_autogen_rom'"
-        },
-        {
-            "file_name": "hw__asic_autogen_rom.sv",
-            "line": 2085,
-            "description": "Signal 'asic_autogen_rom.u_core.logic' has multiple simultaneous drivers"
+            "line": 2088,
+            "description": "The signal/variable 'A_Q' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "hw__clock_gen_generic.sv",
@@ -17,13 +12,8 @@
         },
         {
             "file_name": "hw__fpga_autogen_rom.sv",
-            "line": 2085,
-            "description": "Latch inferred for signal 'logic' in module 'fpga_autogen_rom'"
-        },
-        {
-            "file_name": "hw__fpga_autogen_rom.sv",
-            "line": 2085,
-            "description": "Signal 'fpga_autogen_rom.u_core.logic' has multiple simultaneous drivers"
+            "line": 2088,
+            "description": "The signal/variable 'A_Q' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "hw__padframe__pulpissimo_padframe_fpga_autogen__src__pulpissimo_padframe_all_pads_config_reg_top.sv",
@@ -71,24 +61,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "hw__vendored_ips__gpio__src__gpio_input_stage.sv",
-            "line": 72,
-            "description": "Latch inferred for signal 'logic' in module 'gpio_input_stage'"
-        },
-        {
-            "file_name": "hw__vendored_ips__gpio__src__gpio_input_stage.sv",
-            "line": 72,
-            "description": "Signal 'gpio_input_stage.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "hw__vendored_ips__gpio__src__gpio_input_stage_no_clk_gates.sv",
-            "line": 28,
-            "description": "Latch inferred for signal 'logic' in module 'gpio_input_stage'"
-        },
-        {
-            "file_name": "hw__vendored_ips__gpio__src__gpio_input_stage_no_clk_gates.sv",
-            "line": 28,
-            "description": "Signal 'gpio_input_stage.u_core.logic' has multiple simultaneous drivers"
+            "line": 30,
+            "description": "The signal/variable 'serial_q' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "hw__vendored_ips__gpio__src__gpio_reg_top.sv",

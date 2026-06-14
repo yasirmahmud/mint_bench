@@ -7,33 +7,18 @@
         },
         {
             "file_name": "fpga__pulp__rtl__fpga_slow_clk_gen.sv",
-            "line": 63,
-            "description": "Latch inferred for signal 'logic' in module 'fpga_slow_clk_gen'"
-        },
-        {
-            "file_name": "fpga__pulp__rtl__fpga_slow_clk_gen.sv",
-            "line": 63,
-            "description": "Signal 'fpga_slow_clk_gen.u_core.logic' has multiple simultaneous drivers"
+            "line": 55,
+            "description": "The signal/variable 'clk_counter_d' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "rtl__pulp__jtag_tap_top.sv",
-            "line": 99,
-            "description": "Latch inferred for signal 'logic' in module 'jtag_tap_top'"
-        },
-        {
-            "file_name": "rtl__pulp__jtag_tap_top.sv",
-            "line": 99,
-            "description": "Signal 'jtag_tap_top.u_core.logic' has multiple simultaneous drivers"
+            "line": 101,
+            "description": "The signal/variable 'r_soc_reg0' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "rtl__pulp__rtc_clock.sv",
-            "line": 96,
-            "description": "Latch inferred for signal 'logic' in module 'rtc_clock'"
-        },
-        {
-            "file_name": "rtl__pulp__rtc_clock.sv",
-            "line": 96,
-            "description": "Signal 'rtc_clock.u_core.logic' has multiple simultaneous drivers"
+            "line": 100,
+            "description": "The signal/variable 'r_alarm_seconds' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "rtl__pulp__rtc_date.sv",
@@ -41,29 +26,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "rtl__pulp__rtc_date.sv",
-            "line": 70,
-            "description": "Latch inferred for signal 'logic' in module 'rtc_date'"
-        },
-        {
-            "file_name": "rtl__pulp__rtc_date.sv",
-            "line": 70,
-            "description": "Signal 'rtc_date.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "rtl__pulp__safe_domain_reg_if.sv",
             "line": 213,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "rtl__pulp__safe_domain_reg_if.sv",
-            "line": 136,
-            "description": "Latch inferred for signal 'logic' in module 'safe_domain_reg_if'"
-        },
-        {
-            "file_name": "rtl__pulp__safe_domain_reg_if.sv",
-            "line": 136,
-            "description": "Signal 'safe_domain_reg_if.u_core.logic' has multiple simultaneous drivers"
         },
         {
             "file_name": "rtl__pulpemu__fpga_interleaved_ram.sv",
@@ -77,23 +42,13 @@
         },
         {
             "file_name": "rtl__pulpemu__fpga_slow_clk_gen.sv",
-            "line": 67,
-            "description": "Latch inferred for signal 'logic' in module 'fpga_slow_clk_gen'"
-        },
-        {
-            "file_name": "rtl__pulpemu__fpga_slow_clk_gen.sv",
-            "line": 67,
-            "description": "Signal 'fpga_slow_clk_gen.u_core.logic' has multiple simultaneous drivers"
+            "line": 59,
+            "description": "The signal/variable 'clk_counter_d' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "rtl__pulpemu__pulpemu_ref_clk_div.sv",
-            "line": 14,
-            "description": "Latch inferred for signal 'logic' in module 'pulpemu_ref_clk_div'"
-        },
-        {
-            "file_name": "rtl__pulpemu__pulpemu_ref_clk_div.sv",
-            "line": 14,
-            "description": "Signal 'pulpemu_ref_clk_div.u_core.logic' has multiple simultaneous drivers"
+            "line": 18,
+            "description": "The signal/variable 'counter' read in the block is not in the sensitivity list"
         }
     ]
 }

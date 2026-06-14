@@ -56,29 +56,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "bp_be__src__v__bp_be_calculator__bp_be_pipe_sys.sv",
-            "line": 126,
-            "description": "Latch inferred for signal 'vaddr_width_p' in module 'bp_be_pipe_sys'"
-        },
-        {
-            "file_name": "bp_be__src__v__bp_be_calculator__bp_be_pipe_sys.sv",
-            "line": 126,
-            "description": "Signal 'bp_be_pipe_sys.u_core.vaddr_width_p' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "bp_be__src__v__bp_be_calculator__bp_be_ptw.sv",
             "line": 171,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "bp_be__src__v__bp_be_calculator__bp_be_ptw.sv",
-            "line": 184,
-            "description": "Latch inferred for signal 'is_idle' in module 'bp_be_ptw'"
-        },
-        {
-            "file_name": "bp_be__src__v__bp_be_calculator__bp_be_ptw.sv",
-            "line": 184,
-            "description": "Signal 'bp_be_ptw.u_core.is_idle' has multiple simultaneous drivers"
         },
         {
             "file_name": "bp_be__src__v__bp_be_calculator__bp_be_reservation.sv",
@@ -87,28 +67,13 @@
         },
         {
             "file_name": "bp_be__src__v__bp_be_checker__bp_be_detector.sv",
-            "line": 293,
-            "description": "Latch inferred for signal 'irs1_sb_raw_haz_v' in module 'bp_be_detector'"
-        },
-        {
-            "file_name": "bp_be__src__v__bp_be_checker__bp_be_detector.sv",
-            "line": 293,
-            "description": "Signal 'bp_be_detector.u_core.irs1_sb_raw_haz_v' has multiple simultaneous drivers"
+            "line": 153,
+            "description": "The signal/variable 'rs1_match_vector[i]' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "bp_be__src__v__bp_be_checker__bp_be_director.sv",
             "line": 120,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "bp_be__src__v__bp_be_checker__bp_be_director.sv",
-            "line": 139,
-            "description": "Latch inferred for signal 'fe_cmd_v_li' in module 'bp_be_director'"
-        },
-        {
-            "file_name": "bp_be__src__v__bp_be_checker__bp_be_director.sv",
-            "line": 139,
-            "description": "Signal 'bp_be_director.u_core.fe_cmd_v_li' has multiple simultaneous drivers"
         },
         {
             "file_name": "bp_be__src__v__bp_be_checker__bp_be_expander.sv",
@@ -146,16 +111,6 @@
             "description": "Variable 'Unused' set but not read."
         },
         {
-            "file_name": "bp_be__src__v__bp_be_dcache__bp_be_dcache.sv",
-            "line": 1186,
-            "description": "Latch inferred for signal 'is_ready' in module 'bp_be_dcache'"
-        },
-        {
-            "file_name": "bp_be__src__v__bp_be_dcache__bp_be_dcache.sv",
-            "line": 1186,
-            "description": "Signal 'bp_be_dcache.u_core.is_ready' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "bp_be__src__v__bp_be_dcache__bp_be_dcache_decoder.sv",
             "line": 31,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
@@ -169,16 +124,6 @@
             "file_name": "bp_be__src__v__bp_be_dcache__bp_be_dcache_wbuf.sv",
             "line": 84,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "bp_be__src__v__bp_be_dcache__bp_be_dcache_wbuf.sv",
-            "line": 221,
-            "description": "Latch inferred for signal 'num_els_r' in module 'bp_be_dcache_wbuf'"
-        },
-        {
-            "file_name": "bp_be__src__v__bp_be_dcache__bp_be_dcache_wbuf.sv",
-            "line": 221,
-            "description": "Signal 'bp_be_dcache_wbuf.u_core.num_els_r' has multiple simultaneous drivers"
         },
         {
             "file_name": "bp_common__src__v__bp_mmu.sv",
@@ -196,29 +141,9 @@
             "description": "Operator '===' should be avoided in synthesis logic"
         },
         {
-            "file_name": "bp_common__src__v__bsg_parallel_in_serial_out_passthrough_dynamic.sv",
-            "line": 98,
-            "description": "Latch inferred for signal 'els_p' in module 'bsg_parallel_in_serial_out_passthrough_dynamic'"
-        },
-        {
-            "file_name": "bp_common__src__v__bsg_parallel_in_serial_out_passthrough_dynamic.sv",
-            "line": 98,
-            "description": "Signal 'bsg_parallel_in_serial_out_passthrough_dynamic.u_core.els_p' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "bp_fe__src__v__bp_fe_bht.sv",
             "line": 73,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "bp_fe__src__v__bp_fe_bht.sv",
-            "line": 81,
-            "description": "Latch inferred for signal 'is_reset' in module 'bp_fe_bht'"
-        },
-        {
-            "file_name": "bp_fe__src__v__bp_fe_bht.sv",
-            "line": 81,
-            "description": "Signal 'bp_fe_bht.u_core.is_reset' has multiple simultaneous drivers"
         },
         {
             "file_name": "bp_fe__src__v__bp_fe_btb.sv",
@@ -226,29 +151,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "bp_fe__src__v__bp_fe_btb.sv",
-            "line": 84,
-            "description": "Latch inferred for signal 'is_reset' in module 'bp_fe_btb'"
-        },
-        {
-            "file_name": "bp_fe__src__v__bp_fe_btb.sv",
-            "line": 84,
-            "description": "Signal 'bp_fe_btb.u_core.is_reset' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "bp_fe__src__v__bp_fe_controller.sv",
             "line": 226,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "bp_fe__src__v__bp_fe_controller.sv",
-            "line": 294,
-            "description": "Latch inferred for signal 'is_reset' in module 'bp_fe_controller'"
-        },
-        {
-            "file_name": "bp_fe__src__v__bp_fe_controller.sv",
-            "line": 294,
-            "description": "Signal 'bp_fe_controller.u_core.is_reset' has multiple simultaneous drivers"
         },
         {
             "file_name": "bp_fe__src__v__bp_fe_icache.sv",
@@ -261,16 +166,6 @@
             "description": "Variable 'unused' set but not read."
         },
         {
-            "file_name": "bp_fe__src__v__bp_fe_icache.sv",
-            "line": 526,
-            "description": "Latch inferred for signal 'is_ready' in module 'bp_fe_icache'"
-        },
-        {
-            "file_name": "bp_fe__src__v__bp_fe_icache.sv",
-            "line": 526,
-            "description": "Signal 'bp_fe_icache.u_core.is_ready' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "bp_fe__src__v__bp_fe_pc_gen.sv",
             "line": 106,
             "description": "The signal/variable 'next_pred' read in the block is not in the sensitivity list"
@@ -279,16 +174,6 @@
             "file_name": "bp_fe__src__v__bp_fe_ras.sv",
             "line": 57,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "bp_fe__src__v__bp_fe_ras.sv",
-            "line": 65,
-            "description": "Latch inferred for signal 'is_reset' in module 'bp_fe_ras'"
-        },
-        {
-            "file_name": "bp_fe__src__v__bp_fe_ras.sv",
-            "line": 65,
-            "description": "Signal 'bp_fe_ras.u_core.is_reset' has multiple simultaneous drivers"
         },
         {
             "file_name": "bp_fe__src__v__bp_fe_scan.sv",
@@ -326,16 +211,6 @@
             "description": "Variable 'unused' set but not read."
         },
         {
-            "file_name": "bp_me__src__v__cce__bp_cce_dir.sv",
-            "line": 369,
-            "description": "Latch inferred for signal 'unused' in module 'bp_cce_dir'"
-        },
-        {
-            "file_name": "bp_me__src__v__cce__bp_cce_dir.sv",
-            "line": 369,
-            "description": "Signal 'bp_cce_dir.u_core.unused' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "bp_me__src__v__cce__bp_cce_dir_lru_extract.sv",
             "line": 48,
             "description": "The signal/variable 'row' read in the block is not in the sensitivity list"
@@ -344,16 +219,6 @@
             "file_name": "bp_me__src__v__cce__bp_cce_dir_segment.sv",
             "line": 302,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "bp_me__src__v__cce__bp_cce_dir_segment.sv",
-            "line": 225,
-            "description": "Latch inferred for signal 'lg_num_cce_lp' in module 'bp_cce_dir_segment'"
-        },
-        {
-            "file_name": "bp_me__src__v__cce__bp_cce_dir_segment.sv",
-            "line": 225,
-            "description": "Signal 'bp_cce_dir_segment.u_core.lg_num_cce_lp' has multiple simultaneous drivers"
         },
         {
             "file_name": "bp_me__src__v__cce__bp_cce_fsm.sv",
@@ -366,16 +231,6 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "bp_me__src__v__cce__bp_cce_fsm.sv",
-            "line": 411,
-            "description": "Latch inferred for signal 'bedrock_fill_width_p' in module 'bp_cce_fsm'"
-        },
-        {
-            "file_name": "bp_me__src__v__cce__bp_cce_fsm.sv",
-            "line": 411,
-            "description": "Signal 'bp_cce_fsm.u_core.bedrock_fill_width_p' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "bp_me__src__v__cce__bp_cce_gad.sv",
             "line": 64,
             "description": "Variable 'unused' set but not read."
@@ -386,29 +241,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "bp_me__src__v__cce__bp_cce_inst_decode.sv",
-            "line": 57,
-            "description": "Latch inferred for signal 'cce_pc_width_p' in module 'bp_cce_inst_decode'"
-        },
-        {
-            "file_name": "bp_me__src__v__cce__bp_cce_inst_decode.sv",
-            "line": 57,
-            "description": "Signal 'bp_cce_inst_decode.u_core.cce_pc_width_p' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "bp_me__src__v__cce__bp_cce_inst_ram.sv",
             "line": 117,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "bp_me__src__v__cce__bp_cce_inst_ram.sv",
-            "line": 98,
-            "description": "Latch inferred for signal 'cce_pc_width_p' in module 'bp_cce_inst_ram'"
-        },
-        {
-            "file_name": "bp_me__src__v__cce__bp_cce_inst_ram.sv",
-            "line": 98,
-            "description": "Signal 'bp_cce_inst_ram.u_core.cce_pc_width_p' has multiple simultaneous drivers"
         },
         {
             "file_name": "bp_me__src__v__cce__bp_cce_inst_stall.sv",
@@ -421,24 +256,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "bp_me__src__v__cce__bp_cce_msg.sv",
-            "line": 270,
-            "description": "Latch inferred for signal 'cce_normal_mode_li' in module 'bp_cce_msg'"
-        },
-        {
-            "file_name": "bp_me__src__v__cce__bp_cce_msg.sv",
-            "line": 270,
-            "description": "Signal 'bp_cce_msg.u_core.cce_normal_mode_li' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "bp_me__src__v__cce__bp_cce_pending_bits.sv",
-            "line": 97,
-            "description": "Latch inferred for signal 'hash_idx_width_lp' in module 'bp_cce_pending_bits'"
-        },
-        {
-            "file_name": "bp_me__src__v__cce__bp_cce_pending_bits.sv",
-            "line": 97,
-            "description": "Signal 'bp_cce_pending_bits.u_core.hash_idx_width_lp' has multiple simultaneous drivers"
+            "line": 99,
+            "description": "The signal/variable 'pending_bits_r' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "bp_me__src__v__cce__bp_cce_reg.sv",
@@ -451,29 +271,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "bp_me__src__v__cce__bp_cce_reg.sv",
-            "line": 118,
-            "description": "Latch inferred for signal 'bp_cce_inst_num_gpr' in module 'bp_cce_reg'"
-        },
-        {
-            "file_name": "bp_me__src__v__cce__bp_cce_reg.sv",
-            "line": 118,
-            "description": "Signal 'bp_cce_reg.u_core.bp_cce_inst_num_gpr' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "bp_me__src__v__cce__bp_cce_spec_bits.sv",
             "line": 124,
             "description": "Variable 'unused0' set but not read."
-        },
-        {
-            "file_name": "bp_me__src__v__cce__bp_cce_spec_bits.sv",
-            "line": 93,
-            "description": "Latch inferred for signal 'hash_idx_width_lp' in module 'bp_cce_spec_bits'"
-        },
-        {
-            "file_name": "bp_me__src__v__cce__bp_cce_spec_bits.sv",
-            "line": 93,
-            "description": "Signal 'bp_cce_spec_bits.u_core.hash_idx_width_lp' has multiple simultaneous drivers"
         },
         {
             "file_name": "bp_me__src__v__cce__bp_cce_src_sel.sv",
@@ -496,29 +296,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "bp_me__src__v__cce__bp_uce.sv",
-            "line": 823,
-            "description": "Latch inferred for signal 'is_reset' in module 'bp_uce'"
-        },
-        {
-            "file_name": "bp_me__src__v__cce__bp_uce.sv",
-            "line": 823,
-            "description": "Signal 'bp_uce.u_core.is_reset' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "bp_me__src__v__dev__bp_me_bedrock_register.sv",
             "line": 155,
             "description": "Operator '===' should be avoided in synthesis logic"
-        },
-        {
-            "file_name": "bp_me__src__v__dev__bp_me_bedrock_register.sv",
-            "line": 153,
-            "description": "Latch inferred for signal 'bedrock_fill_width_p' in module 'bp_me_bedrock_register'"
-        },
-        {
-            "file_name": "bp_me__src__v__dev__bp_me_bedrock_register.sv",
-            "line": 153,
-            "description": "Signal 'bp_me_bedrock_register.u_core.bedrock_fill_width_p' has multiple simultaneous drivers"
         },
         {
             "file_name": "bp_me__src__v__dev__bp_me_cache_controller.sv",
@@ -531,24 +311,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "bp_me__src__v__dev__bp_me_cache_controller.sv",
-            "line": 464,
-            "description": "Latch inferred for signal 'is_reset' in module 'bp_me_cache_controller'"
-        },
-        {
-            "file_name": "bp_me__src__v__dev__bp_me_cache_controller.sv",
-            "line": 464,
-            "description": "Signal 'bp_me_cache_controller.u_core.is_reset' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "bp_me__src__v__dev__bp_me_cfg_slice.sv",
-            "line": 100,
-            "description": "Latch inferred for signal 'cord_r_v_li' in module 'bp_me_cfg_slice'"
-        },
-        {
-            "file_name": "bp_me__src__v__dev__bp_me_cfg_slice.sv",
-            "line": 100,
-            "description": "Signal 'bp_me_cfg_slice.u_core.cord_r_v_li' has multiple simultaneous drivers"
+            "line": 103,
+            "description": "The signal/variable 'freeze_r' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "bp_me__src__v__dev__bp_me_clint_slice.sv",
@@ -571,29 +336,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "bp_me__src__v__lce__bp_lce_cmd.sv",
-            "line": 718,
-            "description": "Latch inferred for signal 'clk_i' in module 'bp_lce_cmd'"
-        },
-        {
-            "file_name": "bp_me__src__v__lce__bp_lce_cmd.sv",
-            "line": 718,
-            "description": "Signal 'bp_lce_cmd.u_core.clk_i' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "bp_me__src__v__lce__bp_lce_req.sv",
             "line": 226,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "bp_me__src__v__lce__bp_lce_req.sv",
-            "line": 318,
-            "description": "Latch inferred for signal 'clk_i' in module 'bp_lce_req'"
-        },
-        {
-            "file_name": "bp_me__src__v__lce__bp_lce_req.sv",
-            "line": 318,
-            "description": "Signal 'bp_lce_req.u_core.clk_i' has multiple simultaneous drivers"
         },
         {
             "file_name": "bp_me__src__v__network__bp_me_addr_to_cce_id.sv",
@@ -621,16 +366,6 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "bp_me__src__v__network__bp_me_stream_pump_control.sv",
-            "line": 176,
-            "description": "Latch inferred for signal 'bits' in module 'bp_me_stream_pump_control'"
-        },
-        {
-            "file_name": "bp_me__src__v__network__bp_me_stream_pump_control.sv",
-            "line": 176,
-            "description": "Signal 'bp_me_stream_pump_control.u_core.bits' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "bp_me__src__v__network__bp_me_stream_pump_in.sv",
             "line": 143,
             "description": "The signal/variable 'fsm_v_o' read in the block is not in the sensitivity list"
@@ -651,24 +386,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "bp_me__src__v__network__bp_me_wormhole_stream_control.sv",
-            "line": 139,
-            "description": "Latch inferred for signal 'is_hdr' in module 'bp_me_wormhole_stream_control'"
-        },
-        {
-            "file_name": "bp_me__src__v__network__bp_me_wormhole_stream_control.sv",
-            "line": 139,
-            "description": "Signal 'bp_me_wormhole_stream_control.u_core.is_hdr' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "bp_top__src__v__bp_cacc_tile.sv",
-            "line": 105,
-            "description": "Latch inferred for signal 'acache_fill_width_p' in module 'bp_cacc_tile'"
-        },
-        {
-            "file_name": "bp_top__src__v__bp_cacc_tile.sv",
-            "line": 105,
-            "description": "Signal 'bp_cacc_tile.u_core.acache_fill_width_p' has multiple simultaneous drivers"
+            "line": 106,
+            "description": "The signal/variable 'reset_r' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "bp_top__src__v__bp_cacc_vdp.sv",
@@ -676,29 +396,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "bp_top__src__v__bp_cacc_vdp.sv",
-            "line": 270,
-            "description": "Latch inferred for signal 'r_v_li' in module 'bp_cacc_vdp'"
-        },
-        {
-            "file_name": "bp_top__src__v__bp_cacc_vdp.sv",
-            "line": 270,
-            "description": "Signal 'bp_cacc_vdp.u_core.r_v_li' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "bp_top__src__v__bp_core_tile.sv",
             "line": 128,
             "description": "Variable 'unused' set but not read."
-        },
-        {
-            "file_name": "bp_top__src__v__bp_core_tile.sv",
-            "line": 64,
-            "description": "Latch inferred for signal 'reset_r' in module 'bp_core_tile'"
-        },
-        {
-            "file_name": "bp_top__src__v__bp_core_tile.sv",
-            "line": 64,
-            "description": "Signal 'bp_core_tile.u_core.reset_r' has multiple simultaneous drivers"
         },
         {
             "file_name": "bp_top__src__v__bp_io_link_to_lce.sv",
@@ -707,13 +407,8 @@
         },
         {
             "file_name": "bp_top__src__v__bp_io_tile.sv",
-            "line": 84,
-            "description": "Latch inferred for signal 'bedrock_fill_width_p' in module 'bp_io_tile'"
-        },
-        {
-            "file_name": "bp_top__src__v__bp_io_tile.sv",
-            "line": 84,
-            "description": "Signal 'bp_io_tile.u_core.bedrock_fill_width_p' has multiple simultaneous drivers"
+            "line": 85,
+            "description": "The signal/variable 'reset_r' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "bp_top__src__v__bp_l2e_tile.sv",
@@ -721,34 +416,14 @@
             "description": "Variable 'unused' set but not read."
         },
         {
-            "file_name": "bp_top__src__v__bp_l2e_tile.sv",
-            "line": 59,
-            "description": "Latch inferred for signal 'reset_r' in module 'bp_l2e_tile'"
-        },
-        {
-            "file_name": "bp_top__src__v__bp_l2e_tile.sv",
-            "line": 59,
-            "description": "Signal 'bp_l2e_tile.u_core.reset_r' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "bp_top__src__v__bp_sacc_scratchpad.sv",
-            "line": 98,
-            "description": "Latch inferred for signal 'r_v_li' in module 'bp_sacc_scratchpad'"
-        },
-        {
-            "file_name": "bp_top__src__v__bp_sacc_scratchpad.sv",
-            "line": 98,
-            "description": "Signal 'bp_sacc_scratchpad.u_core.r_v_li' has multiple simultaneous drivers"
+            "line": 99,
+            "description": "The signal/variable 'spm_r_v_r' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "bp_top__src__v__bp_sacc_tile.sv",
-            "line": 79,
-            "description": "Latch inferred for signal 'acache_fill_width_p' in module 'bp_sacc_tile'"
-        },
-        {
-            "file_name": "bp_top__src__v__bp_sacc_tile.sv",
-            "line": 79,
-            "description": "Signal 'bp_sacc_tile.u_core.acache_fill_width_p' has multiple simultaneous drivers"
+            "line": 80,
+            "description": "The signal/variable 'reset_r' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "bp_top__src__v__bp_sacc_vdp.sv",
@@ -756,34 +431,14 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "bp_top__src__v__bp_sacc_vdp.sv",
-            "line": 85,
-            "description": "Latch inferred for signal 'r_v_li' in module 'bp_sacc_vdp'"
-        },
-        {
-            "file_name": "bp_top__src__v__bp_sacc_vdp.sv",
-            "line": 85,
-            "description": "Signal 'bp_sacc_vdp.u_core.r_v_li' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "bp_top__src__v__bp_unicore.sv",
-            "line": 85,
-            "description": "Latch inferred for signal 'reset_r' in module 'bp_unicore'"
-        },
-        {
-            "file_name": "bp_top__src__v__bp_unicore.sv",
-            "line": 85,
-            "description": "Signal 'bp_unicore.u_core.reset_r' has multiple simultaneous drivers"
+            "line": 86,
+            "description": "The signal/variable 'reset_r' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "bp_top__src__v__bp_unicore_tile.sv",
-            "line": 56,
-            "description": "Latch inferred for signal 'reset_r' in module 'bp_unicore_tile'"
-        },
-        {
-            "file_name": "bp_top__src__v__bp_unicore_tile.sv",
-            "line": 56,
-            "description": "Signal 'bp_unicore_tile.u_core.reset_r' has multiple simultaneous drivers"
+            "line": 57,
+            "description": "The signal/variable 'reset_r' read in the block is not in the sensitivity list"
         }
     ]
 }

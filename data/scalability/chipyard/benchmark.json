@@ -11,24 +11,9 @@
             "description": "Blocking assignment 'clk_out = 1'b1;' used inside a 'FlipFlop' inferred sequential block"
         },
         {
-            "file_name": "generators__chipyard__src__main__resources__vsrc__ClockDividerN.sv",
-            "line": 28,
-            "description": "Latch inferred for signal 'clk_out' in module 'ClockDividerN'"
-        },
-        {
-            "file_name": "generators__chipyard__src__main__resources__vsrc__ClockDividerN.sv",
-            "line": 28,
-            "description": "Signal 'ClockDividerN.u_core.clk_out' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "generators__chipyard__src__main__resources__vsrc__GCDMMIOBlackBox.v",
-            "line": 27,
-            "description": "Latch inferred for signal 'clock' in module 'GCDMMIOBlackBox'"
-        },
-        {
-            "file_name": "generators__chipyard__src__main__resources__vsrc__GCDMMIOBlackBox.v",
-            "line": 27,
-            "description": "Signal 'GCDMMIOBlackBox.u_core.clock' has multiple simultaneous drivers"
+            "line": 29,
+            "description": "The signal/variable 'state' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "generators__chipyard__src__main__resources__vsrc__spiketile.v",
@@ -179,16 +164,6 @@
             "file_name": "generators__chipyard__src__main__resources__vsrc__spiketile.v",
             "line": 360,
             "description": "Blocking assignment '__tcm_d_data = 64'h0;' used inside a 'FlipFlop' inferred sequential block"
-        },
-        {
-            "file_name": "generators__chipyard__src__main__resources__vsrc__spiketile.v",
-            "line": 295,
-            "description": "Latch inferred for signal 'string' in module 'SpikeBlackBox'"
-        },
-        {
-            "file_name": "generators__chipyard__src__main__resources__vsrc__spiketile.v",
-            "line": 295,
-            "description": "Signal 'SpikeBlackBox.u_core.string' has multiple simultaneous drivers"
         }
     ]
 }

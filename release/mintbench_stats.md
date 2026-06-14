@@ -4,7 +4,7 @@
 | RTL lint localization | 312 | 921 planted errors across 14 taxonomy families |
 | CDC verification | 60 | 387 total CDC violations |
 | RCA | 9 | 15 root-cause annotations |
-| Scalability | 18 designs | 8660 labeled violations across larger RTL designs |
+| Scalability | 18 designs | 5546 labeled violations across larger RTL designs |
 
 ## Evaluation Notes
 

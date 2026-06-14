@@ -4,7 +4,7 @@ import sys
 
 def validate():
     # Set root dynamically relative to the script location
-    root = Path(__file__).resolve().parent.parent / "large_design_minimal"
+    root = Path(__file__).resolve().parents[2] / "data" / "scalability"
     if not root.exists():
         print(f"Error: root directory {root} does not exist")
         sys.exit(1)

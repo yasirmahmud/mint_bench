@@ -42,13 +42,8 @@
         },
         {
             "file_name": "core__ariane_regfile_ff.sv",
-            "line": 62,
-            "description": "Latch inferred for signal 'logic' in module 'ariane_regfile'"
-        },
-        {
-            "file_name": "core__ariane_regfile_ff.sv",
-            "line": 62,
-            "description": "Signal 'ariane_regfile.u_core.logic' has multiple simultaneous drivers"
+            "line": 64,
+            "description": "The signal/variable 'mem' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "core__ariane_regfile_fpga.sv",
@@ -56,29 +51,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "core__ariane_regfile_fpga.sv",
-            "line": 94,
-            "description": "Latch inferred for signal 'logic' in module 'ariane_regfile_fpga'"
-        },
-        {
-            "file_name": "core__ariane_regfile_fpga.sv",
-            "line": 94,
-            "description": "Signal 'ariane_regfile_fpga.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "core__axi_shim.sv",
             "line": 130,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "core__axi_shim.sv",
-            "line": 286,
-            "description": "Latch inferred for signal 'logic' in module 'axi_shim'"
-        },
-        {
-            "file_name": "core__axi_shim.sv",
-            "line": 286,
-            "description": "Signal 'axi_shim.u_core.logic' has multiple simultaneous drivers"
         },
         {
             "file_name": "core__branch_unit.sv",
@@ -96,29 +71,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "core__cache_subsystem__axi_adapter.sv",
-            "line": 460,
-            "description": "Latch inferred for signal 'logic' in module 'axi_adapter'"
-        },
-        {
-            "file_name": "core__cache_subsystem__axi_adapter.sv",
-            "line": 460,
-            "description": "Signal 'axi_adapter.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "core__cache_subsystem__cache_ctrl.sv",
             "line": 143,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "core__cache_subsystem__cache_ctrl.sv",
-            "line": 458,
-            "description": "Latch inferred for signal 'logic' in module 'cache_ctrl'"
-        },
-        {
-            "file_name": "core__cache_subsystem__cache_ctrl.sv",
-            "line": 458,
-            "description": "Signal 'cache_ctrl.u_core.logic' has multiple simultaneous drivers"
         },
         {
             "file_name": "core__cache_subsystem__cva6_hpdcache_if_adapter.sv",
@@ -136,16 +91,6 @@
             "description": "Variable 'unused' set but not read."
         },
         {
-            "file_name": "core__cache_subsystem__cva6_hpdcache_if_adapter.sv",
-            "line": 152,
-            "description": "Latch inferred for signal 'logic' in module 'cva6_hpdcache_if_adapter'"
-        },
-        {
-            "file_name": "core__cache_subsystem__cva6_hpdcache_if_adapter.sv",
-            "line": 152,
-            "description": "Signal 'cva6_hpdcache_if_adapter.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "core__cache_subsystem__cva6_hpdcache_subsystem.sv",
             "line": 537,
             "description": "Operator '===' should be avoided in synthesis logic"
@@ -154,16 +99,6 @@
             "file_name": "core__cache_subsystem__cva6_hpdcache_subsystem_axi_arbiter.sv",
             "line": 224,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "core__cache_subsystem__cva6_hpdcache_subsystem_axi_arbiter.sv",
-            "line": 339,
-            "description": "Latch inferred for signal 'logic' in module 'cva6_hpdcache_subsystem_axi_arbiter'"
-        },
-        {
-            "file_name": "core__cache_subsystem__cva6_hpdcache_subsystem_axi_arbiter.sv",
-            "line": 339,
-            "description": "Signal 'cva6_hpdcache_subsystem_axi_arbiter.u_core.logic' has multiple simultaneous drivers"
         },
         {
             "file_name": "core__cache_subsystem__cva6_hpdcache_subsystem_l15_adapter.sv",
@@ -186,39 +121,14 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "core__cache_subsystem__cva6_icache.sv",
-            "line": 507,
-            "description": "Latch inferred for signal 'logic' in module 'cva6_icache'"
-        },
-        {
-            "file_name": "core__cache_subsystem__cva6_icache.sv",
-            "line": 507,
-            "description": "Signal 'cva6_icache.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "core__cache_subsystem__cva6_icache_axi_wrapper.sv",
-            "line": 200,
-            "description": "Latch inferred for signal 'logic' in module 'cva6_icache_axi_wrapper'"
-        },
-        {
-            "file_name": "core__cache_subsystem__cva6_icache_axi_wrapper.sv",
-            "line": 200,
-            "description": "Signal 'cva6_icache_axi_wrapper.u_core.logic' has multiple simultaneous drivers"
+            "line": 181,
+            "description": "The signal/variable 'first_d' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "core__cache_subsystem__miss_handler.sv",
             "line": 231,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "core__cache_subsystem__miss_handler.sv",
-            "line": 524,
-            "description": "Latch inferred for signal 'logic' in module 'miss_handler'"
-        },
-        {
-            "file_name": "core__cache_subsystem__miss_handler.sv",
-            "line": 524,
-            "description": "Signal 'miss_handler.u_core.logic' has multiple simultaneous drivers"
         },
         {
             "file_name": "core__cache_subsystem__std_cache_subsystem.sv",
@@ -231,39 +141,14 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "core__cache_subsystem__std_cache_subsystem.sv",
-            "line": 207,
-            "description": "Latch inferred for signal 'logic' in module 'std_cache_subsystem'"
-        },
-        {
-            "file_name": "core__cache_subsystem__std_cache_subsystem.sv",
-            "line": 207,
-            "description": "Signal 'std_cache_subsystem.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "core__cache_subsystem__tag_cmp.sv",
-            "line": 98,
-            "description": "Latch inferred for signal 'logic' in module 'tag_cmp'"
-        },
-        {
-            "file_name": "core__cache_subsystem__tag_cmp.sv",
-            "line": 98,
-            "description": "Signal 'tag_cmp.u_core.logic' has multiple simultaneous drivers"
+            "line": 53,
+            "description": "The signal/variable 'sel_tag' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "core__cache_subsystem__wt_axi_adapter.sv",
             "line": 182,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "core__cache_subsystem__wt_axi_adapter.sv",
-            "line": 694,
-            "description": "Latch inferred for signal 'logic' in module 'wt_axi_adapter'"
-        },
-        {
-            "file_name": "core__cache_subsystem__wt_axi_adapter.sv",
-            "line": 694,
-            "description": "Signal 'wt_axi_adapter.u_core.logic' has multiple simultaneous drivers"
         },
         {
             "file_name": "core__cache_subsystem__wt_cache_subsystem.sv",
@@ -281,44 +166,14 @@
             "description": "Variable 'unused' set but not read."
         },
         {
-            "file_name": "core__cache_subsystem__wt_dcache_ctrl.sv",
-            "line": 256,
-            "description": "Latch inferred for signal 'logic' in module 'wt_dcache_ctrl'"
-        },
-        {
-            "file_name": "core__cache_subsystem__wt_dcache_ctrl.sv",
-            "line": 256,
-            "description": "Signal 'wt_dcache_ctrl.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "core__cache_subsystem__wt_dcache_mem.sv",
             "line": 274,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "core__cache_subsystem__wt_dcache_mem.sv",
-            "line": 355,
-            "description": "Latch inferred for signal 'logic' in module 'wt_dcache_mem'"
-        },
-        {
-            "file_name": "core__cache_subsystem__wt_dcache_mem.sv",
-            "line": 355,
-            "description": "Signal 'wt_dcache_mem.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "core__cache_subsystem__wt_dcache_missunit.sv",
             "line": 99,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "core__cache_subsystem__wt_dcache_missunit.sv",
-            "line": 611,
-            "description": "Latch inferred for signal 'logic' in module 'wt_dcache_missunit'"
-        },
-        {
-            "file_name": "core__cache_subsystem__wt_dcache_missunit.sv",
-            "line": 611,
-            "description": "Signal 'wt_dcache_missunit.u_core.logic' has multiple simultaneous drivers"
         },
         {
             "file_name": "core__cache_subsystem__wt_dcache_wbuffer.sv",
@@ -329,16 +184,6 @@
             "file_name": "core__cache_subsystem__wt_dcache_wbuffer.sv",
             "line": 78,
             "description": "Variable 'unused' set but not read."
-        },
-        {
-            "file_name": "core__cache_subsystem__wt_dcache_wbuffer.sv",
-            "line": 609,
-            "description": "Latch inferred for signal 'logic' in module 'wt_dcache_wbuffer'"
-        },
-        {
-            "file_name": "core__cache_subsystem__wt_dcache_wbuffer.sv",
-            "line": 609,
-            "description": "Signal 'wt_dcache_wbuffer.u_core.logic' has multiple simultaneous drivers"
         },
         {
             "file_name": "core__cache_subsystem__wt_l15_adapter.sv",
@@ -366,24 +211,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "core__controller.sv",
-            "line": 265,
-            "description": "Latch inferred for signal 'logic' in module 'controller'"
-        },
-        {
-            "file_name": "core__controller.sv",
-            "line": 265,
-            "description": "Signal 'controller.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "core__csr_buffer.sv",
-            "line": 75,
-            "description": "Latch inferred for signal 'logic' in module 'csr_buffer'"
-        },
-        {
-            "file_name": "core__csr_buffer.sv",
-            "line": 75,
-            "description": "Signal 'csr_buffer.u_core.logic' has multiple simultaneous drivers"
+            "line": 56,
+            "description": "The signal/variable 'csr_reg_n' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "core__csr_regfile.sv",
@@ -396,16 +226,6 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "core__csr_regfile.sv",
-            "line": 2754,
-            "description": "Latch inferred for signal 'logic' in module 'csr_regfile'"
-        },
-        {
-            "file_name": "core__csr_regfile.sv",
-            "line": 2754,
-            "description": "Signal 'csr_regfile.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "core__cva6.sv",
             "line": 99,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
@@ -416,39 +236,14 @@
             "description": "Variable 'unused' set but not read."
         },
         {
-            "file_name": "core__cva6.sv",
-            "line": 1786,
-            "description": "Latch inferred for signal 'CVA6Cfg' in module 'cva6'"
-        },
-        {
-            "file_name": "core__cva6.sv",
-            "line": 1786,
-            "description": "Signal 'cva6.u_core.CVA6Cfg' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "core__cva6_fifo_v3.sv",
             "line": 42,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "core__cva6_fifo_v3.sv",
-            "line": 154,
-            "description": "Latch inferred for signal 'logic' in module 'cva6_fifo_v3'"
-        },
-        {
-            "file_name": "core__cva6_fifo_v3.sv",
-            "line": 154,
-            "description": "Signal 'cva6_fifo_v3.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "core__cva6_mmu__cva6_mmu.sv",
-            "line": 738,
-            "description": "Latch inferred for signal 'logic' in module 'cva6_mmu'"
-        },
-        {
-            "file_name": "core__cva6_mmu__cva6_mmu.sv",
-            "line": 738,
-            "description": "Signal 'cva6_mmu.u_core.logic' has multiple simultaneous drivers"
+            "line": 367,
+            "description": "The signal/variable 'icache_areq_o.fetch_valid' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "core__cva6_mmu__cva6_ptw.sv",
@@ -456,29 +251,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "core__cva6_mmu__cva6_ptw.sv",
-            "line": 658,
-            "description": "Latch inferred for signal 'logic' in module 'cva6_ptw'"
-        },
-        {
-            "file_name": "core__cva6_mmu__cva6_ptw.sv",
-            "line": 658,
-            "description": "Signal 'cva6_ptw.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "core__cva6_mmu__cva6_shared_tlb.sv",
             "line": 73,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "core__cva6_mmu__cva6_shared_tlb.sv",
-            "line": 363,
-            "description": "Latch inferred for signal 'logic' in module 'cva6_shared_tlb'"
-        },
-        {
-            "file_name": "core__cva6_mmu__cva6_shared_tlb.sv",
-            "line": 363,
-            "description": "Signal 'cva6_shared_tlb.u_core.logic' has multiple simultaneous drivers"
         },
         {
             "file_name": "core__cva6_mmu__cva6_tlb.sv",
@@ -486,29 +261,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "core__cva6_mmu__cva6_tlb.sv",
-            "line": 486,
-            "description": "Latch inferred for signal 'logic' in module 'cva6_tlb'"
-        },
-        {
-            "file_name": "core__cva6_mmu__cva6_tlb.sv",
-            "line": 486,
-            "description": "Signal 'cva6_tlb.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "core__cva6_rvfi.sv",
             "line": 69,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "core__cva6_rvfi.sv",
-            "line": 416,
-            "description": "Latch inferred for signal 'logic' in module 'cva6_rvfi'"
-        },
-        {
-            "file_name": "core__cva6_rvfi.sv",
-            "line": 416,
-            "description": "Signal 'cva6_rvfi.u_core.logic' has multiple simultaneous drivers"
         },
         {
             "file_name": "core__cva6_rvfi_probes.sv",
@@ -529,16 +284,6 @@
             "file_name": "core__cvxif_example__copro_alu.sv",
             "line": 50,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "core__cvxif_example__copro_alu.sv",
-            "line": 142,
-            "description": "Latch inferred for signal 'logic' in module 'copro_alu'"
-        },
-        {
-            "file_name": "core__cvxif_example__copro_alu.sv",
-            "line": 142,
-            "description": "Signal 'copro_alu.u_core.logic' has multiple simultaneous drivers"
         },
         {
             "file_name": "core__cvxif_example__cvxif_example_coprocessor.sv",
@@ -576,16 +321,6 @@
             "description": "Variable 'unused' set but not read."
         },
         {
-            "file_name": "core__ex_stage.sv",
-            "line": 664,
-            "description": "Latch inferred for signal 'logic' in module 'ex_stage'"
-        },
-        {
-            "file_name": "core__ex_stage.sv",
-            "line": 664,
-            "description": "Signal 'ex_stage.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "core__fpu_wrap.sv",
             "line": 157,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
@@ -596,49 +331,19 @@
             "description": "Variable 'unused' set but not read."
         },
         {
-            "file_name": "core__fpu_wrap.sv",
-            "line": 475,
-            "description": "Latch inferred for signal 'logic' in module 'fpu_wrap'"
-        },
-        {
-            "file_name": "core__fpu_wrap.sv",
-            "line": 475,
-            "description": "Signal 'fpu_wrap.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "core__frontend__bht.sv",
             "line": 231,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "core__frontend__bht.sv",
-            "line": 105,
-            "description": "Latch inferred for signal 'logic' in module 'bht'"
-        },
-        {
-            "file_name": "core__frontend__bht.sv",
-            "line": 105,
-            "description": "Signal 'bht.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "core__frontend__bht2lvl.sv",
-            "line": 117,
-            "description": "Latch inferred for signal 'logic' in module 'bht2lvl'"
-        },
-        {
-            "file_name": "core__frontend__bht2lvl.sv",
-            "line": 117,
-            "description": "Signal 'bht2lvl.u_core.logic' has multiple simultaneous drivers"
+            "line": 87,
+            "description": "The signal/variable 'bht_d' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "core__frontend__btb.sv",
-            "line": 175,
-            "description": "Latch inferred for signal 'logic' in module 'btb'"
-        },
-        {
-            "file_name": "core__frontend__btb.sv",
-            "line": 175,
-            "description": "Signal 'btb.u_core.logic' has multiple simultaneous drivers"
+            "line": 103,
+            "description": "The signal/variable 'btb_ram_csel_update' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "core__frontend__frontend.sv",
@@ -646,54 +351,19 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "core__frontend__frontend.sv",
-            "line": 421,
-            "description": "Latch inferred for signal 'logic' in module 'frontend'"
-        },
-        {
-            "file_name": "core__frontend__frontend.sv",
-            "line": 421,
-            "description": "Signal 'frontend.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "core__frontend__instr_queue.sv",
             "line": 27,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "core__frontend__instr_queue.sv",
-            "line": 515,
-            "description": "Latch inferred for signal 'logic' in module 'instr_queue'"
-        },
-        {
-            "file_name": "core__frontend__instr_queue.sv",
-            "line": 515,
-            "description": "Signal 'instr_queue.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "core__frontend__ras.sv",
-            "line": 72,
-            "description": "Latch inferred for signal 'logic' in module 'ras'"
-        },
-        {
-            "file_name": "core__frontend__ras.sv",
-            "line": 72,
-            "description": "Signal 'ras.u_core.logic' has multiple simultaneous drivers"
+            "line": 43,
+            "description": "The signal/variable 'stack_d' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "core__id_stage.sv",
             "line": 170,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "core__id_stage.sv",
-            "line": 473,
-            "description": "Latch inferred for signal 'logic' in module 'id_stage'"
-        },
-        {
-            "file_name": "core__id_stage.sv",
-            "line": 473,
-            "description": "Signal 'id_stage.u_core.logic' has multiple simultaneous drivers"
         },
         {
             "file_name": "core__include__aes_pkg.sv",
@@ -751,29 +421,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "core__instr_realign.sv",
-            "line": 347,
-            "description": "Latch inferred for signal 'logic' in module 'instr_realign'"
-        },
-        {
-            "file_name": "core__instr_realign.sv",
-            "line": 347,
-            "description": "Signal 'instr_realign.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "core__issue_read_operands.sv",
             "line": 375,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "core__issue_read_operands.sv",
-            "line": 802,
-            "description": "Latch inferred for signal 'logic' in module 'issue_read_operands'"
-        },
-        {
-            "file_name": "core__issue_read_operands.sv",
-            "line": 802,
-            "description": "Signal 'issue_read_operands.u_core.logic' has multiple simultaneous drivers"
         },
         {
             "file_name": "core__load_store_unit.sv",
@@ -781,29 +431,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "core__load_store_unit.sv",
-            "line": 340,
-            "description": "Latch inferred for signal 'logic' in module 'load_store_unit'"
-        },
-        {
-            "file_name": "core__load_store_unit.sv",
-            "line": 340,
-            "description": "Signal 'load_store_unit.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "core__load_unit.sv",
             "line": 159,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "core__load_unit.sv",
-            "line": 175,
-            "description": "Latch inferred for signal 'logic' in module 'load_unit'"
-        },
-        {
-            "file_name": "core__load_unit.sv",
-            "line": 175,
-            "description": "Signal 'load_unit.u_core.logic' has multiple simultaneous drivers"
         },
         {
             "file_name": "core__lsu_bypass.sv",
@@ -811,39 +441,14 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "core__lsu_bypass.sv",
-            "line": 131,
-            "description": "Latch inferred for signal 'logic' in module 'lsu_bypass'"
-        },
-        {
-            "file_name": "core__lsu_bypass.sv",
-            "line": 131,
-            "description": "Signal 'lsu_bypass.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "core__macro_decoder.sv",
             "line": 82,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "core__macro_decoder.sv",
-            "line": 750,
-            "description": "Latch inferred for signal 'logic' in module 'macro_decoder'"
-        },
-        {
-            "file_name": "core__macro_decoder.sv",
-            "line": 750,
-            "description": "Signal 'macro_decoder.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "core__mult.sv",
-            "line": 151,
-            "description": "Latch inferred for signal 'logic' in module 'mult'"
-        },
-        {
-            "file_name": "core__mult.sv",
-            "line": 151,
-            "description": "Signal 'mult.u_core.logic' has multiple simultaneous drivers"
+            "line": 93,
+            "description": "The signal/variable 'operand_a' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "core__multiplier.sv",
@@ -851,29 +456,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "core__multiplier.sv",
-            "line": 138,
-            "description": "Latch inferred for signal 'logic' in module 'multiplier'"
-        },
-        {
-            "file_name": "core__multiplier.sv",
-            "line": 138,
-            "description": "Signal 'multiplier.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "core__perf_counters.sv",
             "line": 106,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "core__perf_counters.sv",
-            "line": 207,
-            "description": "Latch inferred for signal 'logic' in module 'perf_counters'"
-        },
-        {
-            "file_name": "core__perf_counters.sv",
-            "line": 207,
-            "description": "Signal 'perf_counters.u_core.logic' has multiple simultaneous drivers"
         },
         {
             "file_name": "core__pmp__src__pmp.sv",
@@ -884,16 +469,6 @@
             "file_name": "core__pmp__src__pmp_data_if.sv",
             "line": 82,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "core__pmp__src__pmp_data_if.sv",
-            "line": 167,
-            "description": "Latch inferred for signal 'logic' in module 'pmp_data_if'"
-        },
-        {
-            "file_name": "core__pmp__src__pmp_data_if.sv",
-            "line": 167,
-            "description": "Signal 'pmp_data_if.u_core.logic' has multiple simultaneous drivers"
         },
         {
             "file_name": "core__pmp__src__pmp_entry.sv",
@@ -907,13 +482,8 @@
         },
         {
             "file_name": "core__scoreboard.sv",
-            "line": 304,
-            "description": "Latch inferred for signal 'logic' in module 'scoreboard'"
-        },
-        {
-            "file_name": "core__scoreboard.sv",
-            "line": 304,
-            "description": "Signal 'scoreboard.u_core.logic' has multiple simultaneous drivers"
+            "line": 138,
+            "description": "The signal/variable 'commit_instr_o[i]' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "core__serdiv.sv",
@@ -921,29 +491,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "core__serdiv.sv",
-            "line": 247,
-            "description": "Latch inferred for signal 'logic' in module 'serdiv'"
-        },
-        {
-            "file_name": "core__serdiv.sv",
-            "line": 247,
-            "description": "Signal 'serdiv.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "core__store_buffer.sv",
             "line": 232,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "core__store_buffer.sv",
-            "line": 264,
-            "description": "Latch inferred for signal 'logic' in module 'store_buffer'"
-        },
-        {
-            "file_name": "core__store_buffer.sv",
-            "line": 264,
-            "description": "Signal 'store_buffer.u_core.logic' has multiple simultaneous drivers"
         },
         {
             "file_name": "core__store_unit.sv",
@@ -951,29 +501,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "core__store_unit.sv",
-            "line": 385,
-            "description": "Latch inferred for signal 'logic' in module 'store_unit'"
-        },
-        {
-            "file_name": "core__store_unit.sv",
-            "line": 385,
-            "description": "Signal 'store_unit.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "core__trigger_module.sv",
             "line": 170,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "core__trigger_module.sv",
-            "line": 453,
-            "description": "Latch inferred for signal 'logic' in module 'trigger_module'"
-        },
-        {
-            "file_name": "core__trigger_module.sv",
-            "line": 453,
-            "description": "Signal 'trigger_module.u_core.logic' has multiple simultaneous drivers"
         },
         {
             "file_name": "core__zcmt_decoder.sv",
@@ -981,29 +511,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "core__zcmt_decoder.sv",
-            "line": 125,
-            "description": "Latch inferred for signal 'logic' in module 'zcmt_decoder'"
-        },
-        {
-            "file_name": "core__zcmt_decoder.sv",
-            "line": 125,
-            "description": "Signal 'zcmt_decoder.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "corev_apu__altera__src__cva6_altera.sv",
             "line": 794,
             "description": "Variable 'unused_led' set but not read."
-        },
-        {
-            "file_name": "corev_apu__altera__src__cva6_altera.sv",
-            "line": 721,
-            "description": "Latch inferred for signal 'wire' in module 'cva6_altera'"
-        },
-        {
-            "file_name": "corev_apu__altera__src__cva6_altera.sv",
-            "line": 721,
-            "description": "Signal 'cva6_altera.u_core.wire' has multiple simultaneous drivers"
         },
         {
             "file_name": "corev_apu__altera__src__cva6_altera_peripherals.sv",
@@ -1016,39 +526,14 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "corev_apu__altera__src__dmi_vjtag.sv",
-            "line": 215,
-            "description": "Latch inferred for signal 'logic' in module 'dmi_vjtag'"
-        },
-        {
-            "file_name": "corev_apu__altera__src__dmi_vjtag.sv",
-            "line": 215,
-            "description": "Signal 'dmi_vjtag.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "corev_apu__altera__src__dmi_vjtag_tap.sv",
             "line": 134,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "corev_apu__altera__src__dmi_vjtag_tap.sv",
-            "line": 177,
-            "description": "Latch inferred for signal 'logic' in module 'dmi_vjtag_tap'"
-        },
-        {
-            "file_name": "corev_apu__altera__src__dmi_vjtag_tap.sv",
-            "line": 177,
-            "description": "Signal 'dmi_vjtag_tap.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "corev_apu__bootrom__bootrom.sv",
-            "line": 216,
-            "description": "Latch inferred for signal 'logic' in module 'bootrom'"
-        },
-        {
-            "file_name": "corev_apu__bootrom__bootrom.sv",
-            "line": 216,
-            "description": "Signal 'bootrom.u_core.logic' has multiple simultaneous drivers"
+            "line": 218,
+            "description": "The signal/variable 'addr_q' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "corev_apu__clint__axi_lite_interface.sv",
@@ -1056,29 +541,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "corev_apu__clint__axi_lite_interface.sv",
-            "line": 144,
-            "description": "Latch inferred for signal 'logic' in module 'axi_lite_interface'"
-        },
-        {
-            "file_name": "corev_apu__clint__axi_lite_interface.sv",
-            "line": 144,
-            "description": "Signal 'axi_lite_interface.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "corev_apu__clint__clint.sv",
             "line": 99,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "corev_apu__clint__clint.sv",
-            "line": 211,
-            "description": "Latch inferred for signal 'logic' in module 'clint'"
-        },
-        {
-            "file_name": "corev_apu__clint__clint.sv",
-            "line": 211,
-            "description": "Signal 'clint.u_core.logic' has multiple simultaneous drivers"
         },
         {
             "file_name": "corev_apu__fpga__src__ariane_peripherals_xilinx.sv",
@@ -1091,29 +556,9 @@
             "description": "Variable 'unused_led' set but not read."
         },
         {
-            "file_name": "corev_apu__fpga__src__ariane_xilinx.sv",
-            "line": 936,
-            "description": "Latch inferred for signal 'logic' in module 'ariane_xilinx'"
-        },
-        {
-            "file_name": "corev_apu__fpga__src__ariane_xilinx.sv",
-            "line": 936,
-            "description": "Signal 'ariane_xilinx.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "corev_apu__fpga__src__axi_dw_adapter__axi_dw_adapter_rd.v",
             "line": 260,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "corev_apu__fpga__src__axi_dw_adapter__axi_dw_adapter_rd.v",
-            "line": 552,
-            "description": "Latch inferred for signal 'wire' in module 'axi_dw_adapter_rd'"
-        },
-        {
-            "file_name": "corev_apu__fpga__src__axi_dw_adapter__axi_dw_adapter_rd.v",
-            "line": 552,
-            "description": "Signal 'axi_dw_adapter_rd.u_core.wire' has multiple simultaneous drivers"
         },
         {
             "file_name": "corev_apu__fpga__src__axi_dw_adapter__axi_dw_adapter_wr.v",
@@ -1121,34 +566,14 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "corev_apu__fpga__src__axi_dw_adapter__axi_dw_adapter_wr.v",
-            "line": 642,
-            "description": "Latch inferred for signal 'wire' in module 'axi_dw_adapter_wr'"
-        },
-        {
-            "file_name": "corev_apu__fpga__src__axi_dw_adapter__axi_dw_adapter_wr.v",
-            "line": 642,
-            "description": "Signal 'axi_dw_adapter_wr.u_core.wire' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "corev_apu__fpga__src__fan_ctrl.sv",
-            "line": 50,
-            "description": "Latch inferred for signal 'logic' in module 'fan_ctrl'"
-        },
-        {
-            "file_name": "corev_apu__fpga__src__fan_ctrl.sv",
-            "line": 50,
-            "description": "Signal 'fan_ctrl.u_core.logic' has multiple simultaneous drivers"
+            "line": 25,
+            "description": "The signal/variable 'cycle_counter_d' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "corev_apu__instr_tracing__DPTI__slicer_DPTI.sv",
-            "line": 53,
-            "description": "Latch inferred for signal 'logic' in module 'slicer_DPTI'"
-        },
-        {
-            "file_name": "corev_apu__instr_tracing__DPTI__slicer_DPTI.sv",
-            "line": 53,
-            "description": "Signal 'slicer_DPTI.u_core.logic' has multiple simultaneous drivers"
+            "line": 33,
+            "description": "The signal/variable 'data_to_slice_d' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "corev_apu__instr_tracing__ITI__cva6_iti__block_retirement.sv",
@@ -1157,13 +582,8 @@
         },
         {
             "file_name": "corev_apu__instr_tracing__ITI__cva6_iti__iti.sv",
-            "line": 190,
-            "description": "Latch inferred for signal 'logic' in module 'cva6_iti'"
-        },
-        {
-            "file_name": "corev_apu__instr_tracing__ITI__cva6_iti__iti.sv",
-            "line": 190,
-            "description": "Signal 'cva6_iti.u_core.logic' has multiple simultaneous drivers"
+            "line": 34,
+            "description": "The signal/variable 'f' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "corev_apu__instr_tracing__ITI__cva6_iti__itype_detector.sv",
@@ -1177,13 +597,8 @@
         },
         {
             "file_name": "corev_apu__instr_tracing__rv_encapsulator-main__src__rtl__encapsulator.sv",
-            "line": 66,
-            "description": "Latch inferred for signal 'logic' in module 'encapsulator'"
-        },
-        {
-            "file_name": "corev_apu__instr_tracing__rv_encapsulator-main__src__rtl__encapsulator.sv",
-            "line": 66,
-            "description": "Signal 'encapsulator.u_core.logic' has multiple simultaneous drivers"
+            "line": 40,
+            "description": "The signal/variable 'f' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "corev_apu__instr_tracing__rv_tracer-main__rtl__lzc.sv",
@@ -1196,24 +611,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "corev_apu__instr_tracing__rv_tracer-main__rtl__rv_tracer.sv",
-            "line": 262,
-            "description": "Latch inferred for signal 'logic' in module 'rv_tracer'"
-        },
-        {
-            "file_name": "corev_apu__instr_tracing__rv_tracer-main__rtl__rv_tracer.sv",
-            "line": 262,
-            "description": "Signal 'rv_tracer.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "corev_apu__instr_tracing__rv_tracer-main__rtl__te_branch_map.sv",
-            "line": 74,
-            "description": "Latch inferred for signal 'logic' in module 'te_branch_map'"
-        },
-        {
-            "file_name": "corev_apu__instr_tracing__rv_tracer-main__rtl__te_branch_map.sv",
-            "line": 74,
-            "description": "Signal 'te_branch_map.u_core.logic' has multiple simultaneous drivers"
+            "line": 49,
+            "description": "The signal/variable 'map_d' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "corev_apu__instr_tracing__rv_tracer-main__rtl__te_packet_emitter.sv",
@@ -1221,24 +621,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "corev_apu__instr_tracing__rv_tracer-main__rtl__te_packet_emitter.sv",
-            "line": 177,
-            "description": "Latch inferred for signal 'logic' in module 'te_packet_emitter'"
-        },
-        {
-            "file_name": "corev_apu__instr_tracing__rv_tracer-main__rtl__te_packet_emitter.sv",
-            "line": 177,
-            "description": "Signal 'te_packet_emitter.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "corev_apu__instr_tracing__rv_tracer-main__rtl__te_priority.sv",
-            "line": 184,
-            "description": "Latch inferred for signal 'logic' in module 'te_priority'"
-        },
-        {
-            "file_name": "corev_apu__instr_tracing__rv_tracer-main__rtl__te_priority.sv",
-            "line": 184,
-            "description": "Signal 'te_priority.u_core.logic' has multiple simultaneous drivers"
+            "line": 162,
+            "description": "The signal/variable 'tc_resync_br_d' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "corev_apu__instr_tracing__rv_tracer-main__rtl__te_reg.sv",
@@ -1246,34 +631,14 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "corev_apu__instr_tracing__rv_tracer-main__rtl__te_reg.sv",
-            "line": 712,
-            "description": "Latch inferred for signal 'logic' in module 'te_reg'"
-        },
-        {
-            "file_name": "corev_apu__instr_tracing__rv_tracer-main__rtl__te_reg.sv",
-            "line": 712,
-            "description": "Signal 'te_reg.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "corev_apu__instr_tracing__rv_tracer-main__rtl__te_resync_counter.sv",
-            "line": 98,
-            "description": "Latch inferred for signal 'logic' in module 'te_resync_counter'"
-        },
-        {
-            "file_name": "corev_apu__instr_tracing__rv_tracer-main__rtl__te_resync_counter.sv",
-            "line": 98,
-            "description": "Signal 'te_resync_counter.u_core.logic' has multiple simultaneous drivers"
+            "line": 66,
+            "description": "The signal/variable 'counter_d' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "corev_apu__openpiton__ariane_verilog_wrap.sv",
-            "line": 237,
-            "description": "Latch inferred for signal 'clk_i' in module 'ariane_verilog_wrap'"
-        },
-        {
-            "file_name": "corev_apu__openpiton__ariane_verilog_wrap.sv",
-            "line": 237,
-            "description": "Signal 'ariane_verilog_wrap.u_core.clk_i' has multiple simultaneous drivers"
+            "line": 261,
+            "description": "The signal/variable 'wake_up_cnt_q' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "corev_apu__openpiton__riscv_peripherals.sv",
@@ -1281,49 +646,19 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "corev_apu__openpiton__riscv_peripherals.sv",
-            "line": 636,
-            "description": "Latch inferred for signal 'clk_i' in module 'riscv_peripherals'"
-        },
-        {
-            "file_name": "corev_apu__openpiton__riscv_peripherals.sv",
-            "line": 636,
-            "description": "Signal 'riscv_peripherals.u_core.clk_i' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "pd__synth__hpdcache_sram_1rw_00000006_0000001c_00000040_00000001.sv",
-            "line": 39,
-            "description": "Latch inferred for signal 'logic' in module 'hpdcache_sram_1rw_00000006_0000001c_00000040_00000001'"
-        },
-        {
-            "file_name": "pd__synth__hpdcache_sram_1rw_00000006_0000001c_00000040_00000001.sv",
-            "line": 39,
-            "description": "Signal 'hpdcache_sram_1rw_00000006_0000001c_00000040_00000001.u_core.logic' has multiple simultaneous drivers"
+            "line": 43,
+            "description": "The signal/variable 'mem[addr]' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "pd__synth__hpdcache_sram_wbyteenable_1rw_00000007_00000020_00000080_00000002.sv",
-            "line": 40,
-            "description": "Latch inferred for signal 'logic' in module 'hpdcache_sram_wbyteenable_1rw_00000007_00000020_00000080_00000002'"
-        },
-        {
-            "file_name": "pd__synth__hpdcache_sram_wbyteenable_1rw_00000007_00000020_00000080_00000002.sv",
-            "line": 40,
-            "description": "Signal 'hpdcache_sram_wbyteenable_1rw_00000007_00000020_00000080_00000002.u_core.logic' has multiple simultaneous drivers"
+            "line": 50,
+            "description": "The signal/variable 'rdata' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "vendor__pulp-platform__axi__src__axi_atop_filter.sv",
             "line": 118,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "vendor__pulp-platform__axi__src__axi_atop_filter.sv",
-            "line": 328,
-            "description": "Latch inferred for signal 'logic' in module 'axi_atop_filter'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__axi__src__axi_atop_filter.sv",
-            "line": 328,
-            "description": "Signal 'axi_atop_filter.u_core.logic' has multiple simultaneous drivers"
         },
         {
             "file_name": "vendor__pulp-platform__axi__src__axi_burst_splitter.sv",
@@ -1346,16 +681,6 @@
             "description": "Variable 'Unused' set but not read."
         },
         {
-            "file_name": "vendor__pulp-platform__axi__src__axi_dw_downsizer.sv",
-            "line": 615,
-            "description": "Latch inferred for signal 'logic' in module 'axi_dw_downsizer'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__axi__src__axi_dw_downsizer.sv",
-            "line": 615,
-            "description": "Signal 'axi_dw_downsizer.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__pulp-platform__axi__src__axi_dw_upsizer.sv",
             "line": 362,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
@@ -1366,24 +691,9 @@
             "description": "Variable 'Unused' set but not read."
         },
         {
-            "file_name": "vendor__pulp-platform__axi__src__axi_dw_upsizer.sv",
-            "line": 528,
-            "description": "Latch inferred for signal 'logic' in module 'axi_dw_upsizer'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__axi__src__axi_dw_upsizer.sv",
-            "line": 528,
-            "description": "Signal 'axi_dw_upsizer.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__pulp-platform__axi__src__axi_err_slv.sv",
-            "line": 223,
-            "description": "Latch inferred for signal 'logic' in module 'axi_err_slv'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__axi__src__axi_err_slv.sv",
-            "line": 223,
-            "description": "Signal 'axi_err_slv.u_core.logic' has multiple simultaneous drivers"
+            "line": 109,
+            "description": "The signal/variable 'err_resp.w_ready' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "vendor__pulp-platform__axi__src__axi_id_prepend.sv",
@@ -1631,24 +941,9 @@
             "description": "Blocking assignment 'ar_beat.user = ar_chan_i.user;' used inside a 'FlipFlop' inferred sequential block"
         },
         {
-            "file_name": "vendor__pulp-platform__axi__src__axi_test.sv",
-            "line": 2078,
-            "description": "Latch inferred for signal 'this.axi' in module 'axi_chan_logger'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__axi__src__axi_test.sv",
-            "line": 2078,
-            "description": "Signal 'axi_chan_logger.u_core.this.axi' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__pulp-platform__axi_riscv_atomics__src__axi_res_tbl.sv",
-            "line": 73,
-            "description": "Latch inferred for signal 'logic' in module 'axi_res_tbl'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__axi_riscv_atomics__src__axi_res_tbl.sv",
-            "line": 73,
-            "description": "Signal 'axi_res_tbl.u_core.logic' has multiple simultaneous drivers"
+            "line": 42,
+            "description": "The signal/variable 'tbl_d[i]' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "vendor__pulp-platform__axi_riscv_atomics__src__axi_riscv_amos.sv",
@@ -1661,16 +956,6 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "vendor__pulp-platform__axi_riscv_atomics__src__axi_riscv_amos.sv",
-            "line": 232,
-            "description": "Latch inferred for signal 'logic' in module 'axi_riscv_amos'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__axi_riscv_atomics__src__axi_riscv_amos.sv",
-            "line": 232,
-            "description": "Signal 'axi_riscv_amos.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__pulp-platform__axi_riscv_atomics__src__axi_riscv_amos_alu.sv",
             "line": 39,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
@@ -1679,16 +964,6 @@
             "file_name": "vendor__pulp-platform__axi_riscv_atomics__src__axi_riscv_lrsc.sv",
             "line": 215,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "vendor__pulp-platform__axi_riscv_atomics__src__axi_riscv_lrsc.sv",
-            "line": 475,
-            "description": "Latch inferred for signal 'logic' in module 'axi_riscv_lrsc'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__axi_riscv_atomics__src__axi_riscv_lrsc.sv",
-            "line": 475,
-            "description": "Signal 'axi_riscv_lrsc.u_core.logic' has multiple simultaneous drivers"
         },
         {
             "file_name": "vendor__pulp-platform__common_cells__src__addr_decode.sv",
@@ -1707,23 +982,13 @@
         },
         {
             "file_name": "vendor__pulp-platform__common_cells__src__cdc_2phase.sv",
-            "line": 87,
-            "description": "Latch inferred for signal 'logic' in module 'cdc_2phase'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__common_cells__src__cdc_2phase.sv",
-            "line": 87,
-            "description": "Signal 'cdc_2phase.u_core.logic' has multiple simultaneous drivers"
+            "line": 89,
+            "description": "The signal/variable 'req_src_q' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "vendor__pulp-platform__common_cells__src__cdc_fifo_2phase.sv",
-            "line": 68,
-            "description": "Latch inferred for signal 'logic' in module 'cdc_fifo_2phase'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__common_cells__src__cdc_fifo_2phase.sv",
-            "line": 68,
-            "description": "Signal 'cdc_fifo_2phase.u_core.logic' has multiple simultaneous drivers"
+            "line": 70,
+            "description": "The signal/variable 'fifo_data_q[i]' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "vendor__pulp-platform__common_cells__src__cf_math_pkg.sv",
@@ -1732,13 +997,8 @@
         },
         {
             "file_name": "vendor__pulp-platform__common_cells__src__clk_div.sv",
-            "line": 25,
-            "description": "Latch inferred for signal 'logic' in module 'clk_div'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__common_cells__src__clk_div.sv",
-            "line": 25,
-            "description": "Signal 'clk_div.u_core.logic' has multiple simultaneous drivers"
+            "line": 27,
+            "description": "The signal/variable 'clk_q' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "vendor__pulp-platform__common_cells__src__delta_counter.sv",
@@ -1761,39 +1021,14 @@
             "description": "Blocking assignment 'overflow_d = counter_q[WIDTH-1:0] > ({WIDTH{1'b1}} - delta_i);' used inside a 'FlipFlop' inferred sequential block"
         },
         {
-            "file_name": "vendor__pulp-platform__common_cells__src__delta_counter.sv",
-            "line": 31,
-            "description": "Latch inferred for signal 'logic' in module 'delta_counter'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__common_cells__src__delta_counter.sv",
-            "line": 31,
-            "description": "Signal 'delta_counter.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__pulp-platform__common_cells__src__deprecated__clock_divider.sv",
             "line": 131,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "vendor__pulp-platform__common_cells__src__deprecated__clock_divider.sv",
-            "line": 165,
-            "description": "Latch inferred for signal 'logic' in module 'clock_divider'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__common_cells__src__deprecated__clock_divider.sv",
-            "line": 165,
-            "description": "Signal 'clock_divider.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__pulp-platform__common_cells__src__deprecated__clock_divider_counter.sv",
-            "line": 110,
-            "description": "Latch inferred for signal 'logic' in module 'clock_divider_counter'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__common_cells__src__deprecated__clock_divider_counter.sv",
-            "line": 110,
-            "description": "Signal 'clock_divider_counter.u_core.logic' has multiple simultaneous drivers"
+            "line": 91,
+            "description": "The signal/variable 'en1' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "vendor__pulp-platform__common_cells__src__deprecated__generic_fifo.sv",
@@ -1806,39 +1041,14 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "vendor__pulp-platform__common_cells__src__deprecated__generic_fifo.sv",
-            "line": 103,
-            "description": "Latch inferred for signal 'logic' in module 'generic_fifo'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__common_cells__src__deprecated__generic_fifo.sv",
-            "line": 103,
-            "description": "Signal 'generic_fifo.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__pulp-platform__common_cells__src__deprecated__generic_fifo_adv.sv",
             "line": 115,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "vendor__pulp-platform__common_cells__src__deprecated__generic_fifo_adv.sv",
-            "line": 84,
-            "description": "Latch inferred for signal 'logic' in module 'generic_fifo_adv'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__common_cells__src__deprecated__generic_fifo_adv.sv",
-            "line": 84,
-            "description": "Signal 'generic_fifo_adv.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__pulp-platform__common_cells__src__deprecated__generic_LFSR_8bit.sv",
-            "line": 37,
-            "description": "Latch inferred for signal 'logic' in module 'generic_LFSR_8bit'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__common_cells__src__deprecated__generic_LFSR_8bit.sv",
-            "line": 37,
-            "description": "Signal 'generic_LFSR_8bit.u_core.logic' has multiple simultaneous drivers"
+            "line": 41,
+            "description": "The signal/variable 'out' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "vendor__pulp-platform__common_cells__src__deprecated__prioarbiter.sv",
@@ -1846,44 +1056,19 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "vendor__pulp-platform__common_cells__src__deprecated__prioarbiter.sv",
-            "line": 71,
-            "description": "Latch inferred for signal 'logic' in module 'prioarbiter'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__common_cells__src__deprecated__prioarbiter.sv",
-            "line": 71,
-            "description": "Signal 'prioarbiter.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__pulp-platform__common_cells__src__deprecated__pulp_sync.sv",
-            "line": 26,
-            "description": "Latch inferred for signal 'logic' in module 'pulp_sync'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__common_cells__src__deprecated__pulp_sync.sv",
-            "line": 26,
-            "description": "Signal 'pulp_sync.u_core.logic' has multiple simultaneous drivers"
+            "line": 29,
+            "description": "The signal/variable 'r_reg' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "vendor__pulp-platform__common_cells__src__deprecated__pulp_sync_wedge.sv",
-            "line": 47,
-            "description": "Latch inferred for signal 'logic' in module 'pulp_sync_wedge'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__common_cells__src__deprecated__pulp_sync_wedge.sv",
-            "line": 47,
-            "description": "Signal 'pulp_sync_wedge.u_core.logic' has multiple simultaneous drivers"
+            "line": 49,
+            "description": "The signal/variable 'serial_q' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "vendor__pulp-platform__common_cells__src__deprecated__sram.sv",
-            "line": 34,
-            "description": "Latch inferred for signal 'unsigned' in module 'sram'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__common_cells__src__deprecated__sram.sv",
-            "line": 34,
-            "description": "Signal 'sram.u_core.unsigned' has multiple simultaneous drivers"
+            "line": 37,
+            "description": "The signal/variable 'raddr_q' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "vendor__pulp-platform__common_cells__src__ecc_decode.sv",
@@ -1897,38 +1082,18 @@
         },
         {
             "file_name": "vendor__pulp-platform__common_cells__src__edge_propagator.sv",
-            "line": 30,
-            "description": "Latch inferred for signal 'logic' in module 'edge_propagator'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__common_cells__src__edge_propagator.sv",
-            "line": 30,
-            "description": "Signal 'edge_propagator.u_core.logic' has multiple simultaneous drivers"
+            "line": 32,
+            "description": "The signal/variable 'r_input_reg' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "vendor__pulp-platform__common_cells__src__edge_propagator_tx.sv",
-            "line": 28,
-            "description": "Latch inferred for signal 'logic' in module 'edge_propagator_tx'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__common_cells__src__edge_propagator_tx.sv",
-            "line": 28,
-            "description": "Signal 'edge_propagator_tx.u_core.logic' has multiple simultaneous drivers"
+            "line": 30,
+            "description": "The signal/variable 'r_input_reg' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "vendor__pulp-platform__common_cells__src__exp_backoff.sv",
             "line": 19,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "vendor__pulp-platform__common_cells__src__exp_backoff.sv",
-            "line": 68,
-            "description": "Latch inferred for signal 'logic' in module 'exp_backoff'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__common_cells__src__exp_backoff.sv",
-            "line": 68,
-            "description": "Signal 'exp_backoff.u_core.logic' has multiple simultaneous drivers"
         },
         {
             "file_name": "vendor__pulp-platform__common_cells__src__fall_through_register.sv",
@@ -1941,29 +1106,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "vendor__pulp-platform__common_cells__src__fifo_v3.sv",
-            "line": 114,
-            "description": "Latch inferred for signal 'logic' in module 'fifo_v3'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__common_cells__src__fifo_v3.sv",
-            "line": 114,
-            "description": "Signal 'fifo_v3.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__pulp-platform__common_cells__src__id_queue.sv",
             "line": 35,
             "description": "Variable 'unused' set but not read."
-        },
-        {
-            "file_name": "vendor__pulp-platform__common_cells__src__id_queue.sv",
-            "line": 387,
-            "description": "Latch inferred for signal 'logic' in module 'id_queue'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__common_cells__src__id_queue.sv",
-            "line": 387,
-            "description": "Signal 'id_queue.u_core.logic' has multiple simultaneous drivers"
         },
         {
             "file_name": "vendor__pulp-platform__common_cells__src__isochronous_spill_register.sv",
@@ -1972,33 +1117,18 @@
         },
         {
             "file_name": "vendor__pulp-platform__common_cells__src__lfsr.sv",
-            "line": 239,
-            "description": "Latch inferred for signal 'logic' in module 'lfsr'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__common_cells__src__lfsr.sv",
-            "line": 239,
-            "description": "Signal 'lfsr.u_core.logic' has multiple simultaneous drivers"
+            "line": 158,
+            "description": "The signal/variable 'out[Perm[0]]' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "vendor__pulp-platform__common_cells__src__lfsr_16bit.sv",
-            "line": 53,
-            "description": "Latch inferred for signal 'logic' in module 'lfsr_16bit'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__common_cells__src__lfsr_16bit.sv",
-            "line": 53,
-            "description": "Signal 'lfsr_16bit.u_core.logic' has multiple simultaneous drivers"
+            "line": 40,
+            "description": "The signal/variable 'shift_in' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "vendor__pulp-platform__common_cells__src__lfsr_8bit.sv",
-            "line": 47,
-            "description": "Latch inferred for signal 'logic' in module 'lfsr_8bit'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__common_cells__src__lfsr_8bit.sv",
-            "line": 47,
-            "description": "Signal 'lfsr_8bit.u_core.logic' has multiple simultaneous drivers"
+            "line": 35,
+            "description": "The signal/variable 'shift_in' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "vendor__pulp-platform__common_cells__src__lzc.sv",
@@ -2007,38 +1137,18 @@
         },
         {
             "file_name": "vendor__pulp-platform__common_cells__src__max_counter.sv",
-            "line": 67,
-            "description": "Latch inferred for signal 'logic' in module 'max_counter'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__common_cells__src__max_counter.sv",
-            "line": 67,
-            "description": "Signal 'max_counter.u_core.logic' has multiple simultaneous drivers"
+            "line": 50,
+            "description": "The signal/variable 'max_d' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "vendor__pulp-platform__common_cells__src__mv_filter.sv",
-            "line": 46,
-            "description": "Latch inferred for signal 'logic' in module 'mv_filter'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__common_cells__src__mv_filter.sv",
-            "line": 46,
-            "description": "Signal 'mv_filter.u_core.logic' has multiple simultaneous drivers"
+            "line": 30,
+            "description": "The signal/variable 'counter_d' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "vendor__pulp-platform__common_cells__src__plru_tree.sv",
             "line": 44,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "vendor__pulp-platform__common_cells__src__plru_tree.sv",
-            "line": 104,
-            "description": "Latch inferred for signal 'logic' in module 'plru_tree'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__common_cells__src__plru_tree.sv",
-            "line": 104,
-            "description": "Signal 'plru_tree.u_core.logic' has multiple simultaneous drivers"
         },
         {
             "file_name": "vendor__pulp-platform__common_cells__src__rr_arb_tree.sv",
@@ -2051,69 +1161,29 @@
             "description": "Variable 'unused' set but not read."
         },
         {
-            "file_name": "vendor__pulp-platform__common_cells__src__rr_arb_tree.sv",
-            "line": 159,
-            "description": "Latch inferred for signal 'logic' in module 'rr_arb_tree'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__common_cells__src__rr_arb_tree.sv",
-            "line": 159,
-            "description": "Signal 'rr_arb_tree.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__pulp-platform__common_cells__src__rstgen_bypass.sv",
-            "line": 43,
-            "description": "Latch inferred for signal 'logic' in module 'rstgen_bypass'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__common_cells__src__rstgen_bypass.sv",
-            "line": 43,
-            "description": "Signal 'rstgen_bypass.u_core.logic' has multiple simultaneous drivers"
+            "line": 33,
+            "description": "The signal/variable 'rst_n' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "vendor__pulp-platform__common_cells__src__serial_deglitch.sv",
-            "line": 27,
-            "description": "Latch inferred for signal 'logic' in module 'serial_deglitch'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__common_cells__src__serial_deglitch.sv",
-            "line": 27,
-            "description": "Signal 'serial_deglitch.u_core.logic' has multiple simultaneous drivers"
+            "line": 29,
+            "description": "The signal/variable 'count_q' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "vendor__pulp-platform__common_cells__src__shift_reg.sv",
-            "line": 31,
-            "description": "Latch inferred for signal 'logic' in module 'shift_reg'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__common_cells__src__shift_reg.sv",
-            "line": 31,
-            "description": "Signal 'shift_reg.u_core.logic' has multiple simultaneous drivers"
+            "line": 33,
+            "description": "The signal/variable 'd_o' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "vendor__pulp-platform__common_cells__src__spill_register_flushable.sv",
-            "line": 42,
-            "description": "Latch inferred for signal 'logic' in module 'spill_register_flushable'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__common_cells__src__spill_register_flushable.sv",
-            "line": 42,
-            "description": "Signal 'spill_register_flushable.u_core.logic' has multiple simultaneous drivers"
+            "line": 44,
+            "description": "The signal/variable 'a_data_q' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "vendor__pulp-platform__common_cells__src__stream_delay.sv",
             "line": 60,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "vendor__pulp-platform__common_cells__src__stream_delay.sv",
-            "line": 123,
-            "description": "Latch inferred for signal 'logic' in module 'stream_delay'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__common_cells__src__stream_delay.sv",
-            "line": 123,
-            "description": "Signal 'stream_delay.u_core.logic' has multiple simultaneous drivers"
         },
         {
             "file_name": "vendor__pulp-platform__common_cells__src__stream_demux.sv",
@@ -2124,16 +1194,6 @@
             "file_name": "vendor__pulp-platform__common_cells__src__stream_fork.sv",
             "line": 42,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "vendor__pulp-platform__common_cells__src__stream_fork.sv",
-            "line": 72,
-            "description": "Latch inferred for signal 'logic' in module 'stream_fork'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__common_cells__src__stream_fork.sv",
-            "line": 72,
-            "description": "Signal 'stream_fork.u_core.logic' has multiple simultaneous drivers"
         },
         {
             "file_name": "vendor__pulp-platform__common_cells__src__stream_fork_dynamic.sv",
@@ -2167,23 +1227,13 @@
         },
         {
             "file_name": "vendor__pulp-platform__common_cells__src__sync.sv",
-            "line": 25,
-            "description": "Latch inferred for signal 'logic' in module 'sync'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__common_cells__src__sync.sv",
-            "line": 25,
-            "description": "Signal 'sync.u_core.logic' has multiple simultaneous drivers"
+            "line": 27,
+            "description": "The signal/variable 'reg_q' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "vendor__pulp-platform__common_cells__src__sync_wedge.sv",
-            "line": 47,
-            "description": "Latch inferred for signal 'logic' in module 'sync_wedge'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__common_cells__src__sync_wedge.sv",
-            "line": 47,
-            "description": "Signal 'sync_wedge.u_core.logic' has multiple simultaneous drivers"
+            "line": 49,
+            "description": "The signal/variable 'serial_q' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "vendor__pulp-platform__common_cells__src__unread.sv",
@@ -2197,23 +1247,13 @@
         },
         {
             "file_name": "vendor__pulp-platform__fpga-support__rtl__AsyncDpRam.sv",
-            "line": 42,
-            "description": "Latch inferred for signal 'logic' in module 'AsyncDpRam'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__fpga-support__rtl__AsyncDpRam.sv",
-            "line": 42,
-            "description": "Signal 'AsyncDpRam.u_core.logic' has multiple simultaneous drivers"
+            "line": 45,
+            "description": "The signal/variable 'mem[WrAddr_DI]' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "vendor__pulp-platform__fpga-support__rtl__AsyncThreePortRam.sv",
-            "line": 45,
-            "description": "Latch inferred for signal 'logic' in module 'AsyncThreePortRam'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__fpga-support__rtl__AsyncThreePortRam.sv",
-            "line": 45,
-            "description": "Signal 'AsyncThreePortRam.u_core.logic' has multiple simultaneous drivers"
+            "line": 48,
+            "description": "The signal/variable 'mem[WrAddr_DI]' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "vendor__pulp-platform__fpga-support__rtl__AxiBramLogger.sv",
@@ -2226,24 +1266,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "vendor__pulp-platform__fpga-support__rtl__AxiToAxiLitePc.sv",
-            "line": 243,
-            "description": "Latch inferred for signal 'logic' in module 'AxiToAxiLitePc'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__fpga-support__rtl__AxiToAxiLitePc.sv",
-            "line": 243,
-            "description": "Signal 'AxiToAxiLitePc.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__pulp-platform__fpga-support__rtl__BramDwc.sv",
-            "line": 95,
-            "description": "Latch inferred for signal 'ADDR_BITW' in module 'BramDwc'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__fpga-support__rtl__BramDwc.sv",
-            "line": 95,
-            "description": "Signal 'BramDwc.u_core.ADDR_BITW' has multiple simultaneous drivers"
+            "line": 98,
+            "description": "The signal/variable 'Addr_SP' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "vendor__pulp-platform__fpga-support__rtl__BramLogger.sv",
@@ -2251,29 +1276,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "vendor__pulp-platform__fpga-support__rtl__BramLogger.sv",
-            "line": 247,
-            "description": "Latch inferred for signal 'logic' in module 'BramLogger'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__fpga-support__rtl__BramLogger.sv",
-            "line": 247,
-            "description": "Signal 'BramLogger.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__pulp-platform__fpga-support__rtl__SyncDpRam.sv",
             "line": 78,
             "description": "Blocking assignment 'Mem_DP[k] = val;' used inside a 'FlipFlop' inferred sequential block"
-        },
-        {
-            "file_name": "vendor__pulp-platform__fpga-support__rtl__SyncDpRam.sv",
-            "line": 69,
-            "description": "Latch inferred for signal 'logic' in module 'SyncDpRam'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__fpga-support__rtl__SyncDpRam.sv",
-            "line": 69,
-            "description": "Signal 'SyncDpRam.u_core.logic' has multiple simultaneous drivers"
         },
         {
             "file_name": "vendor__pulp-platform__fpga-support__rtl__SyncDpRam_ind_r_w.sv",
@@ -2281,29 +1286,9 @@
             "description": "Blocking assignment 'RdData_DO = mem[RdAddr_DI];' used inside a 'FlipFlop' inferred sequential block"
         },
         {
-            "file_name": "vendor__pulp-platform__fpga-support__rtl__SyncDpRam_ind_r_w.sv",
-            "line": 41,
-            "description": "Latch inferred for signal 'logic' in module 'SyncDpRam_ind_r_w'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__fpga-support__rtl__SyncDpRam_ind_r_w.sv",
-            "line": 41,
-            "description": "Signal 'SyncDpRam_ind_r_w.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__pulp-platform__fpga-support__rtl__SyncSpRam.sv",
             "line": 64,
             "description": "Blocking assignment 'Mem_DP[k] = val;' used inside a 'FlipFlop' inferred sequential block"
-        },
-        {
-            "file_name": "vendor__pulp-platform__fpga-support__rtl__SyncSpRam.sv",
-            "line": 54,
-            "description": "Latch inferred for signal 'logic' in module 'SyncSpRam'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__fpga-support__rtl__SyncSpRam.sv",
-            "line": 54,
-            "description": "Signal 'SyncSpRam.u_core.logic' has multiple simultaneous drivers"
         },
         {
             "file_name": "vendor__pulp-platform__fpga-support__rtl__SyncSpRamBeNx32.sv",
@@ -2311,29 +1296,9 @@
             "description": "Blocking assignment 'Mem_DP[k] = val;' used inside a 'FlipFlop' inferred sequential block"
         },
         {
-            "file_name": "vendor__pulp-platform__fpga-support__rtl__SyncSpRamBeNx32.sv",
-            "line": 64,
-            "description": "Latch inferred for signal 'logic' in module 'SyncSpRamBeNx32'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__fpga-support__rtl__SyncSpRamBeNx32.sv",
-            "line": 64,
-            "description": "Signal 'SyncSpRamBeNx32.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__pulp-platform__fpga-support__rtl__SyncSpRamBeNx64.sv",
             "line": 74,
             "description": "Blocking assignment 'Mem_DP[k] = val;' used inside a 'FlipFlop' inferred sequential block"
-        },
-        {
-            "file_name": "vendor__pulp-platform__fpga-support__rtl__SyncSpRamBeNx64.sv",
-            "line": 64,
-            "description": "Latch inferred for signal 'logic' in module 'SyncSpRamBeNx64'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__fpga-support__rtl__SyncSpRamBeNx64.sv",
-            "line": 64,
-            "description": "Signal 'SyncSpRamBeNx64.u_core.logic' has multiple simultaneous drivers"
         },
         {
             "file_name": "vendor__pulp-platform__fpga-support__rtl__SyncThreePortRam.sv",
@@ -2346,79 +1311,34 @@
             "description": "Blocking assignment 'RdData_DO_1 = mem[RdAddr_DI_1];' used inside a 'FlipFlop' inferred sequential block"
         },
         {
-            "file_name": "vendor__pulp-platform__fpga-support__rtl__SyncThreePortRam.sv",
-            "line": 44,
-            "description": "Latch inferred for signal 'logic' in module 'SyncThreePortRam'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__fpga-support__rtl__SyncThreePortRam.sv",
-            "line": 44,
-            "description": "Signal 'SyncThreePortRam.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__pulp-platform__fpga-support__rtl__SyncTpRam.sv",
             "line": 68,
             "description": "Blocking assignment 'Mem_DP[k] = val;' used inside a 'FlipFlop' inferred sequential block"
         },
         {
-            "file_name": "vendor__pulp-platform__fpga-support__rtl__SyncTpRam.sv",
-            "line": 58,
-            "description": "Latch inferred for signal 'logic' in module 'SyncTpRam'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__fpga-support__rtl__SyncTpRam.sv",
-            "line": 58,
-            "description": "Signal 'SyncTpRam.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__pulp-platform__fpga-support__rtl__TdpBramArray.sv",
-            "line": 129,
-            "description": "Latch inferred for signal 'NUM_SER_BRAMS' in module 'TdpBramArray'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__fpga-support__rtl__TdpBramArray.sv",
-            "line": 129,
-            "description": "Signal 'TdpBramArray.u_core.NUM_SER_BRAMS' has multiple simultaneous drivers"
+            "line": 110,
+            "description": "The signal/variable 'SerIdxAOverflow_S' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "vendor__pulp-platform__fpga-support__synth__BramDwc__deps__BramDwc.sv",
-            "line": 95,
-            "description": "Latch inferred for signal 'ADDR_BITW' in module 'BramDwc'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__fpga-support__synth__BramDwc__deps__BramDwc.sv",
-            "line": 95,
-            "description": "Signal 'BramDwc.u_core.ADDR_BITW' has multiple simultaneous drivers"
+            "line": 98,
+            "description": "The signal/variable 'Addr_SP' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "vendor__pulp-platform__tech_cells_generic__src__deprecated__generic_memory.sv",
-            "line": 49,
-            "description": "Latch inferred for signal 'logic' in module 'generic_memory'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__tech_cells_generic__src__deprecated__generic_memory.sv",
-            "line": 49,
-            "description": "Signal 'generic_memory.u_core.logic' has multiple simultaneous drivers"
+            "line": 59,
+            "description": "The signal/variable 'MEM[A][i]' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "vendor__pulp-platform__tech_cells_generic__src__deprecated__generic_rom.sv",
-            "line": 34,
-            "description": "Latch inferred for signal 'logic' in module 'generic_rom'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__tech_cells_generic__src__deprecated__generic_rom.sv",
-            "line": 34,
-            "description": "Signal 'generic_rom.u_core.logic' has multiple simultaneous drivers"
+            "line": 37,
+            "description": "The signal/variable 'A_Q' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "vendor__pulp-platform__tech_cells_generic__src__deprecated__pulp_clock_gating_async.sv",
-            "line": 29,
-            "description": "Latch inferred for signal 'logic' in module 'pulp_clock_gating_async'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__tech_cells_generic__src__deprecated__pulp_clock_gating_async.sv",
-            "line": 29,
-            "description": "Signal 'pulp_clock_gating_async.u_core.logic' has multiple simultaneous drivers"
+            "line": 31,
+            "description": "The signal/variable 'r_reg' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "vendor__pulp-platform__tech_cells_generic__src__fpga__tc_sram_xilinx.sv",
@@ -2429,16 +1349,6 @@
             "file_name": "vendor__pulp-platform__tech_cells_generic__src__rtl__tc_sram.sv",
             "line": 93,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "vendor__pulp-platform__tech_cells_generic__src__rtl__tc_sram.sv",
-            "line": 130,
-            "description": "Latch inferred for signal 'logic' in module 'tc_sram'"
-        },
-        {
-            "file_name": "vendor__pulp-platform__tech_cells_generic__src__rtl__tc_sram.sv",
-            "line": 130,
-            "description": "Signal 'tc_sram.u_core.logic' has multiple simultaneous drivers"
         },
         {
             "file_name": "verif__env__corev-dv__custom__cvxif_custom_instr.sv",

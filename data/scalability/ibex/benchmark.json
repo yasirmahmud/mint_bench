@@ -21,16 +21,6 @@
             "description": "Variable 'unused_addr' set but not read."
         },
         {
-            "file_name": "dv__riscv_compliance__rtl__riscv_testutil.sv",
-            "line": 80,
-            "description": "Latch inferred for signal 'clk_i' in module 'riscv_testutil'"
-        },
-        {
-            "file_name": "dv__riscv_compliance__rtl__riscv_testutil.sv",
-            "line": 80,
-            "description": "Signal 'riscv_testutil.u_core.clk_i' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "dv__uvm__core_ibex__common__ibex_cosim_agent__ibex_cosim_agent.sv",
             "line": 21,
             "description": "The signal/variable 'dmem_port' read in the block is not in the sensitivity list"
@@ -107,13 +97,8 @@
         },
         {
             "file_name": "dv__uvm__core_ibex__env__core_ibex_dut_probe_if.sv",
-            "line": 48,
-            "description": "Latch inferred for signal 'reset' in module 'core_ibex_dut_probe_if'"
-        },
-        {
-            "file_name": "dv__uvm__core_ibex__env__core_ibex_dut_probe_if.sv",
-            "line": 48,
-            "description": "Signal 'core_ibex_dut_probe_if.u_core.reset' has multiple simultaneous drivers"
+            "line": 50,
+            "description": "The signal/variable 'irq_exc_seen' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "dv__uvm__core_ibex__env__core_ibex_env.sv",
@@ -157,13 +142,8 @@
         },
         {
             "file_name": "dv__uvm__icache__dv__env__ibex_icache_ram_if.sv",
-            "line": 87,
-            "description": "Latch inferred for signal 'clk' in module 'ibex_icache_ram_if'"
-        },
-        {
-            "file_name": "dv__uvm__icache__dv__env__ibex_icache_ram_if.sv",
-            "line": 87,
-            "description": "Signal 'ibex_icache_ram_if.u_core.clk' has multiple simultaneous drivers"
+            "line": 72,
+            "description": "The signal/variable 'ic_tag_rdata_err[i]' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "dv__uvm__icache__dv__env__ibex_icache_scoreboard.sv",
@@ -241,16 +221,6 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "dv__uvm__icache__dv__ibex_icache_core_agent__ibex_icache_core_protocol_checker.sv",
-            "line": 62,
-            "description": "Latch inferred for signal 'clk' in module 'ibex_icache_core_protocol_checker'"
-        },
-        {
-            "file_name": "dv__uvm__icache__dv__ibex_icache_core_agent__ibex_icache_core_protocol_checker.sv",
-            "line": 62,
-            "description": "Signal 'ibex_icache_core_protocol_checker.u_core.clk' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "dv__uvm__icache__dv__ibex_icache_core_agent__ibex_icache_core_sequencer.sv",
             "line": 16,
             "description": "The signal/variable 'hb_objection' read in the block is not in the sensitivity list"
@@ -297,13 +267,8 @@
         },
         {
             "file_name": "dv__verilator__simple_system_cosim__ibex_simple_system_cosim_checker.sv",
-            "line": 49,
-            "description": "Latch inferred for signal 'clk_i' in module 'ibex_simple_system_cosim_checker'"
-        },
-        {
-            "file_name": "dv__verilator__simple_system_cosim__ibex_simple_system_cosim_checker.sv",
-            "line": 49,
-            "description": "Signal 'ibex_simple_system_cosim_checker.u_core.clk_i' has multiple simultaneous drivers"
+            "line": 46,
+            "description": "The signal/variable 'cosim_handle' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "rtl__ibex_alu.sv",
@@ -336,16 +301,6 @@
             "description": "Variable 'unused_valid' set but not read."
         },
         {
-            "file_name": "rtl__ibex_compressed_decoder.sv",
-            "line": 798,
-            "description": "Latch inferred for signal 'logic' in module 'ibex_compressed_decoder'"
-        },
-        {
-            "file_name": "rtl__ibex_compressed_decoder.sv",
-            "line": 798,
-            "description": "Signal 'ibex_compressed_decoder.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "rtl__ibex_controller.sv",
             "line": 175,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
@@ -354,16 +309,6 @@
             "file_name": "rtl__ibex_controller.sv",
             "line": 160,
             "description": "Variable 'unused_irq_timer' set but not read."
-        },
-        {
-            "file_name": "rtl__ibex_controller.sv",
-            "line": 174,
-            "description": "Latch inferred for signal 'logic' in module 'ibex_controller'"
-        },
-        {
-            "file_name": "rtl__ibex_controller.sv",
-            "line": 174,
-            "description": "Signal 'ibex_controller.u_core.logic' has multiple simultaneous drivers"
         },
         {
             "file_name": "rtl__ibex_core.sv",
@@ -376,29 +321,9 @@
             "description": "Variable 'unused_illegal_insn_id' set but not read."
         },
         {
-            "file_name": "rtl__ibex_core.sv",
-            "line": 1023,
-            "description": "Latch inferred for signal 'logic' in module 'ibex_core'"
-        },
-        {
-            "file_name": "rtl__ibex_core.sv",
-            "line": 1023,
-            "description": "Signal 'ibex_core.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "rtl__ibex_counter.sv",
             "line": 87,
             "description": "Variable 'unused_counter_load' set but not read."
-        },
-        {
-            "file_name": "rtl__ibex_counter.sv",
-            "line": 67,
-            "description": "Latch inferred for signal 'logic' in module 'ibex_counter'"
-        },
-        {
-            "file_name": "rtl__ibex_counter.sv",
-            "line": 67,
-            "description": "Signal 'ibex_counter.u_core.logic' has multiple simultaneous drivers"
         },
         {
             "file_name": "rtl__ibex_cs_registers.sv",
@@ -411,24 +336,9 @@
             "description": "Variable 'unused_cfg' set but not read."
         },
         {
-            "file_name": "rtl__ibex_cs_registers.sv",
-            "line": 849,
-            "description": "Latch inferred for signal 'logic' in module 'ibex_cs_registers'"
-        },
-        {
-            "file_name": "rtl__ibex_cs_registers.sv",
-            "line": 849,
-            "description": "Signal 'ibex_cs_registers.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "rtl__ibex_csr.sv",
-            "line": 28,
-            "description": "Latch inferred for signal 'logic' in module 'ibex_csr'"
-        },
-        {
-            "file_name": "rtl__ibex_csr.sv",
-            "line": 28,
-            "description": "Signal 'ibex_csr.u_core.logic' has multiple simultaneous drivers"
+            "line": 30,
+            "description": "The signal/variable 'rdata_q' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "rtl__ibex_decoder.sv",
@@ -441,29 +351,9 @@
             "description": "Variable 'unused_instr_alu' set but not read."
         },
         {
-            "file_name": "rtl__ibex_decoder.sv",
-            "line": 149,
-            "description": "Latch inferred for signal 'logic' in module 'ibex_decoder'"
-        },
-        {
-            "file_name": "rtl__ibex_decoder.sv",
-            "line": 149,
-            "description": "Signal 'ibex_decoder.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "rtl__ibex_dummy_instr.sv",
             "line": 119,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "rtl__ibex_dummy_instr.sv",
-            "line": 68,
-            "description": "Latch inferred for signal 'logic' in module 'ibex_dummy_instr'"
-        },
-        {
-            "file_name": "rtl__ibex_dummy_instr.sv",
-            "line": 68,
-            "description": "Signal 'ibex_dummy_instr.u_core.logic' has multiple simultaneous drivers"
         },
         {
             "file_name": "rtl__ibex_ex_block.sv",
@@ -481,16 +371,6 @@
             "description": "Variable 'unused_addr_in' set but not read."
         },
         {
-            "file_name": "rtl__ibex_fetch_fifo.sv",
-            "line": 153,
-            "description": "Latch inferred for signal 'logic' in module 'ibex_fetch_fifo'"
-        },
-        {
-            "file_name": "rtl__ibex_fetch_fifo.sv",
-            "line": 153,
-            "description": "Signal 'ibex_fetch_fifo.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "rtl__ibex_icache.sv",
             "line": 1219,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
@@ -499,16 +379,6 @@
             "file_name": "rtl__ibex_icache.sv",
             "line": 292,
             "description": "Variable 'unused_tag_ecc_output' set but not read."
-        },
-        {
-            "file_name": "rtl__ibex_icache.sv",
-            "line": 227,
-            "description": "Latch inferred for signal 'logic' in module 'ibex_icache'"
-        },
-        {
-            "file_name": "rtl__ibex_icache.sv",
-            "line": 227,
-            "description": "Signal 'ibex_icache.u_core.logic' has multiple simultaneous drivers"
         },
         {
             "file_name": "rtl__ibex_id_stage.sv",
@@ -526,16 +396,6 @@
             "description": "Variable 'unused_a_mux_sel' set but not read."
         },
         {
-            "file_name": "rtl__ibex_id_stage.sv",
-            "line": 405,
-            "description": "Latch inferred for signal 'logic' in module 'ibex_id_stage'"
-        },
-        {
-            "file_name": "rtl__ibex_id_stage.sv",
-            "line": 405,
-            "description": "Signal 'ibex_id_stage.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "rtl__ibex_if_stage.sv",
             "line": 201,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
@@ -546,29 +406,9 @@
             "description": "Variable 'unused_fetch_addr_n0' set but not read."
         },
         {
-            "file_name": "rtl__ibex_if_stage.sv",
-            "line": 464,
-            "description": "Latch inferred for signal 'logic' in module 'ibex_if_stage'"
-        },
-        {
-            "file_name": "rtl__ibex_if_stage.sv",
-            "line": 464,
-            "description": "Signal 'ibex_if_stage.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "rtl__ibex_load_store_unit.sv",
             "line": 119,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "rtl__ibex_load_store_unit.sv",
-            "line": 190,
-            "description": "Latch inferred for signal 'logic' in module 'ibex_load_store_unit'"
-        },
-        {
-            "file_name": "rtl__ibex_load_store_unit.sv",
-            "line": 190,
-            "description": "Signal 'ibex_load_store_unit.u_core.logic' has multiple simultaneous drivers"
         },
         {
             "file_name": "rtl__ibex_lockstep.sv",
@@ -581,16 +421,6 @@
             "description": "Variable 'unused' set but not read."
         },
         {
-            "file_name": "rtl__ibex_lockstep.sv",
-            "line": 185,
-            "description": "Latch inferred for signal 'logic' in module 'ibex_lockstep'"
-        },
-        {
-            "file_name": "rtl__ibex_lockstep.sv",
-            "line": 185,
-            "description": "Signal 'ibex_lockstep.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "rtl__ibex_multdiv_fast.sv",
             "line": 208,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
@@ -601,16 +431,6 @@
             "description": "Variable 'unused_mult_sel_i' set but not read."
         },
         {
-            "file_name": "rtl__ibex_multdiv_fast.sv",
-            "line": 101,
-            "description": "Latch inferred for signal 'logic' in module 'ibex_multdiv_fast'"
-        },
-        {
-            "file_name": "rtl__ibex_multdiv_fast.sv",
-            "line": 101,
-            "description": "Signal 'ibex_multdiv_fast.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "rtl__ibex_multdiv_slow.sv",
             "line": 99,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
@@ -619,16 +439,6 @@
             "file_name": "rtl__ibex_multdiv_slow.sv",
             "line": 53,
             "description": "Variable 'unused_imd_val0' set but not read."
-        },
-        {
-            "file_name": "rtl__ibex_multdiv_slow.sv",
-            "line": 337,
-            "description": "Latch inferred for signal 'logic' in module 'ibex_multdiv_slow'"
-        },
-        {
-            "file_name": "rtl__ibex_multdiv_slow.sv",
-            "line": 337,
-            "description": "Signal 'ibex_multdiv_slow.u_core.logic' has multiple simultaneous drivers"
         },
         {
             "file_name": "rtl__ibex_pmp.sv",
@@ -642,13 +452,8 @@
         },
         {
             "file_name": "rtl__ibex_prefetch_buffer.sv",
-            "line": 151,
-            "description": "Latch inferred for signal 'logic' in module 'ibex_prefetch_buffer'"
-        },
-        {
-            "file_name": "rtl__ibex_prefetch_buffer.sv",
-            "line": 151,
-            "description": "Signal 'ibex_prefetch_buffer.u_core.logic' has multiple simultaneous drivers"
+            "line": 153,
+            "description": "The signal/variable 'stored_addr_q' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "rtl__ibex_register_file_ff.sv",
@@ -661,29 +466,9 @@
             "description": "Variable 'unused_strobe' set but not read."
         },
         {
-            "file_name": "rtl__ibex_register_file_ff.sv",
-            "line": 61,
-            "description": "Latch inferred for signal 'logic' in module 'ibex_register_file_ff'"
-        },
-        {
-            "file_name": "rtl__ibex_register_file_ff.sv",
-            "line": 61,
-            "description": "Signal 'ibex_register_file_ff.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "rtl__ibex_register_file_fpga.sv",
             "line": 73,
             "description": "Variable 'unused_rst_ni' set but not read."
-        },
-        {
-            "file_name": "rtl__ibex_register_file_fpga.sv",
-            "line": 55,
-            "description": "Latch inferred for signal 'logic' in module 'ibex_register_file_fpga'"
-        },
-        {
-            "file_name": "rtl__ibex_register_file_fpga.sv",
-            "line": 55,
-            "description": "Signal 'ibex_register_file_fpga.u_core.logic' has multiple simultaneous drivers"
         },
         {
             "file_name": "rtl__ibex_register_file_latch.sv",
@@ -694,16 +479,6 @@
             "file_name": "rtl__ibex_register_file_latch.sv",
             "line": 102,
             "description": "Variable 'unused_strobe' set but not read."
-        },
-        {
-            "file_name": "rtl__ibex_register_file_latch.sv",
-            "line": 80,
-            "description": "Latch inferred for signal 'logic' in module 'ibex_register_file_latch'"
-        },
-        {
-            "file_name": "rtl__ibex_register_file_latch.sv",
-            "line": 80,
-            "description": "Signal 'ibex_register_file_latch.u_core.logic' has multiple simultaneous drivers"
         },
         {
             "file_name": "rtl__ibex_top.sv",
@@ -721,16 +496,6 @@
             "description": "Variable 'unused_core_busy' set but not read."
         },
         {
-            "file_name": "rtl__ibex_top.sv",
-            "line": 269,
-            "description": "Latch inferred for signal 'logic' in module 'ibex_top'"
-        },
-        {
-            "file_name": "rtl__ibex_top.sv",
-            "line": 269,
-            "description": "Signal 'ibex_top.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "rtl__ibex_top_tracing.sv",
             "line": 166,
             "description": "Variable 'unused_perf_regs' set but not read."
@@ -746,39 +511,14 @@
             "description": "Variable 'unused_' set but not read."
         },
         {
-            "file_name": "rtl__ibex_tracer.sv",
-            "line": 841,
-            "description": "Latch inferred for signal 'logic' in module 'ibex_tracer'"
-        },
-        {
-            "file_name": "rtl__ibex_tracer.sv",
-            "line": 841,
-            "description": "Signal 'ibex_tracer.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "rtl__ibex_wb_stage.sv",
             "line": 192,
             "description": "Variable 'unused_dummy_instr_id' set but not read."
         },
         {
-            "file_name": "rtl__ibex_wb_stage.sv",
-            "line": 95,
-            "description": "Latch inferred for signal 'logic' in module 'ibex_wb_stage'"
-        },
-        {
-            "file_name": "rtl__ibex_wb_stage.sv",
-            "line": 95,
-            "description": "Signal 'ibex_wb_stage.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "shared__rtl__bus.sv",
-            "line": 89,
-            "description": "Latch inferred for signal 'clk_i' in module 'bus'"
-        },
-        {
-            "file_name": "shared__rtl__bus.sv",
-            "line": 89,
-            "description": "Signal 'bus.u_core.clk_i' has multiple simultaneous drivers"
+            "line": 66,
+            "description": "The signal/variable 'host_sel_valid' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "shared__rtl__ram_1p.sv",
@@ -786,44 +526,14 @@
             "description": "Variable 'unused_addr_parts' set but not read."
         },
         {
-            "file_name": "shared__rtl__ram_1p.sv",
-            "line": 46,
-            "description": "Latch inferred for signal 'clk_i' in module 'ram_1p'"
-        },
-        {
-            "file_name": "shared__rtl__ram_1p.sv",
-            "line": 46,
-            "description": "Signal 'ram_1p.u_core.clk_i' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "shared__rtl__ram_2p.sv",
             "line": 44,
             "description": "Variable 'unused_a_addr_parts' set but not read."
         },
         {
-            "file_name": "shared__rtl__ram_2p.sv",
-            "line": 68,
-            "description": "Latch inferred for signal 'clk_i' in module 'ram_2p'"
-        },
-        {
-            "file_name": "shared__rtl__ram_2p.sv",
-            "line": 68,
-            "description": "Signal 'ram_2p.u_core.clk_i' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "shared__rtl__timer.sv",
             "line": 117,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "shared__rtl__timer.sv",
-            "line": 84,
-            "description": "Latch inferred for signal 'logic' in module 'timer'"
-        },
-        {
-            "file_name": "shared__rtl__timer.sv",
-            "line": 84,
-            "description": "Signal 'timer.u_core.logic' has multiple simultaneous drivers"
         },
         {
             "file_name": "syn__rtl__prim_clock_gating.v",
@@ -1022,13 +732,8 @@
         },
         {
             "file_name": "vendor__lowrisc_ip__dv__sv__common_ifs__entropy_subsys_fifo_exception_if.sv",
-            "line": 43,
-            "description": "Latch inferred for signal 'logic' in module 'entropy_subsys_fifo_exception_if'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__dv__sv__common_ifs__entropy_subsys_fifo_exception_if.sv",
-            "line": 43,
-            "description": "Signal 'entropy_subsys_fifo_exception_if.u_core.logic' has multiple simultaneous drivers"
+            "line": 44,
+            "description": "The signal/variable 'state_err_q' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "vendor__lowrisc_ip__dv__sv__common_ifs__pins_if.sv",
@@ -1217,13 +922,8 @@
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim__pre_dv__prim_crc32__prim_crc32_sim.sv",
-            "line": 17,
-            "description": "Latch inferred for signal 'IO_CLK' in module 'prim_crc32_sim'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__pre_dv__prim_crc32__prim_crc32_sim.sv",
-            "line": 17,
-            "description": "Signal 'prim_crc32_sim.u_core.IO_CLK' has multiple simultaneous drivers"
+            "line": 19,
+            "description": "The signal/variable 'test_data' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim__pre_dv__prim_flop_2sync__tb.sv",
@@ -1236,16 +936,6 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_alert_receiver.sv",
-            "line": 255,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_alert_receiver'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_alert_receiver.sv",
-            "line": 255,
-            "description": "Signal 'prim_alert_receiver.u_core.clk_i' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_alert_sender.sv",
             "line": 368,
             "description": "Operator '===' should be avoided in synthesis logic"
@@ -1254,16 +944,6 @@
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_alert_sender.sv",
             "line": 8,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_alert_sender.sv",
-            "line": 279,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_alert_sender'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_alert_sender.sv",
-            "line": 279,
-            "description": "Signal 'prim_alert_sender.u_core.clk_i' has multiple simultaneous drivers"
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_alert_to_diff.sv",
@@ -1291,16 +971,6 @@
             "description": "Variable 'unused_req_chk' set but not read."
         },
         {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_arbiter_ppc.sv",
-            "line": 89,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_arbiter_ppc'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_arbiter_ppc.sv",
-            "line": 89,
-            "description": "Signal 'prim_arbiter_ppc.u_core.clk_i' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_arbiter_tree.sv",
             "line": 66,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
@@ -1311,29 +981,9 @@
             "description": "Variable 'unused_req_chk' set but not read."
         },
         {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_arbiter_tree.sv",
-            "line": 190,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_arbiter_tree'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_arbiter_tree.sv",
-            "line": 190,
-            "description": "Signal 'prim_arbiter_tree.u_core.clk_i' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_arbiter_tree_dup.sv",
             "line": 99,
             "description": "Variable 'unused_req_chk' set but not read."
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_arbiter_tree_dup.sv",
-            "line": 138,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_arbiter_tree_dup'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_arbiter_tree_dup.sv",
-            "line": 138,
-            "description": "Signal 'prim_arbiter_tree_dup.u_core.clk_i' has multiple simultaneous drivers"
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_ascon_duplex.sv",
@@ -1344,16 +994,6 @@
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_ascon_duplex.sv",
             "line": 60,
             "description": "Variable 'unused_data_out_ready_i' set but not read."
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_ascon_duplex.sv",
-            "line": 72,
-            "description": "Latch inferred for signal 'logic' in module 'prim_ascon_duplex'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_ascon_duplex.sv",
-            "line": 72,
-            "description": "Signal 'prim_ascon_duplex.u_core.logic' has multiple simultaneous drivers"
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_ascon_pkg.sv",
@@ -1377,13 +1017,8 @@
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_cdc_rand_delay.sv",
-            "line": 56,
-            "description": "Latch inferred for signal 'logic' in module 'prim_cdc_rand_delay'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_cdc_rand_delay.sv",
-            "line": 56,
-            "description": "Signal 'prim_cdc_rand_delay.u_core.logic' has multiple simultaneous drivers"
+            "line": 38,
+            "description": "The signal/variable 'data' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_cipher_pkg.sv",
@@ -1396,24 +1031,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_clock_meas.sv",
-            "line": 87,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_clock_meas'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_clock_meas.sv",
-            "line": 87,
-            "description": "Signal 'prim_clock_meas.u_core.clk_i' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_clock_timeout.sv",
-            "line": 31,
-            "description": "Latch inferred for signal 'clk_chk_i' in module 'prim_clock_timeout'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_clock_timeout.sv",
-            "line": 31,
-            "description": "Signal 'prim_clock_timeout.u_core.clk_chk_i' has multiple simultaneous drivers"
+            "line": 33,
+            "description": "The signal/variable 'cnt' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_count.sv",
@@ -1431,16 +1051,6 @@
             "description": "Variable 'unused_assert_connected' set but not read."
         },
         {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_count.sv",
-            "line": 147,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_count'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_count.sv",
-            "line": 147,
-            "description": "Signal 'prim_count.u_core.clk_i' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_count_pkg.sv",
             "line": 13,
             "description": "The signal/variable 'Decr' read in the block is not in the sensitivity list"
@@ -1451,29 +1061,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_crc32.sv",
-            "line": 315,
-            "description": "Latch inferred for signal 'logic' in module 'prim_crc32'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_crc32.sv",
-            "line": 315,
-            "description": "Signal 'prim_crc32.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_diff_decode.sv",
             "line": 8,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_diff_decode.sv",
-            "line": 189,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_diff_decode'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_diff_decode.sv",
-            "line": 189,
-            "description": "Signal 'prim_diff_decode.u_core.clk_i' has multiple simultaneous drivers"
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_diff_encode.sv",
@@ -1501,29 +1091,9 @@
             "description": "Variable 'unused_assert_connected' set but not read."
         },
         {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_edge_detector.sv",
-            "line": 47,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_edge_detector'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_edge_detector.sv",
-            "line": 47,
-            "description": "Signal 'prim_edge_detector.u_core.clk_i' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_edn_req.sv",
             "line": 211,
             "description": "Variable 'unused_param_maxlatency' set but not read."
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_edn_req.sv",
-            "line": 80,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_edn_req'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_edn_req.sv",
-            "line": 80,
-            "description": "Signal 'prim_edn_req.u_core.clk_i' has multiple simultaneous drivers"
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_esc_receiver.sv",
@@ -1531,29 +1101,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_esc_receiver.sv",
-            "line": 136,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_esc_receiver'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_esc_receiver.sv",
-            "line": 136,
-            "description": "Signal 'prim_esc_receiver.u_core.clk_i' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_esc_sender.sv",
             "line": 116,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_esc_sender.sv",
-            "line": 219,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_esc_sender'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_esc_sender.sv",
-            "line": 219,
-            "description": "Signal 'prim_esc_sender.u_core.clk_i' has multiple simultaneous drivers"
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_fifo_async.sv",
@@ -1561,24 +1111,9 @@
             "description": "Variable 'unused_decval_msb' set but not read."
         },
         {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_fifo_async.sv",
-            "line": 58,
-            "description": "Latch inferred for signal 'logic' in module 'prim_fifo_async'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_fifo_async.sv",
-            "line": 58,
-            "description": "Signal 'prim_fifo_async.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_fifo_async_simple.sv",
-            "line": 50,
-            "description": "Latch inferred for signal 'logic' in module 'prim_fifo_async_simple'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_fifo_async_simple.sv",
-            "line": 50,
-            "description": "Signal 'prim_fifo_async_simple.u_core.logic' has multiple simultaneous drivers"
+            "line": 52,
+            "description": "The signal/variable 'pending_q' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_fifo_async_sram_adapter.sv",
@@ -1596,16 +1131,6 @@
             "description": "Variable 'unused_r_empty' set but not read."
         },
         {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_fifo_async_sram_adapter.sv",
-            "line": 125,
-            "description": "Latch inferred for signal 'clk_wr_i' in module 'prim_fifo_async_sram_adapter'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_fifo_async_sram_adapter.sv",
-            "line": 125,
-            "description": "Signal 'prim_fifo_async_sram_adapter.u_core.clk_wr_i' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_fifo_sync.sv",
             "line": 239,
             "description": "Operator '===' should be avoided in synthesis logic"
@@ -1621,24 +1146,9 @@
             "description": "Variable 'unused_clr' set but not read."
         },
         {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_fifo_sync.sv",
-            "line": 85,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_fifo_sync'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_fifo_sync.sv",
-            "line": 85,
-            "description": "Signal 'prim_fifo_sync.u_core.clk_i' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_fifo_sync_cnt.sv",
-            "line": 118,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_fifo_sync_cnt'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_fifo_sync_cnt.sv",
-            "line": 118,
-            "description": "Signal 'prim_fifo_sync_cnt.u_core.clk_i' has multiple simultaneous drivers"
+            "line": 120,
+            "description": "The signal/variable 'wptr_wrap_cnt_q' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_filter.sv",
@@ -1646,24 +1156,9 @@
             "description": "Variable 'unused_stored_vector_q_msb' set but not read."
         },
         {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_filter.sv",
-            "line": 47,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_filter'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_filter.sv",
-            "line": 47,
-            "description": "Signal 'prim_filter.u_core.clk_i' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_filter_ctr.sv",
-            "line": 49,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_filter_ctr'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_filter_ctr.sv",
-            "line": 49,
-            "description": "Signal 'prim_filter_ctr.u_core.clk_i' has multiple simultaneous drivers"
+            "line": 51,
+            "description": "The signal/variable 'filter_q' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_flop_macros.sv",
@@ -1677,38 +1172,18 @@
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_gate_gen.sv",
-            "line": 92,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_gate_gen'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_gate_gen.sv",
-            "line": 92,
-            "description": "Signal 'prim_gate_gen.u_core.clk_i' has multiple simultaneous drivers"
+            "line": 94,
+            "description": "The signal/variable 'regs_q' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_gf_mult.sv",
-            "line": 100,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_gf_mult'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_gf_mult.sv",
-            "line": 100,
-            "description": "Signal 'prim_gf_mult.u_core.clk_i' has multiple simultaneous drivers"
+            "line": 102,
+            "description": "The signal/variable 'cnt' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_intr_hw.sv",
             "line": 89,
             "description": "Variable 'unused_reg2hw' set but not read."
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_intr_hw.sv",
-            "line": 76,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_intr_hw'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_intr_hw.sv",
-            "line": 76,
-            "description": "Signal 'prim_intr_hw.u_core.clk_i' has multiple simultaneous drivers"
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_keccak.sv",
@@ -1726,29 +1201,9 @@
             "description": "Variable 'unused' set but not read."
         },
         {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_lc_sender.sv",
-            "line": 57,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_lc_sender'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_lc_sender.sv",
-            "line": 57,
-            "description": "Signal 'prim_lc_sender.u_core.clk_i' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_lc_sync.sv",
             "line": 78,
             "description": "Variable 'unused' set but not read."
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_lc_sync.sv",
-            "line": 67,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_lc_sync'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_lc_sync.sv",
-            "line": 67,
-            "description": "Signal 'prim_lc_sync.u_core.clk_i' has multiple simultaneous drivers"
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_leading_one_ppc.sv",
@@ -1766,16 +1221,6 @@
             "description": "Variable 'unused' set but not read."
         },
         {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_lfsr.sv",
-            "line": 485,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_lfsr'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_lfsr.sv",
-            "line": 485,
-            "description": "Signal 'prim_lfsr.u_core.clk_i' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_max_tree.sv",
             "line": 145,
             "description": "Operator '===' should be avoided in synthesis logic"
@@ -1791,29 +1236,9 @@
             "description": "Variable 'unused' set but not read."
         },
         {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_mubi12_sender.sv",
-            "line": 54,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_mubi12_sender'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_mubi12_sender.sv",
-            "line": 54,
-            "description": "Signal 'prim_mubi12_sender.u_core.clk_i' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_mubi12_sync.sv",
             "line": 140,
             "description": "Variable 'unused' set but not read."
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_mubi12_sync.sv",
-            "line": 116,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_mubi12_sync'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_mubi12_sync.sv",
-            "line": 116,
-            "description": "Signal 'prim_mubi12_sync.u_core.clk_i' has multiple simultaneous drivers"
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_mubi16_sender.sv",
@@ -1821,29 +1246,9 @@
             "description": "Variable 'unused' set but not read."
         },
         {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_mubi16_sender.sv",
-            "line": 54,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_mubi16_sender'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_mubi16_sender.sv",
-            "line": 54,
-            "description": "Signal 'prim_mubi16_sender.u_core.clk_i' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_mubi16_sync.sv",
             "line": 140,
             "description": "Variable 'unused' set but not read."
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_mubi16_sync.sv",
-            "line": 116,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_mubi16_sync'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_mubi16_sync.sv",
-            "line": 116,
-            "description": "Signal 'prim_mubi16_sync.u_core.clk_i' has multiple simultaneous drivers"
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_mubi20_sender.sv",
@@ -1851,29 +1256,9 @@
             "description": "Variable 'unused' set but not read."
         },
         {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_mubi20_sender.sv",
-            "line": 54,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_mubi20_sender'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_mubi20_sender.sv",
-            "line": 54,
-            "description": "Signal 'prim_mubi20_sender.u_core.clk_i' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_mubi20_sync.sv",
             "line": 140,
             "description": "Variable 'unused' set but not read."
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_mubi20_sync.sv",
-            "line": 116,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_mubi20_sync'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_mubi20_sync.sv",
-            "line": 116,
-            "description": "Signal 'prim_mubi20_sync.u_core.clk_i' has multiple simultaneous drivers"
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_mubi24_sender.sv",
@@ -1881,29 +1266,9 @@
             "description": "Variable 'unused' set but not read."
         },
         {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_mubi24_sender.sv",
-            "line": 54,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_mubi24_sender'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_mubi24_sender.sv",
-            "line": 54,
-            "description": "Signal 'prim_mubi24_sender.u_core.clk_i' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_mubi24_sync.sv",
             "line": 140,
             "description": "Variable 'unused' set but not read."
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_mubi24_sync.sv",
-            "line": 116,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_mubi24_sync'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_mubi24_sync.sv",
-            "line": 116,
-            "description": "Signal 'prim_mubi24_sync.u_core.clk_i' has multiple simultaneous drivers"
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_mubi28_sender.sv",
@@ -1911,29 +1276,9 @@
             "description": "Variable 'unused' set but not read."
         },
         {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_mubi28_sender.sv",
-            "line": 54,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_mubi28_sender'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_mubi28_sender.sv",
-            "line": 54,
-            "description": "Signal 'prim_mubi28_sender.u_core.clk_i' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_mubi28_sync.sv",
             "line": 140,
             "description": "Variable 'unused' set but not read."
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_mubi28_sync.sv",
-            "line": 116,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_mubi28_sync'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_mubi28_sync.sv",
-            "line": 116,
-            "description": "Signal 'prim_mubi28_sync.u_core.clk_i' has multiple simultaneous drivers"
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_mubi32_sender.sv",
@@ -1941,29 +1286,9 @@
             "description": "Variable 'unused' set but not read."
         },
         {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_mubi32_sender.sv",
-            "line": 54,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_mubi32_sender'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_mubi32_sender.sv",
-            "line": 54,
-            "description": "Signal 'prim_mubi32_sender.u_core.clk_i' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_mubi32_sync.sv",
             "line": 140,
             "description": "Variable 'unused' set but not read."
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_mubi32_sync.sv",
-            "line": 116,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_mubi32_sync'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_mubi32_sync.sv",
-            "line": 116,
-            "description": "Signal 'prim_mubi32_sync.u_core.clk_i' has multiple simultaneous drivers"
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_mubi4_sender.sv",
@@ -1971,29 +1296,9 @@
             "description": "Variable 'unused' set but not read."
         },
         {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_mubi4_sender.sv",
-            "line": 54,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_mubi4_sender'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_mubi4_sender.sv",
-            "line": 54,
-            "description": "Signal 'prim_mubi4_sender.u_core.clk_i' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_mubi4_sync.sv",
             "line": 140,
             "description": "Variable 'unused' set but not read."
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_mubi4_sync.sv",
-            "line": 116,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_mubi4_sync'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_mubi4_sync.sv",
-            "line": 116,
-            "description": "Signal 'prim_mubi4_sync.u_core.clk_i' has multiple simultaneous drivers"
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_mubi8_sender.sv",
@@ -2001,29 +1306,9 @@
             "description": "Variable 'unused' set but not read."
         },
         {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_mubi8_sender.sv",
-            "line": 54,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_mubi8_sender'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_mubi8_sender.sv",
-            "line": 54,
-            "description": "Signal 'prim_mubi8_sender.u_core.clk_i' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_mubi8_sync.sv",
             "line": 140,
             "description": "Variable 'unused' set but not read."
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_mubi8_sync.sv",
-            "line": 116,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_mubi8_sync'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_mubi8_sync.sv",
-            "line": 116,
-            "description": "Signal 'prim_mubi8_sync.u_core.clk_i' has multiple simultaneous drivers"
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_mubi_pkg.sv",
@@ -2034,16 +1319,6 @@
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_multibit_sync.sv",
             "line": 8,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_multibit_sync.sv",
-            "line": 91,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_multibit_sync'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_multibit_sync.sv",
-            "line": 91,
-            "description": "Signal 'prim_multibit_sync.u_core.clk_i' has multiple simultaneous drivers"
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_onehot_check.sv",
@@ -2071,16 +1346,6 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_packer.sv",
-            "line": 89,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_packer'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_packer.sv",
-            "line": 89,
-            "description": "Signal 'prim_packer.u_core.clk_i' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_packer_fifo.sv",
             "line": 9,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
@@ -2091,39 +1356,14 @@
             "description": "Variable 'unused_rdata_shifted' set but not read."
         },
         {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_packer_fifo.sv",
-            "line": 81,
-            "description": "Latch inferred for signal 'logic' in module 'prim_packer_fifo'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_packer_fifo.sv",
-            "line": 81,
-            "description": "Signal 'prim_packer_fifo.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_prince.sv",
             "line": 69,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_prince.sv",
-            "line": 84,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_prince'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_prince.sv",
-            "line": 84,
-            "description": "Signal 'prim_prince.u_core.clk_i' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_pulse_sync.sv",
-            "line": 32,
-            "description": "Latch inferred for signal 'logic' in module 'prim_pulse_sync'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_pulse_sync.sv",
-            "line": 32,
-            "description": "Signal 'prim_pulse_sync.u_core.logic' has multiple simultaneous drivers"
+            "line": 34,
+            "description": "The signal/variable 'src_level' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_racl_error_arb.sv",
@@ -2141,16 +1381,6 @@
             "description": "Variable 'unused_wmask' set but not read."
         },
         {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_ram_1p_adv.sv",
-            "line": 139,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_ram_1p_adv'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_ram_1p_adv.sv",
-            "line": 139,
-            "description": "Signal 'prim_ram_1p_adv.u_core.clk_i' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_ram_1p_scr.sv",
             "line": 30,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
@@ -2159,16 +1389,6 @@
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_ram_1p_scr.sv",
             "line": 275,
             "description": "Variable 'unused' set but not read."
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_ram_1p_scr.sv",
-            "line": 456,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_ram_1p_scr'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_ram_1p_scr.sv",
-            "line": 456,
-            "description": "Signal 'prim_ram_1p_scr.u_core.clk_i' has multiple simultaneous drivers"
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_ram_1r1w_adv.sv",
@@ -2181,16 +1401,6 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_ram_1r1w_async_adv.sv",
-            "line": 121,
-            "description": "Latch inferred for signal 'clk_a_i' in module 'prim_ram_1r1w_async_adv'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_ram_1r1w_async_adv.sv",
-            "line": 121,
-            "description": "Signal 'prim_ram_1r1w_async_adv.u_core.clk_a_i' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_ram_2p_adv.sv",
             "line": 44,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
@@ -2199,16 +1409,6 @@
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_ram_2p_async_adv.sv",
             "line": 46,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_ram_2p_async_adv.sv",
-            "line": 137,
-            "description": "Latch inferred for signal 'clk_a_i' in module 'prim_ram_2p_async_adv'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_ram_2p_async_adv.sv",
-            "line": 137,
-            "description": "Signal 'prim_ram_2p_async_adv.u_core.clk_a_i' has multiple simultaneous drivers"
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_reg_cdc.sv",
@@ -2221,16 +1421,6 @@
             "description": "Variable 'unused_dst_wr' set but not read."
         },
         {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_reg_cdc.sv",
-            "line": 70,
-            "description": "Latch inferred for signal 'clk_src_i' in module 'prim_reg_cdc'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_reg_cdc.sv",
-            "line": 70,
-            "description": "Signal 'prim_reg_cdc.u_core.clk_src_i' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_reg_cdc_arb.sv",
             "line": 18,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
@@ -2239,16 +1429,6 @@
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_reg_cdc_arb.sv",
             "line": 303,
             "description": "Variable 'unused_sigs' set but not read."
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_reg_cdc_arb.sv",
-            "line": 105,
-            "description": "Latch inferred for signal 'clk_src_i' in module 'prim_reg_cdc_arb'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_reg_cdc_arb.sv",
-            "line": 105,
-            "description": "Signal 'prim_reg_cdc_arb.u_core.clk_src_i' has multiple simultaneous drivers"
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_secded_22_16_dec.sv",
@@ -2446,29 +1626,9 @@
             "description": "Variable 'unused' set but not read."
         },
         {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_sha2.sv",
-            "line": 118,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_sha2'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_sha2.sv",
-            "line": 118,
-            "description": "Signal 'prim_sha2.u_core.clk_i' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_sha2_32.sv",
             "line": 48,
             "description": "Variable 'unused' set but not read."
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_sha2_32.sv",
-            "line": 221,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_sha2_32'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_sha2_32.sv",
-            "line": 221,
-            "description": "Signal 'prim_sha2_32.u_core.clk_i' has multiple simultaneous drivers"
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_sha2_pad.sv",
@@ -2479,16 +1639,6 @@
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_sha2_pad.sv",
             "line": 50,
             "description": "Variable 'unused' set but not read."
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_sha2_pad.sv",
-            "line": 80,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_sha2_pad'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_sha2_pad.sv",
-            "line": 80,
-            "description": "Signal 'prim_sha2_pad.u_core.clk_i' has multiple simultaneous drivers"
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_sha2_pkg.sv",
@@ -2521,16 +1671,6 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_subreg.sv",
-            "line": 55,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_subreg'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_subreg.sv",
-            "line": 55,
-            "description": "Signal 'prim_subreg.u_core.clk_i' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_subreg_arb.sv",
             "line": 15,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
@@ -2544,16 +1684,6 @@
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_subreg_shadow.sv",
             "line": 24,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_subreg_shadow.sv",
-            "line": 100,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_subreg_shadow'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_subreg_shadow.sv",
-            "line": 100,
-            "description": "Signal 'prim_subreg_shadow.u_core.clk_i' has multiple simultaneous drivers"
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_subst_perm.sv",
@@ -2581,54 +1711,19 @@
             "description": "Variable 'unused_req_chk' set but not read."
         },
         {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_sync_reqack.sv",
-            "line": 116,
-            "description": "Latch inferred for signal 'clk_src_i' in module 'prim_sync_reqack'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_sync_reqack.sv",
-            "line": 116,
-            "description": "Signal 'prim_sync_reqack.u_core.clk_src_i' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_sync_reqack_data.sv",
             "line": 70,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_sync_reqack_data.sv",
-            "line": 82,
-            "description": "Latch inferred for signal 'clk_src_i' in module 'prim_sync_reqack_data'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_sync_reqack_data.sv",
-            "line": 82,
-            "description": "Signal 'prim_sync_reqack_data.u_core.clk_src_i' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_sync_slow_fast.sv",
-            "line": 37,
-            "description": "Latch inferred for signal 'logic' in module 'prim_sync_slow_fast'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_sync_slow_fast.sv",
-            "line": 37,
-            "description": "Signal 'prim_sync_slow_fast.u_core.logic' has multiple simultaneous drivers"
+            "line": 39,
+            "description": "The signal/variable 'sync_clk_slow_q' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_trivium.sv",
             "line": 113,
             "description": "Variable 'unused_seed' set but not read."
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_trivium.sv",
-            "line": 193,
-            "description": "Latch inferred for signal 'logic' in module 'prim_trivium'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_trivium.sv",
-            "line": 193,
-            "description": "Signal 'prim_trivium.u_core.logic' has multiple simultaneous drivers"
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_trivium_pkg.sv",
@@ -2642,13 +1737,8 @@
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_xoshiro256pp.sv",
-            "line": 70,
-            "description": "Latch inferred for signal 'logic' in module 'prim_xoshiro256pp'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim__rtl__prim_xoshiro256pp.sv",
-            "line": 70,
-            "description": "Signal 'prim_xoshiro256pp.u_core.logic' has multiple simultaneous drivers"
+            "line": 44,
+            "description": "The signal/variable 'a_in' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim_generic__rtl__prim_clock_buf.sv",
@@ -2657,13 +1747,8 @@
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim_generic__rtl__prim_clock_div.sv",
-            "line": 54,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_clock_div'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim_generic__rtl__prim_clock_div.sv",
-            "line": 54,
-            "description": "Signal 'prim_clock_div.u_core.clk_i' has multiple simultaneous drivers"
+            "line": 56,
+            "description": "The signal/variable 'step_down_nq' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim_generic__rtl__prim_clock_gating.sv",
@@ -2687,13 +1772,8 @@
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim_generic__rtl__prim_flop.sv",
-            "line": 17,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_flop'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim_generic__rtl__prim_flop.sv",
-            "line": 17,
-            "description": "Signal 'prim_flop.u_core.clk_i' has multiple simultaneous drivers"
+            "line": 19,
+            "description": "The signal/variable 'q_o' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim_generic__rtl__prim_flop_2sync.sv",
@@ -2702,23 +1782,13 @@
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim_generic__rtl__prim_flop_en.sv",
-            "line": 31,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_flop_en'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim_generic__rtl__prim_flop_en.sv",
-            "line": 31,
-            "description": "Signal 'prim_flop_en.u_core.clk_i' has multiple simultaneous drivers"
+            "line": 33,
+            "description": "The signal/variable 'q_o' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim_generic__rtl__prim_flop_no_rst.sv",
-            "line": 15,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_flop_no_rst'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim_generic__rtl__prim_flop_no_rst.sv",
-            "line": 15,
-            "description": "Signal 'prim_flop_no_rst.u_core.clk_i' has multiple simultaneous drivers"
+            "line": 16,
+            "description": "The signal/variable 'q_o' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim_generic__rtl__prim_generic_flash_bank.sv",
@@ -2729,16 +1799,6 @@
             "file_name": "vendor__lowrisc_ip__ip__prim_generic__rtl__prim_generic_flash_bank.sv",
             "line": 456,
             "description": "Variable 'unused_prog_type' set but not read."
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim_generic__rtl__prim_generic_flash_bank.sv",
-            "line": 189,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_generic_flash_bank'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim_generic__rtl__prim_generic_flash_bank.sv",
-            "line": 189,
-            "description": "Signal 'prim_generic_flash_bank.u_core.clk_i' has multiple simultaneous drivers"
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim_generic__rtl__prim_pad_attr.sv",
@@ -2761,16 +1821,6 @@
             "description": "Variable 'unused_signals' set but not read."
         },
         {
-            "file_name": "vendor__lowrisc_ip__ip__prim_generic__rtl__prim_ram_1p.sv",
-            "line": 63,
-            "description": "Latch inferred for signal 'logic' in module 'prim_ram_1p'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim_generic__rtl__prim_ram_1p.sv",
-            "line": 63,
-            "description": "Signal 'prim_ram_1p.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__lowrisc_ip__ip__prim_generic__rtl__prim_ram_1r1w.sv",
             "line": 41,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
@@ -2779,16 +1829,6 @@
             "file_name": "vendor__lowrisc_ip__ip__prim_generic__rtl__prim_ram_1r1w.sv",
             "line": 47,
             "description": "Variable 'unused_signals' set but not read."
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim_generic__rtl__prim_ram_1r1w.sv",
-            "line": 67,
-            "description": "Latch inferred for signal 'logic' in module 'prim_ram_1r1w'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim_generic__rtl__prim_ram_1r1w.sv",
-            "line": 67,
-            "description": "Signal 'prim_ram_1r1w.u_core.logic' has multiple simultaneous drivers"
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim_generic__rtl__prim_ram_2p.sv",
@@ -2801,29 +1841,9 @@
             "description": "Variable 'unused_cfg' set but not read."
         },
         {
-            "file_name": "vendor__lowrisc_ip__ip__prim_generic__rtl__prim_ram_2p.sv",
-            "line": 75,
-            "description": "Latch inferred for signal 'clk_a_i' in module 'prim_ram_2p'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim_generic__rtl__prim_ram_2p.sv",
-            "line": 75,
-            "description": "Signal 'prim_ram_2p.u_core.clk_a_i' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__lowrisc_ip__ip__prim_generic__rtl__prim_rom.sv",
             "line": 23,
             "description": "Variable 'unused_signals' set but not read."
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim_generic__rtl__prim_rom.sv",
-            "line": 29,
-            "description": "Latch inferred for signal 'logic' in module 'prim_rom'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim_generic__rtl__prim_rom.sv",
-            "line": 29,
-            "description": "Signal 'prim_rom.u_core.logic' has multiple simultaneous drivers"
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim_generic__rtl__prim_rst_sync.sv",
@@ -2842,23 +1862,13 @@
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim_xilinx__rtl__prim_flop.sv",
-            "line": 19,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_flop'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim_xilinx__rtl__prim_flop.sv",
-            "line": 19,
-            "description": "Signal 'prim_flop.u_core.clk_i' has multiple simultaneous drivers"
+            "line": 21,
+            "description": "The signal/variable 'q_o' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim_xilinx__rtl__prim_flop_en.sv",
-            "line": 22,
-            "description": "Latch inferred for signal 'clk_i' in module 'prim_flop_en'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim_xilinx__rtl__prim_flop_en.sv",
-            "line": 22,
-            "description": "Signal 'prim_flop_en.u_core.clk_i' has multiple simultaneous drivers"
+            "line": 24,
+            "description": "The signal/variable 'q_o' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "vendor__lowrisc_ip__ip__prim_xilinx__rtl__prim_pad_attr.sv",
@@ -2876,29 +1886,9 @@
             "description": "Variable 'unused_signals' set but not read."
         },
         {
-            "file_name": "vendor__lowrisc_ip__ip__prim_xilinx__rtl__prim_ram_1p.sv",
-            "line": 49,
-            "description": "Latch inferred for signal 'logic' in module 'prim_ram_1p'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim_xilinx__rtl__prim_ram_1p.sv",
-            "line": 49,
-            "description": "Signal 'prim_ram_1p.u_core.logic' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "vendor__lowrisc_ip__ip__prim_xilinx__rtl__prim_xilinx_rom.sv",
             "line": 23,
             "description": "Variable 'unused_signals' set but not read."
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim_xilinx__rtl__prim_xilinx_rom.sv",
-            "line": 27,
-            "description": "Latch inferred for signal 'logic' in module 'prim_rom'"
-        },
-        {
-            "file_name": "vendor__lowrisc_ip__ip__prim_xilinx__rtl__prim_xilinx_rom.sv",
-            "line": 27,
-            "description": "Signal 'prim_rom.u_core.logic' has multiple simultaneous drivers"
         }
     ]
 }

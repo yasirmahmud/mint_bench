@@ -2,33 +2,18 @@
     "errors": [
         {
             "file_name": "piton__design__chip__chip_bridge__rtl__chip_bridge_rcv_32.v",
-            "line": 145,
-            "description": "Latch inferred for signal 'rst' in module 'chip_bridge_in'"
-        },
-        {
-            "file_name": "piton__design__chip__chip_bridge__rtl__chip_bridge_rcv_32.v",
-            "line": 145,
-            "description": "Signal 'chip_bridge_in.u_core.rst' has multiple simultaneous drivers"
+            "line": 147,
+            "description": "The signal/variable 'wr_rst_f' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "piton__design__chip__chip_bridge__rtl__chip_bridge_send_32.v",
-            "line": 134,
-            "description": "Latch inferred for signal 'rst' in module 'chip_bridge_out'"
-        },
-        {
-            "file_name": "piton__design__chip__chip_bridge__rtl__chip_bridge_send_32.v",
-            "line": 134,
-            "description": "Signal 'chip_bridge_out.u_core.rst' has multiple simultaneous drivers"
+            "line": 136,
+            "description": "The signal/variable 'wr_rst_f' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "piton__design__chip__chip_bridge__rtl__chip_net_chooser_32.v",
-            "line": 121,
-            "description": "Latch inferred for signal 'rst' in module 'bridge_network_chooser'"
-        },
-        {
-            "file_name": "piton__design__chip__chip_bridge__rtl__chip_net_chooser_32.v",
-            "line": 121,
-            "description": "Signal 'bridge_network_chooser.u_core.rst' has multiple simultaneous drivers"
+            "line": 123,
+            "description": "The signal/variable 'select_reg' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "piton__design__chip__chip_bridge__rtl__sync_fifo.v",
@@ -39,16 +24,6 @@
             "file_name": "piton__design__chip__chip_bridge__rtl__sync_fifo.v",
             "line": 37,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "piton__design__chip__chip_bridge__rtl__sync_fifo.v",
-            "line": 110,
-            "description": "Latch inferred for signal 'reg' in module 'sync_fifo'"
-        },
-        {
-            "file_name": "piton__design__chip__chip_bridge__rtl__sync_fifo.v",
-            "line": 110,
-            "description": "Signal 'sync_fifo.u_core.reg' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__chip__jtag__rtl__jtag.v",
@@ -71,29 +46,9 @@
             "description": "Variable 'unused' set but not read."
         },
         {
-            "file_name": "piton__design__chip__jtag__rtl__jtag_ctap.v",
-            "line": 116,
-            "description": "Latch inferred for signal 'wire' in module 'jtag_ctap'"
-        },
-        {
-            "file_name": "piton__design__chip__jtag__rtl__jtag_ctap.v",
-            "line": 116,
-            "description": "Signal 'jtag_ctap.u_core.wire' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chip__jtag__rtl__jtag_interface.v",
             "line": 2,
             "description": "Operator '===' should be avoided in synthesis logic"
-        },
-        {
-            "file_name": "piton__design__chip__jtag__rtl__jtag_interface.v",
-            "line": 222,
-            "description": "Latch inferred for signal 'wire' in module 'jtag_interface'"
-        },
-        {
-            "file_name": "piton__design__chip__jtag__rtl__jtag_interface.v",
-            "line": 222,
-            "description": "Signal 'jtag_interface.u_core.wire' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__chip__jtag__rtl__jtag_interface_tap.v",
@@ -136,16 +91,6 @@
             "description": "Operator '===' should be avoided in synthesis logic"
         },
         {
-            "file_name": "piton__design__chip__tile__common__rtl__cluster_header.v",
-            "line": 60,
-            "description": "Latch inferred for signal 'gclk' in module 'cluster_header'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__common__rtl__cluster_header.v",
-            "line": 60,
-            "description": "Signal 'cluster_header.u_core.gclk' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chip__tile__common__rtl__cluster_header_ctu.v",
             "line": 2,
             "description": "Operator '===' should be avoided in synthesis logic"
@@ -176,16 +121,6 @@
             "description": "Operator '===' should be avoided in synthesis logic"
         },
         {
-            "file_name": "piton__design__chip__tile__common__rtl__mul64.v",
-            "line": 85,
-            "description": "Latch inferred for signal 'rs1_l' in module 'mul64'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__common__rtl__mul64.v",
-            "line": 85,
-            "description": "Signal 'mul64.u_core.rs1_l' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chip__tile__common__rtl__swrvr_clib.v",
             "line": 2,
             "description": "Operator '===' should be avoided in synthesis logic"
@@ -194,16 +129,6 @@
             "file_name": "piton__design__chip__tile__common__rtl__swrvr_clib.v",
             "line": 579,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "piton__design__chip__tile__common__rtl__swrvr_clib.v",
-            "line": 51,
-            "description": "Latch inferred for signal 'din' in module 'dff_s'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__common__rtl__swrvr_clib.v",
-            "line": 51,
-            "description": "Signal 'dff_s.u_core.din' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__chip__tile__common__rtl__swrvr_dlib.v",
@@ -251,16 +176,6 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__chip__tile__common__rtl__u1.beh.v",
-            "line": 3892,
-            "description": "Latch inferred for signal 'z' in module 'bw_u1_inv_0p6x'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__common__rtl__u1.beh.v",
-            "line": 3892,
-            "description": "Signal 'bw_u1_inv_0p6x.u_core.z' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chip__tile__common__rtl__ucb_bus_in.v",
             "line": 2,
             "description": "Operator '===' should be avoided in synthesis logic"
@@ -296,29 +211,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__chip__tile__common__rtl__valrdy_to_credit.v",
-            "line": 139,
-            "description": "Latch inferred for signal 'clk' in module 'valrdy_to_credit'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__common__rtl__valrdy_to_credit.v",
-            "line": 139,
-            "description": "Signal 'valrdy_to_credit.u_core.clk' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chip__tile__common__srams__rtl__bw_r_rf16x160.v",
             "line": 2,
             "description": "Operator '===' should be avoided in synthesis logic"
-        },
-        {
-            "file_name": "piton__design__chip__tile__common__srams__rtl__bw_r_rf16x160.v",
-            "line": 103,
-            "description": "Latch inferred for signal 'din' in module 'bw_r_rf16x160'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__common__srams__rtl__bw_r_rf16x160.v",
-            "line": 103,
-            "description": "Signal 'bw_r_rf16x160.u_core.din' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__chip__tile__dynamic_node__common__rtl__network_input_blk_multi_out.v",
@@ -326,39 +221,14 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__chip__tile__dynamic_node__common__rtl__network_input_blk_multi_out.v",
-            "line": 102,
-            "description": "Latch inferred for signal 'wire' in module 'network_input_blk_multi_out'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__dynamic_node__common__rtl__network_input_blk_multi_out.v",
-            "line": 102,
-            "description": "Signal 'network_input_blk_multi_out.u_core.wire' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chip__tile__dynamic_node__common__rtl__space_avail_top.v",
             "line": 80,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__chip__tile__dynamic_node__common__rtl__space_avail_top.v",
-            "line": 117,
-            "description": "Latch inferred for signal 'valid' in module 'space_avail_top'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__dynamic_node__common__rtl__space_avail_top.v",
-            "line": 117,
-            "description": "Signal 'space_avail_top.u_core.valid' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chip__tile__dynamic_node__components__rtl__net_dff.v",
-            "line": 35,
-            "description": "Latch inferred for signal 'reg' in module 'net_dff'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__dynamic_node__components__rtl__net_dff.v",
-            "line": 35,
-            "description": "Signal 'net_dff.u_core.reg' has multiple simultaneous drivers"
+            "line": 37,
+            "description": "The signal/variable 'q' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "piton__design__chip__tile__dynamic_node__components__rtl__one_of_eight.v",
@@ -376,29 +246,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__chip__tile__dynamic_node__dynamic__rtl__dynamic_input_control.v",
-            "line": 186,
-            "description": "Latch inferred for signal 'thanks_all_temp_out' in module 'dynamic_input_control'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__dynamic_node__dynamic__rtl__dynamic_input_control.v",
-            "line": 186,
-            "description": "Signal 'dynamic_input_control.u_core.thanks_all_temp_out' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chip__tile__dynamic_node__dynamic__rtl__dynamic_output_control.v",
             "line": 148,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "piton__design__chip__tile__dynamic_node__dynamic__rtl__dynamic_output_control.v",
-            "line": 126,
-            "description": "Latch inferred for signal 'thanks_a' in module 'dynamic_output_control'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__dynamic_node__dynamic__rtl__dynamic_output_control.v",
-            "line": 126,
-            "description": "Signal 'dynamic_output_control.u_core.thanks_a' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__chip__tile__dynamic_node__dynamic__rtl__dynamic_output_top.v",
@@ -407,13 +257,8 @@
         },
         {
             "file_name": "piton__design__chip__tile__dynamic_node__rtl__dynamic_node_top.v",
-            "line": 334,
-            "description": "Latch inferred for signal 'clk' in module 'dynamic_node_top'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__dynamic_node__rtl__dynamic_node_top.v",
-            "line": 334,
-            "description": "Signal 'dynamic_node_top.u_core.clk' has multiple simultaneous drivers"
+            "line": 336,
+            "description": "The signal/variable 'ec_thanks_n_to_n_reg' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "piton__design__chip__tile__fpu__rtl__bw_clk_cl_fpu_cmp.v",
@@ -457,13 +302,8 @@
         },
         {
             "file_name": "piton__design__chip__tile__fpu__rtl__fpu_arb.v",
-            "line": 116,
-            "description": "Latch inferred for signal 'arst_l' in module 'fpu_arb'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__fpu__rtl__fpu_arb.v",
-            "line": 116,
-            "description": "Signal 'fpu_arb.u_core.arst_l' has multiple simultaneous drivers"
+            "line": 107,
+            "description": "The signal/variable 'is_fp' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "piton__design__chip__tile__fpu__rtl__fpu_arb_wrap.v",
@@ -472,13 +312,8 @@
         },
         {
             "file_name": "piton__design__chip__tile__fpu__rtl__fpu_buf.v",
-            "line": 82,
-            "description": "Latch inferred for signal 'wire' in module 'fpu_buf'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__fpu__rtl__fpu_buf.v",
-            "line": 82,
-            "description": "Signal 'fpu_buf.u_core.wire' has multiple simultaneous drivers"
+            "line": 61,
+            "description": "The signal/variable 'fp_cpx_req' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "piton__design__chip__tile__fpu__rtl__fpu_cnt_lead0_53b.v",
@@ -661,29 +496,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__chip__tile__l15__rtl__l15_cpxencoder.v",
-            "line": 92,
-            "description": "Latch inferred for signal 'wire' in module 'l15_cpxencoder'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__l15__rtl__l15_cpxencoder.v",
-            "line": 92,
-            "description": "Signal 'l15_cpxencoder.u_core.wire' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chip__tile__l15__rtl__l15_picoencoder.v",
             "line": 67,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "piton__design__chip__tile__l15__rtl__l15_picoencoder.v",
-            "line": 53,
-            "description": "Latch inferred for signal 'wire' in module 'l15_picoencoder'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__l15__rtl__l15_picoencoder.v",
-            "line": 53,
-            "description": "Signal 'l15_picoencoder.u_core.wire' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__chip__tile__l15__rtl__l15_wrap.v",
@@ -701,29 +516,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__chip__tile__l15__rtl__noc1encoder.v",
-            "line": 102,
-            "description": "Latch inferred for signal 'wire' in module 'noc1encoder'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__l15__rtl__noc1encoder.v",
-            "line": 102,
-            "description": "Signal 'noc1encoder.u_core.wire' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chip__tile__l15__rtl__noc2decoder.v",
             "line": 28,
             "description": "Operator '===' should be avoided in synthesis logic"
-        },
-        {
-            "file_name": "piton__design__chip__tile__l15__rtl__noc2decoder.v",
-            "line": 82,
-            "description": "Latch inferred for signal 'wire' in module 'noc2decoder'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__l15__rtl__noc2decoder.v",
-            "line": 82,
-            "description": "Signal 'noc2decoder.u_core.wire' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__chip__tile__l15__rtl__noc3buffer.v",
@@ -736,16 +531,6 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__chip__tile__l15__rtl__noc3buffer.v",
-            "line": 99,
-            "description": "Latch inferred for signal 'wire' in module 'noc3buffer'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__l15__rtl__noc3buffer.v",
-            "line": 99,
-            "description": "Signal 'noc3buffer.u_core.wire' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chip__tile__l15__rtl__noc3encoder.v",
             "line": 28,
             "description": "Operator '===' should be avoided in synthesis logic"
@@ -756,29 +541,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__chip__tile__l15__rtl__noc3encoder.v",
-            "line": 113,
-            "description": "Latch inferred for signal 'wire' in module 'noc3encoder'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__l15__rtl__noc3encoder.v",
-            "line": 113,
-            "description": "Signal 'noc3encoder.u_core.wire' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chip__tile__l15__rtl__pcx_buffer.v",
             "line": 28,
             "description": "Operator '===' should be avoided in synthesis logic"
-        },
-        {
-            "file_name": "piton__design__chip__tile__l15__rtl__pcx_buffer.v",
-            "line": 105,
-            "description": "Latch inferred for signal 'wire' in module 'pcx_buffer'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__l15__rtl__pcx_buffer.v",
-            "line": 105,
-            "description": "Signal 'pcx_buffer.u_core.wire' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__chip__tile__l15__rtl__pcx_decoder.v",
@@ -791,16 +556,6 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__chip__tile__l15__rtl__pcx_decoder.v",
-            "line": 76,
-            "description": "Latch inferred for signal 'wire' in module 'pcx_decoder'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__l15__rtl__pcx_decoder.v",
-            "line": 76,
-            "description": "Signal 'pcx_decoder.u_core.wire' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chip__tile__l15__rtl__pico_decoder.v",
             "line": 152,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
@@ -811,29 +566,9 @@
             "description": "Variable 'unused' set but not read."
         },
         {
-            "file_name": "piton__design__chip__tile__l15__rtl__pico_decoder.v",
-            "line": 70,
-            "description": "Latch inferred for signal 'wire' in module 'pico_decoder'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__l15__rtl__pico_decoder.v",
-            "line": 70,
-            "description": "Signal 'pico_decoder.u_core.wire' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chip__tile__l15__rtl__simplenocbuffer.v",
             "line": 28,
             "description": "Operator '===' should be avoided in synthesis logic"
-        },
-        {
-            "file_name": "piton__design__chip__tile__l15__rtl__simplenocbuffer.v",
-            "line": 64,
-            "description": "Latch inferred for signal 'wire' in module 'simplenocbuffer'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__l15__rtl__simplenocbuffer.v",
-            "line": 64,
-            "description": "Signal 'simplenocbuffer.u_core.wire' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__chip__tile__l2__rtl__l2.v",
@@ -851,29 +586,9 @@
             "description": "Operator '===' should be avoided in synthesis logic"
         },
         {
-            "file_name": "piton__design__chip__tile__l2__rtl__l2_broadcast_counter.v",
-            "line": 144,
-            "description": "Latch inferred for signal 'wire' in module 'l2_broadcast_counter'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__l2__rtl__l2_broadcast_counter.v",
-            "line": 144,
-            "description": "Signal 'l2_broadcast_counter.u_core.wire' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chip__tile__l2__rtl__l2_broadcast_counter_wrap.v",
             "line": 28,
             "description": "Operator '===' should be avoided in synthesis logic"
-        },
-        {
-            "file_name": "piton__design__chip__tile__l2__rtl__l2_broadcast_counter_wrap.v",
-            "line": 103,
-            "description": "Latch inferred for signal 'wire' in module 'l2_broadcast_counter_wrap'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__l2__rtl__l2_broadcast_counter_wrap.v",
-            "line": 103,
-            "description": "Signal 'l2_broadcast_counter_wrap.u_core.wire' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__chip__tile__l2__rtl__l2_config_regs.v",
@@ -881,29 +596,9 @@
             "description": "Operator '===' should be avoided in synthesis logic"
         },
         {
-            "file_name": "piton__design__chip__tile__l2__rtl__l2_config_regs.v",
-            "line": 98,
-            "description": "Latch inferred for signal 'wire' in module 'l2_config_regs'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__l2__rtl__l2_config_regs.v",
-            "line": 98,
-            "description": "Signal 'l2_config_regs.u_core.wire' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chip__tile__l2__rtl__l2_data.v",
             "line": 28,
             "description": "Operator '===' should be avoided in synthesis logic"
-        },
-        {
-            "file_name": "piton__design__chip__tile__l2__rtl__l2_data.v",
-            "line": 105,
-            "description": "Latch inferred for signal 'wire' in module 'l2_data'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__l2__rtl__l2_data.v",
-            "line": 105,
-            "description": "Signal 'l2_data.u_core.wire' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__chip__tile__l2__rtl__l2_data_wrap.v",
@@ -929,16 +624,6 @@
             "file_name": "piton__design__chip__tile__l2__rtl__l2_dir.v",
             "line": 28,
             "description": "Operator '===' should be avoided in synthesis logic"
-        },
-        {
-            "file_name": "piton__design__chip__tile__l2__rtl__l2_dir.v",
-            "line": 105,
-            "description": "Latch inferred for signal 'wire' in module 'l2_dir'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__l2__rtl__l2_dir.v",
-            "line": 105,
-            "description": "Signal 'l2_dir.u_core.wire' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__chip__tile__l2__rtl__l2_dir_wrap.v",
@@ -986,44 +671,19 @@
             "description": "Operator '===' should be avoided in synthesis logic"
         },
         {
-            "file_name": "piton__design__chip__tile__l2__rtl__l2_tag.v",
-            "line": 108,
-            "description": "Latch inferred for signal 'wire' in module 'l2_tag'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__l2__rtl__l2_tag.v",
-            "line": 108,
-            "description": "Signal 'l2_tag.u_core.wire' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chip__tile__l2__rtl__l2_tag_wrap.v",
             "line": 28,
             "description": "Operator '===' should be avoided in synthesis logic"
         },
         {
             "file_name": "piton__design__chip__tile__pico__rtl__pico_reset.v",
-            "line": 37,
-            "description": "Latch inferred for signal 'wire' in module 'pico_reset'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__pico__rtl__pico_reset.v",
-            "line": 37,
-            "description": "Signal 'pico_reset.u_core.wire' has multiple simultaneous drivers"
+            "line": 39,
+            "description": "The signal/variable 'reset_l_f' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "piton__design__chip__tile__pico__rtl__picorv32.v",
             "line": 346,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "piton__design__chip__tile__pico__rtl__picorv32.v",
-            "line": 198,
-            "description": "Latch inferred for signal 'clk' in module 'picorv32'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__pico__rtl__picorv32.v",
-            "line": 198,
-            "description": "Signal 'picorv32.u_core.clk' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__chip__tile__rtap__rtl__rtap.v",
@@ -1034,16 +694,6 @@
             "file_name": "piton__design__chip__tile__rtap__rtl__rtap.v",
             "line": 276,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "piton__design__chip__tile__rtap__rtl__rtap.v",
-            "line": 132,
-            "description": "Latch inferred for signal 'wire' in module 'rtap'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__rtap__rtl__rtap.v",
-            "line": 132,
-            "description": "Signal 'rtap.u_core.wire' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__chip__tile__rtap__rtl__rtap_ucb_receiver.v",
@@ -1057,13 +707,8 @@
         },
         {
             "file_name": "piton__design__chip__tile__rtl__ccx_l15_transducer.v",
-            "line": 158,
-            "description": "Latch inferred for signal 'clk' in module 'ccx_l15_transducer'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__rtl__ccx_l15_transducer.v",
-            "line": 158,
-            "description": "Signal 'ccx_l15_transducer.u_core.clk' has multiple simultaneous drivers"
+            "line": 165,
+            "description": "The signal/variable 'transducer_cpx_data_ready' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "piton__design__chip__tile__rtl__cpx_arbitrator.v",
@@ -1081,16 +726,6 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__chip__tile__sparc__exu__bw_r_irf__common__rtl__bw_r_irf_register.v",
-            "line": 48,
-            "description": "Latch inferred for signal 'clk' in module 'bw_r_irf_register'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__sparc__exu__bw_r_irf__common__rtl__bw_r_irf_register.v",
-            "line": 48,
-            "description": "Signal 'bw_r_irf_register.u_core.clk' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chip__tile__sparc__exu__bw_r_irf__rtl__bw_r_irf.v",
             "line": 2,
             "description": "Operator '===' should be avoided in synthesis logic"
@@ -1099,16 +734,6 @@
             "file_name": "piton__design__chip__tile__sparc__exu__bw_r_irf__rtl__bw_r_irf.v",
             "line": 938,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "piton__design__chip__tile__sparc__exu__bw_r_irf__rtl__bw_r_irf.v",
-            "line": 232,
-            "description": "Latch inferred for signal 'rclk' in module 'bw_r_irf'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__sparc__exu__bw_r_irf__rtl__bw_r_irf.v",
-            "line": 232,
-            "description": "Signal 'bw_r_irf.u_core.rclk' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__chip__tile__sparc__exu__bw_r_irf__rtl__bw_r_irf_wrap.v",
@@ -1396,16 +1021,6 @@
             "description": "Blocking assignment 'lsu_ifu_icache_en_jtag = lsu_ifu_icache_en_jtag_next;' used inside a 'FlipFlop' inferred sequential block"
         },
         {
-            "file_name": "piton__design__chip__tile__sparc__ifu__rtl__sparc_ifu.v",
-            "line": 1043,
-            "description": "Latch inferred for signal 'exu_tlu_wsr_data_m' in module 'sparc_ifu'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__sparc__ifu__rtl__sparc_ifu.v",
-            "line": 1043,
-            "description": "Signal 'sparc_ifu.u_core.exu_tlu_wsr_data_m' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chip__tile__sparc__ifu__rtl__sparc_ifu_cmp35.v",
             "line": 2,
             "description": "Operator '===' should be avoided in synthesis logic"
@@ -1436,24 +1051,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__chip__tile__sparc__ifu__rtl__sparc_ifu_esl.v",
-            "line": 269,
-            "description": "Latch inferred for signal 'clk' in module 'sparc_ifu_esl'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__sparc__ifu__rtl__sparc_ifu_esl.v",
-            "line": 269,
-            "description": "Signal 'sparc_ifu_esl.u_core.clk' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chip__tile__sparc__ifu__rtl__sparc_ifu_esl_counter.v",
-            "line": 61,
-            "description": "Latch inferred for signal 'clk' in module 'sparc_ifu_esl_counter'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__sparc__ifu__rtl__sparc_ifu_esl_counter.v",
-            "line": 61,
-            "description": "Signal 'sparc_ifu_esl_counter.u_core.clk' has multiple simultaneous drivers"
+            "line": 64,
+            "description": "The signal/variable 'count_f' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "piton__design__chip__tile__sparc__ifu__rtl__sparc_ifu_esl_fsm.v",
@@ -1461,39 +1061,14 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__chip__tile__sparc__ifu__rtl__sparc_ifu_esl_fsm.v",
-            "line": 230,
-            "description": "Latch inferred for signal 'clk' in module 'sparc_ifu_esl_fsm'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__sparc__ifu__rtl__sparc_ifu_esl_fsm.v",
-            "line": 230,
-            "description": "Signal 'sparc_ifu_esl_fsm.u_core.clk' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chip__tile__sparc__ifu__rtl__sparc_ifu_esl_htsm.v",
             "line": 479,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__chip__tile__sparc__ifu__rtl__sparc_ifu_esl_htsm.v",
-            "line": 122,
-            "description": "Latch inferred for signal 'clk' in module 'sparc_ifu_esl_htsm'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__sparc__ifu__rtl__sparc_ifu_esl_htsm.v",
-            "line": 122,
-            "description": "Signal 'sparc_ifu_esl_htsm.u_core.clk' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chip__tile__sparc__ifu__rtl__sparc_ifu_esl_lfsr.v",
-            "line": 65,
-            "description": "Latch inferred for signal 'clk' in module 'sparc_ifu_esl_lfsr'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__sparc__ifu__rtl__sparc_ifu_esl_lfsr.v",
-            "line": 65,
-            "description": "Signal 'sparc_ifu_esl_lfsr.u_core.clk' has multiple simultaneous drivers"
+            "line": 68,
+            "description": "The signal/variable 'lfsr_state_f' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "piton__design__chip__tile__sparc__ifu__rtl__sparc_ifu_esl_rtsm.v",
@@ -1502,13 +1077,8 @@
         },
         {
             "file_name": "piton__design__chip__tile__sparc__ifu__rtl__sparc_ifu_esl_shiftreg.v",
-            "line": 60,
-            "description": "Latch inferred for signal 'clk' in module 'sparc_ifu_esl_shiftreg'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__sparc__ifu__rtl__sparc_ifu_esl_shiftreg.v",
-            "line": 60,
-            "description": "Signal 'sparc_ifu_esl_shiftreg.u_core.clk' has multiple simultaneous drivers"
+            "line": 63,
+            "description": "The signal/variable 'shift_reg_f' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "piton__design__chip__tile__sparc__ifu__rtl__sparc_ifu_esl_stsm.v",
@@ -1526,16 +1096,6 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__chip__tile__sparc__ifu__rtl__sparc_ifu_fcl.v",
-            "line": 1414,
-            "description": "Latch inferred for signal 'rclk' in module 'sparc_ifu_fcl'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__sparc__ifu__rtl__sparc_ifu_fcl.v",
-            "line": 1414,
-            "description": "Signal 'sparc_ifu_fcl.u_core.rclk' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chip__tile__sparc__ifu__rtl__sparc_ifu_fdp.v",
             "line": 2,
             "description": "Operator '===' should be avoided in synthesis logic"
@@ -1544,16 +1104,6 @@
             "file_name": "piton__design__chip__tile__sparc__ifu__rtl__sparc_ifu_fdp.v",
             "line": 1862,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "piton__design__chip__tile__sparc__ifu__rtl__sparc_ifu_fdp.v",
-            "line": 696,
-            "description": "Latch inferred for signal 'rclk' in module 'sparc_ifu_fdp'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__sparc__ifu__rtl__sparc_ifu_fdp.v",
-            "line": 696,
-            "description": "Signal 'sparc_ifu_fdp.u_core.rclk' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__chip__tile__sparc__ifu__rtl__sparc_ifu_ifqctl.v",
@@ -1589,16 +1139,6 @@
             "file_name": "piton__design__chip__tile__sparc__ifu__rtl__sparc_ifu_lfsr5.v",
             "line": 52,
             "description": "Blocking assignment 'out = $random;' used inside a 'FlipFlop' inferred sequential block"
-        },
-        {
-            "file_name": "piton__design__chip__tile__sparc__ifu__rtl__sparc_ifu_lfsr5.v",
-            "line": 50,
-            "description": "Latch inferred for signal 'advance' in module 'sparc_ifu_lfsr5'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__sparc__ifu__rtl__sparc_ifu_lfsr5.v",
-            "line": 50,
-            "description": "Signal 'sparc_ifu_lfsr5.u_core.advance' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__chip__tile__sparc__ifu__rtl__sparc_ifu_lru4.v",
@@ -1651,16 +1191,6 @@
             "description": "Operator '===' should be avoided in synthesis logic"
         },
         {
-            "file_name": "piton__design__chip__tile__sparc__ifu__rtl__sparc_ifu_sscan.v",
-            "line": 96,
-            "description": "Latch inferred for signal 'wire' in module 'sparc_ifu_sscan'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__sparc__ifu__rtl__sparc_ifu_sscan.v",
-            "line": 96,
-            "description": "Signal 'sparc_ifu_sscan.u_core.wire' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chip__tile__sparc__ifu__rtl__sparc_ifu_swl.v",
             "line": 2,
             "description": "Operator '===' should be avoided in synthesis logic"
@@ -1669,16 +1199,6 @@
             "file_name": "piton__design__chip__tile__sparc__ifu__rtl__sparc_ifu_swl.v",
             "line": 1813,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "piton__design__chip__tile__sparc__ifu__rtl__sparc_ifu_swl.v",
-            "line": 726,
-            "description": "Latch inferred for signal 'rclk' in module 'sparc_ifu_swl'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__sparc__ifu__rtl__sparc_ifu_swl.v",
-            "line": 726,
-            "description": "Signal 'sparc_ifu_swl.u_core.rclk' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__chip__tile__sparc__ifu__rtl__sparc_ifu_swpla.v",
@@ -1701,29 +1221,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__chip__tile__sparc__ifu__rtl__sparc_ifu_thrfsm.v",
-            "line": 214,
-            "description": "Latch inferred for signal 'completion' in module 'sparc_ifu_thrfsm'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__sparc__ifu__rtl__sparc_ifu_thrfsm.v",
-            "line": 214,
-            "description": "Signal 'sparc_ifu_thrfsm.u_core.completion' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chip__tile__sparc__ifu__rtl__sparc_ifu_wseldp.v",
             "line": 2,
             "description": "Operator '===' should be avoided in synthesis logic"
-        },
-        {
-            "file_name": "piton__design__chip__tile__sparc__ifu__rtl__sparc_ifu_wseldp.v",
-            "line": 161,
-            "description": "Latch inferred for signal 'rclk' in module 'sparc_ifu_wseldp'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__sparc__ifu__rtl__sparc_ifu_wseldp.v",
-            "line": 161,
-            "description": "Signal 'sparc_ifu_wseldp.u_core.rclk' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__chip__tile__sparc__lsu__rtl__lsu.v",
@@ -1756,29 +1256,9 @@
             "description": "Blocking assignment 'out = $random;' used inside a 'FlipFlop' inferred sequential block"
         },
         {
-            "file_name": "piton__design__chip__tile__sparc__lsu__rtl__lsu_dcache_lfsr.v",
-            "line": 46,
-            "description": "Latch inferred for signal 'advance' in module 'lsu_dcache_lfsr'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__sparc__lsu__rtl__lsu_dcache_lfsr.v",
-            "line": 46,
-            "description": "Signal 'lsu_dcache_lfsr.u_core.advance' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chip__tile__sparc__lsu__rtl__lsu_dctldp.v",
             "line": 2,
             "description": "Operator '===' should be avoided in synthesis logic"
-        },
-        {
-            "file_name": "piton__design__chip__tile__sparc__lsu__rtl__lsu_dctldp.v",
-            "line": 1094,
-            "description": "Latch inferred for signal 'rclk' in module 'lsu_dctldp'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__sparc__lsu__rtl__lsu_dctldp.v",
-            "line": 1094,
-            "description": "Signal 'lsu_dctldp.u_core.rclk' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__chip__tile__sparc__lsu__rtl__lsu_excpctl.v",
@@ -1836,16 +1316,6 @@
             "description": "Variable 'unused' set but not read."
         },
         {
-            "file_name": "piton__design__chip__tile__sparc__lsu__rtl__lsu_qdp2.v",
-            "line": 949,
-            "description": "Latch inferred for signal 'rst_tri_en' in module 'lsu_qdp2'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__sparc__lsu__rtl__lsu_qdp2.v",
-            "line": 949,
-            "description": "Signal 'lsu_qdp2.u_core.rst_tri_en' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chip__tile__sparc__lsu__rtl__lsu_rrobin_picker2.v",
             "line": 2,
             "description": "Operator '===' should be avoided in synthesis logic"
@@ -1864,16 +1334,6 @@
             "file_name": "piton__design__chip__tile__sparc__mul__rtl__sparc_mul_cntl.v",
             "line": 2,
             "description": "Operator '===' should be avoided in synthesis logic"
-        },
-        {
-            "file_name": "piton__design__chip__tile__sparc__mul__rtl__sparc_mul_cntl.v",
-            "line": 111,
-            "description": "Latch inferred for signal 'rclk' in module 'sparc_mul_cntl'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__sparc__mul__rtl__sparc_mul_cntl.v",
-            "line": 111,
-            "description": "Signal 'sparc_mul_cntl.u_core.rclk' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__chip__tile__sparc__mul__rtl__sparc_mul_dp.v",
@@ -1906,16 +1366,6 @@
             "description": "Variable 'Unused' set but not read."
         },
         {
-            "file_name": "piton__design__chip__tile__sparc__rtl__cfg_asi.v",
-            "line": 147,
-            "description": "Latch inferred for signal 'clk' in module 'cfg_asi'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__sparc__rtl__cfg_asi.v",
-            "line": 147,
-            "description": "Signal 'cfg_asi.u_core.clk' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chip__tile__sparc__rtl__cpx_spc_buf.v",
             "line": 2,
             "description": "Operator '===' should be avoided in synthesis logic"
@@ -1924,16 +1374,6 @@
             "file_name": "piton__design__chip__tile__sparc__rtl__cpx_spc_rpt.v",
             "line": 2,
             "description": "Operator '===' should be avoided in synthesis logic"
-        },
-        {
-            "file_name": "piton__design__chip__tile__sparc__rtl__cpx_spc_rpt.v",
-            "line": 101,
-            "description": "Latch inferred for signal 'rclk' in module 'cpx_spc_rpt'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__sparc__rtl__cpx_spc_rpt.v",
-            "line": 101,
-            "description": "Signal 'cpx_spc_rpt.u_core.rclk' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__chip__tile__sparc__rtl__sparc.v",
@@ -1946,29 +1386,9 @@
             "description": "Variable 'unused' set but not read."
         },
         {
-            "file_name": "piton__design__chip__tile__sparc__rtl__sparc.v",
-            "line": 1999,
-            "description": "Latch inferred for signal 'pcx_spc_grant_px' in module 'sparc'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__sparc__rtl__sparc.v",
-            "line": 1999,
-            "description": "Signal 'sparc.u_core.pcx_spc_grant_px' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chip__tile__sparc__rtl__sparc_core.v",
             "line": 64,
             "description": "Variable 'unused' set but not read."
-        },
-        {
-            "file_name": "piton__design__chip__tile__sparc__rtl__sparc_core.v",
-            "line": 99,
-            "description": "Latch inferred for signal 'wire' in module 'sparc_core'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__sparc__rtl__sparc_core.v",
-            "line": 99,
-            "description": "Signal 'sparc_core.u_core.wire' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__chip__tile__sparc__rtl__spc_pcx_buf.v",
@@ -2014,16 +1434,6 @@
             "file_name": "piton__design__chip__tile__sparc__spu__rtl__spu_maaddr.v",
             "line": 361,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "piton__design__chip__tile__sparc__spu__rtl__spu_maaddr.v",
-            "line": 1069,
-            "description": "Latch inferred for signal 'reset' in module 'spu_maaddr'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__sparc__spu__rtl__spu_maaddr.v",
-            "line": 1069,
-            "description": "Signal 'spu_maaddr.u_core.reset' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__chip__tile__sparc__spu__rtl__spu_maaeqb.v",
@@ -2086,16 +1496,6 @@
             "description": "Operator '===' should be avoided in synthesis logic"
         },
         {
-            "file_name": "piton__design__chip__tile__sparc__srams__rtl__bw_r_frf.v",
-            "line": 135,
-            "description": "Latch inferred for signal 'rclk' in module 'bw_r_frf'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__sparc__srams__rtl__bw_r_frf.v",
-            "line": 135,
-            "description": "Signal 'bw_r_frf.u_core.rclk' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chip__tile__sparc__srams__rtl__bw_r_icd.v",
             "line": 2,
             "description": "Operator '===' should be avoided in synthesis logic"
@@ -2104,16 +1504,6 @@
             "file_name": "piton__design__chip__tile__sparc__srams__rtl__bw_r_icd.v",
             "line": 325,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "piton__design__chip__tile__sparc__srams__rtl__bw_r_icd.v",
-            "line": 224,
-            "description": "Latch inferred for signal 'sram_icache_w10_rtap_data' in module 'bw_r_icd'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__sparc__srams__rtl__bw_r_icd.v",
-            "line": 224,
-            "description": "Signal 'bw_r_icd.u_core.sram_icache_w10_rtap_data' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__chip__tile__sparc__srams__rtl__bw_r_rf32x152b.v",
@@ -2126,16 +1516,6 @@
             "description": "Blocking assignment 'mem[wr_adr] = din;' used inside a 'FlipFlop' inferred sequential block"
         },
         {
-            "file_name": "piton__design__chip__tile__sparc__srams__rtl__bw_r_rf32x152b.v",
-            "line": 66,
-            "description": "Latch inferred for signal 'rd_adr' in module 'bw_r_rf32x152b'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__sparc__srams__rtl__bw_r_rf32x152b.v",
-            "line": 66,
-            "description": "Signal 'bw_r_rf32x152b.u_core.rd_adr' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chip__tile__sparc__srams__rtl__bw_r_rf32x80.v",
             "line": 2,
             "description": "Operator '===' should be avoided in synthesis logic"
@@ -2144,16 +1524,6 @@
             "file_name": "piton__design__chip__tile__sparc__srams__rtl__bw_r_rf32x80.v",
             "line": 64,
             "description": "Variable 'unused' set but not read."
-        },
-        {
-            "file_name": "piton__design__chip__tile__sparc__srams__rtl__bw_r_rf32x80.v",
-            "line": 184,
-            "description": "Latch inferred for signal 'rd_adr' in module 'bw_r_rf32x80'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__sparc__srams__rtl__bw_r_rf32x80.v",
-            "line": 184,
-            "description": "Signal 'bw_r_rf32x80.u_core.rd_adr' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__chip__tile__sparc__srams__rtl__bw_r_scm.v",
@@ -2166,16 +1536,6 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__chip__tile__sparc__srams__rtl__bw_r_scm.v",
-            "line": 173,
-            "description": "Latch inferred for signal 'stb_cam_data' in module 'bw_r_scm'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__sparc__srams__rtl__bw_r_scm.v",
-            "line": 173,
-            "description": "Signal 'bw_r_scm.u_core.stb_cam_data' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chip__tile__sparc__srams__rtl__sram_l1d_val.v",
             "line": 2,
             "description": "Operator '===' should be avoided in synthesis logic"
@@ -2186,16 +1546,6 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__chip__tile__sparc__srams__rtl__sram_l1d_val.v",
-            "line": 176,
-            "description": "Latch inferred for signal 'rclk' in module 'sram_l1d_val'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__sparc__srams__rtl__sram_l1d_val.v",
-            "line": 176,
-            "description": "Signal 'sram_l1d_val.u_core.rclk' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chip__tile__sparc__srams__rtl__sram_l1i_val.v",
             "line": 2,
             "description": "Operator '===' should be avoided in synthesis logic"
@@ -2204,16 +1554,6 @@
             "file_name": "piton__design__chip__tile__sparc__srams__rtl__sram_l1i_val.v",
             "line": 34,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "piton__design__chip__tile__sparc__srams__rtl__sram_l1i_val.v",
-            "line": 176,
-            "description": "Latch inferred for signal 'rclk' in module 'sram_l1i_val'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__sparc__srams__rtl__sram_l1i_val.v",
-            "line": 176,
-            "description": "Signal 'sram_l1i_val.u_core.rclk' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__chip__tile__sparc__tlu__rtl__sparc_tlu_dec64.v",
@@ -2326,16 +1666,6 @@
             "description": "Operator '===' should be avoided in synthesis logic"
         },
         {
-            "file_name": "piton__design__chip__tile__sparc__tlu__rtl__tlu_rrobin_picker.v",
-            "line": 87,
-            "description": "Latch inferred for signal 'events' in module 'tlu_rrobin_picker'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__sparc__tlu__rtl__tlu_rrobin_picker.v",
-            "line": 87,
-            "description": "Signal 'tlu_rrobin_picker.u_core.events' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chip__tile__sparc__tlu__rtl__tlu_tcl.v",
             "line": 2,
             "description": "Operator '===' should be avoided in synthesis logic"
@@ -2366,29 +1696,9 @@
             "description": "Variable 'unused' set but not read."
         },
         {
-            "file_name": "piton__design__chip__tile__sparc__tlu__rtl__tlu_tdp.v",
-            "line": 3664,
-            "description": "Latch inferred for signal 'tsa_rdata' in module 'tlu_tdp'"
-        },
-        {
-            "file_name": "piton__design__chip__tile__sparc__tlu__rtl__tlu_tdp.v",
-            "line": 3664,
-            "description": "Signal 'tlu_tdp.u_core.tsa_rdata' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chipset__axi_lite_slave_rf__rtl__axi_lite_slave_rf.v",
             "line": 1,
             "description": "Operator '===' should be avoided in synthesis logic"
-        },
-        {
-            "file_name": "piton__design__chipset__axi_lite_slave_rf__rtl__axi_lite_slave_rf.v",
-            "line": 152,
-            "description": "Latch inferred for signal 'wire' in module 'axi_lite_slave_rf'"
-        },
-        {
-            "file_name": "piton__design__chipset__axi_lite_slave_rf__rtl__axi_lite_slave_rf.v",
-            "line": 152,
-            "description": "Signal 'axi_lite_slave_rf.u_core.wire' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__chipset__axi_sd_bridge__rtl__axi_sd_bridge.v",
@@ -2401,29 +1711,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__chipset__axi_sd_bridge__rtl__axi_sd_bridge.v",
-            "line": 228,
-            "description": "Latch inferred for signal 'wire' in module 'axi_sd_bridge'"
-        },
-        {
-            "file_name": "piton__design__chipset__axi_sd_bridge__rtl__axi_sd_bridge.v",
-            "line": 228,
-            "description": "Signal 'axi_sd_bridge.u_core.wire' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chipset__axi_sd_bridge__rtl__init_sd.v",
             "line": 142,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "piton__design__chipset__axi_sd_bridge__rtl__init_sd.v",
-            "line": 292,
-            "description": "Latch inferred for signal 'wire' in module 'init_sd'"
-        },
-        {
-            "file_name": "piton__design__chipset__axi_sd_bridge__rtl__init_sd.v",
-            "line": 292,
-            "description": "Signal 'init_sd.u_core.wire' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__chipset__axi_sd_bridge__rtl__read_write_sd_block.v",
@@ -2431,44 +1721,14 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__chipset__axi_sd_bridge__rtl__read_write_sd_block.v",
-            "line": 562,
-            "description": "Latch inferred for signal 'wire' in module 'read_write_sd_block'"
-        },
-        {
-            "file_name": "piton__design__chipset__axi_sd_bridge__rtl__read_write_sd_block.v",
-            "line": 562,
-            "description": "Signal 'read_write_sd_block.u_core.wire' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chipset__axi_sd_bridge__rtl__rwspi_wire_data.v",
             "line": 107,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__chipset__axi_sd_bridge__rtl__rwspi_wire_data.v",
-            "line": 174,
-            "description": "Latch inferred for signal 'wire' in module 'rwspi_wire_data'"
-        },
-        {
-            "file_name": "piton__design__chipset__axi_sd_bridge__rtl__rwspi_wire_data.v",
-            "line": 174,
-            "description": "Signal 'rwspi_wire_data.u_core.wire' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chipset__axi_sd_bridge__rtl__sd_block_cache.v",
             "line": 1,
             "description": "Operator '===' should be avoided in synthesis logic"
-        },
-        {
-            "file_name": "piton__design__chipset__axi_sd_bridge__rtl__sd_block_cache.v",
-            "line": 69,
-            "description": "Latch inferred for signal 'wire' in module 'sd_block_cache'"
-        },
-        {
-            "file_name": "piton__design__chipset__axi_sd_bridge__rtl__sd_block_cache.v",
-            "line": 69,
-            "description": "Signal 'sd_block_cache.u_core.wire' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__chipset__axi_sd_bridge__rtl__sd_cache_defines.v",
@@ -2486,49 +1746,19 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__chipset__axi_sd_bridge__rtl__sd_wishbone_transaction_manager.v",
-            "line": 379,
-            "description": "Latch inferred for signal 'wire' in module 'sd_wishbone_transaction_manager'"
-        },
-        {
-            "file_name": "piton__design__chipset__axi_sd_bridge__rtl__sd_wishbone_transaction_manager.v",
-            "line": 379,
-            "description": "Signal 'sd_wishbone_transaction_manager.u_core.wire' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chipset__axi_sd_bridge__rtl__send_cmd.v",
             "line": 151,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__chipset__axi_sd_bridge__rtl__send_cmd.v",
-            "line": 128,
-            "description": "Latch inferred for signal 'wire' in module 'send_cmd'"
-        },
-        {
-            "file_name": "piton__design__chipset__axi_sd_bridge__rtl__send_cmd.v",
-            "line": 128,
-            "description": "Signal 'send_cmd.u_core.wire' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chipset__axi_sd_bridge__rtl__sm_dp_mem_dc.v",
-            "line": 66,
-            "description": "Latch inferred for signal 'wire' in module 'sm_dp_mem_dc'"
-        },
-        {
-            "file_name": "piton__design__chipset__axi_sd_bridge__rtl__sm_dp_mem_dc.v",
-            "line": 66,
-            "description": "Signal 'sm_dp_mem_dc.u_core.wire' has multiple simultaneous drivers"
+            "line": 67,
+            "description": "The signal/variable 'data_out' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "piton__design__chipset__axi_sd_bridge__rtl__sm_fifo_rtl.v",
-            "line": 85,
-            "description": "Latch inferred for signal 'wire' in module 'sm_fifo_rtl'"
-        },
-        {
-            "file_name": "piton__design__chipset__axi_sd_bridge__rtl__sm_fifo_rtl.v",
-            "line": 85,
-            "description": "Signal 'sm_fifo_rtl.u_core.wire' has multiple simultaneous drivers"
+            "line": 86,
+            "description": "The signal/variable 'buffer_out_index_sync_to_wr_clk' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "piton__design__chipset__axi_sd_bridge__rtl__sm_rx_fifo_bi.v",
@@ -2536,24 +1766,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__chipset__axi_sd_bridge__rtl__sm_rx_fifo_bi.v",
-            "line": 70,
-            "description": "Latch inferred for signal 'wire' in module 'sm_rx_fifo_bi'"
-        },
-        {
-            "file_name": "piton__design__chipset__axi_sd_bridge__rtl__sm_rx_fifo_bi.v",
-            "line": 70,
-            "description": "Signal 'sm_rx_fifo_bi.u_core.wire' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chipset__axi_sd_bridge__rtl__sm_tx_fifo_bi.v",
-            "line": 69,
-            "description": "Latch inferred for signal 'wire' in module 'sm_tx_fifo_bi'"
-        },
-        {
-            "file_name": "piton__design__chipset__axi_sd_bridge__rtl__sm_tx_fifo_bi.v",
-            "line": 69,
-            "description": "Signal 'sm_tx_fifo_bi.u_core.wire' has multiple simultaneous drivers"
+            "line": 72,
+            "description": "The signal/variable 'force_empty' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "piton__design__chipset__axi_sd_bridge__rtl__spi_control.v",
@@ -2566,39 +1781,14 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__chipset__axi_sd_bridge__rtl__spi_control.v",
-            "line": 177,
-            "description": "Latch inferred for signal 'wire' in module 'spi_control'"
-        },
-        {
-            "file_name": "piton__design__chipset__axi_sd_bridge__rtl__spi_control.v",
-            "line": 177,
-            "description": "Signal 'spi_control.u_core.wire' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chipset__axi_sd_bridge__rtl__spi_master_wishbone_decoder.v",
             "line": 82,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__chipset__axi_sd_bridge__rtl__spi_master_wishbone_decoder.v",
-            "line": 102,
-            "description": "Latch inferred for signal 'wire' in module 'spi_master_wishbone_decoder'"
-        },
-        {
-            "file_name": "piton__design__chipset__axi_sd_bridge__rtl__spi_master_wishbone_decoder.v",
-            "line": 102,
-            "description": "Signal 'spi_master_wishbone_decoder.u_core.wire' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chipset__axi_sd_bridge__rtl__spi_tx_rx_data.v",
-            "line": 75,
-            "description": "Latch inferred for signal 'wire' in module 'spi_tx_rx_data'"
-        },
-        {
-            "file_name": "piton__design__chipset__axi_sd_bridge__rtl__spi_tx_rx_data.v",
-            "line": 75,
-            "description": "Signal 'spi_tx_rx_data.u_core.wire' has multiple simultaneous drivers"
+            "line": 77,
+            "description": "The signal/variable 'tx_data_out' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "piton__design__chipset__axi_sd_bridge__rtl__status_register_control.v",
@@ -2611,29 +1801,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__chipset__axi_sd_bridge__rtl__status_register_control.v",
-            "line": 111,
-            "description": "Latch inferred for signal 'wire' in module 'status_register_control'"
-        },
-        {
-            "file_name": "piton__design__chipset__axi_sd_bridge__rtl__status_register_control.v",
-            "line": 111,
-            "description": "Signal 'status_register_control.u_core.wire' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chipset__common__rtl__noc_bidir_afifo.v",
             "line": 1,
             "description": "Operator '===' should be avoided in synthesis logic"
-        },
-        {
-            "file_name": "piton__design__chipset__common__rtl__noc_bidir_afifo.v",
-            "line": 111,
-            "description": "Latch inferred for signal 'wire' in module 'noc_bidir_afifo'"
-        },
-        {
-            "file_name": "piton__design__chipset__common__rtl__noc_bidir_afifo.v",
-            "line": 111,
-            "description": "Signal 'noc_bidir_afifo.u_core.wire' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__chipset__io_ctrl__rtl__ciop_iob.v",
@@ -2646,16 +1816,6 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__chipset__io_ctrl__rtl__ciop_iob.v",
-            "line": 89,
-            "description": "Latch inferred for signal 'chip_clk' in module 'ciop_iob'"
-        },
-        {
-            "file_name": "piton__design__chipset__io_ctrl__rtl__ciop_iob.v",
-            "line": 89,
-            "description": "Signal 'ciop_iob.u_core.chip_clk' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chipset__io_ctrl__rtl__eth_top.v",
             "line": 1,
             "description": "Operator '===' should be avoided in synthesis logic"
@@ -2666,24 +1826,9 @@
             "description": "Operator '===' should be avoided in synthesis logic"
         },
         {
-            "file_name": "piton__design__chipset__io_ctrl__rtl__fake_boot_ctrl.v",
-            "line": 98,
-            "description": "Latch inferred for signal 'wire' in module 'fake_boot_ctrl'"
-        },
-        {
-            "file_name": "piton__design__chipset__io_ctrl__rtl__fake_boot_ctrl.v",
-            "line": 98,
-            "description": "Signal 'fake_boot_ctrl.u_core.wire' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chipset__io_ctrl__rtl__net_int_sync.v",
-            "line": 55,
-            "description": "Latch inferred for signal 'clk_emac' in module 'net_int_sync'"
-        },
-        {
-            "file_name": "piton__design__chipset__io_ctrl__rtl__net_int_sync.v",
-            "line": 55,
-            "description": "Signal 'net_int_sync.u_core.clk_emac' has multiple simultaneous drivers"
+            "line": 57,
+            "description": "The signal/variable 'store_int' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "piton__design__chipset__io_ctrl__rtl__uart_mux.v",
@@ -2694,16 +1839,6 @@
             "file_name": "piton__design__chipset__io_ctrl__rtl__uart_mux.v",
             "line": 171,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "piton__design__chipset__io_ctrl__rtl__uart_mux.v",
-            "line": 158,
-            "description": "Latch inferred for signal 'axi_clk' in module 'uart_mux'"
-        },
-        {
-            "file_name": "piton__design__chipset__io_ctrl__rtl__uart_mux.v",
-            "line": 158,
-            "description": "Signal 'uart_mux.u_core.axi_clk' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__chipset__io_ctrl__rtl__uart_reader.v",
@@ -2716,44 +1851,14 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__chipset__io_ctrl__rtl__uart_reader.v",
-            "line": 171,
-            "description": "Latch inferred for signal 'axi_clk' in module 'uart_reader'"
-        },
-        {
-            "file_name": "piton__design__chipset__io_ctrl__rtl__uart_reader.v",
-            "line": 171,
-            "description": "Signal 'uart_reader.u_core.axi_clk' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chipset__io_ctrl__rtl__uart_reseter.v",
             "line": 70,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__chipset__io_ctrl__rtl__uart_reseter.v",
-            "line": 64,
-            "description": "Latch inferred for signal 'axi_clk' in module 'uart_reseter'"
-        },
-        {
-            "file_name": "piton__design__chipset__io_ctrl__rtl__uart_reseter.v",
-            "line": 64,
-            "description": "Signal 'uart_reseter.u_core.axi_clk' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chipset__io_ctrl__rtl__uart_top.v",
             "line": 1,
             "description": "Operator '===' should be avoided in synthesis logic"
-        },
-        {
-            "file_name": "piton__design__chipset__io_ctrl__rtl__uart_top.v",
-            "line": 432,
-            "description": "Latch inferred for signal 'axi_clk' in module 'uart_top'"
-        },
-        {
-            "file_name": "piton__design__chipset__io_ctrl__rtl__uart_top.v",
-            "line": 432,
-            "description": "Signal 'uart_top.u_core.axi_clk' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__chipset__io_ctrl__rtl__uart_writer.v",
@@ -2766,39 +1871,14 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__chipset__io_ctrl__rtl__uart_writer.v",
-            "line": 85,
-            "description": "Latch inferred for signal 'axi_clk' in module 'uart_writer'"
-        },
-        {
-            "file_name": "piton__design__chipset__io_ctrl__rtl__uart_writer.v",
-            "line": 85,
-            "description": "Signal 'uart_writer.u_core.axi_clk' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chipset__io_xbar__common__rtl__io_xbar_space_avail_top.v",
             "line": 80,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__chipset__io_xbar__common__rtl__io_xbar_space_avail_top.v",
-            "line": 117,
-            "description": "Latch inferred for signal 'valid' in module 'io_xbar_space_avail_top'"
-        },
-        {
-            "file_name": "piton__design__chipset__io_xbar__common__rtl__io_xbar_space_avail_top.v",
-            "line": 117,
-            "description": "Signal 'io_xbar_space_avail_top.u_core.valid' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chipset__io_xbar__components__rtl__io_xbar_net_dff.v",
-            "line": 35,
-            "description": "Latch inferred for signal 'reg' in module 'io_xbar_net_dff'"
-        },
-        {
-            "file_name": "piton__design__chipset__io_xbar__components__rtl__io_xbar_net_dff.v",
-            "line": 35,
-            "description": "Signal 'io_xbar_net_dff.u_core.reg' has multiple simultaneous drivers"
+            "line": 37,
+            "description": "The signal/variable 'q' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "piton__design__chipset__mc__rtl__f1_mc_top.v",
@@ -2806,39 +1886,14 @@
             "description": "Operator '===' should be avoided in synthesis logic"
         },
         {
-            "file_name": "piton__design__chipset__mc__rtl__f1_mc_top.v",
-            "line": 113,
-            "description": "Latch inferred for signal 'sys_clk' in module 'f1_mc_top'"
-        },
-        {
-            "file_name": "piton__design__chipset__mc__rtl__f1_mc_top.v",
-            "line": 113,
-            "description": "Signal 'f1_mc_top.u_core.sys_clk' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chipset__mc__rtl__mc_top.v",
             "line": 1,
             "description": "Operator '===' should be avoided in synthesis logic"
         },
         {
-            "file_name": "piton__design__chipset__mc__rtl__mc_top.v",
-            "line": 321,
-            "description": "Latch inferred for signal 'mc_ui_clk_sync_rst' in module 'mc_top'"
-        },
-        {
-            "file_name": "piton__design__chipset__mc__rtl__mc_top.v",
-            "line": 321,
-            "description": "Signal 'mc_top.u_core.mc_ui_clk_sync_rst' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chipset__mc__rtl__memory_zeroer.v",
-            "line": 85,
-            "description": "Latch inferred for signal 'clk' in module 'memory_zeroer'"
-        },
-        {
-            "file_name": "piton__design__chipset__mc__rtl__memory_zeroer.v",
-            "line": 85,
-            "description": "Signal 'memory_zeroer.u_core.clk' has multiple simultaneous drivers"
+            "line": 89,
+            "description": "The signal/variable 'address_f' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "piton__design__chipset__mc__rtl__noc_mig_bridge.v",
@@ -2851,29 +1906,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__chipset__mc__rtl__noc_mig_bridge.v",
-            "line": 195,
-            "description": "Latch inferred for signal 'clk' in module 'noc_mig_bridge'"
-        },
-        {
-            "file_name": "piton__design__chipset__mc__rtl__noc_mig_bridge.v",
-            "line": 195,
-            "description": "Signal 'noc_mig_bridge.u_core.clk' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chipset__mem_io_splitter__rtl__iob_splitter.v",
             "line": 1,
             "description": "Operator '===' should be avoided in synthesis logic"
-        },
-        {
-            "file_name": "piton__design__chipset__mem_io_splitter__rtl__iob_splitter.v",
-            "line": 119,
-            "description": "Latch inferred for signal 'wire' in module 'iob_splitter'"
-        },
-        {
-            "file_name": "piton__design__chipset__mem_io_splitter__rtl__iob_splitter.v",
-            "line": 119,
-            "description": "Signal 'iob_splitter.u_core.wire' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__chipset__mem_io_splitter__rtl__main_mem_splitter.v",
@@ -2881,29 +1916,9 @@
             "description": "Operator '===' should be avoided in synthesis logic"
         },
         {
-            "file_name": "piton__design__chipset__mem_io_splitter__rtl__main_mem_splitter.v",
-            "line": 137,
-            "description": "Latch inferred for signal 'wire' in module 'mem_io_splitter'"
-        },
-        {
-            "file_name": "piton__design__chipset__mem_io_splitter__rtl__main_mem_splitter.v",
-            "line": 137,
-            "description": "Signal 'mem_io_splitter.u_core.wire' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chipset__mem_io_splitter__rtl__mem_io_splitter.v",
             "line": 1,
             "description": "Operator '===' should be avoided in synthesis logic"
-        },
-        {
-            "file_name": "piton__design__chipset__mem_io_splitter__rtl__mem_io_splitter.v",
-            "line": 141,
-            "description": "Latch inferred for signal 'wire' in module 'mem_io_splitter'"
-        },
-        {
-            "file_name": "piton__design__chipset__mem_io_splitter__rtl__mem_io_splitter.v",
-            "line": 141,
-            "description": "Signal 'mem_io_splitter.u_core.wire' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__chipset__mem_io_splitter__rtl__net_uart_splitter.v",
@@ -2911,39 +1926,14 @@
             "description": "Operator '===' should be avoided in synthesis logic"
         },
         {
-            "file_name": "piton__design__chipset__mem_io_splitter__rtl__net_uart_splitter.v",
-            "line": 119,
-            "description": "Latch inferred for signal 'wire' in module 'net_uart_splitter'"
-        },
-        {
-            "file_name": "piton__design__chipset__mem_io_splitter__rtl__net_uart_splitter.v",
-            "line": 119,
-            "description": "Signal 'net_uart_splitter.u_core.wire' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chipset__mem_io_splitter__rtl__uart_boot_splitter.v",
             "line": 1,
             "description": "Operator '===' should be avoided in synthesis logic"
-        },
-        {
-            "file_name": "piton__design__chipset__mem_io_splitter__rtl__uart_boot_splitter.v",
-            "line": 119,
-            "description": "Latch inferred for signal 'wire' in module 'uart_boot_splitter'"
-        },
-        {
-            "file_name": "piton__design__chipset__mem_io_splitter__rtl__uart_boot_splitter.v",
-            "line": 119,
-            "description": "Signal 'uart_boot_splitter.u_core.wire' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__chipset__noc_axi4_bridge__rtl__axi4_zeroer.v",
-            "line": 168,
-            "description": "Latch inferred for signal 'clk' in module 'axi4_zeroer'"
-        },
-        {
-            "file_name": "piton__design__chipset__noc_axi4_bridge__rtl__axi4_zeroer.v",
-            "line": 168,
-            "description": "Signal 'axi4_zeroer.u_core.clk' has multiple simultaneous drivers"
+            "line": 170,
+            "description": "The signal/variable 'req_sent' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "piton__design__chipset__noc_axi4_bridge__rtl__noc_axi4_bridge.v",
@@ -2956,16 +1946,6 @@
             "description": "Operator '===' should be avoided in synthesis logic"
         },
         {
-            "file_name": "piton__design__chipset__noc_axi4_bridge__rtl__noc_axi4_bridge_buffer.v",
-            "line": 110,
-            "description": "Latch inferred for signal 'clk' in module 'noc_axi4_bridge_buffer'"
-        },
-        {
-            "file_name": "piton__design__chipset__noc_axi4_bridge__rtl__noc_axi4_bridge_buffer.v",
-            "line": 110,
-            "description": "Signal 'noc_axi4_bridge_buffer.u_core.clk' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chipset__noc_axi4_bridge__rtl__noc_axi4_bridge_deser.v",
             "line": 1,
             "description": "Operator '===' should be avoided in synthesis logic"
@@ -2974,16 +1954,6 @@
             "file_name": "piton__design__chipset__noc_axi4_bridge__rtl__noc_axi4_bridge_deser.v",
             "line": 74,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "piton__design__chipset__noc_axi4_bridge__rtl__noc_axi4_bridge_deser.v",
-            "line": 65,
-            "description": "Latch inferred for signal 'clk' in module 'noc_axi4_bridge_deser'"
-        },
-        {
-            "file_name": "piton__design__chipset__noc_axi4_bridge__rtl__noc_axi4_bridge_deser.v",
-            "line": 65,
-            "description": "Signal 'noc_axi4_bridge_deser.u_core.clk' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__chipset__noc_axi4_bridge__rtl__noc_axi4_bridge_read.v",
@@ -2996,16 +1966,6 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__chipset__noc_axi4_bridge__rtl__noc_axi4_bridge_read.v",
-            "line": 107,
-            "description": "Latch inferred for signal 'wire' in module 'noc_axi4_bridge_read'"
-        },
-        {
-            "file_name": "piton__design__chipset__noc_axi4_bridge__rtl__noc_axi4_bridge_read.v",
-            "line": 107,
-            "description": "Signal 'noc_axi4_bridge_read.u_core.wire' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chipset__noc_axi4_bridge__rtl__noc_axi4_bridge_ser.v",
             "line": 1,
             "description": "Operator '===' should be avoided in synthesis logic"
@@ -3014,16 +1974,6 @@
             "file_name": "piton__design__chipset__noc_axi4_bridge__rtl__noc_axi4_bridge_ser.v",
             "line": 82,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "piton__design__chipset__noc_axi4_bridge__rtl__noc_axi4_bridge_ser.v",
-            "line": 58,
-            "description": "Latch inferred for signal 'clk' in module 'noc_axi4_bridge_ser'"
-        },
-        {
-            "file_name": "piton__design__chipset__noc_axi4_bridge__rtl__noc_axi4_bridge_ser.v",
-            "line": 58,
-            "description": "Signal 'noc_axi4_bridge_ser.u_core.clk' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__chipset__noc_axi4_bridge__rtl__noc_axi4_bridge_write.v",
@@ -3036,16 +1986,6 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__chipset__noc_axi4_bridge__rtl__noc_axi4_bridge_write.v",
-            "line": 120,
-            "description": "Latch inferred for signal 'wire' in module 'noc_axi4_bridge_write'"
-        },
-        {
-            "file_name": "piton__design__chipset__noc_axi4_bridge__rtl__noc_axi4_bridge_write.v",
-            "line": 120,
-            "description": "Signal 'noc_axi4_bridge_write.u_core.wire' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chipset__noc_axilite_bridge__rtl__noc_axilite_bridge.v",
             "line": 1,
             "description": "Operator '===' should be avoided in synthesis logic"
@@ -3056,24 +1996,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__chipset__noc_axilite_bridge__rtl__noc_axilite_bridge.v",
-            "line": 259,
-            "description": "Latch inferred for signal 'wire' in module 'noc_axilite_bridge'"
-        },
-        {
-            "file_name": "piton__design__chipset__noc_axilite_bridge__rtl__noc_axilite_bridge.v",
-            "line": 259,
-            "description": "Signal 'noc_axilite_bridge.u_core.wire' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chipset__noc_sd_bridge__rtl__byte_en_reg.v",
-            "line": 71,
-            "description": "Latch inferred for signal 'clk' in module 'byte_en_reg'"
-        },
-        {
-            "file_name": "piton__design__chipset__noc_sd_bridge__rtl__byte_en_reg.v",
-            "line": 71,
-            "description": "Signal 'byte_en_reg.u_core.clk' has multiple simultaneous drivers"
+            "line": 74,
+            "description": "The signal/variable 'q' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "piton__design__chipset__noc_sd_bridge__rtl__cdc_bits.v",
@@ -3081,29 +2006,9 @@
             "description": "Operator '===' should be avoided in synthesis logic"
         },
         {
-            "file_name": "piton__design__chipset__noc_sd_bridge__rtl__cdc_bits.v",
-            "line": 69,
-            "description": "Latch inferred for signal 'wire' in module 'cdc_bits'"
-        },
-        {
-            "file_name": "piton__design__chipset__noc_sd_bridge__rtl__cdc_bits.v",
-            "line": 69,
-            "description": "Signal 'cdc_bits.u_core.wire' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chipset__noc_sd_bridge__rtl__cdc_pulse.v",
             "line": 1,
             "description": "Operator '===' should be avoided in synthesis logic"
-        },
-        {
-            "file_name": "piton__design__chipset__noc_sd_bridge__rtl__cdc_pulse.v",
-            "line": 74,
-            "description": "Latch inferred for signal 'wire' in module 'cdc_pulse'"
-        },
-        {
-            "file_name": "piton__design__chipset__noc_sd_bridge__rtl__cdc_pulse.v",
-            "line": 74,
-            "description": "Signal 'cdc_pulse.u_core.wire' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__chipset__noc_sd_bridge__rtl__piton_sd_buffer.v",
@@ -3116,16 +2021,6 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__chipset__noc_sd_bridge__rtl__piton_sd_buffer.v",
-            "line": 139,
-            "description": "Latch inferred for signal 'clk' in module 'piton_sd_buffer'"
-        },
-        {
-            "file_name": "piton__design__chipset__noc_sd_bridge__rtl__piton_sd_buffer.v",
-            "line": 139,
-            "description": "Signal 'piton_sd_buffer.u_core.clk' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chipset__noc_sd_bridge__rtl__piton_sd_cache_manager.v",
             "line": 1,
             "description": "Operator '===' should be avoided in synthesis logic"
@@ -3136,29 +2031,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__chipset__noc_sd_bridge__rtl__piton_sd_cache_manager.v",
-            "line": 164,
-            "description": "Latch inferred for signal 'wire' in module 'piton_sd_cache_manager'"
-        },
-        {
-            "file_name": "piton__design__chipset__noc_sd_bridge__rtl__piton_sd_cache_manager.v",
-            "line": 164,
-            "description": "Signal 'piton_sd_cache_manager.u_core.wire' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chipset__noc_sd_bridge__rtl__piton_sd_cache_tag.v",
             "line": 1,
             "description": "Operator '===' should be avoided in synthesis logic"
-        },
-        {
-            "file_name": "piton__design__chipset__noc_sd_bridge__rtl__piton_sd_cache_tag.v",
-            "line": 115,
-            "description": "Latch inferred for signal 'wire' in module 'piton_sd_cache_tag'"
-        },
-        {
-            "file_name": "piton__design__chipset__noc_sd_bridge__rtl__piton_sd_cache_tag.v",
-            "line": 115,
-            "description": "Signal 'piton_sd_cache_tag.u_core.wire' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__chipset__noc_sd_bridge__rtl__piton_sd_core_ctrl.v",
@@ -3171,16 +2046,6 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__chipset__noc_sd_bridge__rtl__piton_sd_core_ctrl.v",
-            "line": 178,
-            "description": "Latch inferred for signal 'wire' in module 'piton_sd_core_ctrl'"
-        },
-        {
-            "file_name": "piton__design__chipset__noc_sd_bridge__rtl__piton_sd_core_ctrl.v",
-            "line": 178,
-            "description": "Signal 'piton_sd_core_ctrl.u_core.wire' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chipset__noc_sd_bridge__rtl__piton_sd_init.v",
             "line": 1,
             "description": "Operator '===' should be avoided in synthesis logic"
@@ -3189,16 +2054,6 @@
             "file_name": "piton__design__chipset__noc_sd_bridge__rtl__piton_sd_init.v",
             "line": 256,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "piton__design__chipset__noc_sd_bridge__rtl__piton_sd_init.v",
-            "line": 205,
-            "description": "Latch inferred for signal 'wire' in module 'piton_sd_init'"
-        },
-        {
-            "file_name": "piton__design__chipset__noc_sd_bridge__rtl__piton_sd_init.v",
-            "line": 205,
-            "description": "Signal 'piton_sd_init.u_core.wire' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__chipset__noc_sd_bridge__rtl__piton_sd_top.v",
@@ -3216,24 +2071,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__chipset__noc_sd_bridge__rtl__piton_sd_transaction_manager.v",
-            "line": 139,
-            "description": "Latch inferred for signal 'wire' in module 'piton_sd_transaction_manager'"
-        },
-        {
-            "file_name": "piton__design__chipset__noc_sd_bridge__rtl__piton_sd_transaction_manager.v",
-            "line": 139,
-            "description": "Signal 'piton_sd_transaction_manager.u_core.wire' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chipset__noc_sd_bridge__rtl__sd_clock_divider.v",
-            "line": 59,
-            "description": "Latch inferred for signal 'CLK' in module 'sd_clock_divider'"
-        },
-        {
-            "file_name": "piton__design__chipset__noc_sd_bridge__rtl__sd_clock_divider.v",
-            "line": 59,
-            "description": "Signal 'sd_clock_divider.u_core.CLK' has multiple simultaneous drivers"
+            "line": 61,
+            "description": "The signal/variable 'counter' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "piton__design__chipset__noc_sd_bridge__rtl__sd_cmd_master.v",
@@ -3241,29 +2081,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__chipset__noc_sd_bridge__rtl__sd_cmd_master.v",
-            "line": 99,
-            "description": "Latch inferred for signal 'sd_clk' in module 'sd_cmd_master'"
-        },
-        {
-            "file_name": "piton__design__chipset__noc_sd_bridge__rtl__sd_cmd_master.v",
-            "line": 99,
-            "description": "Signal 'sd_cmd_master.u_core.sd_clk' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chipset__noc_sd_bridge__rtl__sd_cmd_serial_host.v",
             "line": 141,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "piton__design__chipset__noc_sd_bridge__rtl__sd_cmd_serial_host.v",
-            "line": 121,
-            "description": "Latch inferred for signal 'sd_clk' in module 'sd_cmd_serial_host'"
-        },
-        {
-            "file_name": "piton__design__chipset__noc_sd_bridge__rtl__sd_cmd_serial_host.v",
-            "line": 121,
-            "description": "Signal 'sd_cmd_serial_host.u_core.sd_clk' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__chipset__noc_sd_bridge__rtl__sd_controller_wb.v",
@@ -3271,59 +2091,19 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__chipset__noc_sd_bridge__rtl__sd_controller_wb.v",
-            "line": 162,
-            "description": "Latch inferred for signal 'wb_clk_i' in module 'sd_controller_wb'"
-        },
-        {
-            "file_name": "piton__design__chipset__noc_sd_bridge__rtl__sd_controller_wb.v",
-            "line": 162,
-            "description": "Signal 'sd_controller_wb.u_core.wb_clk_i' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chipset__noc_sd_bridge__rtl__sd_crc_16.v",
             "line": 1,
             "description": "Operator '===' should be avoided in synthesis logic"
         },
         {
-            "file_name": "piton__design__chipset__noc_sd_bridge__rtl__sd_crc_16.v",
-            "line": 17,
-            "description": "Latch inferred for signal 'BITVAL' in module 'sd_crc_16'"
-        },
-        {
-            "file_name": "piton__design__chipset__noc_sd_bridge__rtl__sd_crc_16.v",
-            "line": 17,
-            "description": "Signal 'sd_crc_16.u_core.BITVAL' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chipset__noc_sd_bridge__rtl__sd_crc_7.v",
             "line": 1,
             "description": "Operator '===' should be avoided in synthesis logic"
-        },
-        {
-            "file_name": "piton__design__chipset__noc_sd_bridge__rtl__sd_crc_7.v",
-            "line": 17,
-            "description": "Latch inferred for signal 'BITVAL' in module 'sd_crc_7'"
-        },
-        {
-            "file_name": "piton__design__chipset__noc_sd_bridge__rtl__sd_crc_7.v",
-            "line": 17,
-            "description": "Signal 'sd_crc_7.u_core.BITVAL' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__chipset__noc_sd_bridge__rtl__sd_data_master.v",
             "line": 88,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "piton__design__chipset__noc_sd_bridge__rtl__sd_data_master.v",
-            "line": 123,
-            "description": "Latch inferred for signal 'sd_clk' in module 'sd_data_master'"
-        },
-        {
-            "file_name": "piton__design__chipset__noc_sd_bridge__rtl__sd_data_master.v",
-            "line": 123,
-            "description": "Signal 'sd_data_master.u_core.sd_clk' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__chipset__noc_sd_bridge__rtl__sd_data_serial_host.v",
@@ -3331,29 +2111,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__chipset__noc_sd_bridge__rtl__sd_data_serial_host.v",
-            "line": 109,
-            "description": "Latch inferred for signal 'sd_clk' in module 'sd_data_serial_host'"
-        },
-        {
-            "file_name": "piton__design__chipset__noc_sd_bridge__rtl__sd_data_serial_host.v",
-            "line": 109,
-            "description": "Signal 'sd_data_serial_host.u_core.sd_clk' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chipset__noc_sd_bridge__rtl__sd_data_xfer_trig.v",
             "line": 66,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "piton__design__chipset__noc_sd_bridge__rtl__sd_data_xfer_trig.v",
-            "line": 90,
-            "description": "Latch inferred for signal 'sd_clk' in module 'sd_data_xfer_trig'"
-        },
-        {
-            "file_name": "piton__design__chipset__noc_sd_bridge__rtl__sd_data_xfer_trig.v",
-            "line": 90,
-            "description": "Signal 'sd_data_xfer_trig.u_core.sd_clk' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__chipset__noc_sd_bridge__rtl__sd_fifo_filler.v",
@@ -3361,29 +2121,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__chipset__noc_sd_bridge__rtl__sd_fifo_filler.v",
-            "line": 84,
-            "description": "Latch inferred for signal 'wb_clk' in module 'sd_fifo_filler'"
-        },
-        {
-            "file_name": "piton__design__chipset__noc_sd_bridge__rtl__sd_fifo_filler.v",
-            "line": 84,
-            "description": "Signal 'sd_fifo_filler.u_core.wb_clk' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chipset__noc_sd_bridge__rtl__sd_wb_sel_ctrl.v",
             "line": 60,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "piton__design__chipset__noc_sd_bridge__rtl__sd_wb_sel_ctrl.v",
-            "line": 97,
-            "description": "Latch inferred for signal 'wb_clk' in module 'sd_wb_sel_ctrl'"
-        },
-        {
-            "file_name": "piton__design__chipset__noc_sd_bridge__rtl__sd_wb_sel_ctrl.v",
-            "line": 97,
-            "description": "Signal 'sd_wb_sel_ctrl.u_core.wb_clk' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__chipset__noc_sd_bridge__rtl__sdc_controller.v",
@@ -3391,24 +2131,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__chipset__noc_sd_bridge__rtl__sdc_controller.v",
-            "line": 411,
-            "description": "Latch inferred for signal 'wb_clk_i' in module 'sdc_controller'"
-        },
-        {
-            "file_name": "piton__design__chipset__noc_sd_bridge__rtl__sdc_controller.v",
-            "line": 411,
-            "description": "Signal 'sdc_controller.u_core.wb_clk_i' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chipset__oled__rtl__oled_delay.v",
-            "line": 46,
-            "description": "Latch inferred for signal 'clk' in module 'oled_delay'"
-        },
-        {
-            "file_name": "piton__design__chipset__oled__rtl__oled_delay.v",
-            "line": 46,
-            "description": "Signal 'oled_delay.u_core.clk' has multiple simultaneous drivers"
+            "line": 48,
+            "description": "The signal/variable 'ms_cnt' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "piton__design__chipset__oled__rtl__oled_transform.v",
@@ -3416,29 +2141,9 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__chipset__oled__rtl__oled_transform.v",
-            "line": 59,
-            "description": "Latch inferred for signal 'sys_clk' in module 'oled_transform'"
-        },
-        {
-            "file_name": "piton__design__chipset__oled__rtl__oled_transform.v",
-            "line": 59,
-            "description": "Signal 'oled_transform.u_core.sys_clk' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chipset__oled__rtl__oled_wrapper.v",
             "line": 88,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "piton__design__chipset__oled__rtl__oled_wrapper.v",
-            "line": 79,
-            "description": "Latch inferred for signal 'sys_clk' in module 'oled_wrapper'"
-        },
-        {
-            "file_name": "piton__design__chipset__oled__rtl__oled_wrapper.v",
-            "line": 79,
-            "description": "Signal 'oled_wrapper.u_core.sys_clk' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__chipset__oled__rtl__ssd1306_ctrl.v",
@@ -3446,54 +2151,19 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__chipset__oled__rtl__ssd1306_ctrl.v",
-            "line": 58,
-            "description": "Latch inferred for signal 'sys_clk' in module 'ssd1306_ctrl'"
-        },
-        {
-            "file_name": "piton__design__chipset__oled__rtl__ssd1306_ctrl.v",
-            "line": 58,
-            "description": "Signal 'ssd1306_ctrl.u_core.sys_clk' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chipset__oled__rtl__ssd1306_init.v",
             "line": 89,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__chipset__oled__rtl__ssd1306_init.v",
-            "line": 77,
-            "description": "Latch inferred for signal 'start' in module 'ssd_1306_init'"
-        },
-        {
-            "file_name": "piton__design__chipset__oled__rtl__ssd1306_init.v",
-            "line": 77,
-            "description": "Signal 'ssd_1306_init.u_core.start' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chipset__oled__rtl__ssd1306_spi.v",
-            "line": 57,
-            "description": "Latch inferred for signal 'sys_clk' in module 'ssd1306_spi'"
-        },
-        {
-            "file_name": "piton__design__chipset__oled__rtl__ssd1306_spi.v",
-            "line": 57,
-            "description": "Signal 'ssd1306_spi.u_core.sys_clk' has multiple simultaneous drivers"
+            "line": 59,
+            "description": "The signal/variable 'sys_tick_cnt' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "piton__design__chipset__rtl__blinker.v",
             "line": 26,
             "description": "Operator '===' should be avoided in synthesis logic"
-        },
-        {
-            "file_name": "piton__design__chipset__rtl__blinker.v",
-            "line": 57,
-            "description": "Latch inferred for signal 'clk' in module 'blinker'"
-        },
-        {
-            "file_name": "piton__design__chipset__rtl__blinker.v",
-            "line": 57,
-            "description": "Signal 'blinker.u_core.clk' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__chipset__rtl__chipset.v",
@@ -3506,29 +2176,9 @@
             "description": "Variable 'Unused' set but not read."
         },
         {
-            "file_name": "piton__design__chipset__rtl__chipset.v",
-            "line": 675,
-            "description": "Latch inferred for signal 'sys_clk' in module 'chipset'"
-        },
-        {
-            "file_name": "piton__design__chipset__rtl__chipset.v",
-            "line": 675,
-            "description": "Signal 'chipset.u_core.sys_clk' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__chipset__rtl__chipset_impl_noc_power_test.v",
             "line": 144,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "piton__design__chipset__rtl__chipset_impl_noc_power_test.v",
-            "line": 110,
-            "description": "Latch inferred for signal 'chipset_clk' in module 'chipset_impl_noc_power_test'"
-        },
-        {
-            "file_name": "piton__design__chipset__rtl__chipset_impl_noc_power_test.v",
-            "line": 110,
-            "description": "Signal 'chipset_impl_noc_power_test.u_core.chipset_clk' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__chipset__rtl__test_end_checker.v",
@@ -3536,39 +2186,14 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__chipset__rtl__test_end_checker.v",
-            "line": 158,
-            "description": "Latch inferred for signal 'clk' in module 'test_end_checker'"
-        },
-        {
-            "file_name": "piton__design__chipset__rtl__test_end_checker.v",
-            "line": 158,
-            "description": "Signal 'test_end_checker.u_core.clk' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__common__fpga_bridge__fpga_rcv__rtl__fpga_bridge_rcv_16.v",
             "line": 1,
             "description": "Operator '===' should be avoided in synthesis logic"
         },
         {
-            "file_name": "piton__design__common__fpga_bridge__fpga_rcv__rtl__fpga_bridge_rcv_16.v",
-            "line": 104,
-            "description": "Latch inferred for signal 'rst' in module 'fpga_bridge_rcv_16'"
-        },
-        {
-            "file_name": "piton__design__common__fpga_bridge__fpga_rcv__rtl__fpga_bridge_rcv_16.v",
-            "line": 104,
-            "description": "Signal 'fpga_bridge_rcv_16.u_core.rst' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__common__fpga_bridge__fpga_rcv__rtl__fpga_bridge_rcv_32.v",
-            "line": 114,
-            "description": "Latch inferred for signal 'rst' in module 'fpga_bridge_rcv_32'"
-        },
-        {
-            "file_name": "piton__design__common__fpga_bridge__fpga_rcv__rtl__fpga_bridge_rcv_32.v",
-            "line": 114,
-            "description": "Signal 'fpga_bridge_rcv_32.u_core.rst' has multiple simultaneous drivers"
+            "line": 116,
+            "description": "The signal/variable 'wr_rst_f' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "piton__design__common__fpga_bridge__fpga_send__rtl__fpga_bridge_send_16.v",
@@ -3581,24 +2206,9 @@
             "description": "Blocking assignment 'serial_buffer_data_counter = 2'b11;' used inside a 'FlipFlop' inferred sequential block"
         },
         {
-            "file_name": "piton__design__common__fpga_bridge__fpga_send__rtl__fpga_bridge_send_16.v",
-            "line": 172,
-            "description": "Latch inferred for signal 'rst' in module 'fpga_bridge_send_16'"
-        },
-        {
-            "file_name": "piton__design__common__fpga_bridge__fpga_send__rtl__fpga_bridge_send_16.v",
-            "line": 172,
-            "description": "Signal 'fpga_bridge_send_16.u_core.rst' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__common__fpga_bridge__fpga_send__rtl__fpga_bridge_send_32.v",
-            "line": 131,
-            "description": "Latch inferred for signal 'rst' in module 'fpga_bridge_send_32'"
-        },
-        {
-            "file_name": "piton__design__common__fpga_bridge__fpga_send__rtl__fpga_bridge_send_32.v",
-            "line": 131,
-            "description": "Signal 'fpga_bridge_send_32.u_core.rst' has multiple simultaneous drivers"
+            "line": 133,
+            "description": "The signal/variable 'wr_rst_f' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "piton__design__common__fpga_bridge__fpga_send__rtl__fpga_net_chooser_16.v",
@@ -3606,44 +2216,19 @@
             "description": "Operator '===' should be avoided in synthesis logic"
         },
         {
-            "file_name": "piton__design__common__fpga_bridge__fpga_send__rtl__fpga_net_chooser_16.v",
-            "line": 129,
-            "description": "Latch inferred for signal 'rst' in module 'bridge_network_chooser_16'"
-        },
-        {
-            "file_name": "piton__design__common__fpga_bridge__fpga_send__rtl__fpga_net_chooser_16.v",
-            "line": 129,
-            "description": "Signal 'bridge_network_chooser_16.u_core.rst' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__common__fpga_bridge__fpga_send__rtl__fpga_net_chooser_32.v",
-            "line": 134,
-            "description": "Latch inferred for signal 'rst' in module 'bridge_network_chooser_32'"
-        },
-        {
-            "file_name": "piton__design__common__fpga_bridge__fpga_send__rtl__fpga_net_chooser_32.v",
-            "line": 134,
-            "description": "Signal 'bridge_network_chooser_32.u_core.rst' has multiple simultaneous drivers"
+            "line": 136,
+            "description": "The signal/variable 'rdy_1_f' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "piton__design__common__rtl__alarm_counter.v",
-            "line": 55,
-            "description": "Latch inferred for signal 'clk' in module 'alarm_counter'"
-        },
-        {
-            "file_name": "piton__design__common__rtl__alarm_counter.v",
-            "line": 55,
-            "description": "Signal 'alarm_counter.u_core.clk' has multiple simultaneous drivers"
+            "line": 58,
+            "description": "The signal/variable 'count_f' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "piton__design__common__rtl__async_fifo.v",
-            "line": 120,
-            "description": "Latch inferred for signal 'rdata' in module 'async_fifo'"
-        },
-        {
-            "file_name": "piton__design__common__rtl__async_fifo.v",
-            "line": 120,
-            "description": "Signal 'async_fifo.u_core.rdata' has multiple simultaneous drivers"
+            "line": 122,
+            "description": "The signal/variable 'g_rptr' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "piton__design__common__rtl__bram_1r1w_wrapper.v",
@@ -3651,44 +2236,14 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__common__rtl__bram_1r1w_wrapper.v",
-            "line": 90,
-            "description": "Latch inferred for signal 'wire' in module 'bram_1r1w_wrapper'"
-        },
-        {
-            "file_name": "piton__design__common__rtl__bram_1r1w_wrapper.v",
-            "line": 90,
-            "description": "Signal 'bram_1r1w_wrapper.u_core.wire' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__common__rtl__bram_1rw_wrapper.v",
             "line": 97,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__common__rtl__bram_1rw_wrapper.v",
-            "line": 75,
-            "description": "Latch inferred for signal 'MEMCLK' in module 'bram_1rw_wrapper'"
-        },
-        {
-            "file_name": "piton__design__common__rtl__bram_1rw_wrapper.v",
-            "line": 75,
-            "description": "Signal 'bram_1rw_wrapper.u_core.MEMCLK' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__common__rtl__noc_simple_merger.v",
             "line": 87,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "piton__design__common__rtl__noc_simple_merger.v",
-            "line": 64,
-            "description": "Latch inferred for signal 'clk' in module 'noc_simple_merger'"
-        },
-        {
-            "file_name": "piton__design__common__rtl__noc_simple_merger.v",
-            "line": 64,
-            "description": "Signal 'noc_simple_merger.u_core.clk' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__common__rtl__noc_simple_splitter.v",
@@ -3696,39 +2251,14 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__design__common__rtl__noc_simple_splitter.v",
-            "line": 61,
-            "description": "Latch inferred for signal 'clk' in module 'noc_simple_splitter'"
-        },
-        {
-            "file_name": "piton__design__common__rtl__noc_simple_splitter.v",
-            "line": 61,
-            "description": "Signal 'noc_simple_splitter.u_core.clk' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__common__rtl__sync_fifo_vr.v",
-            "line": 80,
-            "description": "Latch inferred for signal 'clk' in module 'sync_fifo_vr'"
-        },
-        {
-            "file_name": "piton__design__common__rtl__sync_fifo_vr.v",
-            "line": 80,
-            "description": "Signal 'sync_fifo_vr.u_core.clk' has multiple simultaneous drivers"
+            "line": 57,
+            "description": "The signal/variable 'value' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "piton__design__common__rtl__synchronizer.v",
             "line": 26,
             "description": "Operator '===' should be avoided in synthesis logic"
-        },
-        {
-            "file_name": "piton__design__common__rtl__synchronizer.v",
-            "line": 87,
-            "description": "Latch inferred for signal 'wire' in module 'synchronizer'"
-        },
-        {
-            "file_name": "piton__design__common__rtl__synchronizer.v",
-            "line": 87,
-            "description": "Signal 'synchronizer.u_core.wire' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__common__uart__rtl__Const.v",
@@ -3746,16 +2276,6 @@
             "description": "Operator '===' should be avoided in synthesis logic"
         },
         {
-            "file_name": "piton__design__common__uart__rtl__IORegister.v",
-            "line": 71,
-            "description": "Latch inferred for signal 'SetValue' in module 'IORegister'"
-        },
-        {
-            "file_name": "piton__design__common__uart__rtl__IORegister.v",
-            "line": 71,
-            "description": "Signal 'IORegister.u_core.SetValue' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__design__common__uart__rtl__ParityGen.v",
             "line": 1,
             "description": "Operator '===' should be avoided in synthesis logic"
@@ -3769,16 +2289,6 @@
             "file_name": "piton__design__common__uart__rtl__Register.v",
             "line": 1,
             "description": "Operator '===' should be avoided in synthesis logic"
-        },
-        {
-            "file_name": "piton__design__common__uart__rtl__Register.v",
-            "line": 71,
-            "description": "Latch inferred for signal 'SetValue' in module 'Register'"
-        },
-        {
-            "file_name": "piton__design__common__uart__rtl__Register.v",
-            "line": 71,
-            "description": "Signal 'Register.u_core.SetValue' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__design__common__uart__rtl__Reverse.v",
@@ -3817,13 +2327,8 @@
         },
         {
             "file_name": "piton__design__common__uart_pkttrace_dump__rtl__mux_process_pkt.v",
-            "line": 127,
-            "description": "Latch inferred for signal 'clk' in module 'mux_process_pkt'"
-        },
-        {
-            "file_name": "piton__design__common__uart_pkttrace_dump__rtl__mux_process_pkt.v",
-            "line": 127,
-            "description": "Signal 'mux_process_pkt.u_core.clk' has multiple simultaneous drivers"
+            "line": 132,
+            "description": "The signal/variable 'side1_pkttrace_noc1_val_f' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "piton__design__common__uart_pkttrace_dump__rtl__noc2string.v",
@@ -3832,13 +2337,8 @@
         },
         {
             "file_name": "piton__design__common__uart_pkttrace_dump__rtl__process_pkt_complete.v",
-            "line": 59,
-            "description": "Latch inferred for signal 'clk' in module 'process_pkt_complete'"
-        },
-        {
-            "file_name": "piton__design__common__uart_pkttrace_dump__rtl__process_pkt_complete.v",
-            "line": 59,
-            "description": "Signal 'process_pkt_complete.u_core.clk' has multiple simultaneous drivers"
+            "line": 63,
+            "description": "The signal/variable 'process_pkt_noc_rdy_f' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "piton__design__common__uart_pkttrace_dump__rtl__side2string.v",
@@ -3847,13 +2347,8 @@
         },
         {
             "file_name": "piton__design__common__uart_pkttrace_dump__rtl__uart_serializer.v",
-            "line": 67,
-            "description": "Latch inferred for signal 'clk' in module 'uart_serializer'"
-        },
-        {
-            "file_name": "piton__design__common__uart_pkttrace_dump__rtl__uart_serializer.v",
-            "line": 67,
-            "description": "Signal 'uart_serializer.u_core.clk' has multiple simultaneous drivers"
+            "line": 71,
+            "description": "The signal/variable 'pkt_val_f' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "piton__design__rtl__system.v",
@@ -3866,24 +2361,9 @@
             "description": "Variable 'unused' set but not read."
         },
         {
-            "file_name": "piton__design__rtl__system.v",
-            "line": 541,
-            "description": "Latch inferred for signal 'chip_io_slew' in module 'system'"
-        },
-        {
-            "file_name": "piton__design__rtl__system.v",
-            "line": 541,
-            "description": "Signal 'system.u_core.chip_io_slew' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__verif__env__chip_fpga_bridge__chip_bridge_send_top.t.v",
-            "line": 179,
-            "description": "Latch inferred for signal 'boot_done' in module 'bridge_out_tb'"
-        },
-        {
-            "file_name": "piton__verif__env__chip_fpga_bridge__chip_bridge_send_top.t.v",
-            "line": 179,
-            "description": "Signal 'bridge_out_tb.u_core.boot_done' has multiple simultaneous drivers"
+            "line": 124,
+            "description": "The signal/variable 'chip_clk' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "piton__verif__env__common__fake_mem_ctrl.v",
@@ -3894,16 +2374,6 @@
             "file_name": "piton__verif__env__common__fake_mem_ctrl.v",
             "line": 252,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "piton__verif__env__common__fake_mem_ctrl.v",
-            "line": 98,
-            "description": "Latch inferred for signal 'wire' in module 'fake_mem_ctrl'"
-        },
-        {
-            "file_name": "piton__verif__env__common__fake_mem_ctrl.v",
-            "line": 98,
-            "description": "Signal 'fake_mem_ctrl.u_core.wire' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__verif__env__dmbr__dmbr_top.v",
@@ -3942,63 +2412,33 @@
         },
         {
             "file_name": "piton__verif__env__fpga_chip_bridge__chip_bridge_rcv_top.t.v",
-            "line": 179,
-            "description": "Latch inferred for signal 'boot_done' in module 'bridge_out_tb'"
-        },
-        {
-            "file_name": "piton__verif__env__fpga_chip_bridge__chip_bridge_rcv_top.t.v",
-            "line": 179,
-            "description": "Signal 'bridge_out_tb.u_core.boot_done' has multiple simultaneous drivers"
+            "line": 124,
+            "description": "The signal/variable 'chip_clk' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "piton__verif__env__fpga_fpga_hpc_bridge__fpga_bridge_top.t.v",
-            "line": 181,
-            "description": "Latch inferred for signal 'boot_done' in module 'bridge_out_tb'"
-        },
-        {
-            "file_name": "piton__verif__env__fpga_fpga_hpc_bridge__fpga_bridge_top.t.v",
-            "line": 181,
-            "description": "Signal 'bridge_out_tb.u_core.boot_done' has multiple simultaneous drivers"
+            "line": 124,
+            "description": "The signal/variable 'send_clk' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "piton__verif__env__fpga_fpga_lpc_bridge__fpga_bridge_top.t.v",
-            "line": 177,
-            "description": "Latch inferred for signal 'boot_done' in module 'bridge_out_tb'"
-        },
-        {
-            "file_name": "piton__verif__env__fpga_fpga_lpc_bridge__fpga_bridge_top.t.v",
-            "line": 177,
-            "description": "Signal 'bridge_out_tb.u_core.boot_done' has multiple simultaneous drivers"
+            "line": 122,
+            "description": "The signal/variable 'send_clk' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "piton__verif__env__host_fpga_comm__bram_2p_model.v",
-            "line": 50,
-            "description": "Latch inferred for signal 'clka' in module 'bram_2p_model'"
-        },
-        {
-            "file_name": "piton__verif__env__host_fpga_comm__bram_2p_model.v",
-            "line": 50,
-            "description": "Signal 'bram_2p_model.u_core.clka' has multiple simultaneous drivers"
+            "line": 51,
+            "description": "The signal/variable 'mem[i]' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "piton__verif__env__host_fpga_comm__host.v",
-            "line": 64,
-            "description": "Latch inferred for signal 'clk' in module 'host'"
-        },
-        {
-            "file_name": "piton__verif__env__host_fpga_comm__host.v",
-            "line": 64,
-            "description": "Signal 'host.u_core.clk' has multiple simultaneous drivers"
+            "line": 57,
+            "description": "The signal/variable 'file_dscr' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "piton__verif__env__host_fpga_comm__host_fpga_comm_top.v",
-            "line": 89,
-            "description": "Latch inferred for signal 'clk' in module 'host_fpga_comm_top'"
-        },
-        {
-            "file_name": "piton__verif__env__host_fpga_comm__host_fpga_comm_top.v",
-            "line": 89,
-            "description": "Signal 'host_fpga_comm_top.u_core.clk' has multiple simultaneous drivers"
+            "line": 57,
+            "description": "The signal/variable 'clk' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "piton__verif__env__ifu_esl__ifu_esl_top.v",
@@ -4051,16 +2491,6 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__verif__env__manycore__cmp_pcxandcpx.v",
-            "line": 45,
-            "description": "Latch inferred for signal 'clk' in module 'cmp_pcxandcpx'"
-        },
-        {
-            "file_name": "piton__verif__env__manycore__cmp_pcxandcpx.v",
-            "line": 45,
-            "description": "Signal 'cmp_pcxandcpx.u_core.clk' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__verif__env__manycore__err_inject.v",
             "line": 2,
             "description": "Operator '===' should be avoided in synthesis logic"
@@ -4076,16 +2506,6 @@
             "description": "Operator '===' should be avoided in synthesis logic"
         },
         {
-            "file_name": "piton__verif__env__manycore__exu_mon.v",
-            "line": 49,
-            "description": "Latch inferred for signal 'clk' in module 'exu_mon'"
-        },
-        {
-            "file_name": "piton__verif__env__manycore__exu_mon.v",
-            "line": 49,
-            "description": "Signal 'exu_mon.u_core.clk' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__verif__env__manycore__fake_pll.v",
             "line": 62,
             "description": "Blocking assignment 'counter = 7'd0;' used inside a 'FlipFlop' inferred sequential block"
@@ -4096,24 +2516,9 @@
             "description": "Blocking assignment 'counter = counter + 1'b1;' used inside a 'FlipFlop' inferred sequential block"
         },
         {
-            "file_name": "piton__verif__env__manycore__fake_pll.v",
-            "line": 58,
-            "description": "Latch inferred for signal 'clk_locked' in module 'fake_pll'"
-        },
-        {
-            "file_name": "piton__verif__env__manycore__fake_pll.v",
-            "line": 58,
-            "description": "Signal 'fake_pll.u_core.clk_locked' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__verif__env__manycore__fake_uart.v",
-            "line": 53,
-            "description": "Latch inferred for signal 'clk' in module 'fake_uart'"
-        },
-        {
-            "file_name": "piton__verif__env__manycore__fake_uart.v",
-            "line": 53,
-            "description": "Signal 'fake_uart.u_core.clk' has multiple simultaneous drivers"
+            "line": 50,
+            "description": "The signal/variable 'file' read in the block is not in the sensitivity list"
         },
         {
             "file_name": "piton__verif__env__manycore__icache_mutex_mon.v",
@@ -4121,29 +2526,9 @@
             "description": "Operator '===' should be avoided in synthesis logic"
         },
         {
-            "file_name": "piton__verif__env__manycore__icache_mutex_mon.v",
-            "line": 49,
-            "description": "Latch inferred for signal 'clk' in module 'icache_mutex_mon'"
-        },
-        {
-            "file_name": "piton__verif__env__manycore__icache_mutex_mon.v",
-            "line": 49,
-            "description": "Signal 'icache_mutex_mon.u_core.clk' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__verif__env__manycore__iob_mon.v",
             "line": 26,
             "description": "Operator '===' should be avoided in synthesis logic"
-        },
-        {
-            "file_name": "piton__verif__env__manycore__iob_mon.v",
-            "line": 52,
-            "description": "Latch inferred for signal 'wire' in module 'iob_mon'"
-        },
-        {
-            "file_name": "piton__verif__env__manycore__iob_mon.v",
-            "line": 52,
-            "description": "Signal 'iob_mon.u_core.wire' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__verif__env__manycore__l_cache_mon.v",
@@ -4156,16 +2541,6 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__verif__env__manycore__l_cache_mon.v",
-            "line": 105,
-            "description": "Latch inferred for signal 'clk' in module 'l_cache_mon'"
-        },
-        {
-            "file_name": "piton__verif__env__manycore__l_cache_mon.v",
-            "line": 105,
-            "description": "Signal 'l_cache_mon.u_core.clk' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__verif__env__manycore__mask_mon.v",
             "line": 2,
             "description": "Operator '===' should be avoided in synthesis logic"
@@ -4176,29 +2551,9 @@
             "description": "Blocking assignment 'old_val = new_val;' used inside a 'FlipFlop' inferred sequential block"
         },
         {
-            "file_name": "piton__verif__env__manycore__mask_mon.v",
-            "line": 52,
-            "description": "Latch inferred for signal 'clk' in module 'mask_mon'"
-        },
-        {
-            "file_name": "piton__verif__env__manycore__mask_mon.v",
-            "line": 52,
-            "description": "Signal 'mask_mon.u_core.clk' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__verif__env__manycore__nc_inv_chk.v",
             "line": 2,
             "description": "Operator '===' should be avoided in synthesis logic"
-        },
-        {
-            "file_name": "piton__verif__env__manycore__nc_inv_chk.v",
-            "line": 50,
-            "description": "Latch inferred for signal 'clk' in module 'nc_inv_chk'"
-        },
-        {
-            "file_name": "piton__verif__env__manycore__nc_inv_chk.v",
-            "line": 50,
-            "description": "Signal 'nc_inv_chk.u_core.clk' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__verif__env__manycore__nukeint_mon.v",
@@ -4366,44 +2721,14 @@
             "description": "Blocking assignment 'thr_cnt1 = 0;' used inside a 'FlipFlop' inferred sequential block"
         },
         {
-            "file_name": "piton__verif__env__manycore__nukeint_mon.v",
-            "line": 75,
-            "description": "Latch inferred for signal 'clk' in module 'nukeint_mon'"
-        },
-        {
-            "file_name": "piton__verif__env__manycore__nukeint_mon.v",
-            "line": 75,
-            "description": "Signal 'nukeint_mon.u_core.clk' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__verif__env__manycore__one_hot_mux_mon.v",
             "line": 2,
             "description": "Operator '===' should be avoided in synthesis logic"
         },
         {
-            "file_name": "piton__verif__env__manycore__one_hot_mux_mon.v",
-            "line": 106,
-            "description": "Latch inferred for signal 'clk' in module 'one_hot_mux_mon'"
-        },
-        {
-            "file_name": "piton__verif__env__manycore__one_hot_mux_mon.v",
-            "line": 106,
-            "description": "Signal 'one_hot_mux_mon.u_core.clk' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__verif__env__manycore__pc_muxsel_mon.v",
             "line": 2,
             "description": "Operator '===' should be avoided in synthesis logic"
-        },
-        {
-            "file_name": "piton__verif__env__manycore__pc_muxsel_mon.v",
-            "line": 57,
-            "description": "Latch inferred for signal 'clk' in module 'pc_muxsel_mon'"
-        },
-        {
-            "file_name": "piton__verif__env__manycore__pc_muxsel_mon.v",
-            "line": 57,
-            "description": "Signal 'pc_muxsel_mon.u_core.clk' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__verif__env__manycore__playback_driver.v",
@@ -4421,16 +2746,6 @@
             "description": "Blocking assignment 'code = $fscanf(fid, \"%b\\n\", input_vector_a);' used inside a 'FlipFlop' inferred sequential block"
         },
         {
-            "file_name": "piton__verif__env__manycore__playback_driver.v",
-            "line": 58,
-            "description": "Latch inferred for signal 'stimfile' in module 'playback_driver'"
-        },
-        {
-            "file_name": "piton__verif__env__manycore__playback_driver.v",
-            "line": 58,
-            "description": "Signal 'playback_driver.u_core.stimfile' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__verif__env__manycore__playback_driver_chip.v",
             "line": 2,
             "description": "Operator '===' should be avoided in synthesis logic"
@@ -4444,16 +2759,6 @@
             "file_name": "piton__verif__env__manycore__playback_driver_chip.v",
             "line": 85,
             "description": "Blocking assignment 'code = $fscanf(fid, \"%b\\n\", input_vector_a);' used inside a 'FlipFlop' inferred sequential block"
-        },
-        {
-            "file_name": "piton__verif__env__manycore__playback_driver_chip.v",
-            "line": 82,
-            "description": "Latch inferred for signal 'stimfile' in module 'playback_driver'"
-        },
-        {
-            "file_name": "piton__verif__env__manycore__playback_driver_chip.v",
-            "line": 82,
-            "description": "Signal 'playback_driver.u_core.stimfile' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__verif__env__manycore__playback_driver_dynamic_node.v",
@@ -4471,16 +2776,6 @@
             "description": "Blocking assignment 'code = $fscanf(fid, \"%b\\n\", input_vector_a);' used inside a 'FlipFlop' inferred sequential block"
         },
         {
-            "file_name": "piton__verif__env__manycore__playback_driver_dynamic_node.v",
-            "line": 70,
-            "description": "Latch inferred for signal 'stimfile' in module 'playback_driver'"
-        },
-        {
-            "file_name": "piton__verif__env__manycore__playback_driver_dynamic_node.v",
-            "line": 70,
-            "description": "Signal 'playback_driver.u_core.stimfile' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__verif__env__manycore__playback_driver_ffu.v",
             "line": 2,
             "description": "Operator '===' should be avoided in synthesis logic"
@@ -4494,16 +2789,6 @@
             "file_name": "piton__verif__env__manycore__playback_driver_ffu.v",
             "line": 71,
             "description": "Blocking assignment 'code = $fscanf(fid, \"%b\\n\", input_vector_a);' used inside a 'FlipFlop' inferred sequential block"
-        },
-        {
-            "file_name": "piton__verif__env__manycore__playback_driver_ffu.v",
-            "line": 68,
-            "description": "Latch inferred for signal 'stimfile' in module 'playback_driver'"
-        },
-        {
-            "file_name": "piton__verif__env__manycore__playback_driver_ffu.v",
-            "line": 68,
-            "description": "Signal 'playback_driver.u_core.stimfile' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__verif__env__manycore__playback_driver_l15.v",
@@ -4521,16 +2806,6 @@
             "description": "Blocking assignment 'code = $fscanf(fid, \"%b\\n\", input_vector_a);' used inside a 'FlipFlop' inferred sequential block"
         },
         {
-            "file_name": "piton__verif__env__manycore__playback_driver_l15.v",
-            "line": 68,
-            "description": "Latch inferred for signal 'stimfile' in module 'playback_driver'"
-        },
-        {
-            "file_name": "piton__verif__env__manycore__playback_driver_l15.v",
-            "line": 68,
-            "description": "Signal 'playback_driver.u_core.stimfile' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__verif__env__manycore__playback_driver_l2.v",
             "line": 2,
             "description": "Operator '===' should be avoided in synthesis logic"
@@ -4546,29 +2821,9 @@
             "description": "Blocking assignment 'code = $fscanf(fid, \"%b\\n\", input_vector_a);' used inside a 'FlipFlop' inferred sequential block"
         },
         {
-            "file_name": "piton__verif__env__manycore__playback_driver_l2.v",
-            "line": 68,
-            "description": "Latch inferred for signal 'stimfile' in module 'playback_driver'"
-        },
-        {
-            "file_name": "piton__verif__env__manycore__playback_driver_l2.v",
-            "line": 68,
-            "description": "Signal 'playback_driver.u_core.stimfile' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__verif__env__manycore__playback_dump.v",
             "line": 2,
             "description": "Operator '===' should be avoided in synthesis logic"
-        },
-        {
-            "file_name": "piton__verif__env__manycore__playback_dump.v",
-            "line": 56,
-            "description": "Latch inferred for signal 'fid' in module 'playback_dump'"
-        },
-        {
-            "file_name": "piton__verif__env__manycore__playback_dump.v",
-            "line": 56,
-            "description": "Signal 'playback_dump.u_core.fid' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__verif__env__manycore__playback_dump_dynamic_node.v",
@@ -4576,29 +2831,9 @@
             "description": "Operator '===' should be avoided in synthesis logic"
         },
         {
-            "file_name": "piton__verif__env__manycore__playback_dump_dynamic_node.v",
-            "line": 82,
-            "description": "Latch inferred for signal 'fid' in module 'playback_dump'"
-        },
-        {
-            "file_name": "piton__verif__env__manycore__playback_dump_dynamic_node.v",
-            "line": 82,
-            "description": "Signal 'playback_dump.u_core.fid' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__verif__env__manycore__playback_dump_ffu.v",
             "line": 2,
             "description": "Operator '===' should be avoided in synthesis logic"
-        },
-        {
-            "file_name": "piton__verif__env__manycore__playback_dump_ffu.v",
-            "line": 125,
-            "description": "Latch inferred for signal 'fid' in module 'playback_dump'"
-        },
-        {
-            "file_name": "piton__verif__env__manycore__playback_dump_ffu.v",
-            "line": 125,
-            "description": "Signal 'playback_dump.u_core.fid' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__verif__env__manycore__playback_dump_l15.v",
@@ -4606,44 +2841,14 @@
             "description": "Operator '===' should be avoided in synthesis logic"
         },
         {
-            "file_name": "piton__verif__env__manycore__playback_dump_l15.v",
-            "line": 86,
-            "description": "Latch inferred for signal 'fid' in module 'playback_dump'"
-        },
-        {
-            "file_name": "piton__verif__env__manycore__playback_dump_l15.v",
-            "line": 86,
-            "description": "Signal 'playback_dump.u_core.fid' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__verif__env__manycore__playback_dump_l2.v",
             "line": 2,
             "description": "Operator '===' should be avoided in synthesis logic"
         },
         {
-            "file_name": "piton__verif__env__manycore__playback_dump_l2.v",
-            "line": 63,
-            "description": "Latch inferred for signal 'fid' in module 'playback_dump'"
-        },
-        {
-            "file_name": "piton__verif__env__manycore__playback_dump_l2.v",
-            "line": 63,
-            "description": "Signal 'playback_dump.u_core.fid' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__verif__env__manycore__sas_intf.v",
             "line": 2,
             "description": "Operator '===' should be avoided in synthesis logic"
-        },
-        {
-            "file_name": "piton__verif__env__manycore__sas_intf.v",
-            "line": 822,
-            "description": "Latch inferred for signal 'clk' in module 'sas_intf'"
-        },
-        {
-            "file_name": "piton__verif__env__manycore__sas_intf.v",
-            "line": 822,
-            "description": "Signal 'sas_intf.u_core.clk' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__verif__env__manycore__sas_task.v",
@@ -4696,29 +2901,9 @@
             "description": "Blocking assignment 'warm_rst[ifu_tlu_thrid_m] = 1;' used inside a 'FlipFlop' inferred sequential block"
         },
         {
-            "file_name": "piton__verif__env__manycore__sas_task.v",
-            "line": 1243,
-            "description": "Latch inferred for signal 'tlu_pich_wrap_flg_m' in module 'sas_task'"
-        },
-        {
-            "file_name": "piton__verif__env__manycore__sas_task.v",
-            "line": 1243,
-            "description": "Signal 'sas_task.u_core.tlu_pich_wrap_flg_m' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__verif__env__manycore__softint_mon.v",
             "line": 2,
             "description": "Operator '===' should be avoided in synthesis logic"
-        },
-        {
-            "file_name": "piton__verif__env__manycore__softint_mon.v",
-            "line": 120,
-            "description": "Latch inferred for signal 'rtl_softint0' in module 'softint_mon'"
-        },
-        {
-            "file_name": "piton__verif__env__manycore__softint_mon.v",
-            "line": 120,
-            "description": "Signal 'softint_mon.u_core.rtl_softint0' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__verif__env__manycore__sparc_pipe_flow.v",
@@ -5021,16 +3206,6 @@
             "description": "Blocking assignment 'short_pc_w = 8'hxx;' used inside a 'FlipFlop' inferred sequential block"
         },
         {
-            "file_name": "piton__verif__env__manycore__sparc_pipe_flow.v",
-            "line": 671,
-            "description": "Latch inferred for signal 'clk' in module 'sparc_pipe_flow'"
-        },
-        {
-            "file_name": "piton__verif__env__manycore__sparc_pipe_flow.v",
-            "line": 671,
-            "description": "Signal 'sparc_pipe_flow.u_core.clk' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__verif__env__manycore__thrfsm_mon.v",
             "line": 2,
             "description": "Operator '===' should be avoided in synthesis logic"
@@ -5056,16 +3231,6 @@
             "description": "Blocking assignment 'ifet_ue_vec_e = ifet_ue_vec_d1;' used inside a 'FlipFlop' inferred sequential block"
         },
         {
-            "file_name": "piton__verif__env__manycore__thrfsm_mon.v",
-            "line": 99,
-            "description": "Latch inferred for signal 'clk' in module 'thrfsm_mon'"
-        },
-        {
-            "file_name": "piton__verif__env__manycore__thrfsm_mon.v",
-            "line": 99,
-            "description": "Signal 'thrfsm_mon.u_core.clk' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__verif__env__manycore__tlu_mon.v",
             "line": 2,
             "description": "Operator '===' should be avoided in synthesis logic"
@@ -5074,16 +3239,6 @@
             "file_name": "piton__verif__env__manycore__tlu_mon.v",
             "line": 515,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "piton__verif__env__manycore__tlu_mon.v",
-            "line": 464,
-            "description": "Latch inferred for signal 'clk' in module 'tlu_mon'"
-        },
-        {
-            "file_name": "piton__verif__env__manycore__tlu_mon.v",
-            "line": 464,
-            "description": "Signal 'tlu_mon.u_core.clk' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__verif__env__memctrl_test__memctrl_test_top.v",
@@ -5106,16 +3261,6 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__verif__env__test_infrstrct__test_infrstrct_fifo.v",
-            "line": 74,
-            "description": "Latch inferred for signal 'clk' in module 'test_infrstrct_fifo'"
-        },
-        {
-            "file_name": "piton__verif__env__test_infrstrct__test_infrstrct_fifo.v",
-            "line": 74,
-            "description": "Signal 'test_infrstrct_fifo.u_core.clk' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__verif__env__test_infrstrct__test_infrstrct_top.v",
             "line": 61,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
@@ -5131,16 +3276,6 @@
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
         },
         {
-            "file_name": "piton__verif__env__test_infrstrct__test_sink.v",
-            "line": 102,
-            "description": "Latch inferred for signal 'clk' in module 'test_sink'"
-        },
-        {
-            "file_name": "piton__verif__env__test_infrstrct__test_sink.v",
-            "line": 102,
-            "description": "Signal 'test_sink.u_core.clk' has multiple simultaneous drivers"
-        },
-        {
             "file_name": "piton__verif__env__test_infrstrct__test_source.v",
             "line": 169,
             "description": "Operator '===' should be avoided in synthesis logic"
@@ -5149,16 +3284,6 @@
             "file_name": "piton__verif__env__test_infrstrct__test_source.v",
             "line": 136,
             "description": "Case statement does not have a default clause and is not preceded by assignment of target signal in combinational block"
-        },
-        {
-            "file_name": "piton__verif__env__test_infrstrct__test_source.v",
-            "line": 94,
-            "description": "Latch inferred for signal 'clk' in module 'test_source'"
-        },
-        {
-            "file_name": "piton__verif__env__test_infrstrct__test_source.v",
-            "line": 94,
-            "description": "Signal 'test_source.u_core.clk' has multiple simultaneous drivers"
         },
         {
             "file_name": "piton__verif__env__uart_serializer__uart_serializer_top.v",
