@@ -25,6 +25,22 @@ The release script is deterministic for a fixed repository checkout. It sorts in
 
 The scalability track is built from every design directory under `data/scalability/`. In the current release, each scalability directory is a flat design-level corpus with a `benchmark.json` annotation file.
 
+## Validation Protocol
+
+Run the non-scalability validation checker after rebuilding the release:
+
+```bash
+python3 scripts/validate_non_scalability_tracks.py
+```
+
+The checker writes `docs/validation_report.md` and validates the RTL lint localization, CDC verification, and RCA tracks. It checks JSON readability, source existence, positive in-bounds line numbers, duplicate labels, and source-grounded semantic evidence appropriate to each track:
+
+- RTL lint localization labels must point to nearby non-comment HDL code in the embedded module source.
+- CDC labels must point to colocated HDL files and have nearby HDL evidence plus either a CDC marker or named-signal overlap.
+- RCA labels must point to existing injected source files, valid fixed/injected scenario directories, and nearby root-cause evidence in code, comments, or shared identifiers.
+
+The scalability track has a separate validation report under `non_publish/benchmark_checker/benchmark_check_report.md`, covering its generated `benchmark.json` files. Treat the non-scalability validation report and scalability validation report as complementary evidence.
+
 ## Prediction Schema
 
 Predictions are stored as a JSON object keyed by benchmark `instance_id`:
@@ -125,6 +141,7 @@ Report the following with any auxiliary analysis result:
 Before public release:
 
 - Rebuild `release/` from a clean checkout.
+- Run `python3 scripts/validate_non_scalability_tracks.py` and confirm `docs/validation_report.md` reports zero problems.
 - Run deterministic scoring on a small validation predictions file.
 - Keep only curated benchmark inputs referenced by the release builder.
 - Ensure the scalability builder still covers every design directory under `data/scalability/`.

@@ -32,7 +32,7 @@ The canonical benchmark assets are under `data/`. The checked-in release layer u
 | RTL lint localization | Locate planted HDL lint issues in single-module designs | `data/rtl_lint_localization/json/` | 312 programs | 921 issue labels across 14 taxonomy families |
 | CDC verification | Detect CDC violations in CDC-focused fixtures | `data/cdc/` | 60 fixtures | 387 CDC violations |
 | Root-cause analysis | Identify the root causes behind cascaded lint reports | `data/root_cause_analysis/` | 9 paired scenarios | 15 root-cause labels |
-| Scalability | Measure linter behavior on larger RTL design corpora | `data/scalability/` | 18 designs, 6,188 HDL source files | 8,660 labeled violations |
+| Scalability | Measure linter behavior on larger RTL design corpora | `data/scalability/` | 18 designs, 6,188 HDL source files | 5,546 labeled violations |
 
 ## Rebuild the Release
 
