@@ -1,0 +1,9 @@
+current_design clock_mux_status_top
+
+clock -name scan_clk -domain scan_clk -period 10 -edge {0 5.0}
+clock -name func_clk -domain func_clk -period 13 -edge {0 6.5}
+clock -name cfg_clk -domain cfg_clk -period 16 -edge {0 8.0}
+
+reset -name scan_rst_n -value 0
+reset -name func_rst_n -value 0
+reset -name cfg_rst_n -value 0

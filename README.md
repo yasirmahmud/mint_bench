@@ -1,100 +1,129 @@
-# MintBench: Benchmark for HDL Linting
+# MintBench
 
-MintBench is a publication-ready benchmark for evaluating HDL linting systems. It targets four benchmark tasks that are common in practical RTL quality workflows: lint issue localization, clock-domain crossing (CDC) violation detection, root-cause analysis of cascaded lint reports, and scalability checks on larger open-source RTL designs.
-
-The canonical benchmark assets are under `data/`. The checked-in release layer under `release/` is generated from those assets by the deterministic release builder.
+MintBench is an HDL linting benchmark for evaluating whether a tool can identify the right source line and describe the right issue. A prediction is counted as a match only when both conditions hold: the file/line matches the gold label, and an LLM judge confirms that the predicted description identifies the same issue. The public repository is intentionally small: benchmark data, one evaluation script, license text, and third-party notices.
 
 ## Repository Layout
 
 | Path | Purpose |
 | --- | --- |
-| `data/` | Curated and verified benchmark assets. |
-| `release/` | Generated benchmark manifest, aggregate statistics, and annotation files. |
-| `scripts/build_mintbench_release.py` | Deterministically rebuilds the release layer from `data/`. |
-| `scripts/score_mintbench.py` | Deterministic exact-match scorer for benchmark predictions. |
-| `scripts/secondary_analysis_mintbench.py` | Optional auxiliary semantic analysis protocol. |
-| `docs/` | Reproducibility notes, schema examples, benchmark card, and publication checklist. |
-
-## Release Snapshot
-
-- Suite name: `MintBench`
-- Release version: `1.1.0`
-- Primary benchmark type: HDL linting
-- Primary scoring: deterministic exact-match scoring
-- Release manifest: `release/mintbench_manifest.json`
-- Summary statistics: `release/mintbench_stats.md`
+| `data/` | Benchmark instances and gold labels. |
+| `scripts/evaluate_mintbench.py` | Evaluation script for line matching and optional LLM description judging. |
+| `THIRD_PARTY_NOTICES.md` | Notices for bundled third-party HDL sources. |
+| `LICENSE` | License for original MintBench materials. |
 
 ## Benchmark Tracks
 
-| Track | Task | Data | Size | Gold labels |
-| --- | --- | --- | ---: | --- |
-| RTL lint localization | Locate planted HDL lint issues in single-module designs | `data/rtl_lint_localization/json/` | 312 programs | 921 issue labels across 14 taxonomy families |
-| CDC verification | Detect CDC violations in CDC-focused fixtures | `data/cdc/` | 60 fixtures | 387 CDC violations |
-| Root-cause analysis | Identify the root causes behind cascaded lint reports | `data/root_cause_analysis/` | 9 paired scenarios | 15 root-cause labels |
-| Scalability | Measure linter behavior on larger RTL design corpora | `data/scalability/` | 18 designs, 6,188 HDL source files | 5,546 labeled violations |
+| Track | Task | Data |
+| --- | --- | --- |
+| RTL lint localization | Locate planted lint issues in single-module HDL examples. | `data/rtl_lint_localization/` |
+| CDC verification | Detect clock-domain crossing violations in focused CDC fixtures. | `data/cdc/` |
+| Root-cause analysis | Identify source root causes behind cascaded lint reports. | `data/root_cause_analysis/` |
+| Scalability | Evaluate lint behavior on larger open-source RTL corpora. | `data/scalability/` |
 
-## Rebuild the Release
+## Prediction Format
 
-```bash
-python3 scripts/build_mintbench_release.py
+Predictions are a JSON object keyed by `instance_id`. Each value can be a list of predicted items or an object with one of these list fields: `violations`, `targets`, `root_causes`, or `errors`.
+
+Example:
+
+```json
+{
+  "width_cascade": {
+    "root_causes": [
+      {
+        "file_name": "sg_noise_top.sv",
+        "line": 10,
+        "root_type": "width_mismatch",
+        "description": "TOP_W is set to 24 instead of matching DATA_W."
+      }
+    ]
+  }
+}
 ```
 
-This regenerates:
+Accepted aliases:
 
-- `release/mintbench_manifest.json`
-- `release/mintbench_stats.md`
-- `release/annotations/lint_localization.jsonl`
-- `release/annotations/cdc.jsonl`
-- `release/annotations/rca.jsonl`
-- `release/annotations/scalability.jsonl`
+| Field type | Accepted names |
+| --- | --- |
+| Line | `line`, `error_line`, `line_number` |
+| File | `file_name`, `file`, `file_path` |
+| Label/type | `taxonomy_title`, `rule`, `root_type`, `type`, `root_cause_type` |
+| Description | `description`, `error_description` |
 
-The release builder uses only the Python standard library and is deterministic for a fixed checkout.
+## Evaluate Predictions
 
-## Score Predictions
+Run evaluation:
 
 ```bash
-python3 scripts/score_mintbench.py \
-  --manifest release/mintbench_manifest.json \
+export MINTBENCH_LLM_API_KEY="..."
+python3 scripts/evaluate_mintbench.py \
   --predictions predictions.json \
-  --output scores.json
+  --output scores.json \
+  --llm-check
 ```
 
-Predictions are JSON objects keyed by `instance_id`. Each value may be a list of predicted items or an object containing `violations`, `targets`, or `root_causes`.
+The evaluator reports:
 
-Primary metrics:
+- `match_precision`: predictions with both line match and description match divided by submitted predictions.
+- `match_recall`: gold items matched by both line and description divided by gold items.
+- `line_match_precision` and `line_match_recall`: diagnostic location-only metrics.
+- `false_positive_predictions`: predictions that did not match a gold location.
 
-- exact-match instance count
-- micro precision
-- micro recall
-- micro F1
-- macro F1
-- per-task metrics
+For RTL lint localization, the gold source is embedded in each JSON instance, so the match key is line only. For CDC, RCA, and scalability, the match key is file basename plus line.
 
-Task-specific exact-match tuples are documented in `docs/reproducibility.md`.
+## LLM Description Check
 
-## Optional Auxiliary Analysis
-
-MintBench includes an optional auxiliary analysis script for near-match review. This path is intentionally separate from the primary deterministic score and requires user-provided service credentials:
+After a file/line match, the evaluator asks an OpenAI-compatible chat-completions endpoint whether the predicted description identifies the same issue as the gold description. A line match with a non-matching description is not a match.
 
 ```bash
-export MINTBENCH_ANALYSIS_ACCESS_TOKEN="..."
-export MINTBENCH_ANALYSIS_TARGET="..."
-python3 scripts/secondary_analysis_mintbench.py \
-  --manifest release/mintbench_manifest.json \
+export MINTBENCH_LLM_API_KEY="..."
+python3 scripts/evaluate_mintbench.py \
   --predictions predictions.json \
-  --output analysis_results.jsonl
+  --output scores.json \
+  --llm-check
 ```
 
-Report deterministic metrics as the primary benchmark result. Treat auxiliary analysis as supplemental and document the service target, endpoint family, date, analysis version, temperature, and sample size.
+Optional settings:
 
-## Publication Materials
+| Environment variable | Default |
+| --- | --- |
+| `MINTBENCH_LLM_MODEL` | `gemini-3.1-flash` |
+| `MINTBENCH_LLM_ENDPOINT` | `https://generativelanguage.googleapis.com/v1beta/openai/chat/completions` |
 
-- Reproducibility protocol: `docs/reproducibility.md`
-- Benchmark card: `docs/benchmark_card.md`
-- Prediction schema example: `docs/example_benchmark_format.json`
-- Third-party notices: `THIRD_PARTY_NOTICES.md`
-- Repository manifest: `PUBLICATION_MANIFEST.md`
+Running without `--llm-check` is useful only for debugging line coverage. Official MintBench matching requires `--llm-check`.
+
+## Error Taxonomy
+
+RTL lint localization labels use these taxonomy families:
+
+| Family |
+| --- |
+| `1. SYNTAX STRUCTURE` |
+| `2. SIGNAL USAGE` |
+| `3. SENSITIVITY LIST` |
+| `4. RESERVED WORDS` |
+| `5. RACE OR HAZARD` |
+| `6. PORT TYPE` |
+| `7. OPERATORS` |
+| `8. MODULE INSTANCES` |
+| `9. LOGIC SYNTHESIS` |
+| `10. COMBINATIONAL OR SEQUENTIAL` |
+| `11. BIT WIDTH USAGE` |
+| `12. STATE MACHINE (FSM) DEFECTS` |
+| `13. CODE QUALITY AND SYNTHESIS` |
+| `14. CONNECTIVITY AND DRIVING` |
+
+Root-cause labels use:
+
+| Root-cause type |
+| --- |
+| `unresolved_hierarchy` |
+| `width_mismatch` |
+| `x_propagation` |
+| `assignment_semantics` |
+
+CDC and scalability labels use the `rule`, `taxonomy_title`, or `description` fields present in the gold data.
 
 ## License
 
-MintBench benchmark materials, scripts, documentation, and generated release metadata are released under Apache-2.0. Third-party HDL source files bundled under `data/` retain their upstream licenses and are documented in `THIRD_PARTY_NOTICES.md`.
+MintBench benchmark materials and scripts are released under Apache-2.0. Third-party HDL source files under `data/` retain their upstream licenses; see `THIRD_PARTY_NOTICES.md`.

@@ -1,0 +1,9 @@
+current_design cache_coherency_probe_top
+
+clock -name snoop_clk -domain snoop_clk -period 10 -edge {0 5.0}
+clock -name cache_clk -domain cache_clk -period 13 -edge {0 6.5}
+clock -name core_clk -domain core_clk -period 16 -edge {0 8.0}
+
+reset -name snoop_rst_n -value 0
+reset -name cache_rst_n -value 0
+reset -name core_rst_n -value 0

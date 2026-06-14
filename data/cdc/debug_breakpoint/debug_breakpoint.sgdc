@@ -1,0 +1,9 @@
+current_design debug_breakpoint_top
+
+clock -name debug_clk -domain debug_clk -period 10 -edge {0 5.0}
+clock -name core_clk -domain core_clk -period 13 -edge {0 6.5}
+clock -name trace_clk -domain trace_clk -period 16 -edge {0 8.0}
+
+reset -name debug_rst_n -value 0
+reset -name core_rst_n -value 0
+reset -name trace_rst_n -value 0

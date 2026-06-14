@@ -1,0 +1,34 @@
+{
+  "errors": [
+    {
+      "file_name": "pll_lock_monitor.sv",
+      "line": 61,
+      "description": "lock_vector_q is a multi-bit value produced in pll_clk and sampled directly in sys_clk without a bundled-data handshake or hold guarantee."
+    },
+    {
+      "file_name": "pll_lock_monitor.sv",
+      "line": 64,
+      "description": "lock_pulse_q is a one-cycle pll_clk pulse consumed directly in sys_clk, so the event can be missed or sampled metastably."
+    },
+    {
+      "file_name": "pll_lock_monitor.sv",
+      "line": 70,
+      "description": "lock_toggle_q reconverges with a one-sample sys_clk history, allowing metastability or double-counting in sys_event_o."
+    },
+    {
+      "file_name": "pll_lock_monitor.sv",
+      "line": 74,
+      "description": "bypass_mode_sync_q receives independently synchronized bits from encoded control vector bypass_mode_q before decoding in sys_clk, so transient illegal modes can be observed."
+    },
+    {
+      "file_name": "pll_lock_monitor.sv",
+      "line": 81,
+      "description": "pll_rst_n is used as data inside sys_clk logic, so reset deassertion can asynchronously change destination state."
+    },
+    {
+      "file_name": "pll_lock_monitor.sv",
+      "line": 95,
+      "description": "cfg_snapshot_q combines pll_clk payload state with sys_clk status state in cfg_clk without a cross-domain snapshot protocol."
+    }
+  ]
+}

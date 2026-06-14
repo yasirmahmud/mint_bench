@@ -1,0 +1,9 @@
+current_design can_bus_gateway_top
+
+clock -name can_clk -domain can_clk -period 10 -edge {0 5.0}
+clock -name sys_clk -domain sys_clk -period 13 -edge {0 6.5}
+clock -name diag_clk -domain diag_clk -period 16 -edge {0 8.0}
+
+reset -name can_rst_n -value 0
+reset -name sys_rst_n -value 0
+reset -name diag_rst_n -value 0

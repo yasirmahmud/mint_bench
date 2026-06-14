@@ -1,0 +1,9 @@
+current_design crypto_key_loader_top
+
+clock -name key_clk -domain key_clk -period 10 -edge {0 5.0}
+clock -name crypto_clk -domain crypto_clk -period 13 -edge {0 6.5}
+clock -name bus_clk -domain bus_clk -period 16 -edge {0 8.0}
+
+reset -name key_rst_n -value 0
+reset -name crypto_rst_n -value 0
+reset -name bus_rst_n -value 0

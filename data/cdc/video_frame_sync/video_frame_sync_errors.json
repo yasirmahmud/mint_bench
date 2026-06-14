@@ -1,0 +1,34 @@
+{
+  "errors": [
+    {
+      "file_name": "video_frame_sync.sv",
+      "line": 61,
+      "description": "frame_meta_q is a multi-bit value produced in pixel_clk and sampled directly in system_clk without a bundled-data handshake or hold guarantee."
+    },
+    {
+      "file_name": "video_frame_sync.sv",
+      "line": 64,
+      "description": "vsync_pulse_q is a one-cycle pixel_clk pulse consumed directly in system_clk, so the event can be missed or sampled metastably."
+    },
+    {
+      "file_name": "video_frame_sync.sv",
+      "line": 70,
+      "description": "vsync_toggle_q reconverges with a one-sample system_clk history, allowing metastability or double-counting in system_event_o."
+    },
+    {
+      "file_name": "video_frame_sync.sv",
+      "line": 74,
+      "description": "color_mode_sync_q receives independently synchronized bits from encoded control vector color_mode_q before decoding in system_clk, so transient illegal modes can be observed."
+    },
+    {
+      "file_name": "video_frame_sync.sv",
+      "line": 81,
+      "description": "pixel_rst_n is used as data inside system_clk logic, so reset deassertion can asynchronously change destination state."
+    },
+    {
+      "file_name": "video_frame_sync.sv",
+      "line": 95,
+      "description": "display_snapshot_q combines pixel_clk payload state with system_clk status state in display_clk without a cross-domain snapshot protocol."
+    }
+  ]
+}

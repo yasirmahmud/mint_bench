@@ -1,0 +1,9 @@
+current_design ethernet_mac_stats_top
+
+clock -name rxmac_clk -domain rxmac_clk -period 10 -edge {0 5.0}
+clock -name csr_clk -domain csr_clk -period 13 -edge {0 6.5}
+clock -name txmac_clk -domain txmac_clk -period 16 -edge {0 8.0}
+
+reset -name rxmac_rst_n -value 0
+reset -name csr_rst_n -value 0
+reset -name txmac_rst_n -value 0

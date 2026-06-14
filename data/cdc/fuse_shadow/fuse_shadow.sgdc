@@ -1,0 +1,9 @@
+current_design fuse_shadow_top
+
+clock -name fuse_clk -domain fuse_clk -period 10 -edge {0 5.0}
+clock -name core_clk -domain core_clk -period 13 -edge {0 6.5}
+clock -name otp_clk -domain otp_clk -period 16 -edge {0 8.0}
+
+reset -name fuse_rst_n -value 0
+reset -name core_rst_n -value 0
+reset -name otp_rst_n -value 0

@@ -1,0 +1,9 @@
+current_design video_frame_sync_top
+
+clock -name pixel_clk -domain pixel_clk -period 10 -edge {0 5.0}
+clock -name system_clk -domain system_clk -period 13 -edge {0 6.5}
+clock -name display_clk -domain display_clk -period 16 -edge {0 8.0}
+
+reset -name pixel_rst_n -value 0
+reset -name system_rst_n -value 0
+reset -name display_rst_n -value 0

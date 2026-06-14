@@ -1,0 +1,9 @@
+current_design axi_stream_bridge_top
+
+clock -name s_axis_clk -domain s_axis_clk -period 10 -edge {0 5.0}
+clock -name m_axis_clk -domain m_axis_clk -period 13 -edge {0 6.5}
+clock -name cfg_clk -domain cfg_clk -period 16 -edge {0 8.0}
+
+reset -name s_axis_rst_n -value 0
+reset -name m_axis_rst_n -value 0
+reset -name cfg_rst_n -value 0

@@ -1,0 +1,9 @@
+current_design hbm_channel_status_top
+
+clock -name hbm_clk -domain hbm_clk -period 10 -edge {0 5.0}
+clock -name noc_clk -domain noc_clk -period 13 -edge {0 6.5}
+clock -name cfg_clk -domain cfg_clk -period 16 -edge {0 8.0}
+
+reset -name hbm_rst_n -value 0
+reset -name noc_rst_n -value 0
+reset -name cfg_rst_n -value 0

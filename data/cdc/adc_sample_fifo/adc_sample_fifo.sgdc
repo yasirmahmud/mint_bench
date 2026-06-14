@@ -1,0 +1,9 @@
+current_design adc_sample_fifo_top
+
+clock -name adc_clk -domain adc_clk -period 10 -edge {0 5.0}
+clock -name dsp_clk -domain dsp_clk -period 13 -edge {0 6.5}
+clock -name cfg_clk -domain cfg_clk -period 16 -edge {0 8.0}
+
+reset -name adc_rst_n -value 0
+reset -name dsp_rst_n -value 0
+reset -name cfg_rst_n -value 0

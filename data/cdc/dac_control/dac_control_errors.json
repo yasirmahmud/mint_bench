@@ -1,0 +1,34 @@
+{
+  "errors": [
+    {
+      "file_name": "dac_control.sv",
+      "line": 61,
+      "description": "dac_code_q is a multi-bit value produced in bus_clk and sampled directly in dac_clk without a bundled-data handshake or hold guarantee."
+    },
+    {
+      "file_name": "dac_control.sv",
+      "line": 64,
+      "description": "load_pulse_q is a one-cycle bus_clk pulse consumed directly in dac_clk, so the event can be missed or sampled metastably."
+    },
+    {
+      "file_name": "dac_control.sv",
+      "line": 70,
+      "description": "load_toggle_q reconverges with a one-sample dac_clk history, allowing metastability or double-counting in dac_event_o."
+    },
+    {
+      "file_name": "dac_control.sv",
+      "line": 74,
+      "description": "slew_mode_sync_q receives independently synchronized bits from encoded control vector slew_mode_q before decoding in dac_clk, so transient illegal modes can be observed."
+    },
+    {
+      "file_name": "dac_control.sv",
+      "line": 81,
+      "description": "bus_rst_n is used as data inside dac_clk logic, so reset deassertion can asynchronously change destination state."
+    },
+    {
+      "file_name": "dac_control.sv",
+      "line": 95,
+      "description": "analog_snapshot_q combines bus_clk payload state with dac_clk status state in analog_clk without a cross-domain snapshot protocol."
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+current_design reset_sequencer_top
+
+clock -name pmu_clk -domain pmu_clk -period 10 -edge {0 5.0}
+clock -name core_clk -domain core_clk -period 13 -edge {0 6.5}
+clock -name fabric_clk -domain fabric_clk -period 16 -edge {0 8.0}
+
+reset -name pmu_rst_n -value 0
+reset -name core_rst_n -value 0
+reset -name fabric_rst_n -value 0

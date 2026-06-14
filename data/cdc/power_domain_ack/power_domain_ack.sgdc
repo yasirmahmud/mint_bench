@@ -1,0 +1,9 @@
+current_design power_domain_ack_top
+
+clock -name pwr_clk -domain pwr_clk -period 10 -edge {0 5.0}
+clock -name soc_clk -domain soc_clk -period 13 -edge {0 6.5}
+clock -name aon_clk -domain aon_clk -period 16 -edge {0 8.0}
+
+reset -name pwr_rst_n -value 0
+reset -name soc_rst_n -value 0
+reset -name aon_rst_n -value 0

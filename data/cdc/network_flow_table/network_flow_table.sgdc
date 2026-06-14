@@ -1,0 +1,9 @@
+current_design network_flow_table_top
+
+clock -name parser_clk -domain parser_clk -period 10 -edge {0 5.0}
+clock -name lookup_clk -domain lookup_clk -period 13 -edge {0 6.5}
+clock -name mgmt_clk -domain mgmt_clk -period 16 -edge {0 8.0}
+
+reset -name parser_rst_n -value 0
+reset -name lookup_rst_n -value 0
+reset -name mgmt_rst_n -value 0

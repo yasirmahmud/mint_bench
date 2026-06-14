@@ -1,0 +1,9 @@
+current_design dma_descriptor_top
+
+clock -name cfg_clk -domain cfg_clk -period 10 -edge {0 5.0}
+clock -name dma_clk -domain dma_clk -period 13 -edge {0 6.5}
+clock -name mem_clk -domain mem_clk -period 16 -edge {0 8.0}
+
+reset -name cfg_rst_n -value 0
+reset -name dma_rst_n -value 0
+reset -name mem_rst_n -value 0

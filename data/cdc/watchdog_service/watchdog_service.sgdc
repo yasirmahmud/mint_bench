@@ -1,0 +1,9 @@
+current_design watchdog_service_top
+
+clock -name wdt_clk -domain wdt_clk -period 10 -edge {0 5.0}
+clock -name cpu_clk -domain cpu_clk -period 13 -edge {0 6.5}
+clock -name pmu_clk -domain pmu_clk -period 16 -edge {0 8.0}
+
+reset -name wdt_rst_n -value 0
+reset -name cpu_rst_n -value 0
+reset -name pmu_rst_n -value 0

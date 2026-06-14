@@ -1,0 +1,9 @@
+current_design sensor_fusion_top
+
+clock -name imu_clk -domain imu_clk -period 10 -edge {0 5.0}
+clock -name fusion_clk -domain fusion_clk -period 13 -edge {0 6.5}
+clock -name host_clk -domain host_clk -period 16 -edge {0 8.0}
+
+reset -name imu_rst_n -value 0
+reset -name fusion_rst_n -value 0
+reset -name host_rst_n -value 0

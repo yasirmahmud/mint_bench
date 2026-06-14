@@ -1,0 +1,34 @@
+{
+  "errors": [
+    {
+      "file_name": "ml_accel_queue.sv",
+      "line": 61,
+      "description": "queue_entry_q is a multi-bit value produced in host_clk and sampled directly in accel_clk without a bundled-data handshake or hold guarantee."
+    },
+    {
+      "file_name": "ml_accel_queue.sv",
+      "line": 64,
+      "description": "enqueue_pulse_q is a one-cycle host_clk pulse consumed directly in accel_clk, so the event can be missed or sampled metastably."
+    },
+    {
+      "file_name": "ml_accel_queue.sv",
+      "line": 70,
+      "description": "enqueue_toggle_q reconverges with a one-sample accel_clk history, allowing metastability or double-counting in accel_event_o."
+    },
+    {
+      "file_name": "ml_accel_queue.sv",
+      "line": 74,
+      "description": "op_mode_sync_q receives independently synchronized bits from encoded control vector op_mode_q before decoding in accel_clk, so transient illegal modes can be observed."
+    },
+    {
+      "file_name": "ml_accel_queue.sv",
+      "line": 81,
+      "description": "host_rst_n is used as data inside accel_clk logic, so reset deassertion can asynchronously change destination state."
+    },
+    {
+      "file_name": "ml_accel_queue.sv",
+      "line": 95,
+      "description": "dma_snapshot_q combines host_clk payload state with accel_clk status state in dma_clk without a cross-domain snapshot protocol."
+    }
+  ]
+}

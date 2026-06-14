@@ -1,0 +1,34 @@
+{
+  "errors": [
+    {
+      "file_name": "timer_capture.sv",
+      "line": 61,
+      "description": "timer_count_q is a multi-bit value produced in timer_clk and sampled directly in apb_clk without a bundled-data handshake or hold guarantee."
+    },
+    {
+      "file_name": "timer_capture.sv",
+      "line": 64,
+      "description": "tick_pulse_q is a one-cycle timer_clk pulse consumed directly in apb_clk, so the event can be missed or sampled metastably."
+    },
+    {
+      "file_name": "timer_capture.sv",
+      "line": 70,
+      "description": "tick_toggle_q reconverges with a one-sample apb_clk history, allowing metastability or double-counting in apb_event_o."
+    },
+    {
+      "file_name": "timer_capture.sv",
+      "line": 74,
+      "description": "capture_mode_sync_q receives independently synchronized bits from encoded control vector capture_mode_q before decoding in apb_clk, so transient illegal modes can be observed."
+    },
+    {
+      "file_name": "timer_capture.sv",
+      "line": 81,
+      "description": "timer_rst_n is used as data inside apb_clk logic, so reset deassertion can asynchronously change destination state."
+    },
+    {
+      "file_name": "timer_capture.sv",
+      "line": 95,
+      "description": "trace_snapshot_q combines timer_clk payload state with apb_clk status state in trace_clk without a cross-domain snapshot protocol."
+    }
+  ]
+}

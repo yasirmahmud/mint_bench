@@ -1,0 +1,9 @@
+current_design riscv_debug_hart_top
+
+clock -name dm_clk -domain dm_clk -period 10 -edge {0 5.0}
+clock -name hart_clk -domain hart_clk -period 13 -edge {0 6.5}
+clock -name jtag_clk -domain jtag_clk -period 16 -edge {0 8.0}
+
+reset -name dm_rst_n -value 0
+reset -name hart_rst_n -value 0
+reset -name jtag_rst_n -value 0

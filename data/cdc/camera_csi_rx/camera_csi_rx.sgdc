@@ -1,0 +1,9 @@
+current_design camera_csi_rx_top
+
+clock -name csi_clk -domain csi_clk -period 10 -edge {0 5.0}
+clock -name isp_clk -domain isp_clk -period 13 -edge {0 6.5}
+clock -name cfg_clk -domain cfg_clk -period 16 -edge {0 8.0}
+
+reset -name csi_rst_n -value 0
+reset -name isp_rst_n -value 0
+reset -name cfg_rst_n -value 0

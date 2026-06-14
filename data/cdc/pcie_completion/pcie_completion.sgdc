@@ -1,0 +1,9 @@
+current_design pcie_completion_top
+
+clock -name pcie_clk -domain pcie_clk -period 10 -edge {0 5.0}
+clock -name core_clk -domain core_clk -period 13 -edge {0 6.5}
+clock -name cfg_clk -domain cfg_clk -period 16 -edge {0 8.0}
+
+reset -name pcie_rst_n -value 0
+reset -name core_rst_n -value 0
+reset -name cfg_rst_n -value 0

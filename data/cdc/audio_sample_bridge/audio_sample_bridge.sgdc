@@ -1,0 +1,9 @@
+current_design audio_sample_bridge_top
+
+clock -name audio_clk -domain audio_clk -period 10 -edge {0 5.0}
+clock -name bus_clk -domain bus_clk -period 13 -edge {0 6.5}
+clock -name dsp_clk -domain dsp_clk -period 16 -edge {0 8.0}
+
+reset -name audio_rst_n -value 0
+reset -name bus_rst_n -value 0
+reset -name dsp_rst_n -value 0

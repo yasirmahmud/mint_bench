@@ -1,0 +1,9 @@
+current_design interrupt_router_top
+
+clock -name periph_clk -domain periph_clk -period 10 -edge {0 5.0}
+clock -name cpu_clk -domain cpu_clk -period 13 -edge {0 6.5}
+clock -name debug_clk -domain debug_clk -period 16 -edge {0 8.0}
+
+reset -name periph_rst_n -value 0
+reset -name cpu_rst_n -value 0
+reset -name debug_rst_n -value 0

@@ -1,0 +1,9 @@
+current_design sram_bist_status_top
+
+clock -name bist_clk -domain bist_clk -period 10 -edge {0 5.0}
+clock -name sys_clk -domain sys_clk -period 13 -edge {0 6.5}
+clock -name test_clk -domain test_clk -period 16 -edge {0 8.0}
+
+reset -name bist_rst_n -value 0
+reset -name sys_rst_n -value 0
+reset -name test_rst_n -value 0

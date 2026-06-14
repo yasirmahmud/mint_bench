@@ -1,0 +1,9 @@
+current_design secure_mailbox_top
+
+clock -name secure_clk -domain secure_clk -period 10 -edge {0 5.0}
+clock -name normal_clk -domain normal_clk -period 13 -edge {0 6.5}
+clock -name audit_clk -domain audit_clk -period 16 -edge {0 8.0}
+
+reset -name secure_rst_n -value 0
+reset -name normal_rst_n -value 0
+reset -name audit_rst_n -value 0

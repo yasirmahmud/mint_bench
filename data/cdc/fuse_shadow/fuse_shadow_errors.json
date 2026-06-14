@@ -1,0 +1,34 @@
+{
+  "errors": [
+    {
+      "file_name": "fuse_shadow.sv",
+      "line": 61,
+      "description": "fuse_word_q is a multi-bit value produced in fuse_clk and sampled directly in core_clk without a bundled-data handshake or hold guarantee."
+    },
+    {
+      "file_name": "fuse_shadow.sv",
+      "line": 64,
+      "description": "fuse_done_pulse_q is a one-cycle fuse_clk pulse consumed directly in core_clk, so the event can be missed or sampled metastably."
+    },
+    {
+      "file_name": "fuse_shadow.sv",
+      "line": 70,
+      "description": "fuse_done_toggle_q reconverges with a one-sample core_clk history, allowing metastability or double-counting in core_event_o."
+    },
+    {
+      "file_name": "fuse_shadow.sv",
+      "line": 74,
+      "description": "shadow_mode_sync_q receives independently synchronized bits from encoded control vector shadow_mode_q before decoding in core_clk, so transient illegal modes can be observed."
+    },
+    {
+      "file_name": "fuse_shadow.sv",
+      "line": 81,
+      "description": "fuse_rst_n is used as data inside core_clk logic, so reset deassertion can asynchronously change destination state."
+    },
+    {
+      "file_name": "fuse_shadow.sv",
+      "line": 95,
+      "description": "otp_snapshot_q combines fuse_clk payload state with core_clk status state in otp_clk without a cross-domain snapshot protocol."
+    }
+  ]
+}

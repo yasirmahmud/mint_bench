@@ -1,0 +1,34 @@
+{
+  "errors": [
+    {
+      "file_name": "interrupt_router.sv",
+      "line": 61,
+      "description": "irq_vector_q is a multi-bit value produced in periph_clk and sampled directly in cpu_clk without a bundled-data handshake or hold guarantee."
+    },
+    {
+      "file_name": "interrupt_router.sv",
+      "line": 64,
+      "description": "irq_pulse_q is a one-cycle periph_clk pulse consumed directly in cpu_clk, so the event can be missed or sampled metastably."
+    },
+    {
+      "file_name": "interrupt_router.sv",
+      "line": 70,
+      "description": "irq_toggle_q reconverges with a one-sample cpu_clk history, allowing metastability or double-counting in cpu_event_o."
+    },
+    {
+      "file_name": "interrupt_router.sv",
+      "line": 74,
+      "description": "priority_sync_q receives independently synchronized bits from encoded control vector priority_q before decoding in cpu_clk, so transient illegal modes can be observed."
+    },
+    {
+      "file_name": "interrupt_router.sv",
+      "line": 81,
+      "description": "periph_rst_n is used as data inside cpu_clk logic, so reset deassertion can asynchronously change destination state."
+    },
+    {
+      "file_name": "interrupt_router.sv",
+      "line": 95,
+      "description": "debug_snapshot_q combines periph_clk payload state with cpu_clk status state in debug_clk without a cross-domain snapshot protocol."
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+current_design error_aggregator_top
+
+clock -name block_clk -domain block_clk -period 10 -edge {0 5.0}
+clock -name service_clk -domain service_clk -period 13 -edge {0 6.5}
+clock -name trace_clk -domain trace_clk -period 16 -edge {0 8.0}
+
+reset -name block_rst_n -value 0
+reset -name service_rst_n -value 0
+reset -name trace_rst_n -value 0

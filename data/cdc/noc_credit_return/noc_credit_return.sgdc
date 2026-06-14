@@ -1,0 +1,9 @@
+current_design noc_credit_return_top
+
+clock -name router_clk -domain router_clk -period 10 -edge {0 5.0}
+clock -name noc_clk -domain noc_clk -period 13 -edge {0 6.5}
+clock -name mgmt_clk -domain mgmt_clk -period 16 -edge {0 8.0}
+
+reset -name router_rst_n -value 0
+reset -name noc_rst_n -value 0
+reset -name mgmt_rst_n -value 0

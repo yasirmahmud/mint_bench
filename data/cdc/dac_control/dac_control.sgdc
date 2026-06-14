@@ -1,0 +1,9 @@
+current_design dac_control_top
+
+clock -name bus_clk -domain bus_clk -period 10 -edge {0 5.0}
+clock -name dac_clk -domain dac_clk -period 13 -edge {0 6.5}
+clock -name analog_clk -domain analog_clk -period 16 -edge {0 8.0}
+
+reset -name bus_rst_n -value 0
+reset -name dac_rst_n -value 0
+reset -name analog_rst_n -value 0

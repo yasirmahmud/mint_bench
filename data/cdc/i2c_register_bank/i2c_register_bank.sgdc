@@ -1,0 +1,9 @@
+current_design i2c_register_bank_top
+
+clock -name i2c_clk -domain i2c_clk -period 10 -edge {0 5.0}
+clock -name cfg_clk -domain cfg_clk -period 13 -edge {0 6.5}
+clock -name sys_clk -domain sys_clk -period 16 -edge {0 8.0}
+
+reset -name i2c_rst_n -value 0
+reset -name cfg_rst_n -value 0
+reset -name sys_rst_n -value 0

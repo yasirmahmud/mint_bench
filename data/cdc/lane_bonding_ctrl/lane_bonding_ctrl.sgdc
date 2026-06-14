@@ -1,0 +1,9 @@
+current_design lane_bonding_ctrl_top
+
+clock -name lane_clk -domain lane_clk -period 10 -edge {0 5.0}
+clock -name pcs_clk -domain pcs_clk -period 13 -edge {0 6.5}
+clock -name cfg_clk -domain cfg_clk -period 16 -edge {0 8.0}
+
+reset -name lane_rst_n -value 0
+reset -name pcs_rst_n -value 0
+reset -name cfg_rst_n -value 0

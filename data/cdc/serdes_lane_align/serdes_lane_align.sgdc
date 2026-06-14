@@ -1,0 +1,9 @@
+current_design serdes_lane_align_top
+
+clock -name serdes_clk -domain serdes_clk -period 10 -edge {0 5.0}
+clock -name link_clk -domain link_clk -period 13 -edge {0 6.5}
+clock -name cfg_clk -domain cfg_clk -period 16 -edge {0 8.0}
+
+reset -name serdes_rst_n -value 0
+reset -name link_rst_n -value 0
+reset -name cfg_rst_n -value 0

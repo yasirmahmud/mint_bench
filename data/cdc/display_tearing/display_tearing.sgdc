@@ -1,0 +1,9 @@
+current_design display_tearing_top
+
+clock -name display_clk -domain display_clk -period 10 -edge {0 5.0}
+clock -name host_clk -domain host_clk -period 13 -edge {0 6.5}
+clock -name pixel_clk -domain pixel_clk -period 16 -edge {0 8.0}
+
+reset -name display_rst_n -value 0
+reset -name host_rst_n -value 0
+reset -name pixel_rst_n -value 0

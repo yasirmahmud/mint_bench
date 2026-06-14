@@ -1,0 +1,9 @@
+current_design ml_accel_queue_top
+
+clock -name host_clk -domain host_clk -period 10 -edge {0 5.0}
+clock -name accel_clk -domain accel_clk -period 13 -edge {0 6.5}
+clock -name dma_clk -domain dma_clk -period 16 -edge {0 8.0}
+
+reset -name host_rst_n -value 0
+reset -name accel_rst_n -value 0
+reset -name dma_rst_n -value 0

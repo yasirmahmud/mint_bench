@@ -1,0 +1,9 @@
+current_design packet_timestamp_top
+
+clock -name ptp_clk -domain ptp_clk -period 10 -edge {0 5.0}
+clock -name mac_clk -domain mac_clk -period 13 -edge {0 6.5}
+clock -name csr_clk -domain csr_clk -period 16 -edge {0 8.0}
+
+reset -name ptp_rst_n -value 0
+reset -name mac_rst_n -value 0
+reset -name csr_rst_n -value 0
