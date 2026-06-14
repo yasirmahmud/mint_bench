@@ -2,6 +2,7 @@
 **/__pycache__/
 *.py[cod]
 *$py.class
+non_publish/generated_caches/
 
 # Output prediction & scores
 predictions.json

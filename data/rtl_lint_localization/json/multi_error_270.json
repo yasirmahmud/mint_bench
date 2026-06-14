@@ -9,7 +9,7 @@
         {
             "taxonomy_title": "12. STATE MACHINE (FSM) DEFECTS",
             "error_description": "The FSM case statement has no default branch, leaving illegal or unexpected state encodings unhandled.",
-            "error_line": 73
+            "error_line": 51
         }
     ]
 }

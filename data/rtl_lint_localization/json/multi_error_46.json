@@ -14,7 +14,7 @@
         {
             "taxonomy_title": "8. MODULE INSTANCES",
             "error_description": "Instantiated a submodule with external dependency, creating a structural instance issue at the boundary.",
-            "error_line": 40
+            "error_line": 36
         },
         {
             "taxonomy_title": "5. RACE OR HAZARD",

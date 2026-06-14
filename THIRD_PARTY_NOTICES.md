@@ -1,29 +1,56 @@
 # Third-Party Notices
 
-MintBench includes bundled third-party HDL source trees in `data/scalability/` so the benchmark can evaluate lint and root-cause tools on realistic processor-scale designs. These source trees are part of the current canonical scalability release set.
+MintBench includes bundled third-party HDL sources under `data/scalability/` so HDL linting tools can be evaluated on realistic larger RTL corpora. These files are part of the canonical benchmark data, but they retain their upstream copyright and license terms.
 
-The files retain their upstream notices and licenses. The top-level benchmark glue, release scripts, generated manifests, and documentation are licensed separately under Apache-2.0; see [LICENSE](LICENSE).
+MintBench original benchmark materials, release scripts, generated manifests, and documentation are licensed separately under Apache-2.0; see `LICENSE`.
 
-## Bundled Source Trees
+## Bundled Scalability Corpora
 
-| Path | Upstream project | License signal in source tree | Notes |
-| --- | --- | --- | --- |
-| `data/scalability/cva6/` | CVA6 | Solderpad Hardware License v0.51 | Source files contain Solderpad copyright notices. |
-| `data/scalability/cv32e40p_core/` | CV32E40P | Solderpad Hardware License v0.51 | Source files contain Solderpad copyright notices. |
-| `data/scalability/pulpino_core_region/` | PULPino | Solderpad Hardware License v0.51 | Source files contain Solderpad copyright notices. |
-| `data/scalability/pulpino_top/` | PULPino | Solderpad Hardware License v0.51 | Source files contain Solderpad copyright notices. |
-| `data/scalability/ibex_core/` | Ibex | Apache-2.0 | Source files include Apache-2.0 headers. |
-| `data/scalability/ibex_top/` | Ibex | Apache-2.0 | Source files include Apache-2.0 headers. |
-| `data/scalability/opentitan_ast/` | OpenTitan | Apache-2.0 | Source files include Apache-2.0 headers. |
-| `data/scalability/opentitan_gpio/` | OpenTitan | Apache-2.0 | Source files include Apache-2.0 headers. |
-| `data/scalability/opentitan_otp_ctrl/` | OpenTitan | Apache-2.0 | Source files include Apache-2.0 headers. |
-| `data/scalability/scr1_top_axi/` | SCR1 | Solderpad Hardware License v0.51 | Upstream project identifies the core as open sourced under SHL-0.51. |
+| Path | Upstream project |
+| --- | --- |
+| `data/scalability/Cores-VeeR-EL2/` | Cores-VeeR-EL2 |
+| `data/scalability/ara/` | Ara |
+| `data/scalability/black-parrot/` | BlackParrot |
+| `data/scalability/caliptra-rtl/` | Caliptra RTL |
+| `data/scalability/cheshire/` | Cheshire |
+| `data/scalability/chipyard/` | Chipyard |
+| `data/scalability/cva6/` | CVA6 |
+| `data/scalability/hw/` | NVDLA hardware |
+| `data/scalability/ibex/` | Ibex |
+| `data/scalability/litex/` | LiteX |
+| `data/scalability/mor1kx/` | mor1kx |
+| `data/scalability/openpiton/` | OpenPiton |
+| `data/scalability/opentitan/` | OpenTitan |
+| `data/scalability/or1200/` | OR1200 |
+| `data/scalability/pulp/` | PULP |
+| `data/scalability/pulpissimo/` | PULPissimo |
+| `data/scalability/riscv-boom/` | BOOM / SonicBOOM |
+| `data/scalability/rocket-chip/` | Rocket Chip |
+
+## License Handling
+
+- Third-party HDL files retain their upstream notices and licenses.
+- Source-level copyright headers must not be removed.
+- Public releases should keep this notice file together with `data/scalability/`.
+- If a downstream artifact excludes `data/scalability/`, this notice should state that the third-party HDL source corpora were excluded.
 
 ## Upstream References
 
-- CVA6 project README and source headers
-- CV32E40P source headers
-- PULPino source headers
-- Ibex source headers
-- OpenTitan source headers
-- SCR1 upstream repository: [syntacore/scr1](https://github.com/syntacore/scr1)
+- Ara: `https://github.com/pulp-platform/ara`
+- BlackParrot: `https://github.com/black-parrot/black-parrot`
+- Caliptra RTL: `https://github.com/chipsalliance/caliptra-rtl`
+- Cheshire: `https://github.com/pulp-platform/cheshire`
+- Chipyard: `https://github.com/ucb-bar/chipyard`
+- Cores-VeeR-EL2: `https://github.com/chipsalliance/Cores-VeeR-EL2`
+- CVA6: `https://github.com/openhwgroup/cva6`
+- Ibex: `https://github.com/lowRISC/ibex`
+- LiteX: `https://github.com/enjoy-digital/litex`
+- mor1kx: `https://github.com/openrisc/mor1kx`
+- NVDLA hardware: `https://github.com/nvdla/hw`
+- OpenPiton: `https://github.com/PrincetonUniversity/openpiton`
+- OpenTitan: `https://github.com/lowRISC/opentitan`
+- OR1200: `https://github.com/openrisc/or1200`
+- PULP: `https://github.com/pulp-platform/pulp`
+- PULPissimo: `https://github.com/pulp-platform/pulpissimo`
+- BOOM / SonicBOOM: `https://github.com/riscv-boom/riscv-boom`
+- Rocket Chip: `https://github.com/chipsalliance/rocket-chip`

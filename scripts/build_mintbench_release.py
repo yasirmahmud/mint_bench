@@ -398,7 +398,17 @@ def scalability_design_dirs() -> list[Path]:
     )
 
 
+def source_file_count(path: Path) -> int:
+    return sum(1 for p in path.iterdir() if p.is_file() and p.suffix.lower() in {".sv", ".v", ".vh"})
+
+
 def load_scalability_report(design_dir: Path) -> tuple[Path, dict[str, Any], list[dict[str, Any]]]:
+    flat_report = design_dir / "benchmark.json"
+    if flat_report.exists():
+        payload = read_json(flat_report)
+        violations = payload.get("violations") or payload.get("errors", [])
+        return flat_report, payload, violations
+
     injected_dir = design_dir / "injected"
     tool_reports = sorted(injected_dir.glob("*_tool_report.json"))
     if tool_reports:
@@ -434,48 +444,76 @@ def scalability_annotations() -> tuple[list[dict[str, Any]], dict[str, Any]]:
     clean_violation_count = 0
     injected_violation_count = 0
     total_source_files = 0
+    flat_design_count = 0
 
     for design_dir in scalability_design_dirs():
         report_path, payload, violations = load_scalability_report(design_dir)
-        top = infer_scalability_top(design_dir, payload)
         design_label = payload.get("design_label") or design_dir.name
-        source_file_count = len(list((design_dir / "clean").glob("*.sv")))
-        total_source_files += source_file_count
 
-        clean_row = {
-            "instance_id": f"{design_dir.name}_clean",
-            "task": "scalability",
-            "variant": "clean",
-            "source_path": str((design_dir / "clean" / f"{top}.sv").relative_to(ROOT)),
-            "top": top,
-            "design_label": design_label,
-            "violation_count": 0,
-            "violations": [],
-            "source_file_count": source_file_count,
-        }
-        rows.append(clean_row)
-        clean_violation_count += 0
+        if report_path.name == "benchmark.json":
+            top = payload.get("top") or design_dir.name
+            count = source_file_count(design_dir)
+            total_source_files += count
+            violation_count = int(payload.get("violation_count", len(violations)))
+            rows.append(
+                {
+                    "instance_id": design_dir.name,
+                    "task": "scalability",
+                    "variant": "flat_design",
+                    "source_path": str(design_dir.relative_to(ROOT)),
+                    "annotation_source": str(report_path.relative_to(ROOT)),
+                    "top": top,
+                    "design_label": design_label,
+                    "violation_count": violation_count,
+                    "violations": [normalize_violation(v) for v in violations],
+                    "source_file_count": count,
+                }
+            )
+            injected_violation_count += violation_count
+            flat_design_count += 1
+            continue
 
-        injected_row = {
-            "instance_id": f"{design_dir.name}_injected",
-            "task": "scalability",
-            "variant": "injected",
-            "source_path": str(report_path.relative_to(ROOT)),
-            "top": top,
-            "design_label": design_label,
-            "violation_count": payload.get("violation_count", len(violations)),
-            "violations": [normalize_violation(v) for v in violations],
-            "source_file_count": source_file_count,
-        }
-        rows.append(injected_row)
-        injected_violation_count += int(injected_row["violation_count"])
+        top = infer_scalability_top(design_dir, payload)
+        count = source_file_count(design_dir / "clean")
+        total_source_files += count
+
+        rows.append(
+            {
+                "instance_id": f"{design_dir.name}_clean",
+                "task": "scalability",
+                "variant": "clean",
+                "source_path": str((design_dir / "clean" / f"{top}.sv").relative_to(ROOT)),
+                "top": top,
+                "design_label": design_label,
+                "violation_count": 0,
+                "violations": [],
+                "source_file_count": count,
+            }
+        )
+
+        violation_count = int(payload.get("violation_count", len(violations)))
+        rows.append(
+            {
+                "instance_id": f"{design_dir.name}_injected",
+                "task": "scalability",
+                "variant": "injected",
+                "source_path": str(report_path.relative_to(ROOT)),
+                "top": top,
+                "design_label": design_label,
+                "violation_count": violation_count,
+                "violations": [normalize_violation(v) for v in violations],
+                "source_file_count": count,
+            }
+        )
+        injected_violation_count += violation_count
 
     stats = {
-        "designs": len(rows) // 2,
-        "pairs": len(rows) // 2,
+        "designs": flat_design_count + ((len(rows) - flat_design_count) // 2),
+        "flat_designs": flat_design_count,
+        "pairs": (len(rows) - flat_design_count) // 2,
         "instances": len(rows),
         "clean_violation_count": clean_violation_count,
-        "injected_violation_count": injected_violation_count,
+        "violation_count": injected_violation_count,
         "source_file_count": total_source_files,
     }
     return rows, stats
@@ -542,11 +580,20 @@ def build_manifest() -> dict[str, Any]:
     stats_md.append(f"| RTL lint localization | {lint_stats['instances']} | {lint_stats['errors']} planted errors across {lint_stats['taxonomy_families']} taxonomy families |\n")
     stats_md.append(f"| CDC verification | {cdc_stats['instances']} | {cdc_stats['violations']} total CDC violations |\n")
     stats_md.append(f"| RCA | {rca_stats['instances']} | {rca_stats['root_cause_annotations']} root-cause annotations |\n")
-    stats_md.append(f"| Scalability | {scale_stats['pairs']} design pairs | {scale_stats['injected_violation_count']} violations across injected variants, {scale_stats['clean_violation_count']} across clean variants |\n")
+    if scale_stats["pairs"]:
+        scale_label = f"{scale_stats['flat_designs']} flat designs, {scale_stats['pairs']} design pairs"
+        scale_detail = (
+            f"{scale_stats['violation_count']} violations across labeled variants, "
+            f"{scale_stats['clean_violation_count']} across clean variants"
+        )
+    else:
+        scale_label = f"{scale_stats['flat_designs']} designs"
+        scale_detail = f"{scale_stats['violation_count']} labeled violations across larger RTL designs"
+    stats_md.append(f"| Scalability | {scale_label} | {scale_detail} |\n")
     stats_md.append("\n## Evaluation Notes\n\n")
     stats_md.append("- Lint and CDC tasks use exact-match issue localization.\n")
     stats_md.append("- RCA uses exact-match root-cause file/line scoring.\n")
-    stats_md.append("- Scalability covers every design pair under `data/scalability/` and uses exact-match violation scoring.\n")
+    stats_md.append("- Scalability covers every design directory under `data/scalability/` and uses exact-match violation scoring.\n")
     stats_md.append("- Optional auxiliary analysis is enabled through user-provided service credentials.\n")
     (RELEASE / "mintbench_stats.md").write_text("".join(stats_md), encoding="utf-8")
 

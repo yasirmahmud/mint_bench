@@ -23,7 +23,7 @@ python3 scripts/build_mintbench_release.py
 
 The release script is deterministic for a fixed repository checkout. It sorts input files, writes stable JSON keys, and records aggregate track statistics in `release/mintbench_manifest.json`.
 
-The scalability track is built from every design directory under `data/scalability/`, with one clean and one injected instance per design.
+The scalability track is built from every design directory under `data/scalability/`. In the current release, each scalability directory is a flat design-level corpus with a `benchmark.json` annotation file.
 
 ## Prediction Schema
 
@@ -50,7 +50,7 @@ Accepted per-instance fields:
 
 Accepted item aliases:
 
-- `rule` or `taxonomy_title`
+- `rule`, `taxonomy_title`, or `description`
 - `line`, `error_line`, or `line_number`
 - `file`, `file_name`, or `file_path`
 - `type`, `root_type`, or `root_cause_type`
@@ -64,7 +64,7 @@ For each instance, MintBench normalizes gold and predicted labels into task-spec
 | `lint_localization` | `(taxonomy_title, line)` |
 | `cdc_verification` | `(rule, file_name, line)` |
 | `rca` | `(file_name, line, root_type)` |
-| `scalability` | `(rule, file_name, line)` |
+| `scalability` | `(rule or description, file_name, line)` |
 
 The scorer computes:
 
@@ -127,7 +127,7 @@ Before public release:
 - Rebuild `release/` from a clean checkout.
 - Run deterministic scoring on a small validation predictions file.
 - Keep only curated benchmark inputs referenced by the release builder.
-- Ensure the scalability builder still covers every design pair under `data/scalability/`.
+- Ensure the scalability builder still covers every design directory under `data/scalability/`.
 - Verify third-party source licenses and keep `THIRD_PARTY_NOTICES.md` current.
 - Avoid including external source exports unless their redistribution terms are documented.
 - Document any service-assisted analysis as auxiliary and non-deterministic.

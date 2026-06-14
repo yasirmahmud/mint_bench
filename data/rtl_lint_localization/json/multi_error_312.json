@@ -14,7 +14,7 @@
         {
             "taxonomy_title": "8. MODULE INSTANCES",
             "error_description": "The module instantiates itself, creating a recursive module instance which is structurally invalid for elaboration.",
-            "error_line": 99
+            "error_line": 92
         }
     ]
 }

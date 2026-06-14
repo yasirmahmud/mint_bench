@@ -14,7 +14,7 @@
         {
             "taxonomy_title": "8. MODULE INSTANCES",
             "error_description": "Instantiated a child module with mismatched port widths by connecting a 6-bit signal to a 4-bit input and a 32-bit signal to a 16-bit output.",
-            "error_line": 60
+            "error_line": 58
         },
         {
             "taxonomy_title": "14. CONNECTIVITY AND DRIVING",

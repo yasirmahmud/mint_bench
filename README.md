@@ -1,40 +1,46 @@
-# MintBench
+# MintBench: Benchmark for HDL Linting
 
-MintBench is a reproducible public benchmark for evaluating HDL lint tools on issue localization, clock-domain crossing (CDC) checks, root-cause analysis (RCA), and scale-oriented regression checks.
+MintBench is a publication-ready benchmark for evaluating HDL linting systems. It targets four benchmark tasks that are common in practical RTL quality workflows: lint issue localization, clock-domain crossing (CDC) violation detection, root-cause analysis of cascaded lint reports, and scalability checks on larger open-source RTL designs.
 
-The repository keeps curated benchmark inputs under `data/` and canonical release artifacts under `release/`. The release layer is rebuilt from repository-local inputs by `scripts/build_mintbench_release.py`.
+The canonical benchmark assets are under `data/`. The checked-in release layer under `release/` is generated from those assets by the deterministic release builder.
+
+## Repository Layout
+
+| Path | Purpose |
+| --- | --- |
+| `data/` | Curated and verified benchmark assets. |
+| `release/` | Generated benchmark manifest, aggregate statistics, and annotation files. |
+| `scripts/build_mintbench_release.py` | Deterministically rebuilds the release layer from `data/`. |
+| `scripts/score_mintbench.py` | Deterministic exact-match scorer for benchmark predictions. |
+| `scripts/secondary_analysis_mintbench.py` | Optional auxiliary semantic analysis protocol. |
+| `docs/` | Reproducibility notes, schema examples, benchmark card, and publication checklist. |
+| `non_publish/` | Provenance, development, validation, generated, or raw source material not intended for the public benchmark release surface. |
 
 ## Release Snapshot
 
-The checked-in release metadata lives in:
-
-- `release/mintbench_manifest.json`
-- `release/mintbench_stats.md`
-- Current release manifest version: `1.1.0`
-
-For build and scoring details, see `docs/reproducibility.md`.
+- Suite name: `MintBench`
+- Release version: `1.1.0`
+- Primary benchmark type: HDL linting
+- Primary scoring: deterministic exact-match scoring
+- Release manifest: `release/mintbench_manifest.json`
+- Summary statistics: `release/mintbench_stats.md`
 
 ## Benchmark Tracks
 
 | Track | Task | Data | Size | Gold labels |
 | --- | --- | --- | ---: | --- |
 | RTL lint localization | Locate planted HDL lint issues in single-module designs | `data/rtl_lint_localization/json/` | 312 programs | 921 issue labels across 14 taxonomy families |
-| CDC verification | Detect CDC violations in multi-module fixtures | `data/cdc/` | 2 fixtures | 45 CDC violations |
-| RCA | Identify the root cause behind cascaded lint reports | `data/root_cause_analysis/` | 9 scenarios | 15 root-cause labels |
-| Scalability | Measure linter behavior on 12 processor-scale design pairs | `data/scalability/` | 24 variants | 294 injected violations across 12 designs, 0 in all clean variants |
+| CDC verification | Detect CDC violations in CDC-focused fixtures | `data/cdc/` | 60 fixtures | 387 CDC violations |
+| Root-cause analysis | Identify the root causes behind cascaded lint reports | `data/root_cause_analysis/` | 9 paired scenarios | 15 root-cause labels |
+| Scalability | Measure linter behavior on larger RTL design corpora | `data/scalability/` | 18 designs, 6,188 HDL source files | 8,660 labeled violations |
 
-The `data/scalability/` directory includes the canonical scalability release set. Each design is packaged as a clean/injected pair, and the release builder emits all 12 pairs.
-
-
-## Release Build
-
-Rebuild the canonical release artifacts with:
+## Rebuild the Release
 
 ```bash
 python3 scripts/build_mintbench_release.py
 ```
 
-This command regenerates:
+This regenerates:
 
 - `release/mintbench_manifest.json`
 - `release/mintbench_stats.md`
@@ -43,11 +49,9 @@ This command regenerates:
 - `release/annotations/rca.jsonl`
 - `release/annotations/scalability.jsonl`
 
-The build is deterministic for a fixed checkout and uses only the Python standard library.
+The release builder uses only the Python standard library and is deterministic for a fixed checkout.
 
-## Deterministic Scoring
-
-Score a predictions file with:
+## Score Predictions
 
 ```bash
 python3 scripts/score_mintbench.py \
@@ -56,7 +60,9 @@ python3 scripts/score_mintbench.py \
   --output scores.json
 ```
 
-The scorer reports:
+Predictions are JSON objects keyed by `instance_id`. Each value may be a list of predicted items or an object containing `violations`, `targets`, or `root_causes`.
+
+Primary metrics:
 
 - exact-match instance count
 - micro precision
@@ -65,20 +71,11 @@ The scorer reports:
 - macro F1
 - per-task metrics
 
-Exact matching uses task-specific keys:
+Task-specific exact-match tuples are documented in `docs/reproducibility.md`.
 
-- `lint_localization`: taxonomy label and line number
-- `cdc_verification`: CDC rule, file name, and line number
-- `rca`: root-cause file name, line number, and root-cause type
-- `scalability`: reported rule, file name, and line number
+## Optional Auxiliary Analysis
 
-Prediction files are JSON objects keyed by `instance_id`. Each value may be a list or an object containing `violations`, `targets`, or `root_causes`.
-
-## Auxiliary Analysis
-
-MintBench includes an optional auxiliary analysis step for predictions that are close but not exact. This step is separate from deterministic scoring and can vary by backend.
-
-Before running it, provide an access token and service target:
+MintBench includes an optional auxiliary analysis script for near-match review. This path is intentionally separate from the primary deterministic score and requires user-provided service credentials:
 
 ```bash
 export MINTBENCH_ANALYSIS_ACCESS_TOKEN="..."
@@ -89,14 +86,16 @@ python3 scripts/secondary_analysis_mintbench.py \
   --output analysis_results.jsonl
 ```
 
-Optional settings:
+Report deterministic metrics as the primary benchmark result. Treat auxiliary analysis as supplemental and document the service target, endpoint family, date, analysis version, temperature, and sample size.
 
-- `MINTBENCH_ANALYSIS_BASE_URL`: external endpoint root, default `https://api.example.com/v1`
-- `MINTBENCH_ANALYSIS_TEMPERATURE`: default `0`
-- `--limit`: evaluate a small number of instances for calibration
+## Publication Materials
 
-Report deterministic scores as the primary result. Treat auxiliary analysis as supporting analysis only, and include the service target, endpoint, date, analysis version, and sampling settings when reporting it.
+- Reproducibility protocol: `docs/reproducibility.md`
+- Benchmark card: `docs/benchmark_card.md`
+- Prediction schema example: `docs/example_benchmark_format.json`
+- Third-party notices: `THIRD_PARTY_NOTICES.md`
+- Repository manifest: `PUBLICATION_MANIFEST.md`
 
-## Reproducibility
+## License
 
-See `docs/reproducibility.md` for the prediction schema, scoring definitions, environment requirements, and publication checklist.
+MintBench benchmark materials, scripts, documentation, and generated release metadata are released under Apache-2.0. Third-party HDL source files bundled under `data/` retain their upstream licenses and are documented in `THIRD_PARTY_NOTICES.md`.

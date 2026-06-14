@@ -14,7 +14,7 @@
         {
             "taxonomy_title": "8. MODULE INSTANCES",
             "error_description": "Instantiated sub_enc4 with an 8-bit signal 'masked_in' connected to a 4-bit port '.in', creating a port width mismatch at the instance boundary.",
-            "error_line": 68
+            "error_line": 65
         },
         {
             "taxonomy_title": "11. BIT WIDTH USAGE",

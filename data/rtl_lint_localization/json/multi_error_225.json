@@ -14,7 +14,7 @@
         {
             "taxonomy_title": "8. MODULE INSTANCES",
             "error_description": "Port width mismatch by connecting a 32-bit signal to a 16-bit input port in a submodule instantiation.",
-            "error_line": 55
+            "error_line": 50
         },
         {
             "taxonomy_title": "6. PORT TYPE",
