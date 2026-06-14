@@ -16,10 +16,6 @@ This manifest defines the intended public release surface for MintBench as a ben
 | `scripts/secondary_analysis_mintbench.py` | Publish | Optional auxiliary analysis protocol. |
 | `docs/` | Publish | Reproducibility, schema, benchmark card, and checklist documentation. |
 
-## Non-Publishable Workspace Material
-
-Development, provenance, validation, raw-design, and generated-cache material is kept under `non_publish/`. That directory is not part of the canonical benchmark release surface and should be excluded from archives submitted as the benchmark artifact unless reviewers explicitly request provenance material.
-
 ## Release Invariants
 
 - `data/` is the authoritative source of benchmark assets.

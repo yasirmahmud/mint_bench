@@ -14,7 +14,6 @@ The canonical benchmark assets are under `data/`. The checked-in release layer u
 | `scripts/score_mintbench.py` | Deterministic exact-match scorer for benchmark predictions. |
 | `scripts/secondary_analysis_mintbench.py` | Optional auxiliary semantic analysis protocol. |
 | `docs/` | Reproducibility notes, schema examples, benchmark card, and publication checklist. |
-| `non_publish/` | Provenance, development, validation, generated, or raw source material not intended for the public benchmark release surface. |
 
 ## Release Snapshot
 

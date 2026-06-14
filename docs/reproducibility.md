@@ -39,7 +39,7 @@ The checker writes `docs/validation_report.md` and validates the RTL lint locali
 - CDC labels must point to colocated HDL files and have nearby HDL evidence plus either a CDC marker or named-signal overlap.
 - RCA labels must point to existing injected source files, valid fixed/injected scenario directories, and nearby root-cause evidence in code, comments, or shared identifiers.
 
-The scalability track has a separate validation report under `non_publish/benchmark_checker/benchmark_check_report.md`, covering its generated `benchmark.json` files. Treat the non-scalability validation report and scalability validation report as complementary evidence.
+The scalability track has a separate validation report covering its generated `benchmark.json` files. Treat the non-scalability validation report and scalability validation report as complementary evidence.
 
 ## Prediction Schema
 
