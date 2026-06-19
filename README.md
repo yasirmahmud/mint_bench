@@ -13,12 +13,12 @@ MintBench is an HDL linting benchmark for evaluating whether a tool can identify
 
 ## Benchmark Tracks
 
-| Track | Task | Data |
-| --- | --- | --- |
-| RTL lint localization | Locate planted lint issues in single-module HDL examples. | `data/rtl_lint_localization/` |
-| CDC verification | Detect clock-domain crossing violations in focused CDC fixtures. | `data/cdc/` |
-| Root-cause analysis | Identify source root causes behind cascaded lint reports. | `data/root_cause_analysis/` |
-| Scalability | Evaluate lint behavior on larger open-source RTL corpora. | `data/scalability/` |
+| Track | Task | Instances | Defects / Violations | Data |
+| --- | --- | --- | --- | --- |
+| RTL lint localization | Locate planted lint issues in single-module HDL examples. | 312 | 921 | `data/rtl_lint_localization/` |
+| CDC verification | Detect clock-domain crossing violations in focused CDC fixtures. | 60 | 387 | `data/cdc/` |
+| Root-cause analysis | Identify source root causes behind cascaded lint reports. | 9 | 15 (root causes) / 253 (warnings) | `data/root_cause_analysis/` |
+| Scalability | Evaluate lint behavior on larger open-source RTL corpora. | 18 | 5,546 | `data/scalability/` |
 
 ## Prediction Format
 
